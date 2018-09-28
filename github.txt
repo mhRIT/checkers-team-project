@@ -1,0 +1,41 @@
+commit cbf930fa967ecb9f98faa8b5a95a79d392bc8a96
+Author: Meaghan Hoitt <mlh1964@g.rit.edu>
+Date:   Fri Sep 28 16:05:14 2018 -0400
+
+    added name to member list
+
+commit 8b737c7d58e01e8dfb1869430113e44c94ff718b
+Author: Matthew Milone <mvm7902@rit.edu>
+Date:   Fri Sep 28 15:56:52 2018 -0400
+
+    added my name to member list
+
+commit 2869aca7f706c9ee29ac7f841928378160e0a627
+Author: sjk7867 <sjk7867@rit.edu>
+Date:   Fri Sep 28 15:11:16 2018 -0400
+
+    Added my name to the README
+
+commit 368d653f44847f5f5a10a3c395431ce65ff84fdb
+Author: Adrang <axf5592@rit.edu>
+Date:   Wed Sep 26 18:46:40 2018 -0400
+
+    Added Andrew to team in README
+
+commit e3821eb4e765cd9fb6f467a3a7b6f082772bc4cb
+Author: KennBMartinez <kbmvse@rit.edu>
+Date:   Wed Sep 26 11:27:58 2018 -0400
+
+    We prepared this for your benefit
+
+commit a62c2aaff47ff3b73c6519062e58891981606100
+Author: KennBMartinez <kbmvse@rit.edu>
+Date:   Wed Sep 12 13:02:11 2018 -0400
+
+    Initial WEBCHECHERS SEED REPO for 2181
+
+commit a792d7685a5cd3517cfe1fba0d68621cf1449817
+Author: KennBMartinez <kbmvse@rit.edu>
+Date:   Sat Sep 8 16:54:48 2018 -0400
+
+    Initial commit
