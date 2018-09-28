@@ -9,7 +9,7 @@ a web micro-framework.
 - Andrew Festa
 - Simon Kirkwood
 - MEMBER3
-- MEMBER4
+- Matthew Milone
 
 
 ## Prerequisites
