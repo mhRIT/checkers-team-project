@@ -8,7 +8,7 @@ a web micro-framework.
 
 - Andrew Festa
 - Simon Kirkwood
-- MEMBER3
+- Meaghan Hoitt
 - Matthew Milone
 
 
