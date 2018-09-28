@@ -7,7 +7,7 @@ a web micro-framework.
 ## Team
 
 - Andrew Festa
-- MEMBER2
+- Simon Kirkwood
 - MEMBER3
 - MEMBER4
 
