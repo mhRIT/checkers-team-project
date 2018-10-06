@@ -1,13 +1,14 @@
 package com.webcheckers.ui;
 
-import static spark.Spark.*;
+import com.google.gson.Gson;
+import spark.Spark;
+import spark.TemplateEngine;
 
 import java.util.Objects;
 import java.util.logging.Logger;
 
-import com.google.gson.Gson;
-
-import spark.TemplateEngine;
+import static spark.Service.ignite;
+import static spark.Spark.*;
 
 
 /**
@@ -137,14 +138,18 @@ public class WebServer {
     //// that are appropriate for the HTTP client interface that you define.
     //// Create separate Route classes to handle each route; this keeps your
     //// code clean; using small classes.
-
+  
+    // Configure the Jetty server to run on any available IP at port 10000
+    port(4567);
+    ipAddress("0.0.0.0");
+    
     // Shows the Checkers game Home page.
     get(HOME_URL, new GetHomeRoute(templateEngine));
     redirect.get(INDEX_URL, HOME_URL);
   
     // Shows the Checkers game Game page.
     get(GAME_URL, new GetGameRoute(templateEngine));
-
+    
     //
     LOG.config("WebServer is initialized.");
   }
