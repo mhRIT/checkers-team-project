@@ -1,6 +1,5 @@
 package com.webcheckers.application;
 
-
 import com.webcheckers.model.Game;
 import com.webcheckers.model.Player;
 import java.util.ArrayList;
@@ -13,5 +12,14 @@ public class GameCenter {
 
   public Game createGame(Player player1, Player player2){
     return null;
+  }
+
+  public Boolean isPlayerInGame(Player player){
+    for(Game game: ArrayList<Game>gameList){
+      if(game.hasPlayer(player)){
+        return Boolean.TRUE;
+      }
+    }
+    return Boolean.FALSE;
   }
 }

@@ -12,4 +12,14 @@ public class Game {
   public void endGame(){
 
   }
+
+  public Boolean hasPlayer(Player player){
+    if(players.containsValue(player)){
+      return Boolean.TRUE;
+    }
+    else {
+      return Boolean.FALSE;
+    }
+  }
+
 }

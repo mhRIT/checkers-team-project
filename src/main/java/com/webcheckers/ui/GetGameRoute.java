@@ -1,5 +1,7 @@
 package com.webcheckers.ui;
 
+import com.webcheckers.application.GameCenter;
+import com.webcheckers.model.Player;
 import spark.*;
 
 import java.util.HashMap;
@@ -51,8 +53,16 @@ public class GetGameRoute implements Route {
     //
     Map<String, Object> vm = new HashMap<>();
     vm.put("title", "Game!");
-    
+
+    if(checkGameCenter(gameCenter, player)){
+      vm.put("/game");
+    }
+
     return templateEngine.render(new ModelAndView(vm , "game.ftl"));
+  }
+
+  public Boolean checkGameCenter(GameCenter gameCenter, Player player){
+    return gameCenter.isPlayerInGame(player);
   }
 
 }
