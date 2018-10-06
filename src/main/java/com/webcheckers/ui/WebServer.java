@@ -2,6 +2,7 @@ package com.webcheckers.ui;
 
 import static spark.Spark.*;
 
+import com.webcheckers.model.PlayerLobby;
 import java.util.Objects;
 import java.util.logging.Logger;
 
@@ -59,6 +60,8 @@ public class WebServer {
   // Attributes
   //
 
+  private final PlayerLobby playerLobby;
+
   private final TemplateEngine templateEngine;
   private final Gson gson;
 
@@ -77,13 +80,14 @@ public class WebServer {
    * @throws NullPointerException
    *    If any of the parameters are {@code null}.
    */
-  public WebServer(final TemplateEngine templateEngine, final Gson gson) {
+  public WebServer(final TemplateEngine templateEngine, final Gson gson, final Object gameCenter) {
     // validation
     Objects.requireNonNull(templateEngine, "templateEngine must not be null");
     Objects.requireNonNull(gson, "gson must not be null");
     //
     this.templateEngine = templateEngine;
     this.gson = gson;
+    this.playerLobby = new PlayerLobby(gameCenter);
   }
 
   //
@@ -142,6 +146,9 @@ public class WebServer {
 
     // Shows the sign-in page
     get(SIGNIN_URL,new GetSigninRoute(templateEngine));
+
+
+    post(HOME_URL, new PostSigninRoute(playerLobby,templateEngine));
 
     //
     LOG.config("WebServer is initialized.");

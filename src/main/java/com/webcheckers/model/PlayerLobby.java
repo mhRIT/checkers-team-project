@@ -12,6 +12,11 @@ public class PlayerLobby {
     private HashMap<String,Player> playerList;
     private Object gameCenter;
 
+    public PlayerLobby(Object gameCenter){
+        playerList = new HashMap<String,Player>();
+        this.gameCenter = gameCenter;
+    }
+
     //Checks if the username is not taken, and adds
     // them to the player list if so
     public Boolean signin(String name){
