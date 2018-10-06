@@ -148,7 +148,7 @@ public class WebServer {
     get(SIGNIN_URL,new GetSigninRoute(templateEngine));
 
 
-    post(HOME_URL, new PostSigninRoute(playerLobby,templateEngine));
+    post(SIGNIN_URL, new PostSigninRoute(playerLobby,templateEngine));
 
     //
     LOG.config("WebServer is initialized.");

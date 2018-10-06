@@ -15,7 +15,7 @@
   </div>
 
   <div class="body">
-    <input type="text" placeholder="Username" name="name" required>
+    <input type="text" placeholder="Username" name="username" required>
 
     <button type="submit">Enter</button>
   </div>

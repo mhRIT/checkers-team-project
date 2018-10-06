@@ -20,21 +20,28 @@ public class PlayerLobby {
     //Checks if the username is not taken, and adds
     // them to the player list if so
     public Boolean signin(String name){
-        Iterator i = playerList.entrySet().iterator();
-        while(i.hasNext()){
-            HashMap.Entry otherName = (HashMap.Entry)i.next();
-            if(otherName.getKey() == name){
-                return false;
-            }
-            i.remove();
-        }
+        if(isAvailable(name)){
         Player newPlayer = new Player(name);
         playerList.put(name,newPlayer);
         return true;
+        }
+        return false;
     }
     //TODO finish this
     public Boolean signout(String name){
         playerList.remove(name);
         return true;
+    }
+
+    public Boolean isAvailable(String name){
+      Iterator i = playerList.entrySet().iterator();
+      while(i.hasNext()){
+        HashMap.Entry otherName = (HashMap.Entry)i.next();
+        if(otherName.getKey() == name){
+          return false;
+        }
+        i.remove();
+      }
+      return true;
     }
 }
