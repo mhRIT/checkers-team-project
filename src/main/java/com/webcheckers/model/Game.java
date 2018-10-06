@@ -7,9 +7,7 @@ public class Game {
   private HashMap<Color, Player> players = new HashMap<Color, Player>();
   private Board board;
 
-  public enum Color{
-
-  }
+  public enum Color{RED, WHITE}
 
   public void endGame(){
 

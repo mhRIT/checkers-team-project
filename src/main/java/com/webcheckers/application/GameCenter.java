@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.logging.Logger;
 
 public class GameCenter {
+  private static final Logger LOG = Logger.getLogger(GameCenter.class.getName());
 
-  private static final Logger LOG = Logger.getLogger(GameCenter.class.getName());;
   private ArrayList<Game> gameList;
 
   public Game createGame(Player player1, Player player2){
