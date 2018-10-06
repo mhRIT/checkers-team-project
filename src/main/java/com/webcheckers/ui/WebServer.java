@@ -145,9 +145,9 @@ public class WebServer {
     get(HOME_URL, new GetHomeRoute(templateEngine));
 
     // Shows the sign-in page
-    get(SIGNIN_URL,new GetSigninRoute(templateEngine));
+    get(SIGNIN_URL, new GetSigninRoute(templateEngine));
 
-
+    // Input username
     post(SIGNIN_URL, new PostSigninRoute(playerLobby,templateEngine));
 
     //

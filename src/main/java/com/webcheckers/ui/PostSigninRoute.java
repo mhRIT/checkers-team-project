@@ -1,9 +1,13 @@
 package com.webcheckers.ui;
 
+import static com.webcheckers.ui.GetSigninRoute.TITLE_ATTR;
+import static spark.Spark.halt;
+
 import com.webcheckers.model.PlayerLobby;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.logging.Logger;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
@@ -16,8 +20,9 @@ public class PostSigninRoute implements Route {
 
   private final PlayerLobby playerLobby;
   private final TemplateEngine templateEngine;
+  private static final Logger LOG = Logger.getLogger(PostSigninRoute.class.getName());
 
-  private final String USERNAME = "username";
+  private static final String USERNAME = "username";
 
   public PostSigninRoute(PlayerLobby playerLobby, TemplateEngine templateEngine){
     // validation
@@ -29,17 +34,23 @@ public class PostSigninRoute implements Route {
   }
 
   public Object handle(Request request, Response response){
-    final Map<String, Object> vm = new HashMap<>();
-    final String username = request.queryParams(USERNAME);
+    final Map<String, Object> vm = new HashMap<String,Object>();
+    String username = request.queryParams(USERNAME);
+
+    vm.put(TITLE_ATTR, "Welcome!");
 
     final Session session = request.session();
 
     if(playerLobby.isAvailable(username)){
       playerLobby.signin(username);
-      templateEngine.render(new ModelAndView(vm , "home.ftl"));
+      LOG.config("Player list: " + playerLobby.toString());
+      response.redirect(WebServer.HOME_URL);
+      return templateEngine.render(new ModelAndView(vm , "home.ftl"));
+    }else {
+      response.redirect(WebServer.SIGNIN_URL);
+      halt();
+      return null;
     }
-
-    return templateEngine.render(new ModelAndView(vm , "signin.ftl"));
   }
 
 }

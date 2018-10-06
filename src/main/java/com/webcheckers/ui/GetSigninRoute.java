@@ -11,7 +11,7 @@ import spark.Route;
 /**
  * The {@code GET /signin} route handler.
  *
- * @author <a href='mailto:@rit.edu'>Simon Kirkwood</a>
+ * @author <a href='mailto:sjk7867@rit.edu'>Simon Kirkwood</a>
  * @author <a href='mailto:mlh1964@.rit.edu'>Meaghan Hoitt</a>
  */
 public class GetSigninRoute implements Route {

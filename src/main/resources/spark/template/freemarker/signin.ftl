@@ -15,9 +15,11 @@
   </div>
 
   <div class="body">
-    <input type="text" placeholder="Username" name="username" required>
+    <form action="" method="POST">
+    <input name="username" required>
 
     <button type="submit">Enter</button>
+      </form>
   </div>
 
 </div>

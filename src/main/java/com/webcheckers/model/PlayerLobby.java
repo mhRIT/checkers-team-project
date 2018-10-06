@@ -21,9 +21,9 @@ public class PlayerLobby {
     // them to the player list if so
     public Boolean signin(String name){
         if(isAvailable(name)){
-        Player newPlayer = new Player(name);
-        playerList.put(name,newPlayer);
-        return true;
+          Player newPlayer = new Player(name);
+          playerList.put(name,newPlayer);
+          return true;
         }
         return false;
     }
@@ -34,14 +34,22 @@ public class PlayerLobby {
     }
 
     public Boolean isAvailable(String name){
-      Iterator i = playerList.entrySet().iterator();
-      while(i.hasNext()){
-        HashMap.Entry otherName = (HashMap.Entry)i.next();
-        if(otherName.getKey() == name){
+      for (String eachName : playerList.keySet()) {
+        if(name.equals(eachName)) {
           return false;
         }
-        i.remove();
       }
       return true;
+    }
+
+    public String toString(){
+//      String list = "";
+//      Iterator i = playerList.keySet().iterator();
+//      while(i.hasNext()){
+//        String name = (String)i.next();
+//        list = list + (name + "\n");
+//        i.remove();
+//    }
+    return "" + playerList.keySet().size();
     }
 }
