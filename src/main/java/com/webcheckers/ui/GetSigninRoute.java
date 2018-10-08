@@ -21,8 +21,16 @@ public class GetSigninRoute implements Route {
   static final String TITLE = "Sign-in";
   static final String VIEW_NAME = "signin.ftl";
 
+  //
+  //Attributes
+  //
+
   private final TemplateEngine templateEngine;
   private static final Logger LOG = Logger.getLogger(GetSigninRoute.class.getName());
+
+  //
+  // Constructor
+  //
 
   /**
    * The constructor for the {@code GET /signin} route handler.

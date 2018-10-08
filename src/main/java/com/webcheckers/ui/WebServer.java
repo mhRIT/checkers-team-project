@@ -54,6 +54,10 @@ public class WebServer {
    * The URL pattern to request the Home page.
    */
   public static final String HOME_URL = "/";
+
+  /**
+   * The URL pattern to request the Sign-in page.
+   */
   public static final String SIGNIN_URL = "/signin";
 
   //
@@ -61,7 +65,6 @@ public class WebServer {
   //
 
   private final PlayerLobby playerLobby;
-
   private final TemplateEngine templateEngine;
   private final Gson gson;
 
@@ -80,7 +83,9 @@ public class WebServer {
    * @throws NullPointerException
    *    If any of the parameters are {@code null}.
    */
-  public WebServer(final TemplateEngine templateEngine, final Gson gson, final Object gameCenter) {
+  public WebServer(final TemplateEngine templateEngine,
+                   final Gson gson,
+                   final Object gameCenter) {
     // validation
     Objects.requireNonNull(templateEngine, "templateEngine must not be null");
     Objects.requireNonNull(gson, "gson must not be null");
@@ -106,7 +111,7 @@ public class WebServer {
   public void initialize() {
 
     // Configuration to serve static files
-    staticFileLocation("/public");
+    staticFiles.location("/public");
 
     //// Setting any route (or filter) in Spark triggers initialization of the
     //// embedded Jetty web server.
@@ -142,7 +147,7 @@ public class WebServer {
     //// code clean; using small classes.
 
     // Shows the Checkers game Home page.
-    get(HOME_URL, new GetHomeRoute(templateEngine));
+    get(HOME_URL, new GetHomeRoute(playerLobby,templateEngine));
 
     // Shows the sign-in page
     get(SIGNIN_URL, new GetSigninRoute(templateEngine));

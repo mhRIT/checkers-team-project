@@ -11,6 +11,7 @@ import java.util.Iterator;
  */
 
 public class PlayerLobby {
+
     private HashMap<String, Player> playerList;
     private Object gameCenter;
 
