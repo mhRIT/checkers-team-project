@@ -1,4 +1,6 @@
-package com.webcheckers.model;
+package com.webcheckers.appl;
+
+import com.webcheckers.model.Player;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -9,7 +11,7 @@ import java.util.Iterator;
  */
 
 public class PlayerLobby {
-    private HashMap<String,Player> playerList;
+    private HashMap<String, Player> playerList;
     private Object gameCenter;
 
     public PlayerLobby(Object gameCenter){

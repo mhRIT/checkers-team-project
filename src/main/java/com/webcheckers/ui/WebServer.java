@@ -2,7 +2,7 @@ package com.webcheckers.ui;
 
 import static spark.Spark.*;
 
-import com.webcheckers.model.PlayerLobby;
+import com.webcheckers.appl.PlayerLobby;
 import java.util.Objects;
 import java.util.logging.Logger;
 
