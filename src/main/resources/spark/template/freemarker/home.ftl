@@ -46,12 +46,14 @@
         <#list allPlayers as player>
         <a href={player} class = "active">${player}</>
           <p></p>
-      <#else>
-        <p>No players currently signed in</p>
       </#list>
 
       </div>
+      <#else>
+        <p>Number of players: ${numPlayers}</p>
       </#if>
+
+
 
     </div>
     
