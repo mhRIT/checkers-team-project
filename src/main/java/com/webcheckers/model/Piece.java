@@ -2,13 +2,15 @@ package com.webcheckers.model;
 
 public class Piece {
 
-  private int x;
-  private int y;
-
-  public enum Color{RED, WHITE}
+  public enum type{SINGLE, KING}
+  public enum color{RED, WHITE}
 
   public Boolean move() {
     return null;
+  }
+
+  public Piece(String type, String color){
+
   }
 
   public Boolean validate() {

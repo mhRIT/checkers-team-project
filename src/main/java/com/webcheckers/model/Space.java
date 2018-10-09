@@ -5,8 +5,8 @@ public class Space {
   private int y = -1;
   private Piece occupant = null;
 
-  public Space(int row, int index){
-    this.x = index;
+  public Space(int row, int cellIndex){
+    this.x = cellIndex;
     this.y = row;
   }
 
