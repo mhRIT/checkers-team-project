@@ -43,7 +43,7 @@ public class PostSigninRoute implements Route {
 
     if(playerLobby.isAvailable(username)){
       playerLobby.signin(username);
-      LOG.config("Player list: " + playerLobby.toString());
+      LOG.config("Player list: " + playerLobby.numberOfPlayers());
       response.redirect(WebServer.HOME_URL);
       return templateEngine.render(new ModelAndView(vm , "home.ftl"));
     }else {
