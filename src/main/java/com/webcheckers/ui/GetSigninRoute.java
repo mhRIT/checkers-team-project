@@ -15,6 +15,9 @@ import spark.Route;
  * @author <a href='mailto:mlh1964@.rit.edu'>Meaghan Hoitt</a>
  */
 public class GetSigninRoute implements Route {
+  //
+  // Constants
+  //
 
   // Values used in the view-model map for rendering the home view.
   static final String TITLE_ATTR = "title";

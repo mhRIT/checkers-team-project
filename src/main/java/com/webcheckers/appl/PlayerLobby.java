@@ -108,4 +108,14 @@ public class PlayerLobby {
     public String numberOfPlayers(){
         return "" + playerList.keySet().size();
     }
+
+    /**
+     * Retrieves a player given the username.
+     *
+     * @param
+     *   name the username of the current player
+     */
+    public Player getPlayer(String name){
+        return playerList.get(name);
+    }
 }

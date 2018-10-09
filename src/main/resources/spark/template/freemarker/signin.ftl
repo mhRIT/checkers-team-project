@@ -15,11 +15,17 @@
   </div>
 
   <div class="body">
-    <form action="" method="POST">
-    <input name="username" required>
 
+
+    <form action="./signin" method="POST">
+    <input name="username" required>
     <button type="submit">Enter</button>
       </form>
+
+    <#if message??>
+        <div class="message ${messageType}">${message}</div>
+    </#if>
+
   </div>
 
 </div>
