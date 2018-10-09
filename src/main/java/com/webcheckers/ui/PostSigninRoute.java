@@ -34,8 +34,9 @@ public class PostSigninRoute implements Route {
   static final String MESSAGE_ATTR = "message";
   static final String MESSAGE_TYPE_ATTR = "messageType";
   static final String ERROR_TYPE = "error";
+  static final String ERROR_VIEW_NAME = "signin.ftl";
   static final String BAD_USERNAME = "Username must consists of only letters" +
-          "or numbers and be at least one character long.";
+          " or numbers and be at least one character long.";
 
   //
   // Attributes
@@ -70,6 +71,10 @@ public class PostSigninRoute implements Route {
     this.templateEngine = templateEngine;
   }
 
+  /**
+   * {@inheritDoc}
+   */
+  @Override
   public Object handle(Request request, Response response){
     // start building View-Model
     final Map<String, Object> vm = new HashMap<String,Object>();
@@ -94,15 +99,16 @@ public class PostSigninRoute implements Route {
     else {
       // the player did not sign in correctly, redirect to sign-in-page
       mv = error(vm,BAD_USERNAME);
-      response.redirect(WebServer.SIGNIN_URL);
-      halt();
       return templateEngine.render(mv);
     }
   }
 
+  /**
+   * Creates an error message and stores it in the View_Model.
+   */
   private ModelAndView error(final Map<String, Object> vm, final String message) {
     vm.put(MESSAGE_ATTR, message);
     vm.put(MESSAGE_TYPE_ATTR, ERROR_TYPE);
-    return new ModelAndView(vm, VIEW_NAME);
+    return new ModelAndView(vm, ERROR_VIEW_NAME);
   }
 }
