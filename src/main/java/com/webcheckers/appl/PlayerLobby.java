@@ -3,8 +3,8 @@ package com.webcheckers.appl;
 import com.webcheckers.model.Player;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Set;
 
 /**
@@ -84,7 +84,9 @@ public class PlayerLobby {
   public String[] playerNames() {
     String[] list = new String[numberOfPlayers()];
     Set<String> players = playerList.keySet();
-    list = players.toArray(new String[0]);
+    ArrayList<String> arrayList = new ArrayList<String>(players);
+    Collections.sort(arrayList);
+    list = arrayList.toArray(new String[0]);
     return list;
   }
 
