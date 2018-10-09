@@ -29,7 +29,7 @@ public class PostSigninRoute implements Route {
   private static final String USERNAME = "username";
   private static final String TITLE = "Welcome";
   private static final String VIEW_NAME = "home.ftl";
-  private static final String PLAYER_USERNAME = "playerUsername";
+  private static final String PLAYER = "player";
 
   static final String MESSAGE_ATTR = "message";
   static final String MESSAGE_TYPE_ATTR = "messageType";
@@ -87,9 +87,9 @@ public class PostSigninRoute implements Route {
     final Session session = request.session();
 
     // store player in httpSession
-    if(session.attribute(PLAYER_USERNAME) == null){
+    if(session.attribute(PLAYER) == null){
       Player player = playerLobby.getPlayer(username);
-      session.attribute(PLAYER_USERNAME, player);
+      session.attribute(PLAYER, player);
     }
     // the player signs-in correctly, redirect to the homepage
     if(playerLobby.signin(username)){

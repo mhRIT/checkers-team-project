@@ -17,6 +17,11 @@
     
     <div class="body">
       <p>Welcome to the world of online Checkers.</p>
+
+    <#if allPlayers??>
+        ${allPlayers}
+    </#if>
+
     </div>
     
   </div>

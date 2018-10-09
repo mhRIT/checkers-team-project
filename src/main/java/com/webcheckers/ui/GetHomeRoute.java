@@ -3,31 +3,37 @@ package com.webcheckers.ui;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.model.Player;
-import spark.ModelAndView;
-import spark.Request;
-import spark.Response;
-import spark.Route;
-import spark.TemplateEngine;
+import spark.*;
 
 /**
  * The UI Controller to GET the Home page.
  * This is the page where the user starts.
  *
- * @author <a href='mailto:bdbvse@rit.edu'>Bryan Basham</a>
+ * @author <a href='mailto:mlh1964@rit.edu'>Meaghan Hoitt</a>
  */
 public class GetHomeRoute implements Route {
 
-  private static final Logger LOG = Logger.getLogger(GetHomeRoute.class.getName());
+  //
+  //Constants
+  //
+
+  private static final String VIEW_NAME = "home.ftl";
+  private static final String PLAYER = "player";
+  private static final String ALL_PLAYER_NAMES = "allPlayers";
+  private static final String NUM_PLAYERS = "numPlayers";
 
   //
   // Attributes
   //
+
   private final PlayerLobby playerLobby;
   private final TemplateEngine templateEngine;
+  private static final Logger LOG = Logger.getLogger(GetHomeRoute.class.getName());
 
   //
   // Constructor
@@ -69,7 +75,26 @@ public class GetHomeRoute implements Route {
     Map<String, Object> vm = new HashMap<>();
     vm.put("title", "Welcome!");
 
-    return templateEngine.render(new ModelAndView(vm , "home.ftl"));
+    // retrieve the session, and the player
+    final Session session = request.session();
+    Player player = session.attribute(PLAYER);
+
+    LOG.setLevel(Level.FINER);
+
+    // if the player is signed-in show list of all signed-in players
+    if(player != null){
+      LOG.finer("The player is not null");
+      String list = playerLobby.playerNames();
+      vm.put(ALL_PLAYER_NAMES, list);
+    }
+    // if the player is not signed-in show how many players are signed-in
+    else{
+      LOG.finer("The player is null");
+      String numberOfPlayers = playerLobby.numberOfPlayers();
+      vm.put(NUM_PLAYERS, numberOfPlayers);
+    }
+
+    return templateEngine.render(new ModelAndView(vm, VIEW_NAME));
   }
 
 }
