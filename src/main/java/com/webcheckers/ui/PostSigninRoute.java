@@ -88,11 +88,12 @@ public class PostSigninRoute implements Route {
 
     // store player in httpSession
     if(session.attribute(PLAYER) == null){
+      playerLobby.signin(username);
       Player player = playerLobby.getPlayer(username);
       session.attribute(PLAYER, player);
     }
     // the player signs-in correctly, redirect to the homepage
-    if(playerLobby.signin(username)){
+    if(playerLobby.getPlayer(username) != null){
       response.redirect(WebServer.HOME_URL);
       return templateEngine.render(new ModelAndView(vm, VIEW_NAME));
     }

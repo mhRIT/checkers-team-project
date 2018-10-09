@@ -1,5 +1,6 @@
 package com.webcheckers.ui;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -84,13 +85,13 @@ public class GetHomeRoute implements Route {
     // if the player is signed-in show list of all signed-in players
     if(player != null){
       LOG.finer("The player is not null");
-      String list = playerLobby.playerNames();
+      String[] list = playerLobby.playerNames();
       vm.put(ALL_PLAYER_NAMES, list);
     }
     // if the player is not signed-in show how many players are signed-in
     else{
       LOG.finer("The player is null");
-      String numberOfPlayers = playerLobby.numberOfPlayers();
+      String numberOfPlayers = "" + playerLobby.numberOfPlayers();
       vm.put(NUM_PLAYERS, numberOfPlayers);
     }
 

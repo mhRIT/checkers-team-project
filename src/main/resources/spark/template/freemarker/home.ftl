@@ -4,6 +4,29 @@
     <meta http-equiv="refresh" content="10">
     <title>${title} | Web Checkers</title>
     <link rel="stylesheet" type="text/css" href="/css/style.css">
+
+  <style>
+    .vertical-menu{
+      width: 200px;
+      height: 200px;
+      overflow-y: auto;
+    }
+
+    .vertical-menu a {
+      background-color: #F0FAFF;
+      color:  black;
+      display:  flex;
+      padding: 1px;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+    }
+
+    .vertical-menu a:hover {
+      background-color: #888888;
+      color: white;
+    }
+  </style>
 </head>
 <body>
   <div class="page">
@@ -18,9 +41,17 @@
     <div class="body">
       <p>Welcome to the world of online Checkers.</p>
 
-    <#if allPlayers??>
-        ${allPlayers}
-    </#if>
+      <#if allPlayers??>
+      <div class="vertical-menu">
+        <#list allPlayers as player>
+        <a href={player} class = "active">${player}</>
+          <p></p>
+      <#else>
+        <p>No players currently signed in</p>
+      </#list>
+
+      </div>
+      </#if>
 
     </div>
     
