@@ -1,17 +1,17 @@
 package com.webcheckers.model;
 
 public class Space {
-  private int x = -1;
-  private int y = -1;
+  private int row = -1;
+  private int col = -1;
   private Piece occupant = null;
 
   public Space(int row, int cellIndex){
-    this.x = cellIndex;
-    this.y = row;
+    this.row = row;
+    this.col = cellIndex;
   }
 
   public int getCellIdx(){
-    return x;
+    return col;
   }
 
   public Piece getPiece(){
@@ -19,7 +19,7 @@ public class Space {
   }
 
   public Boolean isValid(){
-    if(getPiece() == null && (x + y)%2 == 0){
+    if(getPiece() == null && (row + col)%2 == 0){
       return true;
     }
     return false;

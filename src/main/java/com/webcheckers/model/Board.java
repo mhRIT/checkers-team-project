@@ -5,15 +5,9 @@ import java.util.Iterator;
 
 public class Board {
 
-  private ArrayList<Piece> redPieces = new ArrayList<Piece>();
-  private ArrayList<Piece> whitePieces = new ArrayList<Piece>();
-  private ArrayList<Row> rows = new ArrayList<Row>();
+  public static final int BOARD_LENGTH = 8;
 
-  public Board(){
-    for(int i=0; i<8; i++){
-      rows.add(new Row(i));
-    }
-  }
+  private Space[][] spaces = new Space[BOARD_LENGTH][BOARD_LENGTH];
 
   public void initialize() {
 
@@ -24,6 +18,10 @@ public class Board {
   }
 
   public ArrayList<Row> getState() {
+    ArrayList<Row> rows = new ArrayList<Row>();
+    for(int i=0; i<BOARD_LENGTH; i++){
+      rows.add(new Row(spaces, i));
+    }
     return rows;
   }
 }

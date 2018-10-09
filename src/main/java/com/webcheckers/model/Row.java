@@ -5,8 +5,10 @@ import java.util.ArrayList;
 public class Row {
 
   private int index = -1;
+  private Space[][] spaces;
 
-  public Row(int index){
+  public Row(Space[][] spaces, int index){
+    this.spaces = spaces;
     this.index = index;
   }
 
@@ -17,7 +19,7 @@ public class Row {
   public ArrayList<Space> iterator(){
     ArrayList<Space> cells = new ArrayList<Space>();
     for(int i = 0; i < 8; i++){
-      cells.add(new Space(i, this.index));
+      cells.add(spaces[this.index][i]);
     }
     return cells;
   }
