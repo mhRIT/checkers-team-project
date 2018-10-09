@@ -81,10 +81,12 @@ public class PlayerLobby {
    *
    * @return a list of all player's names who are signed-in
    */
-  public String[] playerNames() {
+
+  public String[] playerNames(String exclude) {
     String[] list = new String[numberOfPlayers()];
     Set<String> players = playerList.keySet();
     ArrayList<String> arrayList = new ArrayList<String>(players);
+    arrayList.remove(exclude);
     Collections.sort(arrayList);
     list = arrayList.toArray(new String[0]);
     return list;
