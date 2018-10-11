@@ -9,8 +9,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Logger;
 
-import game.ftl;
-
 /**
  * The UI Controller to GET the Home page.
  *
@@ -56,9 +54,11 @@ public class GetGameRoute implements Route {
     Map<String, Object> vm = new HashMap<>();
     vm.put("title", "Game!");
 
+    GameCenter gameCenter = null;
+    Player currentPlayer = null;
+
     if(checkGameCenter(gameCenter, currentPlayer)){
 
-      vm.put("whitePlayer", );
     }
 
     return templateEngine.render(new ModelAndView(vm , "game.ftl"));

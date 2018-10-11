@@ -15,7 +15,7 @@ public class GameCenter {
   }
 
   public Boolean isPlayerInGame(Player player){
-    for(Game game: ArrayList<Game>gameList){
+    for(Game game: gameList){
       if(game.hasPlayer(player)){
         return Boolean.TRUE;
       }
