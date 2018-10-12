@@ -80,12 +80,11 @@ public class PostSigninRoute implements Route {
     // start building View-Model
     final Map<String, Object> vm = new HashMap<String,Object>();
     String username = request.queryParams(USERNAME);
+    // retrieve the session
+    final Session session = request.session();
 
     vm.put(TITLE_ATTR, TITLE);
     ModelAndView mv;
-
-    // retrieve the session
-    final Session session = request.session();
 
     // store player in httpSession
     if(session.attribute(PLAYER) == null){
@@ -93,6 +92,7 @@ public class PostSigninRoute implements Route {
         Player player = playerLobby.getPlayer(username);
         session.attribute(PLAYER, player);
     }
+    // If the username is taken, display error and redirect to sign-in page
     else{
       mv = error(vm,TAKEN_USERNAME);
       return templateEngine.render(mv);
@@ -101,6 +101,7 @@ public class PostSigninRoute implements Route {
     // the player signs-in correctly, redirect to the homepage
     if(playerLobby.getPlayer(username) != null){
       response.redirect(WebServer.HOME_URL);
+      halt();
       return templateEngine.render(new ModelAndView(vm, VIEW_NAME));
     }
     else {
