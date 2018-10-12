@@ -1,5 +1,6 @@
 package com.webcheckers;
 
+import com.webcheckers.application.GameCenter;
 import java.io.InputStream;
 import java.util.Objects;
 import java.util.logging.LogManager;
@@ -56,8 +57,11 @@ public final class Application {
     // response to Ajax requests.
     final Gson gson = new Gson();
 
+    // create the one and only game center
+    final GameCenter gameCenter = new GameCenter();
+
     // inject the game center and freemarker engine into web server
-    final WebServer webServer = new WebServer(templateEngine, gson);
+    final WebServer webServer = new WebServer(templateEngine, gson, gameCenter);
 
     // inject web server into application
     final Application app = new Application(webServer);

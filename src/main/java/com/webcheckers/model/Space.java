@@ -1,27 +1,28 @@
 package com.webcheckers.model;
 
 public class Space {
-  private int row = -1;
-  private int col = -1;
-  private Piece occupant = null;
 
-  public Space(int row, int cellIndex){
-    this.row = row;
-    this.col = cellIndex;
+  private final int cellIdx;
+  private Piece piece = null;
+  private boolean validPos = false;
+
+  public Space(int cellIdx, Piece piece, boolean validPos) {
+    this.cellIdx = cellIdx;
+    this.piece = piece;
+    this.validPos = validPos;
   }
 
-  public int getCellIdx(){
-    return col;
+  public int getCellIdx() {
+
+    return cellIdx;
   }
 
-  public Piece getPiece(){
-    return occupant;
+  public boolean isValid() {
+    return piece == null && validPos;
   }
 
-  public Boolean isValid(){
-    if(getPiece() == null && (row + col)%2 == 0){
-      return true;
-    }
-    return false;
+  public Piece getPiece() {
+
+    return piece;
   }
 }

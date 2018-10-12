@@ -1,26 +1,31 @@
 package com.webcheckers.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Iterator;
 
-public class Row {
+public class Row implements Iterable {
 
-  private int index = -1;
-  private Space[][] spaces;
+  private final int index;
+  private ArrayList<Space> spaces;
 
-  public Row(Space[][] spaces, int index){
-    this.spaces = spaces;
-    this.index = index;
+  public Row(int idx, Space[] spaceList) {
+    this.spaces = new ArrayList<>(Arrays.asList(spaceList));
+    this.index = idx;
   }
 
-  public int getIndex(){
-    return this.index;
+  public int getIndex() {
+
+    return index;
   }
 
-  public ArrayList<Space> iterator(){
-    ArrayList<Space> cells = new ArrayList<Space>();
-    for(int i = 0; i < 8; i++){
-      cells.add(spaces[this.index][i]);
-    }
-    return cells;
+  public void reverse(){
+    Collections.reverse(spaces);
+  }
+
+  @Override
+  public Iterator iterator() {
+    return spaces.iterator();
   }
 }

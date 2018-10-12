@@ -1,25 +1,68 @@
 package com.webcheckers.model;
 
-import java.util.HashMap;
+import static com.webcheckers.model.Piece.COLOR.RED;
+import static com.webcheckers.model.Piece.COLOR.WHITE;
+
+import com.webcheckers.model.Piece.COLOR;
 
 public class Game {
-
-  private HashMap<Color, Player> players = new HashMap<Color, Player>();
+  private Player whitePlayer = null;
+  private Player redPlayer = null;
+  private COLOR activeColor;
   private Board board;
 
-  public enum Color{RED, WHITE}
+  public Game(Player rPlayer, Player wPlayer) {
+    this.redPlayer = rPlayer;
+    this.whitePlayer = wPlayer;
 
-  public void endGame(){
-
+    this.board = new Board();
+    activeColor = RED;
+    board.initStart();
+//    board.initMid(5, 5);
   }
 
-  public Boolean hasPlayer(Player player){
-    if(players.containsValue(player)){
-      return Boolean.TRUE;
-    }
-    else {
-      return Boolean.FALSE;
-    }
+  public Player getRedPlayer() {
+    return redPlayer;
   }
 
+  public Player getWhitePlayer() {
+    return whitePlayer;
+  }
+
+  public Piece.COLOR getActiveColor() {
+    return activeColor;
+  }
+
+  public boolean validateMove(){
+    return board.validateMove();
+  }
+
+  public boolean makeMove() {
+    return true;
+  }
+
+  public boolean switchTurn(){
+    if (activeColor.equals(RED)) {
+      activeColor = WHITE;
+    } else {
+      activeColor = RED;
+    }
+    return true;
+  }
+
+  public BoardView getState(Player player) {
+    BoardView bView = new BoardView(board.getState());
+    if(player.equals(whitePlayer)){
+      bView.transpose();
+    }
+    return bView;
+  }
+
+  public boolean endGame() {
+    return board.checkEnd();
+  }
+
+  public Boolean hasPlayer(Player player) {
+    return player.equals(redPlayer) || player.equals(whitePlayer);
+  }
 }

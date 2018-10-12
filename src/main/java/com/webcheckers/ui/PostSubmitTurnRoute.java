@@ -1,7 +1,6 @@
 package com.webcheckers.ui;
 
-import static spark.Spark.halt;
-
+import com.google.gson.Gson;
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
 import com.webcheckers.model.Game;
@@ -21,18 +20,22 @@ import spark.Route;
 import spark.Session;
 import spark.TemplateEngine;
 
-public class GetGameRoute implements Route {
-  private static final Logger LOG = Logger.getLogger(GetGameRoute.class.getName());
+public class PostSubmitTurnRoute implements Route {
+
+//  private static final Logger LOG = Logger.getLogger(PostSubmitTurnRoute.class.getName());
+  private static final Logger LOG = Logger.getLogger(PostSubmitTurnRoute.class.getName());
 
   private final GameCenter gameCenter;
+  private final Gson gson;
   private final PlayerLobby playerLobby;
   private final TemplateEngine templateEngine;
 
-  public GetGameRoute(GameCenter gameCenter, PlayerLobby playerLobby,
+  public PostSubmitTurnRoute(GameCenter gameCenter, Gson gson, PlayerLobby playerLobby,
       final TemplateEngine templateEngine) {
     LOG.setLevel(Level.ALL);
     // validation
     Objects.requireNonNull(gameCenter, "gameCenter must not be null");
+    Objects.requireNonNull(gson, "gson must not be null");
     Objects.requireNonNull(playerLobby, "playerLobby must not be null");
     Objects.requireNonNull(templateEngine, "templateEngine must not be null");
 
@@ -40,6 +43,7 @@ public class GetGameRoute implements Route {
     // Attributes
     //
     this.gameCenter = gameCenter;
+    this.gson = gson;
     this.playerLobby = playerLobby;
     this.templateEngine = templateEngine;
   }
@@ -48,19 +52,12 @@ public class GetGameRoute implements Route {
   public Object handle(Request request, Response response) {
     final Session session = request.session();
     Player player = session.attribute("player");
-    LOG.finer("GetGameRoute is invoked: " + player.getName());
-
-    Game[] gameList = gameCenter.getGames(player);
-    Game game = null;
-    if(gameList.length > 0){
-      game = gameList[0];
-    } else {
-      response.redirect(WebServer.HOME_URL);
-      halt();
-      return "nothing";
-    }
+    Game game = gameCenter.getGames(player)[0];
+    LOG.finer("PostSubmitTurnRoute is invoked: " + player.getName());
 
     //
+    Map<String, String> map = gson.fromJson(request.body(), Map.class);
+
     Map<String, Object> vm = new HashMap<>();
     vm.put("title", "Game!");
     vm.put("currentPlayer", player);
@@ -69,7 +66,7 @@ public class GetGameRoute implements Route {
     vm.put("whitePlayer", game.getWhitePlayer());
     vm.put("activeColor", game.getActiveColor());
     vm.put("board", game.getState(player));
-    vm.put("message", new Message("GetGameRoute", MESSAGE_TYPE.info));
+    vm.put("message", new Message("SubmitTurn??", MESSAGE_TYPE.info));
 
     return templateEngine.render(new ModelAndView(vm, "game.ftl"));
   }
