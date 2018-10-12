@@ -2,6 +2,8 @@ package com.webcheckers.model;
 
 /* Player.java
  * Represents a single user
+ *
+ * @author <a href='mailto:sjk7867@rit.edu'>Simon Kirkwood</a>
  */
 
 public class Player {

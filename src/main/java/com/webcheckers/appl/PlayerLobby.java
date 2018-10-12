@@ -8,10 +8,11 @@ import java.util.HashMap;
 import java.util.Set;
 
 /**
- * PlayerLobby.java Represents the lobby in which all players inhabit and from which they log in and
- * out of.
+ * PlayerLobby.java Represents the lobby in which all players inhabit and
+ * from which they log in and out of.
  *
  * @author <a href='mailto:mlh1964@rit.edu'>Meaghan Hoitt</a>
+ * @author <a href='mailto:sjk7867@rit.edu'>Simon Kirkwood</a>
  */
 
 public class PlayerLobby {

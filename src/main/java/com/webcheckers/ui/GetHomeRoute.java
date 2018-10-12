@@ -15,6 +15,7 @@ import spark.*;
  * This is the page where the user starts.
  *
  * @author <a href='mailto:mlh1964@rit.edu'>Meaghan Hoitt</a>
+ * @author <a href='mailto:sjk7867@rit.edu'>Simon Kirkwood</a>
  */
 public class GetHomeRoute implements Route {
 
