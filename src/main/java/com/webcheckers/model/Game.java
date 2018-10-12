@@ -3,6 +3,7 @@ package com.webcheckers.model;
 import static com.webcheckers.model.Piece.COLOR.RED;
 import static com.webcheckers.model.Piece.COLOR.WHITE;
 
+import com.webcheckers.ui.boardView.BoardView;
 import com.webcheckers.model.Piece.COLOR;
 
 public class Game {

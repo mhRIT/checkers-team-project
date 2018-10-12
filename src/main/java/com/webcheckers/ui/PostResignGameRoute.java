@@ -1,8 +1,8 @@
 package com.webcheckers.ui;
 
 import com.webcheckers.application.GameCenter;
-import com.webcheckers.model.Message;
-import com.webcheckers.model.Message.MESSAGE_TYPE;
+import com.webcheckers.ui.boardView.Message;
+import com.webcheckers.ui.boardView.Message.MESSAGE_TYPE;
 import com.webcheckers.model.Player;
 import java.util.Objects;
 import java.util.logging.Level;

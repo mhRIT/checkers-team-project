@@ -1,4 +1,6 @@
-package com.webcheckers.model;
+package com.webcheckers.ui.boardView;
+
+import com.webcheckers.model.Piece;
 
 public class Space {
 

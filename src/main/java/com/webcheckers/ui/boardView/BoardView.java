@@ -1,5 +1,7 @@
-package com.webcheckers.model;
+package com.webcheckers.ui.boardView;
 
+import com.webcheckers.ui.boardView.Row;
+import com.webcheckers.ui.boardView.Space;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
