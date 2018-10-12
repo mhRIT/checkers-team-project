@@ -35,7 +35,11 @@
     
     <div class="navigation">
       <a href="/">Home</a>
+    <#if allPlayers??>
+      <a href="/signout">Sign-Out</a>
+    <#else>
       <a href="/signin">Sign-In</a>
+    </#if>
     </div>
     
     <div class="body">
