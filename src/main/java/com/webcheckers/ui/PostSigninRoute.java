@@ -36,9 +36,7 @@ public class PostSigninRoute implements Route {
   static final String MESSAGE_TYPE_ATTR = "messageType";
   static final String ERROR_TYPE = "error";
   static final String ERROR_VIEW_NAME = "signin.ftl";
-  static final String BAD_USERNAME = "Username must consists of only letters" +
-          " or numbers and be at least one character long.";
-  static final String TAKEN_USERNAME = "Username is already in use by another player";
+  static final String BAD_USERNAME = "Invalid username.";
 
   //
   // Attributes
@@ -92,11 +90,11 @@ public class PostSigninRoute implements Route {
       if(playerLobby.signin(username)){
         Player player = playerLobby.getPlayer(username);
         session.attribute(PLAYER, player);
-    }
-    // If the username is taken, display error and redirect to sign-in page
-    else{
-      mv = error(vm,TAKEN_USERNAME);
-      return templateEngine.render(mv);
+      }
+      else {
+        // the player did not sign in correctly, redirect to sign-in-page
+        mv = error(vm,BAD_USERNAME);
+        return templateEngine.render(mv);
       }
     }
     // the player signs-in correctly, redirect to the homepage

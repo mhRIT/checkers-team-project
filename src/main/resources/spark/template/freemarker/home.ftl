@@ -48,7 +48,7 @@
       <#if allPlayers??>
       <div class="vertical-menu">
         <#list allPlayers as player>
-        <a href={player} class = "active">${player}</>
+        <a href=${player} class = "active">${player}</>
           <p></p>
       </#list>
 
