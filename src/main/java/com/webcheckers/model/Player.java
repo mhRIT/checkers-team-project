@@ -2,7 +2,8 @@ package com.webcheckers.model;
 
 public class Player {
 
-  /* Player.java
+  /**
+   * Player.java
    * Represents a single user
    */
   private String name;

@@ -1,4 +1,4 @@
-package com.webcheckers.model;
+package com.webcheckers.ui.boardView;
 
 public class Piece {
 
@@ -16,7 +16,7 @@ public class Piece {
     this.row = row;
     this.col = col;
   }
-
+  
   public boolean move() {
     return false;
   }

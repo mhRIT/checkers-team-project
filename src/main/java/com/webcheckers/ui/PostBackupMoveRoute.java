@@ -68,6 +68,6 @@ public class PostBackupMoveRoute implements Route {
     vm.put("board", game.getState(player));
     vm.put("message", new Message("Backup?", MESSAGE_TYPE.info));
 
-    return templateEngine.render(new ModelAndView(vm, "game.ftl"));
+    return new Message("Backup?", MESSAGE_TYPE.info);
   }
 }
