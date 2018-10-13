@@ -1,14 +1,21 @@
 package com.webcheckers.ui;
 
+import static spark.Spark.halt;
+
+import com.webcheckers.application.GameCenter;
+import com.webcheckers.application.PlayerLobby;
+import com.webcheckers.model.Player;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import com.webcheckers.appl.PlayerLobby;
-import com.webcheckers.model.Player;
-import spark.*;
+import spark.ModelAndView;
+import spark.Request;
+import spark.Response;
+import spark.Route;
+import spark.Session;
+import spark.TemplateEngine;
 
 /**
  * The UI Controller to GET the Home page.
@@ -18,41 +25,47 @@ import spark.*;
  * @author <a href='mailto:sjk7867@rit.edu'>Simon Kirkwood</a>
  */
 public class GetHomeRoute implements Route {
+  private static final Logger LOG = Logger.getLogger(GetHomeRoute.class.getName());
 
   //
   //Constants
   //
 
-  private static final String VIEW_NAME = "home.ftl";
-  private static final String PLAYER = "player";
-  private static final String ALL_PLAYER_NAMES = "allPlayers";
-  private static final String NUM_PLAYERS = "numPlayers";
+  public static final String VIEW_NAME = "home.ftl";
+  public static final String PLAYER = "player";
+  public static final String ALL_PLAYER_NAMES = "allPlayers";
+  public static final String NUM_PLAYERS = "numPlayers";
 
   //
   // Attributes
   //
 
+  private final GameCenter gameCenter;
   private final PlayerLobby playerLobby;
   private final TemplateEngine templateEngine;
-  private static final Logger LOG = Logger.getLogger(GetHomeRoute.class.getName());
 
   //
   // Constructor
   //
 
   /**
-   * Create the Spark Route (UI controller) for the
-   * {@code GET /} HTTP request.
+   * Create the Spark Route (UI controller) for the {@code GET /} HTTP request.
    *
-   * @param templateEngine
-   *   the HTML template rendering engine
+   * @param templateEngine the HTML template rendering engine
+   * @throws NullPointerException when the {@code gameCenter}, {@code playerLobby}, or {@code
+   * templateEngine} parameter is null
    */
-  public GetHomeRoute(final PlayerLobby playerLobby, final TemplateEngine templateEngine) {
-    // validation
-    Objects.requireNonNull(playerLobby,"playerLobby must not be null");
+  public GetHomeRoute(final GameCenter gameCenter,
+                      final PlayerLobby playerLobby,
+                      final TemplateEngine templateEngine) {
+    LOG.setLevel(Level.ALL);
+    Objects.requireNonNull(gameCenter, "gameCenter must not be null");
+    Objects.requireNonNull(playerLobby, "playerLobby must not be null");
     Objects.requireNonNull(templateEngine, "templateEngine must not be null");
+
     //
     this.playerLobby = playerLobby;
+    this.gameCenter = gameCenter;
     this.templateEngine = templateEngine;
     //
     LOG.config("GetHomeRoute is initialized.");
@@ -61,41 +74,37 @@ public class GetHomeRoute implements Route {
   /**
    * Render the WebCheckers Home page.
    *
-   * @param request
-   *   the HTTP request
-   * @param response
-   *   the HTTP response
-   *
-   * @return
-   *   the rendered HTML for the Home page
+   * @param request the HTTP request
+   * @param response the HTTP response
+   * @return the rendered HTML for the Home page
    */
   @Override
   public Object handle(Request request, Response response) {
-    LOG.finer("GetHomeRoute is invoked.");
-    //
+    final Session session = request.session();
+    Player currPlayer = session.attribute(PLAYER);
+
     Map<String, Object> vm = new HashMap<>();
     vm.put("title", "Welcome!");
 
-    // retrieve the session, and the player
-    final Session session = request.session();
-    Player player = session.attribute(PLAYER);
+    if(currPlayer == null){
+      LOG.finer("GetHomeRoute is invoked: no player attached to the current session");
+      vm.put(NUM_PLAYERS, playerLobby.getNumPlayers());
+    } else {
+      LOG.finer(String.format("Player \'%s\' is %sin a game",
+                              currPlayer.getName(),
+                              gameCenter.isPlayerInGame(currPlayer) ? "" : "not "));
+      vm.put(ALL_PLAYER_NAMES, playerLobby.playerNames(currPlayer.getName()));
+      vm.put(PLAYER, currPlayer);
 
-    LOG.setLevel(Level.FINER);
-
-    // if the player is signed-in show list of all signed-in players
-    if(player != null){
-      LOG.finer("The player is not null");
-      String[] list = playerLobby.playerNames(player.getName());
-      vm.put(ALL_PLAYER_NAMES, list);
-    }
-    // if the player is not signed-in show how many players are signed-in
-    else{
-      LOG.finer("The player is null");
-      String numberOfPlayers = "" + playerLobby.numberOfPlayers();
-      vm.put(NUM_PLAYERS, numberOfPlayers);
+      // if player is in game, go to game page
+      // else go to home page
+      if(gameCenter.isPlayerInGame(currPlayer)) {
+        response.redirect(WebServer.GAME_URL);
+        halt();
+        return "nothing";
+      }
     }
 
     return templateEngine.render(new ModelAndView(vm, VIEW_NAME));
   }
-
 }

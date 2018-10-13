@@ -1,0 +1,39 @@
+package com.webcheckers.ui.boardView;
+
+public class Piece {
+
+  public enum COLOR {RED, WHITE}
+  public enum TYPE {SINGLE, KING}
+
+  private int row;
+  private int col;
+
+  private COLOR color = COLOR.RED;
+  private TYPE type = TYPE.SINGLE;
+
+  public Piece(COLOR color, int row, int col) {
+    this.color = color;
+    this.row = row;
+    this.col = col;
+  }
+
+  public COLOR getColor() {
+    return color;
+  }
+
+  public TYPE getType() {
+    return type;
+  }
+
+  public boolean move() {
+    return false;
+  }
+
+  public boolean validate() {
+    // -selected piece must be of correct color
+    // -destination must not be occupied
+    // -destination must be a red square
+    // -must be player's turn?
+    return false;
+  }
+}
