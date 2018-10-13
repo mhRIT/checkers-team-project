@@ -19,16 +19,33 @@ import spark.TemplateEngine;
 
 /**
  * The UI Controller to GET the Home page.
+ * This is the page where the user starts.
  *
- * @author <a href='mailto:bdbvse@rit.edu'>Bryan Basham</a>
+ * @author <a href='mailto:mlh1964@rit.edu'>Meaghan Hoitt</a>
  */
 public class GetHomeRoute implements Route {
-
   private static final Logger LOG = Logger.getLogger(GetHomeRoute.class.getName());
+
+  //
+  //Constants
+  //
+
+  private static final String VIEW_NAME = "home.ftl";
+  private static final String PLAYER = "player";
+  private static final String ALL_PLAYER_NAMES = "allPlayers";
+  private static final String NUM_PLAYERS = "numPlayers";
+
+  //
+  // Attributes
+  //
 
   private final GameCenter gameCenter;
   private final PlayerLobby playerLobby;
   private final TemplateEngine templateEngine;
+
+  //
+  // Constructor
+  //
 
   /**
    * Create the Spark Route (UI controller) for the {@code GET /} HTTP request.
@@ -37,10 +54,11 @@ public class GetHomeRoute implements Route {
    * @throws NullPointerException when the {@code gameCenter}, {@code playerLobby}, or {@code
    * templateEngine} parameter is null
    */
-  public GetHomeRoute(final GameCenter gameCenter, final PlayerLobby playerLobby,
-      final TemplateEngine templateEngine) {
+<<<<<<< HEAD
+  public GetHomeRoute(final GameCenter gameCenter,
+                      final PlayerLobby playerLobby,
+                      final TemplateEngine templateEngine) {
     LOG.setLevel(Level.ALL);
-    // validation
     Objects.requireNonNull(gameCenter, "gameCenter must not be null");
     Objects.requireNonNull(playerLobby, "playerLobby must not be null");
     Objects.requireNonNull(templateEngine, "templateEngine must not be null");
@@ -63,7 +81,7 @@ public class GetHomeRoute implements Route {
   @Override
   public Object handle(Request request, Response response) {
     final Session session = request.session();
-    Player currPlayer = session.attribute("player");
+    Player player = session.attribute(PLAYER);
     if(currPlayer == null){
       LOG.finer("GetHomeRoute is invoked: no player attached to the current session");
     } else {
@@ -74,11 +92,12 @@ public class GetHomeRoute implements Route {
 
     Map<String, Object> vm = new HashMap<>();
     vm.put("title", "Welcome!");
+<<<<<<< HEAD
 
     if (currPlayer == null) {
-      vm.put("numPlayers", playerLobby.getNumPlayers());
+      vm.put(NUM_PLAYERS, playerLobby.getNumPlayers());
     } else {
-      vm.put("players", playerLobby.getPlayerNames());
+      vm.put(ALL_PLAYER_NAMES, playerLobby.playerNames(player.getName()));
       vm.put("currentPlayer", currPlayer);
 
       // if player is in game, go to game page
@@ -90,7 +109,6 @@ public class GetHomeRoute implements Route {
       }
     }
 
-    return templateEngine.render(new ModelAndView(vm, "home.ftl"));
+    return templateEngine.render(new ModelAndView(vm, VIEW_NAME));
   }
-
 }

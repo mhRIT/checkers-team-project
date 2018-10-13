@@ -6,7 +6,6 @@ import static spark.Spark.port;
 import static spark.Spark.post;
 import static spark.Spark.redirect;
 import static spark.Spark.staticFileLocation;
-
 import com.google.gson.Gson;
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
@@ -52,6 +51,11 @@ public class WebServer {
    */
   public static final String HOME_URL = "/";
 
+  /**
+   * The URL pattern to request the Sign-in page.
+   */
+  public static final String SIGNIN_URL = "/signin";
+
   //
   // Constants
   //
@@ -74,6 +78,7 @@ public class WebServer {
   private final PlayerLobby playerLobby;
   private final Gson gson;
 
+  private final PlayerLobby playerLobby;
   private final TemplateEngine templateEngine;
 
   //
@@ -87,8 +92,9 @@ public class WebServer {
    * @param gameCenter The {@link GameCenter} for the application.
    * @throws NullPointerException If any of the parameters are {@code null}.
    */
-  public WebServer(final TemplateEngine templateEngine, final Gson gson,
-      final GameCenter gameCenter) {
+  public WebServer(final TemplateEngine templateEngine,
+                  final Gson gson,
+                  final GameCenter gameCenter) {
     // validation
     Objects.requireNonNull(gameCenter, "gameCenter must not be null");
     Objects.requireNonNull(gson, "gson must not be null");
@@ -117,7 +123,7 @@ public class WebServer {
   public void initialize() {
 
     // Configuration to serve static files
-    staticFileLocation("/public");
+    staticFiles.location("/public");
 
     //// Setting any route (or filter) in Spark triggers initialization of the
     //// embedded Jetty web server.
