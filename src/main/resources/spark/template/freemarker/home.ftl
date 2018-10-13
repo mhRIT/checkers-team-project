@@ -7,30 +7,25 @@
 
     <style>
       .vertical-menu{
-        width: 250px;
+        width: 200px;
         height: 200px;
-
         overflow-y: auto;
       }
 
-      .vertical-menu button{
-        width: 240px;
-        padding:  10px 0;
-        border: 1px white;
-        font-size: 16px;
+      .vertical-menu a {
         background-color: #F0FAFF;
         color:  black;
-        display:  inline-block;
-        text-align: center;
+        display:  flex;
+        padding: 1px;
+        align-items: center;
+        justify-content: center;
         text-decoration: none;
       }
 
-      .vertical-menu button:hover {
+      .vertical-menu a:hover {
         background-color: #888888;
         color: white;
       }
-
-
     </style>
 </head>
 <body>
@@ -46,30 +41,29 @@
       </#if>
     </div>
 
-      <div class="body">
+    <div class="vertical-menu">
       <#if allPlayers??>
         <#if allPlayers?size gt 0>
-          <p> Other players currently signed in:</p>
+          <p>Other players currently signed in:</p>
           <br>
-        <div class="vertical-menu">
           <form action="/selectOpponent" method="POST">
             <#list allPlayers as eachPlayerName>
-                <button class="active" type="submit" name="opponent" value="${eachPlayerName}">${eachPlayerName}</button>
+                <button class="active" type="submit" name="opponent" style="min-width: 20%" value="${eachPlayerName}">${eachPlayerName}</button>
+                <br><br>
             </#list>
           </form>
-        </div>
         <#else>
-          <p style="color: red"> No other players are currently signed in</p>
+          <p style="color: red">No other players are currently signed in</p>
         </#if>
       <#else>
         <#if numPlayers??>
-          <p> Number of players: ${numPlayers}</p>
+          <p>Number of players: ${numPlayers}</p>
         <#else>
-          <p style="color: red"> Unknown number of players</p>
+          <p style="color: red">Unknown number of players</p>
         </#if>
       </#if>
-
-      </div>
+    </div>
+    
   </div>
 </body>
 </html>
