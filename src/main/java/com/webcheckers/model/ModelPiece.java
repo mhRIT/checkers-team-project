@@ -17,6 +17,10 @@ public class Piece {
     this.col = col;
   }
 
+  public COLOR getColor() {
+    return null;
+  }
+
   public boolean move() {
     return false;
   }
