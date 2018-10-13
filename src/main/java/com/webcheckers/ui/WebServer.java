@@ -6,6 +6,8 @@ import static spark.Spark.port;
 import static spark.Spark.post;
 import static spark.Spark.redirect;
 import static spark.Spark.staticFileLocation;
+import static spark.Spark.staticFiles;
+
 import com.google.gson.Gson;
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
@@ -45,20 +47,13 @@ import spark.TemplateEngine;
  * @author <a href='mailto:bdbvse@rit.edu'>Bryan Basham</a>
  */
 public class WebServer {
-
-  /**
-   * The URL pattern to request the Home page.
-   */
-  public static final String HOME_URL = "/";
-
-  /**
-   * The URL pattern to request the Sign-in page.
-   */
-  public static final String SIGNIN_URL = "/signin";
+  private static final Logger LOG = Logger.getLogger(WebServer.class.getName());
 
   //
   // Constants
   //
+
+  public static final String HOME_URL = "/";
   public static final String INDEX_URL = "/index";
   public static final String SIGNIN_URL = "/signin";
   public static final String SIGNOUT_URL = "/signout";
@@ -69,7 +64,6 @@ public class WebServer {
   public static final String SUBMIT_TURN_URL = "/submitTurn";
   public static final String BACKUP_MOVE_URL = "/backupMove";
   public static final String RESIGN_URL = "/resignGame";
-  private static final Logger LOG = Logger.getLogger(WebServer.class.getName());
 
   //
   // Attributes
@@ -77,8 +71,6 @@ public class WebServer {
   private final GameCenter gameCenter;
   private final PlayerLobby playerLobby;
   private final Gson gson;
-
-  private final PlayerLobby playerLobby;
   private final TemplateEngine templateEngine;
 
   //

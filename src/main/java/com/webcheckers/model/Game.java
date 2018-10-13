@@ -1,10 +1,10 @@
 package com.webcheckers.model;
 
-import static com.webcheckers.model.Piece.COLOR.RED;
-import static com.webcheckers.model.Piece.COLOR.WHITE;
+import static com.webcheckers.model.ModelPiece.COLOR.RED;
+import static com.webcheckers.model.ModelPiece.COLOR.WHITE;
 
 import com.webcheckers.ui.boardView.BoardView;
-import com.webcheckers.model.Piece.COLOR;
+import com.webcheckers.model.ModelPiece.COLOR;
 
 public class Game {
   private Player whitePlayer = null;
@@ -12,8 +12,7 @@ public class Game {
   private COLOR activeColor;
   private Board board;
 
-  public Game(Player rPlayer, Player wPlayer) {
-    this.redPlayer = rPlayer;
+  public Game(Player rPlayer, Player wPlayer) {    this.redPlayer = rPlayer;
     this.whitePlayer = wPlayer;
 
     this.board = new Board();
@@ -30,7 +29,7 @@ public class Game {
     return whitePlayer;
   }
 
-  public Piece.COLOR getActiveColor() {
+  public ModelPiece.COLOR getActiveColor() {
     return activeColor;
   }
 

@@ -1,9 +1,11 @@
 package com.webcheckers.ui;
 
+import static com.webcheckers.ui.GetHomeRoute.PLAYER;
 import static com.webcheckers.ui.GetSigninRoute.TITLE_ATTR;
 import static spark.Spark.halt;
 
 import com.webcheckers.application.PlayerLobby;
+import com.webcheckers.model.Player;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -33,7 +35,6 @@ public class PostSigninRoute implements Route {
   private static final String USERNAME = "username";
   private static final String TITLE = "Welcome";
   private static final String VIEW_NAME = "home.ftl";
-  private static final String PLAYER = "player";
 
   static final String MESSAGE_ATTR = "message";
   static final String MESSAGE_TYPE_ATTR = "messageType";
@@ -70,7 +71,7 @@ public class PostSigninRoute implements Route {
 
     // store player in httpSession
     if(session.attribute(PLAYER) == null){
-        if(playerLobby.signin(username)){
+        if(playerLobby.signin(username) != null){
           Player player = playerLobby.getPlayer(username);
           session.attribute(PLAYER, player);
       } else {

@@ -1,7 +1,8 @@
 package com.webcheckers.model;
 
-import static com.webcheckers.model.Piece.COLOR;
 
+import com.webcheckers.ui.boardView.Piece;
+import com.webcheckers.ui.boardView.Piece.COLOR;
 import com.webcheckers.ui.boardView.Space;
 import java.util.ArrayList;
 

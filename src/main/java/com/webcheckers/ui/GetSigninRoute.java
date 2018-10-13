@@ -55,7 +55,6 @@ public class GetSigninRoute implements Route {
     //start building the View-Model
     final Map<String, Object> vm = new HashMap<>();
     vm.put(TITLE_ATTR, TITLE);
-    vm.put("message", "Enter your desired username");
 
     return templateEngine.render(new ModelAndView(vm, VIEW_NAME));
   }

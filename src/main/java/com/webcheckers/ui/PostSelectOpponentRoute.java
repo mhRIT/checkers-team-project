@@ -1,5 +1,8 @@
 package com.webcheckers.ui;
 
+import static com.webcheckers.ui.GetHomeRoute.PLAYER;
+import static spark.Spark.halt;
+
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
 import com.webcheckers.model.Game;
@@ -26,6 +29,8 @@ import spark.TemplateEngine;
 public class PostSelectOpponentRoute implements Route {
 
   private static final Logger LOG = Logger.getLogger(PostSelectOpponentRoute.class.getName());
+
+  public static final String OPP_PLAYER_NAME = "opponent";
 
   private final GameCenter gameCenter;
   private final PlayerLobby playerLobby;
@@ -61,8 +66,8 @@ public class PostSelectOpponentRoute implements Route {
   @Override
   public Object handle(Request request, Response response) {
     final Session session = request.session();
-    Player currPlayer = session.attribute("player");
-    Player opponent = playerLobby.getPlayer(request.queryParams("opponent"));
+    Player currPlayer = session.attribute(PLAYER);
+    Player opponent = playerLobby.getPlayer(request.queryParams(OPP_PLAYER_NAME));
     LOG.finer("PostSelectOpponentRoute is invoked: " + currPlayer.getName());
 
     Map<String, Object> vm = new HashMap<>();
@@ -70,14 +75,10 @@ public class PostSelectOpponentRoute implements Route {
     if (gameCenter.isPlayerInGame(opponent)) {
       String message = String.format("The selected opponent, %s, is already in a game",
           opponent.getName());
+      LOG.finer(message);
 
-      LOG.config(message);
-
-      vm.put("title", "Welcome!");
-      vm.put("message", message);
-      vm.put("players", playerLobby.getPlayerNames());
-      vm.put("currentPlayer", currPlayer);
-
+      response.redirect(WebServer.HOME_URL);
+      halt();
       return templateEngine.render(new ModelAndView(vm, "home.ftl"));
     }
 

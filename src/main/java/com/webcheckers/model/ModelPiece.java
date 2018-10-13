@@ -1,6 +1,6 @@
 package com.webcheckers.model;
 
-public class Piece {
+public class ModelPiece {
 
   public enum COLOR {RED, WHITE}
   public enum TYPE {SINGLE, KING}
@@ -11,14 +11,14 @@ public class Piece {
   private COLOR pieceColor = COLOR.RED;
   private TYPE type = TYPE.SINGLE;
 
-  public Piece(COLOR color, int row, int col) {
+  public ModelPiece(COLOR color, int row, int col) {
     this.pieceColor = color;
     this.row = row;
     this.col = col;
   }
 
   public COLOR getColor() {
-    return null;
+    return pieceColor;
   }
 
   public boolean move() {

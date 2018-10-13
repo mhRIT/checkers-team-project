@@ -30,10 +30,10 @@ public class GetHomeRoute implements Route {
   //Constants
   //
 
-  private static final String VIEW_NAME = "home.ftl";
-  private static final String PLAYER = "player";
-  private static final String ALL_PLAYER_NAMES = "allPlayers";
-  private static final String NUM_PLAYERS = "numPlayers";
+  public static final String VIEW_NAME = "home.ftl";
+  public static final String PLAYER = "player";
+  public static final String ALL_PLAYER_NAMES = "allPlayers";
+  public static final String NUM_PLAYERS = "numPlayers";
 
   //
   // Attributes
@@ -54,7 +54,6 @@ public class GetHomeRoute implements Route {
    * @throws NullPointerException when the {@code gameCenter}, {@code playerLobby}, or {@code
    * templateEngine} parameter is null
    */
-<<<<<<< HEAD
   public GetHomeRoute(final GameCenter gameCenter,
                       final PlayerLobby playerLobby,
                       final TemplateEngine templateEngine) {
@@ -81,24 +80,20 @@ public class GetHomeRoute implements Route {
   @Override
   public Object handle(Request request, Response response) {
     final Session session = request.session();
-    Player player = session.attribute(PLAYER);
+    Player currPlayer = session.attribute(PLAYER);
+
+    Map<String, Object> vm = new HashMap<>();
+    vm.put("title", "Welcome!");
+
     if(currPlayer == null){
       LOG.finer("GetHomeRoute is invoked: no player attached to the current session");
+      vm.put(NUM_PLAYERS, playerLobby.getNumPlayers());
     } else {
       LOG.finer(String.format("Player \'%s\' is %sin a game",
                               currPlayer.getName(),
                               gameCenter.isPlayerInGame(currPlayer) ? "" : "not "));
-    }
-
-    Map<String, Object> vm = new HashMap<>();
-    vm.put("title", "Welcome!");
-<<<<<<< HEAD
-
-    if (currPlayer == null) {
-      vm.put(NUM_PLAYERS, playerLobby.getNumPlayers());
-    } else {
-      vm.put(ALL_PLAYER_NAMES, playerLobby.playerNames(player.getName()));
-      vm.put("currentPlayer", currPlayer);
+      vm.put(ALL_PLAYER_NAMES, playerLobby.playerNames(currPlayer.getName()));
+      vm.put(PLAYER, currPlayer);
 
       // if player is in game, go to game page
       // else go to home page

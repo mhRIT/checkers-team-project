@@ -1,6 +1,6 @@
 package com.webcheckers.model;
 
-public class King extends Piece {
+public class King extends ModelPiece {
 
   public King(COLOR color, int row, int col){
     super(color, row, col);
@@ -8,6 +8,6 @@ public class King extends Piece {
 
   @Override
   public boolean validate(){
-
+    return false;
   }
 }
