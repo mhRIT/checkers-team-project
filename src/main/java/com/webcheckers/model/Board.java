@@ -1,5 +1,8 @@
 package com.webcheckers.model;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 public class Board {
 
   public enum SPACE_TYPE {EMPTY, SINGLE_RED, SINGLE_WHITE, KING_RED, KING_WHITE}
@@ -26,7 +29,12 @@ public class Board {
   }
 
   public boolean validateMove(){
+    // TODO
     return false;
+  }
+
+  public void movePiece() {
+    // TODO
   }
 
   public boolean checkEnd() {
@@ -41,5 +49,15 @@ public class Board {
 
   public SPACE_TYPE[][] getState() {
     return boardState;
+  }
+
+  public SPACE_TYPE[][] getBoardTranspose(){
+    SPACE_TYPE[][] toReturnBoard = new SPACE_TYPE[8][8];
+    for(int i = 0; i < 8; i++){
+      for(int j = 0; j < 8; j++){
+        toReturnBoard[i][j] = boardState[7-i][7-j];
+      }
+    }
+    return toReturnBoard;
   }
 }

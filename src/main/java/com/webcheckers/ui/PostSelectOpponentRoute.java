@@ -6,9 +6,10 @@ import static spark.Spark.halt;
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
 import com.webcheckers.model.Game;
+import com.webcheckers.model.Player;
+import com.webcheckers.ui.boardView.BoardView;
 import com.webcheckers.ui.boardView.Message;
 import com.webcheckers.ui.boardView.Message.MESSAGE_TYPE;
-import com.webcheckers.model.Player;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -30,6 +31,7 @@ public class PostSelectOpponentRoute implements Route {
 
   private static final Logger LOG = Logger.getLogger(PostSelectOpponentRoute.class.getName());
 
+  public enum VIEW_MODE {PLAY, SPECTATOR, REPLAY}
   public static final String OPP_PLAYER_NAME = "opponent";
 
   private final GameCenter gameCenter;
@@ -91,11 +93,9 @@ public class PostSelectOpponentRoute implements Route {
     vm.put("redPlayer", game.getRedPlayer());
     vm.put("whitePlayer", game.getWhitePlayer());
     vm.put("activeColor", game.getActiveColor());
-    vm.put("board", game.getState(currPlayer));
+    vm.put("board", new BoardView(game.getState(currPlayer)));
     vm.put("message", new Message("This is a triumph", MESSAGE_TYPE.info));
 
     return templateEngine.render(new ModelAndView(vm, "game.ftl"));
   }
-
-  public enum VIEW_MODE {PLAY, SPECTATOR, REPLAY}
 }

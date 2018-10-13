@@ -58,16 +58,10 @@ public class PostSubmitTurnRoute implements Route {
     //
     Map<String, String> map = gson.fromJson(request.body(), Map.class);
 
-    Map<String, Object> vm = new HashMap<>();
-    vm.put("title", "Game!");
-    vm.put("currentPlayer", player);
-    vm.put("viewMode", VIEW_MODE.PLAY);
-    vm.put("redPlayer", game.getRedPlayer());
-    vm.put("whitePlayer", game.getWhitePlayer());
-    vm.put("activeColor", game.getActiveColor());
-    vm.put("board", game.getState(player));
-    vm.put("message", new Message("SubmitTurn??", MESSAGE_TYPE.info));
+    game.makeMove();
 
-    return templateEngine.render(new ModelAndView(vm, "game.ftl"));
+    return new Message("SubmitTurn??", MESSAGE_TYPE.info);
+
+//    return templateEngine.render(new ModelAndView(vm, "game.ftl"));
   }
 }

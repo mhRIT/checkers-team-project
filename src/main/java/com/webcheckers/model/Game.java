@@ -1,12 +1,11 @@
 package com.webcheckers.model;
 
-import static com.webcheckers.model.ModelPiece.COLOR.RED;
-import static com.webcheckers.model.ModelPiece.COLOR.WHITE;
-
-import com.webcheckers.ui.boardView.BoardView;
-import com.webcheckers.model.ModelPiece.COLOR;
+import com.webcheckers.model.Board.SPACE_TYPE;
 
 public class Game {
+
+  public enum COLOR {RED, WHITE}
+
   private Player whitePlayer = null;
   private Player redPlayer = null;
   private COLOR activeColor;
@@ -16,9 +15,8 @@ public class Game {
     this.whitePlayer = wPlayer;
 
     this.board = new Board();
-    activeColor = RED;
+    activeColor = COLOR.RED;
     board.initStart();
-//    board.initMid(5, 5);
   }
 
   public Player getRedPlayer() {
@@ -29,7 +27,7 @@ public class Game {
     return whitePlayer;
   }
 
-  public ModelPiece.COLOR getActiveColor() {
+  public COLOR getActiveColor() {
     return activeColor;
   }
 
@@ -38,24 +36,25 @@ public class Game {
   }
 
   public boolean makeMove() {
+    board.movePiece();
+    switchTurn();
     return true;
   }
 
   public boolean switchTurn(){
-    if (activeColor.equals(RED)) {
-      activeColor = WHITE;
+    if (activeColor.equals(COLOR.RED)) {
+      activeColor = COLOR.WHITE;
     } else {
-      activeColor = RED;
+      activeColor = COLOR.RED;
     }
     return true;
   }
 
-  public BoardView getState(Player player) {
-    BoardView bView = new BoardView(board.getState());
+  public SPACE_TYPE[][] getState(Player player) {
     if(player.equals(whitePlayer)){
-      bView.transpose();
+      return board.getBoardTranspose();
     }
-    return bView;
+    return board.getState();
   }
 
   public boolean endGame() {
