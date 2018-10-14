@@ -6,10 +6,9 @@
     <link rel="stylesheet" type="text/css" href="/css/style.css">
 
     <style>
-      .vertical-menu{
+      .vertical-menu {
         width: 250px;
         height: 200px;
-
         overflow-y: auto;
       }
 
@@ -29,8 +28,6 @@
         background-color: #888888;
         color: white;
       }
-
-
     </style>
 </head>
 <body>
@@ -46,7 +43,7 @@
       </#if>
     </div>
 
-      <div class="body">
+    <div class="body">
       <#if allPlayers??>
         <#if allPlayers?size gt 0>
           <p> Other players currently signed in:</p>
@@ -68,8 +65,8 @@
           <p style="color: red"> Unknown number of players</p>
         </#if>
       </#if>
+    </div>
 
-      </div>
   </div>
 </body>
 </html>
