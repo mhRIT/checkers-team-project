@@ -6,9 +6,11 @@ import java.util.ArrayList;
 import java.util.logging.Logger;
 
 /**
- *  GameCenter.java
+ *  {@code GameCenter}
+ *  <p>
  *  Stores a collection of Games across all current sessions and provides various
  *  methods for interacting with the current Games.
+ *  </p>
  *
  *  @author <a href='mailto:mlh1964@rit.edu'>Meaghan Hoitt</a>
  *  @author <a href='mailto:mlh1964@rit.edu'>Simon Kirwkwood</a>

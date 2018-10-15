@@ -18,15 +18,34 @@ import spark.Route;
 import spark.Session;
 import spark.TemplateEngine;
 
+/**
+ * The {@code POST /validateMove} route handler.
+ *
+ *  @author <a href='mailto:mlh1964@rit.edu'>Meaghan Hoitt</a>
+ *  @author <a href='mailto:mlh1964@rit.edu'>Simon Kirwkwood</a>
+ *  @author <a href='mailto:mlh1964@rit.edu'>Matthew Milone</a>
+ *  @author <a href='mailto:mlh1964@rit.edu'>Andrew Festa</a>
+ */
 public class PostValidateMoveRoute implements Route {
-
-  private static final Logger LOG = Logger.getLogger(PostSigninRoute.class.getName());
+  //
+  // Attributes
+  //
 
   private final GameCenter gameCenter;
   private final Gson gson;
   private final PlayerLobby playerLobby;
   private final TemplateEngine templateEngine;
+  private static final Logger LOG = Logger.getLogger(PostSigninRoute.class.getName());
 
+  /**
+   * Create the Spark Route (UI controller) for the {@code POST /validateMove} HTTP request.
+   *
+   * @param gameCenter  the {@link GameCenter} for tracking all ongoing games
+   * @param playerLobby the {@link PlayerLobby} for tracking all signed in players
+   * @param templateEngine the {@link TemplateEngine} used for rendering page HTML.
+   * @throws NullPointerException when the {@code gameCenter}, {@code playerLobby}, or {@code
+   * templateEngine} parameter is null
+   */
   public PostValidateMoveRoute(GameCenter gameCenter, Gson gson, PlayerLobby playerLobby,
       final TemplateEngine templateEngine) {
     LOG.setLevel(Level.ALL);
@@ -45,6 +64,14 @@ public class PostValidateMoveRoute implements Route {
     this.templateEngine = templateEngine;
   }
 
+  /**
+   * {@inheritDoc}
+   * Render the WebCheckers Game page.
+   *
+   * @param request the HTTP request
+   * @param response the HTTP response
+   * @return JSON response of whether the move is valid
+   */
   @Override
   public Object handle(Request request, Response response) {
     final Session session = request.session();

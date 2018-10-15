@@ -4,6 +4,7 @@ import static com.webcheckers.ui.GetHomeRoute.PLAYER;
 import static com.webcheckers.ui.GetSigninRoute.TITLE_ATTR;
 import static spark.Spark.halt;
 
+import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
 import com.webcheckers.model.Player;
 import java.util.HashMap;
@@ -20,21 +21,14 @@ import spark.TemplateEngine;
 
 /**
  * The {@code POST /signin} route handler.
+ * This is the page where the user starts.
  *
- * @author <a href='mailto:mlh1964@rit.edu'>Meaghan Hoitt</a>
- * @author <a href='mailto:sjk7867@rit.edu'>Simon Kirkwood</a>
- *
+ *  @author <a href='mailto:mlh1964@rit.edu'>Meaghan Hoitt</a>
+ *  @author <a href='mailto:mlh1964@rit.edu'>Simon Kirwkwood</a>
+ *  @author <a href='mailto:mlh1964@rit.edu'>Matthew Milone</a>
+ *  @author <a href='mailto:mlh1964@rit.edu'>Andrew Festa</a>
  */
 public class PostSigninRoute implements Route {
-
-  //
-  // Attributes
-  //
-
-  private final PlayerLobby playerLobby;
-  private final TemplateEngine templateEngine;
-  private static final Logger LOG = Logger.getLogger(PostSigninRoute.class.getName());
-
   //
   // Constants
   //
@@ -52,6 +46,22 @@ public class PostSigninRoute implements Route {
           "or numbers and be at least one character long.";
   static final String TAKEN_USERNAME = "Username is already in use by another player";
 
+  //
+  // Attributes
+  //
+
+  private final PlayerLobby playerLobby;
+  private final TemplateEngine templateEngine;
+  private static final Logger LOG = Logger.getLogger(PostSigninRoute.class.getName());
+
+  /**
+   * Create the Spark Route (UI controller) for the {@code POST /signin} HTTP request.
+   *
+   * @param playerLobby the {@link PlayerLobby} for tracking all signed in players
+   * @param templateEngine the {@link TemplateEngine} used for rendering page HTML.
+   * @throws NullPointerException when the {@code gameCenter}, {@code playerLobby}, or {@code
+   * templateEngine} parameter is null
+   */
   public PostSigninRoute(PlayerLobby playerLobby, final TemplateEngine templateEngine) {
     LOG.setLevel(Level.ALL);
     // validation
@@ -64,6 +74,12 @@ public class PostSigninRoute implements Route {
 
   /**
    * {@inheritDoc}
+   * Render the WebCheckers Home page or the Sign-in page, depending
+   * on if the user successfully signs in.
+   *
+   * @param request the HTTP request
+   * @param response the HTTP response
+   * @return the rendered HTML for the game page
    */
   @Override
   public Object handle(Request request, Response response){

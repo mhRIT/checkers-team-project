@@ -8,8 +8,11 @@ import java.util.List;
 import java.util.Set;
 
 /**
- *  PlayerLobby.java
- *  Represents the lobby in which all players inhabit and from which they log in and out of.
+ *  {@code PlayerLobby}
+ *  <p>
+ *    Represents the lobby in which all players inhabit and from which they log in and out of.
+ *  </p>
+ *
  *
  *  @author <a href='mailto:mlh1964@rit.edu'>Meaghan Hoitt</a>
  *  @author <a href='mailto:mlh1964@rit.edu'>Simon Kirwkwood</a>

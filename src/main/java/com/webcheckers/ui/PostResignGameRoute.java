@@ -1,6 +1,7 @@
 package com.webcheckers.ui;
 
 import com.webcheckers.application.GameCenter;
+import com.webcheckers.application.PlayerLobby;
 import com.webcheckers.ui.boardView.Message;
 import com.webcheckers.ui.boardView.Message.MESSAGE_TYPE;
 import com.webcheckers.model.Player;
@@ -13,14 +14,33 @@ import spark.Route;
 import spark.Session;
 import spark.TemplateEngine;
 
+/**
+ * The {@code POST /resignGame} route handler.
+ * This is the page where the user starts.
+ *
+ *  @author <a href='mailto:mlh1964@rit.edu'>Meaghan Hoitt</a>
+ *  @author <a href='mailto:mlh1964@rit.edu'>Simon Kirwkwood</a>
+ *  @author <a href='mailto:mlh1964@rit.edu'>Matthew Milone</a>
+ *  @author <a href='mailto:mlh1964@rit.edu'>Andrew Festa</a>
+ */
 public class PostResignGameRoute implements Route {
-
-  private static final Logger LOG = Logger.getLogger(PostSigninRoute.class.getName());
+  //
+  // Attributes
+  //
 
   private final GameCenter gameCenter;
   private final TemplateEngine templateEngine;
+  private static final Logger LOG = Logger.getLogger(PostSigninRoute.class.getName());
 
-  PostResignGameRoute(GameCenter gameCenter, TemplateEngine templateEngine) {
+  /**
+   * Create the Spark Route (UI controller) for the {@code POST /resignGame} HTTP request.
+   *
+   * @param gameCenter  the {@link GameCenter} for tracking all ongoing games
+   * @param templateEngine the {@link TemplateEngine} used for rendering page HTML.
+   * @throws NullPointerException when the {@code gameCenter}, {@code playerLobby}, or {@code
+   * templateEngine} parameter is null
+   */
+  public PostResignGameRoute(GameCenter gameCenter, TemplateEngine templateEngine) {
     LOG.setLevel(Level.ALL);
     // validation
     Objects.requireNonNull(gameCenter, "playerLobby must not be null");
@@ -33,6 +53,14 @@ public class PostResignGameRoute implements Route {
     this.templateEngine = templateEngine;
   }
 
+  /**
+   * {@inheritDoc}
+   * Render the WebCheckers Home page.
+   *
+   * @param request the HTTP request
+   * @param response the HTTP response
+   * @return the rendered HTML for the game page
+   */
   @Override
   public Object handle(Request request, Response response) {
     final Session session = request.session();

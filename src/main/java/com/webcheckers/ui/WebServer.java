@@ -81,7 +81,8 @@ public class WebServer {
    * The constructor for the Web Server.
    *
    * @param templateEngine The default {@link TemplateEngine} to render page-level HTML views.
-   * @param gameCenter The {@link GameCenter} for the application.
+   * @param gson The default {@link Gson} parser for Route handlers.
+   * @param gameCenter the default {@link GameCenter} for tracking all ongoing games
    * @throws NullPointerException If any of the parameters are {@code null}.
    */
   public WebServer(final TemplateEngine templateEngine,

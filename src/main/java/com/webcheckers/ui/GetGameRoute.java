@@ -65,6 +65,7 @@ public class GetGameRoute implements Route {
   }
 
   /**
+   * {@inheritDoc}
    * Render the WebCheckers Game page.
    *
    * @param request the HTTP request

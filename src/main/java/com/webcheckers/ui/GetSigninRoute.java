@@ -52,6 +52,7 @@ public class GetSigninRoute implements Route {
   }
 
   /**
+   * {@inheritDoc}
    * Render the WebCheckers Sign-in page.
    *
    * @param request the HTTP request

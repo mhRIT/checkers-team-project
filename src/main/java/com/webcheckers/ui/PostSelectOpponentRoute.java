@@ -23,23 +23,45 @@ import spark.Session;
 import spark.TemplateEngine;
 
 /**
- * The UI Controller to GET the Home page.
+ * The {@code POST /selectOpponent} route handler.
+ * This is the page where the user starts.
  *
- * @author <a href='mailto:bdbvse@rit.edu'>Bryan Basham</a>
+ *  @author <a href='mailto:mlh1964@rit.edu'>Meaghan Hoitt</a>
+ *  @author <a href='mailto:mlh1964@rit.edu'>Simon Kirwkwood</a>
+ *  @author <a href='mailto:mlh1964@rit.edu'>Matthew Milone</a>
+ *  @author <a href='mailto:mlh1964@rit.edu'>Andrew Festa</a>
  */
 public class PostSelectOpponentRoute implements Route {
 
-  private static final Logger LOG = Logger.getLogger(PostSelectOpponentRoute.class.getName());
+  //
+  //Constants
+  //
 
-  public enum VIEW_MODE {PLAY, SPECTATOR, REPLAY}
   public static final String OPP_PLAYER_NAME = "opponent";
+
+  //
+  // Enums
+  //
+
+  public enum VIEW_MODE {PLAY, SPECTATOR, REPLAY;}
+
+  //
+  // Attributes
+  //
 
   private final GameCenter gameCenter;
   private final PlayerLobby playerLobby;
   private final TemplateEngine templateEngine;
+  private static final Logger LOG = Logger.getLogger(PostSelectOpponentRoute.class.getName());
 
   /**
-   * Create the Spark Route (UI controller) for the {@code GET /selectOpponent} HTTP request.
+   * Create the Spark Route (UI controller) for the {@code POST /selectOpponent} HTTP request.
+   *
+   * @param gameCenter  the {@link GameCenter} for tracking all ongoing games
+   * @param playerLobby the {@link PlayerLobby} for tracking all signed in players
+   * @param templateEngine the {@link TemplateEngine} used for rendering page HTML.
+   * @throws NullPointerException when the {@code gameCenter}, {@code playerLobby}, or {@code
+   * templateEngine} parameter is null
    */
   public PostSelectOpponentRoute(final GameCenter gameCenter, final PlayerLobby playerLobby,
       final TemplateEngine templateEngine) {
@@ -59,11 +81,13 @@ public class PostSelectOpponentRoute implements Route {
   }
 
   /**
-   * Render the WebCheckers Game page.
+   * {@inheritDoc}
+   * Render the WebCheckers Game page or the Home page, depending on whether
+   * the selected opponent is already in a game or not.
    *
    * @param request the HTTP request
    * @param response the HTTP response
-   * @return the rendered HTML for the Home page
+   * @return the rendered HTML for the game page
    */
   @Override
   public Object handle(Request request, Response response) {

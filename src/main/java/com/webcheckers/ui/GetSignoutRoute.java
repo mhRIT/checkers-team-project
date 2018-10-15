@@ -41,7 +41,7 @@ public class GetSignoutRoute implements Route {
   /**
    * Create the Spark Route (UI controller) for the {@code GET /signout} HTTP request.
    *
-   * @param playerLobby the {@link PlayerLobby} where all players are tracked
+   * @param playerLobby the {@link PlayerLobby} for tracking all signed in players
    * @param templateEngine the {@link TemplateEngine} used for rendering page HTML.
    * @throws NullPointerException when the {@code gameCenter}, {@code playerLobby}, or {@code
    * templateEngine} parameter is null
@@ -59,6 +59,7 @@ public class GetSignoutRoute implements Route {
   }
 
   /**
+   * {@inheritDoc}
    * Render the WebCheckers Sign-out page.
    *
    * @param request the HTTP request

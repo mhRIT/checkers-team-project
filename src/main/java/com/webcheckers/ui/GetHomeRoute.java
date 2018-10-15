@@ -18,7 +18,7 @@ import spark.Session;
 import spark.TemplateEngine;
 
 /**
- * The {@code GET /index} route handler.
+ * The {@code GET /} route handler.
  * This is the page where the user starts.
  *
  *  @author <a href='mailto:mlh1964@rit.edu'>Meaghan Hoitt</a>
@@ -53,7 +53,7 @@ public class GetHomeRoute implements Route {
    * Create the Spark Route (UI controller) for the {@code GET /signin} HTTP request.
    *
    * @param gameCenter  the {@link GameCenter} for tracking all ongoing games
-   * @param playerLobby the {@link PlayerLobby} where all players are tracked
+   * @param playerLobby the {@link PlayerLobby} for tracking all signed in players
    * @param templateEngine the {@link TemplateEngine} used for rendering page HTML.
    * @throws NullPointerException when the {@code gameCenter}, {@code playerLobby}, or {@code
    * templateEngine} parameter is null
@@ -75,7 +75,9 @@ public class GetHomeRoute implements Route {
   }
 
   /**
-   * Render the WebCheckers Home page.
+   * {@inheritDoc}
+   * Render the WebCheckers Home page or the Game page, depending on whether the current
+   * player is in a game or not.
    *
    * @param request the HTTP request
    * @param response the HTTP response
