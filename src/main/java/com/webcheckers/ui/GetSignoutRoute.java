@@ -15,24 +15,36 @@ import spark.TemplateEngine;
 
 /**
  * The {@code GET /signout} route handler.
+ * This is the page that signs out the current player and allows
+ * for their name to be used by another player.
  *
- * @author <a href='mailto:sjk7867@rit.edu'>Simon Kirkwood</a>
- * @author <a href='mailto:mlh1964@.rit.edu'>Meaghan Hoitt</a>
+ *  @author <a href='mailto:mlh1964@rit.edu'>Meaghan Hoitt</a>
+ *  @author <a href='mailto:mlh1964@rit.edu'>Simon Kirwkwood</a>
+ *  @author <a href='mailto:mlh1964@rit.edu'>Matthew Milone</a>
+ *  @author <a href='mailto:mlh1964@rit.edu'>Andrew Festa</a>
  */
 public class GetSignoutRoute implements Route {
-
-  // Values used in the view-model map for rendering the home view.
+  //
+  // Constants
+  //
   static final String TITLE_ATTR = "title";
   static final String TITLE = "Home";
   static final String VIEW_NAME = "home.ftl";
-  private static final Logger LOG = Logger.getLogger(GetSignoutRoute.class.getName());
+
+  //
+  // Attributes
+  //
   private final TemplateEngine templateEngine;
   private PlayerLobby playerLobby;
+  private static final Logger LOG = Logger.getLogger(GetSignoutRoute.class.getName());
 
   /**
-   * The constructor for the {@code GET /signin} route handler.
+   * Create the Spark Route (UI controller) for the {@code GET /signout} HTTP request.
    *
-   * @param templateEngine The {@link TemplateEngine} used for rendering page HTML.
+   * @param playerLobby the {@link PlayerLobby} where all players are tracked
+   * @param templateEngine the {@link TemplateEngine} used for rendering page HTML.
+   * @throws NullPointerException when the {@code gameCenter}, {@code playerLobby}, or {@code
+   * templateEngine} parameter is null
    */
   public GetSignoutRoute(PlayerLobby playerLobby, final TemplateEngine templateEngine) {
     LOG.setLevel(Level.ALL);

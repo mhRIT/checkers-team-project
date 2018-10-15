@@ -18,15 +18,15 @@ import spark.Session;
 import spark.TemplateEngine;
 
 /**
- * The UI Controller to GET the Home page.
+ * The {@code GET /index} route handler.
  * This is the page where the user starts.
  *
- * @author <a href='mailto:mlh1964@rit.edu'>Meaghan Hoitt</a>
- * @author <a href='mailto:sjk7867@rit.edu'>Simon Kirkwood</a>
+ *  @author <a href='mailto:mlh1964@rit.edu'>Meaghan Hoitt</a>
+ *  @author <a href='mailto:mlh1964@rit.edu'>Simon Kirwkwood</a>
+ *  @author <a href='mailto:mlh1964@rit.edu'>Matthew Milone</a>
+ *  @author <a href='mailto:mlh1964@rit.edu'>Andrew Festa</a>
  */
 public class GetHomeRoute implements Route {
-  private static final Logger LOG = Logger.getLogger(GetHomeRoute.class.getName());
-
   //
   //Constants
   //
@@ -43,15 +43,18 @@ public class GetHomeRoute implements Route {
   private final GameCenter gameCenter;
   private final PlayerLobby playerLobby;
   private final TemplateEngine templateEngine;
+  private static final Logger LOG = Logger.getLogger(GetHomeRoute.class.getName());
 
   //
   // Constructor
   //
 
   /**
-   * Create the Spark Route (UI controller) for the {@code GET /} HTTP request.
+   * Create the Spark Route (UI controller) for the {@code GET /signin} HTTP request.
    *
-   * @param templateEngine the HTML template rendering engine
+   * @param gameCenter  the {@link GameCenter} for tracking all ongoing games
+   * @param playerLobby the {@link PlayerLobby} where all players are tracked
+   * @param templateEngine the {@link TemplateEngine} used for rendering page HTML.
    * @throws NullPointerException when the {@code gameCenter}, {@code playerLobby}, or {@code
    * templateEngine} parameter is null
    */

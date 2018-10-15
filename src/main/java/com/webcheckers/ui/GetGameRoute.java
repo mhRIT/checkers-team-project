@@ -4,13 +4,12 @@ import static com.webcheckers.ui.GetHomeRoute.PLAYER;
 import static spark.Spark.halt;
 
 import com.webcheckers.application.GameCenter;
-import com.webcheckers.application.PlayerLobby;
 import com.webcheckers.model.Game;
+import com.webcheckers.model.Player;
+import com.webcheckers.ui.PostSelectOpponentRoute.VIEW_MODE;
 import com.webcheckers.ui.boardView.BoardView;
 import com.webcheckers.ui.boardView.Message;
 import com.webcheckers.ui.boardView.Message.MESSAGE_TYPE;
-import com.webcheckers.model.Player;
-import com.webcheckers.ui.PostSelectOpponentRoute.VIEW_MODE;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -23,11 +22,19 @@ import spark.Route;
 import spark.Session;
 import spark.TemplateEngine;
 
+/**
+ * The {@code GET /game} route handler.
+ * This is the page that displays the state of the game and allows
+ * the user to make a move.
+ *
+ *  @author <a href='mailto:mlh1964@rit.edu'>Meaghan Hoitt</a>
+ *  @author <a href='mailto:mlh1964@rit.edu'>Simon Kirwkwood</a>
+ *  @author <a href='mailto:mlh1964@rit.edu'>Matthew Milone</a>
+ *  @author <a href='mailto:mlh1964@rit.edu'>Andrew Festa</a>
+ */
 public class GetGameRoute implements Route {
-  private static final Logger LOG = Logger.getLogger(GetGameRoute.class.getName());
-
   //
-  // Constants
+  // Statics
   //
   private static int count = 0; // count of times this Route handler has been invoked
 
@@ -36,7 +43,16 @@ public class GetGameRoute implements Route {
   //
   private final GameCenter gameCenter;
   private final TemplateEngine templateEngine;
+  private static final Logger LOG = Logger.getLogger(GetGameRoute.class.getName());
 
+  /**
+   * Create the Spark Route (UI controller) for the {@code GET /game} HTTP request.
+   *
+   * @param gameCenter  the {@link GameCenter} for tracking all ongoing games
+   * @param templateEngine the {@link TemplateEngine} used for rendering page HTML.
+   * @throws NullPointerException when the {@code gameCenter}, {@code playerLobby}, or {@code
+   * templateEngine} parameter is null
+   */
   public GetGameRoute(GameCenter gameCenter, final TemplateEngine templateEngine) {
     LOG.setLevel(Level.ALL);
     // validation
@@ -48,6 +64,13 @@ public class GetGameRoute implements Route {
     this.templateEngine = templateEngine;
   }
 
+  /**
+   * Render the WebCheckers Game page.
+   *
+   * @param request the HTTP request
+   * @param response the HTTP response
+   * @return the rendered HTML for the Game page
+   */
   @Override
   public Object handle(Request request, Response response) {
     final Session session = request.session();

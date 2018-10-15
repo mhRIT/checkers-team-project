@@ -13,23 +13,33 @@ import spark.TemplateEngine;
 
 /**
  * The {@code GET /signin} route handler.
+ * This is the page where a user selects their desired username.
  *
- * @author <a href='mailto:sjk7867@rit.edu'>Simon Kirkwood</a>
- * @author <a href='mailto:mlh1964@.rit.edu'>Meaghan Hoitt</a>
+ *  @author <a href='mailto:mlh1964@rit.edu'>Meaghan Hoitt</a>
+ *  @author <a href='mailto:mlh1964@rit.edu'>Simon Kirwkwood</a>
+ *  @author <a href='mailto:mlh1964@rit.edu'>Matthew Milone</a>
+ *  @author <a href='mailto:mlh1964@rit.edu'>Andrew Festa</a>
  */
 public class GetSigninRoute implements Route {
-
-  // Values used in the view-model map for rendering the home view.
+  //
+  // Constants
+  //
   static final String TITLE_ATTR = "title";
   static final String TITLE = "Sign-in";
   static final String VIEW_NAME = "signin.ftl";
-  private static final Logger LOG = Logger.getLogger(GetSigninRoute.class.getName());
+
+  //
+  // Attributes
+  //
   private final TemplateEngine templateEngine;
+  private static final Logger LOG = Logger.getLogger(GetSigninRoute.class.getName());
 
   /**
-   * The constructor for the {@code GET /signin} route handler.
+   * Create the Spark Route (UI controller) for the {@code GET /signin} HTTP request.
    *
-   * @param templateEngine The {@link TemplateEngine} used for rendering page HTML.
+   * @param templateEngine the {@link TemplateEngine} used for rendering page HTML.
+   * @throws NullPointerException when the {@code gameCenter}, {@code playerLobby}, or {@code
+   * templateEngine} parameter is null
    */
   public GetSigninRoute(final TemplateEngine templateEngine) {
     LOG.setLevel(Level.ALL);
