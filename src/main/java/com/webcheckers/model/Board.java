@@ -1,8 +1,5 @@
 package com.webcheckers.model;
 
-import java.util.ArrayList;
-import java.util.Collections;
-
 public class Board {
 
   public enum SPACE_TYPE {EMPTY, SINGLE_RED, SINGLE_WHITE, KING_RED, KING_WHITE}

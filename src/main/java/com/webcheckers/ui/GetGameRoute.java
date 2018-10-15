@@ -26,8 +26,14 @@ import spark.TemplateEngine;
 public class GetGameRoute implements Route {
   private static final Logger LOG = Logger.getLogger(GetGameRoute.class.getName());
 
-  private static int count = 0;
+  //
+  // Constants
+  //
+  private static int count = 0; // count of times this Route handler has been invoked
 
+  //
+  // Attributes
+  //
   private final GameCenter gameCenter;
   private final TemplateEngine templateEngine;
 
@@ -37,9 +43,7 @@ public class GetGameRoute implements Route {
     Objects.requireNonNull(gameCenter, "gameCenter must not be null");
     Objects.requireNonNull(templateEngine, "templateEngine must not be null");
 
-    //
-    // Attributes
-    //
+
     this.gameCenter = gameCenter;
     this.templateEngine = templateEngine;
   }

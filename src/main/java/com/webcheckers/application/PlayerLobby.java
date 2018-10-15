@@ -17,7 +17,6 @@ import java.util.Set;
  *  @author <a href='mailto:mlh1964@rit.edu'>Andrew Festa</a>
  *
  */
-
 public class PlayerLobby {
 
   public enum FAILED_VALIDATION_CAUSE {TAKEN, ILL_CHARS}
@@ -28,7 +27,8 @@ public class PlayerLobby {
   /**
    * Construct a new PlayerLobby to store signed-in players.
    *
-   * @param gameCenter
+   * @param gameCenter  instance of GameCenter to associate with
+   *                    this PlayerLobby
    */
   public PlayerLobby(GameCenter gameCenter) {
     playerList = new HashMap<String, Player>();
@@ -39,8 +39,8 @@ public class PlayerLobby {
    * Given that a user name isAvailable, store player name in the player hash map --thus player is
    * signed-in.
    *
-   * @param name the player's username
-   * @return true if player was signed-in successfully, else false
+   * @param   name  the player's username
+   * @return  true  if player was signed-in successfully, else false
    */
   public Player signin(String name) {
     if (validateName(name)) {
@@ -51,6 +51,13 @@ public class PlayerLobby {
     return null;
   }
 
+  /**
+   * Attempts to remove the Player whose name is 'name' from the list
+   * of signed in players.
+   *
+   * @param   name  the player's username
+   * @return  true  if the player exists and was successfully removed
+   */
   public boolean signout(String name) {
     return playerList.remove(name) == null;
   }
@@ -60,8 +67,8 @@ public class PlayerLobby {
    * username consists of at least one alphanumeric (and optionally one or more spaces) character
    * other than a space.
    *
-   * @param name the player's username
-   * @return true if player's username is valid, else false
+   * @param   name  the player's username
+   * @return  true  if player's username is valid, else false
    */
   public Boolean isAvailable(String name) {
     for (String eachName : playerList.keySet()) {
@@ -76,11 +83,27 @@ public class PlayerLobby {
     return false;
   }
 
+  /**
+   * Checks if a specified 'name' contains illegal characters.
+   *
+   * @param   name  the player's username
+   *
+   * @return  true  if the 'name' only contains valid characters
+   *          false otherwise
+   */
   private boolean nameContainsIllegalChars(String name) {
     name = name.trim();
     return name.matches("[ a-zA-Z0-9]+");
   }
 
+  /**
+   * Checks if a specified 'name' is a valid username for a player.
+   *
+   * @param   name  the player's username
+   *
+   * @return  true  if the 'name' is valid
+   *          false otherwise
+   */
   public boolean validateName(String name) {
     return isAvailable(name) && nameContainsIllegalChars(name);
   }
@@ -88,7 +111,8 @@ public class PlayerLobby {
   /**
    * Retrieves a player given the username.
    *
-   * @param name the username of the current player
+   * @param   name  the username of the current player
+   * @return        the player of the specified 'name'
    */
   public Player getPlayer(String name) {
     return playerList.getOrDefault(name, null);
@@ -107,12 +131,19 @@ public class PlayerLobby {
   /**
    * Retrieves the number of players that are currently signed-in.
    *
-   * @return how many players are currently signed-in
+   * @return  number of players currently signed in
    */
   public int getNumPlayers() {
     return playerList.size();
   }
 
+  /**
+   * Returns a String representation of the current PlayerLobby.
+   *
+   * @return  a String containing the number and names of signed
+   *          in players
+   */
+  @Override
   public String toString() {
     String toReturn = "" + playerList.keySet().size() + ": ";
     String separator = "";
@@ -126,9 +157,10 @@ public class PlayerLobby {
   /**
    * Generates a list of all the names of players who are signed-in.
    *
-   * @return a list of all player's names who are signed-in
+   * @param   exclude the name of a player to exclude from the returned list of names
+   * @return          a list of all player's names who are signed-in, excluding the
+   *                  specified 'exclude' name
    */
-
   public String[] playerNames(String exclude) {
     String[] list;
     Set<String> players = playerList.keySet();
