@@ -46,6 +46,7 @@ public class PlayerLobby {
    * @return  true  if player was signed-in successfully, else false
    */
   public Player signin(String name) {
+    name = name.trim();
     if (validateName(name)) {
       Player newPlayer = new Player(name);
       playerList.put(name, newPlayer);
@@ -108,7 +109,8 @@ public class PlayerLobby {
    *          false otherwise
    */
   public boolean validateName(String name) {
-    return isAvailable(name) && nameContainsIllegalChars(name);
+    return isAvailable(name);
+//    return isAvailable(name) && nameContainsIllegalChars(name);
   }
 
   /**
