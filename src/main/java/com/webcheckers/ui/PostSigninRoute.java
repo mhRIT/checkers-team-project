@@ -41,10 +41,11 @@ public class PostSigninRoute implements Route {
   static final String MESSAGE_TYPE_ATTR = "messageType";
   static final String ERROR_TYPE = "error";
   static final String ERROR_VIEW_NAME = "signin.ftl";
-  static final String INVALID_USERNAME = "";
+  static final String INVALID_USERNAME = "Invalid username.Selected username cannot already be "+
+      "in use, be at least one character long, and consist of one alphanumeric characters";
   static final String ILL_CHARS_USERNAME =
-          "Username must consist of only letters " +
-          "or numbers and be at least one character long.";
+      "Username must consist of only letters " +
+      "or numbers and be at least one character long.";
   static final String TAKEN_USERNAME = "Username is already in use by another player";
 
   //
@@ -100,12 +101,12 @@ public class PostSigninRoute implements Route {
           Player player = playerLobby.getPlayer(username);
           session.attribute(PLAYER, player);
         } else {
-          mv = error(vm,ILL_CHARS_USERNAME);
+          mv = error(vm,INVALID_USERNAME);
           return templateEngine.render(mv);
         }
       } else {
           // the player did not sign in correctly, redirect to sign-in-page
-        mv = error(vm,TAKEN_USERNAME);
+        mv = error(vm,INVALID_USERNAME);
         return templateEngine.render(mv);
       }
 

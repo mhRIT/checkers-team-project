@@ -155,6 +155,9 @@ public class WebServer {
         new PostValidateMoveRoute(gameCenter, gson, playerLobby, templateEngine),
         gson::toJson);
 
+    get("*",
+        new GetHomeRoute(gameCenter, playerLobby, templateEngine));
+
     LOG.config("WebServer is initialized.");
   }
 }
