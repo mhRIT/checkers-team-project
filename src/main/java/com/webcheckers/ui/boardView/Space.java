@@ -52,4 +52,14 @@ public class Space {
   public boolean isValid() {
     return piece == null && validPos;
   }
+
+  /**
+   * Retrieves the piece from this space.
+   * A value of null indicates that this space is empty.
+   *
+   * @return  the piece stored in this space
+   */
+  public Piece getPiece() {
+    return piece;
+  }
 }

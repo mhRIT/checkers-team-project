@@ -1,5 +1,6 @@
 package com.webcheckers.ui;
 
+import static com.webcheckers.ui.GetHomeRoute.ALL_PLAYER_NAMES;
 import static com.webcheckers.ui.GetHomeRoute.PLAYER;
 import static spark.Spark.halt;
 
@@ -38,6 +39,7 @@ public class PostSelectOpponentRoute implements Route {
   //
 
   public static final String OPP_PLAYER_NAME = "opponent";
+  public static final String MESSAGE = "message";
 
   //
   // Enums
@@ -97,14 +99,22 @@ public class PostSelectOpponentRoute implements Route {
     LOG.finer("PostSelectOpponentRoute is invoked: " + currPlayer.getName());
 
     Map<String, Object> vm = new HashMap<>();
+    vm.put("title", "Welcome!");
 
     if (gameCenter.isPlayerInGame(opponent)) {
       String message = String.format("The selected opponent, %s, is already in a game",
           opponent.getName());
       LOG.finer(message);
 
-      response.redirect(WebServer.HOME_URL);
-      halt();
+      LOG.finer(String.format("Player \'%s\' is %sin a game",
+          currPlayer.getName(),
+          gameCenter.isPlayerInGame(currPlayer) ? "" : "not "));
+      vm.put(ALL_PLAYER_NAMES, playerLobby.playerNames(currPlayer.getName()));
+      vm.put(PLAYER, currPlayer);
+      vm.put(MESSAGE, message);
+
+//      response.redirect(WebServer.HOME_URL);
+//      halt();
       return templateEngine.render(new ModelAndView(vm, "home.ftl"));
     }
 

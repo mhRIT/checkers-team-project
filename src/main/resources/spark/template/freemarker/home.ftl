@@ -43,6 +43,12 @@
       </#if>
     </div>
 
+    <#if message??>
+      <div>
+        <p style="color: red">${message}</p>
+      </div>
+    </#if>
+
     <div class="body">
       <#if allPlayers??>
         <#if allPlayers?size gt 0>
