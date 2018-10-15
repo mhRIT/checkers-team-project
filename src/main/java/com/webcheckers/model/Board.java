@@ -1,5 +1,17 @@
 package com.webcheckers.model;
 
+/**
+ *  {@code Board}
+ *  <p>
+ *  Represents a single board, on which is played a single game.
+ *  </p>
+ *
+ *  @author <a href='mailto:mlh1964@rit.edu'>Meaghan Hoitt</a>
+ *  @author <a href='mailto:mlh1964@rit.edu'>Simon Kirwkwood</a>
+ *  @author <a href='mailto:mlh1964@rit.edu'>Matthew Milone</a>
+ *  @author <a href='mailto:mlh1964@rit.edu'>Andrew Festa</a>
+ *
+ */
 public class Board {
 
   public enum SPACE_TYPE {EMPTY, SINGLE_RED, SINGLE_WHITE, KING_RED, KING_WHITE}

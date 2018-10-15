@@ -28,7 +28,7 @@ public class PlayerLobby {
   private GameCenter gameCenter;
 
   /**
-   * Construct a new PlayerLobby to store signed-in players.
+   * Constructs a new PlayerLobby to store signed-in players.
    *
    * @param gameCenter  instance of GameCenter to associate with
    *                    this PlayerLobby
@@ -141,6 +141,7 @@ public class PlayerLobby {
   }
 
   /**
+   * {@inheritDoc}
    * Returns a String representation of the current PlayerLobby.
    *
    * @return  a String containing the number and names of signed

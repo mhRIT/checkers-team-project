@@ -3,22 +3,36 @@ package com.webcheckers.ui.boardView;
 import com.webcheckers.model.Board.SPACE_TYPE;
 import com.webcheckers.ui.boardView.Piece.COLOR;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Iterator;
-import spark.Spark;
 
+/**
+ *  {@code Row}
+ *  <p>
+ *  Represents a single Row on the view of the board.
+ *  </p>
+ *
+ *  @author <a href='mailto:mlh1964@rit.edu'>Meaghan Hoitt</a>
+ *  @author <a href='mailto:mlh1964@rit.edu'>Simon Kirwkwood</a>
+ *  @author <a href='mailto:mlh1964@rit.edu'>Matthew Milone</a>
+ *  @author <a href='mailto:mlh1964@rit.edu'>Andrew Festa</a>
+ */
 public class Row implements Iterable {
+  //
+  // Attributes
+  //
 
   private final int index;
   private ArrayList<Space> spaces;
 
+  /**
+   * Constructs a single row, as would be seen on a board.
+   *
+   * @param idx the index (0 to 7, inclusive) of this row
+   * @param spaceList the list of spaces to place in this row
+   */
   public Row(int idx, SPACE_TYPE[] spaceList) {
-//    this.spaces = new ArrayList<>(Arrays.asList(spaceList));
     this.spaces = new ArrayList<>();
     for(int i = 0; i < spaceList.length; i++){
-//      public Space(int cellIdx, Piece piece, boolean validPos) {
-//      public Piece(COLOR color, int row, int col) {
       SPACE_TYPE eachSpace = spaceList[i];
       boolean validPos = (idx*8 + i) % 2 != idx % 2;
 
@@ -33,15 +47,19 @@ public class Row implements Iterable {
     this.index = idx;
   }
 
+  /**
+   * Retrieves the index (0 to 7, inclusive) of this row on the board.
+   *
+   * @return  the index of this row
+   */
   public int getIndex() {
 
     return index;
   }
 
-  public void reverse(){
-    Collections.reverse(spaces);
-  }
-
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public Iterator iterator() {
     return spaces.iterator();

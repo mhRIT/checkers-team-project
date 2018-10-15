@@ -22,8 +22,9 @@ public class GameCenter {
   //
   // Attributes
   //
-  private static final Logger LOG = Logger.getLogger(GameCenter.class.getName());
+
   private ArrayList<Game> gameList;
+  private static final Logger LOG = Logger.getLogger(GameCenter.class.getName());
 
   /**
    * The default constructor for the GameCenter class.
