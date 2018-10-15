@@ -133,7 +133,7 @@ public class WebServer {
     get(SIGNIN_URL,
         new GetSigninRoute(templateEngine));
 
-//    // Signs out the current player and shows the Home page.
+    // Signs out the current player and shows the Home page.
     get(SIGNOUT_URL,
         new GetSignoutRoute(playerLobby, templateEngine));
 
@@ -148,26 +148,10 @@ public class WebServer {
 
     // Displays the Game page
     get(GAME_URL,
-        new GetGameRoute(gameCenter, playerLobby, templateEngine));
-
-    post(CHECK_TURN_URL,
-        new PostCheckTurnRoute(gameCenter, gson, playerLobby, templateEngine),
-        gson::toJson);
+        new GetGameRoute(gameCenter, templateEngine));
 
     post(VALIDATE_MOVE_URL,
         new PostValidateMoveRoute(gameCenter, gson, playerLobby, templateEngine),
-        gson::toJson);
-
-    post(SUBMIT_TURN_URL,
-        new PostSubmitTurnRoute(gameCenter, gson, playerLobby, templateEngine),
-        gson::toJson);
-
-    post(BACKUP_MOVE_URL,
-        new PostBackupMoveRoute(gameCenter, gson, playerLobby, templateEngine),
-        gson::toJson);
-
-    post(RESIGN_URL,
-        new PostResignGameRoute(gameCenter, templateEngine),
         gson::toJson);
 
     LOG.config("WebServer is initialized.");

@@ -29,22 +29,18 @@ public class GetGameRoute implements Route {
   private static int count = 0;
 
   private final GameCenter gameCenter;
-  private final PlayerLobby playerLobby;
   private final TemplateEngine templateEngine;
 
-  public GetGameRoute(GameCenter gameCenter, PlayerLobby playerLobby,
-      final TemplateEngine templateEngine) {
+  public GetGameRoute(GameCenter gameCenter, final TemplateEngine templateEngine) {
     LOG.setLevel(Level.ALL);
     // validation
     Objects.requireNonNull(gameCenter, "gameCenter must not be null");
-    Objects.requireNonNull(playerLobby, "playerLobby must not be null");
     Objects.requireNonNull(templateEngine, "templateEngine must not be null");
 
     //
     // Attributes
     //
     this.gameCenter = gameCenter;
-    this.playerLobby = playerLobby;
     this.templateEngine = templateEngine;
   }
 
