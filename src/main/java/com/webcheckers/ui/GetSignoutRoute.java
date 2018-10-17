@@ -2,6 +2,7 @@ package com.webcheckers.ui;
 
 import static spark.Spark.halt;
 
+import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
 import com.webcheckers.model.Player;
 import java.util.Objects;
@@ -35,24 +36,28 @@ public class GetSignoutRoute implements Route {
   // Attributes
   //
   private final TemplateEngine templateEngine;
-  private PlayerLobby playerLobby;
+  private final PlayerLobby playerLobby;
+  private final GameCenter gameCenter;
   private static final Logger LOG = Logger.getLogger(GetSignoutRoute.class.getName());
 
   /**
    * Create the Spark Route (UI controller) for the {@code GET /signout} HTTP request.
    *
    * @param playerLobby the {@link PlayerLobby} for tracking all signed in players
+   * @param gameCenter the {@link GameCenter} for tracking all ongoing games
    * @param templateEngine the {@link TemplateEngine} used for rendering page HTML.
    * @throws NullPointerException when the {@code gameCenter}, {@code playerLobby}, or {@code
    * templateEngine} parameter is null
    */
-  public GetSignoutRoute(PlayerLobby playerLobby, final TemplateEngine templateEngine) {
+  public GetSignoutRoute(final PlayerLobby playerLobby, final GameCenter gameCenter, final TemplateEngine templateEngine) {
     LOG.setLevel(Level.ALL);
     // validation
     Objects.requireNonNull(playerLobby, "playerLobby must not be null");
+    Objects.requireNonNull(gameCenter, "gameCenter must not be null");
     Objects.requireNonNull(templateEngine, "templateEngine must not be null");
     //
     this.playerLobby = playerLobby;
+    this.gameCenter = gameCenter;
     this.templateEngine = templateEngine;
     //
     LOG.config("GetSignoutRoute is initialized.");
@@ -73,7 +78,8 @@ public class GetSignoutRoute implements Route {
 
     LOG.finer("GetSignoutRoute is invoked: " + currPlayer.getName());
 
-    if (currPlayer != null) {
+    if (playerLobby.containsPlayers(currPlayer)) {
+      gameCenter.resignAll(currPlayer);
       playerLobby.signout(currPlayer.getName());
       session.removeAttribute("player");
     }

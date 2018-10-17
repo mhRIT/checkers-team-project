@@ -136,7 +136,7 @@ public class WebServer {
 
     // Signs out the current player and shows the Home page.
     get(SIGNOUT_URL,
-        new GetSignoutRoute(playerLobby, templateEngine));
+        new GetSignoutRoute(playerLobby, gameCenter, templateEngine));
 
     // Input username
     post(SIGNIN_URL,

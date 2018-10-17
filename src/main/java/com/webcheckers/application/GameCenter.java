@@ -56,6 +56,16 @@ public class GameCenter {
     return getGames(player).length > 0;
   }
 
+  public int resignAll(Player player){
+    int resignCount = 0;
+    for (Game eachGame: gameList) {
+      if(eachGame.resign(player)){
+        resignCount++;
+      }
+    }
+    return resignCount;
+  }
+
   /**
    * Retrieves a list of games currently being played by the
    * specified player.

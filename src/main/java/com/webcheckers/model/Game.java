@@ -36,7 +36,8 @@ public class Game {
    * @param rPlayer the red player
    * @param wPlayer the white player
    */
-  public Game(Player rPlayer, Player wPlayer) {    this.redPlayer = rPlayer;
+  public Game(Player rPlayer, Player wPlayer) {
+    this.redPlayer = rPlayer;
     this.whitePlayer = wPlayer;
 
     this.board = new Board();
@@ -134,6 +135,24 @@ public class Game {
    */
   public boolean endGame() {
     return board.checkEnd();
+  }
+
+  /**
+   * Resigns the specified player from the game and returns
+   * if the player was successfully removed and the game
+   * was successfully ended.
+   *
+   * @param resignPlayer  the player that resigned
+   * @return true         if the player was successfully removed and
+   *                      and the game was successfully ended
+   *         false        otherwise
+   */
+  public boolean resign(Player resignPlayer){
+    // TODO complete and verify functionality
+    if(hasPlayer(resignPlayer)){
+      return endGame();
+    }
+    return false;
   }
 
   /**

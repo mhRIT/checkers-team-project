@@ -21,7 +21,6 @@ import java.util.Set;
  *
  */
 public class PlayerLobby {
-
   public enum FAILED_VALIDATION_CAUSE {TAKEN, ILL_CHARS}
 
   private HashMap<String, Player> playerList;
@@ -131,6 +130,17 @@ public class PlayerLobby {
     }
 
     return toReturn;
+  }
+
+  /**
+   * Retrieves a player given the username.
+   *
+   * @param   player  the player to check the existence of
+   * @return  true    if the player is known by the playerLobby
+   *          false   otherwise
+   */
+  public boolean containsPlayers(Player player) {
+    return playerList.containsValue(player);
   }
 
   /**
