@@ -56,6 +56,12 @@ public class GameCenter {
     return getGames(player).length > 0;
   }
 
+  /**
+   * Resigns the specified player from any games they may be playing in.
+   *
+   * @param player  the player to resign
+   * @return        the number of games the player resigned from
+   */
   public int resignAll(Player player){
     int resignCount = 0;
     for (Game eachGame: gameList) {
