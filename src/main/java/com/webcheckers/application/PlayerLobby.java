@@ -22,7 +22,7 @@ import java.util.Set;
  */
 public class PlayerLobby {
 
-  
+
   private HashMap<String, Player> playerList;
   private GameCenter gameCenter;
 

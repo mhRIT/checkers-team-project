@@ -36,4 +36,28 @@ public class Player {
   public String getName() {
     return name;
   }
+
+  /**
+   * Compares if other object is a player
+   * and has the same name as this player.
+   *
+   * @return true if the object is a player with the same player name
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == this) return true;
+    if (! (obj instanceof Player)) return false;
+    final Player that = (Player) obj;
+    return this.name.equals(that.name);
+  }
+
+  /**
+   * Generates a hashCode for the player, based on the name.
+   *
+   * @return  the hashCode
+   */
+  @Override
+  public int hashCode() {
+    return name.hashCode();
+  }
 }
