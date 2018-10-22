@@ -22,8 +22,7 @@ import java.util.Set;
  */
 public class PlayerLobby {
 
-  public enum FAILED_VALIDATION_CAUSE {TAKEN, ILL_CHARS}
-
+  
   private HashMap<String, Player> playerList;
   private GameCenter gameCenter;
 
@@ -67,9 +66,7 @@ public class PlayerLobby {
   }
 
   /**
-   * Checks that a player's desired username is not already in use by another player, and that the
-   * username consists of at least one alphanumeric (and optionally one or more spaces) character
-   * other than a space.
+   * Checks that a player's desired username is not already in use by another player.
    *
    * @param   name  the player's username
    * @return  true  if player's username is valid, else false
@@ -80,37 +77,33 @@ public class PlayerLobby {
         return false;
       }
     }
-    if (name.matches("[a-zA-Z\\s\\d]+") && name.trim().length() > 0) {
-      return true;
-    }
-
-    return false;
+    return true;
   }
 
   /**
-   * Checks if a specified 'name' contains illegal characters.
+   * Checks that the desired username consists of at least one alphanumeric
+   * character other than a single space.
    *
    * @param   name  the player's username
-   *
    * @return  true  if the 'name' only contains valid characters
    *          false otherwise
    */
-  private boolean nameContainsIllegalChars(String name) {
-    name = name.trim();
-    return name.matches("[ a-zA-Z0-9]+");
+  private boolean nameContainsLegalChars(String name) {
+    if (name.matches("[a-zA-Z\\s\\d]+") && name.trim().length() > 0) {
+      return true;
+    }
+    return false;
   }
 
   /**
    * Checks if a specified 'name' is a valid username for a player.
    *
    * @param   name  the player's username
-   *
    * @return  true  if the 'name' is valid
    *          false otherwise
    */
   public boolean validateName(String name) {
-    return isAvailable(name);
-//    return isAvailable(name) && nameContainsIllegalChars(name);
+    return isAvailable(name) && nameContainsLegalChars(name);
   }
 
   /**
@@ -123,15 +116,6 @@ public class PlayerLobby {
     return playerList.getOrDefault(name, null);
   }
 
-  public List<String> getPlayerNames() {
-    List<String> toReturn = new ArrayList<String>();
-
-    for (String eachName : playerList.keySet()) {
-      toReturn.add(eachName);
-    }
-
-    return toReturn;
-  }
 
   /**
    * Retrieves the number of players that are currently signed-in.
@@ -142,23 +126,6 @@ public class PlayerLobby {
     return playerList.size();
   }
 
-  /**
-   * {@inheritDoc}
-   * Returns a String representation of the current PlayerLobby.
-   *
-   * @return  a String containing the number and names of signed
-   *          in players
-   */
-  @Override
-  public String toString() {
-    String toReturn = "" + playerList.keySet().size() + ": ";
-    String separator = "";
-    for (String eachName : playerList.keySet()) {
-      toReturn += separator + eachName;
-      separator = ", ";
-    }
-    return toReturn;
-  }
 
   /**
    * Generates a list of all the names of players who are signed-in.
@@ -168,12 +135,10 @@ public class PlayerLobby {
    *                  specified 'exclude' name
    */
   public String[] playerNames(String exclude) {
-    String[] list;
-    Set<String> players = playerList.keySet();
-    ArrayList<String> arrayList = new ArrayList<String>(players);
-    arrayList.remove(exclude);
-    Collections.sort(arrayList);
-    list = arrayList.toArray(new String[0]);
-    return list;
+    List<String> players = new ArrayList<String>(playerList.keySet());
+    players.remove(exclude);
+    Collections.sort(players);
+
+    return players.toArray(new String[0]);
   }
 }
