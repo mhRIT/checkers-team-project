@@ -76,6 +76,14 @@ public class GetSignoutRoute implements Route {
     final Session session = request.session();
     Player currPlayer = session.attribute("player");
 
+    if(currPlayer == null){
+      LOG.finer("GetSignoutRoute is invoked with no stored player");
+      response.redirect(WebServer.HOME_URL);
+
+      halt();
+      return "nothing";
+    }
+
     LOG.finer("GetSignoutRoute is invoked: " + currPlayer.getName());
 
     if (playerLobby.containsPlayers(currPlayer)) {
