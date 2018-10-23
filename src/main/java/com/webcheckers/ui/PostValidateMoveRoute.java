@@ -22,9 +22,9 @@ import spark.TemplateEngine;
  * The {@code POST /validateMove} route handler.
  *
  *  @author <a href='mailto:mlh1964@rit.edu'>Meaghan Hoitt</a>
- *  @author <a href='mailto:mlh1964@rit.edu'>Simon Kirwkwood</a>
- *  @author <a href='mailto:mlh1964@rit.edu'>Matthew Milone</a>
- *  @author <a href='mailto:mlh1964@rit.edu'>Andrew Festa</a>
+ *  @author <a href='mailto:sjk7867@rit.edu'>Simon Kirwkwood</a>
+ *  @author <a href='mailto:mvm7902@rit.edu'>Matthew Milone</a>
+ *  @author <a href='mailto:axf5592@rit.edu'>Andrew Festa</a>
  */
 public class PostValidateMoveRoute implements Route {
   //
