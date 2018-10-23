@@ -48,11 +48,17 @@ class GetSignoutRouteTest {
     cut = new GetSignoutRoute(playerLobby, gameCenter, templateEngine);
   }
 
+  /**
+   *  Test that the component was successfully created.
+   */
   @Test
   void testInstantiation() {
     assertNotNull(cut);
   }
 
+  /**
+   *  Test that the route correctly redirects to the home page.
+   */
   @Test
   void testViewModel() {
     final TemplateEngineTester testHelper = new TemplateEngineTester();
@@ -67,7 +73,8 @@ class GetSignoutRouteTest {
   }
 
   /**
-   *  Test that the model attributes exists in GetSigninRoute
+   *  Test that the route redirects to the home page when no player is stored in the
+   *  current session.
    */
   @Test
   public void testSessionEmpty(){
@@ -81,7 +88,8 @@ class GetSignoutRouteTest {
   }
 
   /**
-   *  Test that the model attributes exists in GetSigninRoute
+   *  Test that the route redirects to the home page when a player is stored in the session,
+   *  but that player is not known by playerLobby.
    */
   @Test
   public void testNoPlayer(){
@@ -93,10 +101,13 @@ class GetSignoutRouteTest {
     assertThrows(HaltException.class,  () -> {
       cut.handle(request,response);
     });
+
+    assertThrows(AssertionFailedError.class, testHelper::assertViewModelExists);
+    assertThrows(AssertionFailedError.class, testHelper::assertViewModelIsaMap);
   }
 
   /**
-   *  Test that the model attributes exists in GetSigninRoute
+   *  Test that the current player successfully signed out.
    */
   @Test
   public void testSuccessfulSignout(){
