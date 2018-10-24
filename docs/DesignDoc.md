@@ -3,11 +3,6 @@ geometry: margin=1in
 ---
 # PROJECT Design Documentation
 
-> _The following template provides the headings for your Design
-> Documentation.  As you edit each section make sure you remove these
-> commentary 'blockquotes'; the lines that start with a > character
-> and appear in the generated PDF in italics._
-
 ## Team Information
 * Team name: 2181-swen-261-10-e-Echo10   
 * Team members
@@ -18,7 +13,7 @@ geometry: margin=1in
 
 ## Executive Summary
 
-This is a summary of the project.
+WebCheckers is a web based application that allows multiple users to play against one another in a game of checkers.
 
 ### Purpose
 > _Provide a very brief statement about the project and the most
@@ -28,8 +23,10 @@ This is a summary of the project.
 > _Provide a table of terms and acronyms._
 
 | Term | Definition |
-|------|------------|
-| VO | Value Object |
+|------|-------------------------|
+| AI   | Artificial Intelligence
+| Piece | A regular piece that is only capable of normal move operations
+| King | A piece with elevated rank and move capabilities
 
 
 ## Requirements
@@ -39,6 +36,10 @@ This section describes the features of the application.
 > _In this section you do not need to be exhaustive and list every
 > story.  Focus on top-level features from the Vision document and
 > maybe Epics and critical Stories._
+
+Upon first landing on the home page, a user is only able to see a count of the number of players currently signed in.
+However, users are able to sign in using a preferred username, and upon signing in, they are able to see a list of the names of all signed in players.
+From this list, they are able to select an opponent to play against. Once selecting an opponent to play against, the two players are brought into the game, and thus begins the battle of wits.
 
 ### Definition of MVP
 > _Provide a simple description of the Minimum Viable Product._
