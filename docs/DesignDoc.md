@@ -48,6 +48,7 @@ Upon first landing on the home page, a user is only able to see a count of the n
 ### Roadmap of Enhancements
 > _Provide a list of top-level features in the order you plan to consider them._
 
+***
 
 ## Application Domain
 
@@ -61,7 +62,6 @@ The central aspect to the WebCheckers application domain is the game itself. The
 > can discuss the more important domain entities and their relationship
 > to each other._
 
-
 ## Architecture and Design
 
 This section describes the application architecture.
@@ -70,18 +70,14 @@ This section describes the application architecture.
 
 The following Tiers/Layers model shows a high-level view of the webapp's architecture.
 
-![The Tiers & Layers of the Architecture](architecture-tiers-and-layers.png)
+As a web application, the user interacts with the system using a browser.  The client-side of the UI is composed of HTML pages with some minimal CSS for styling the page.  There is also some JavaScript that has been provided to the team by the architect.
 
-As a web application, the user interacts with the system using a
-browser.  The client-side of the UI is composed of HTML pages with
-some minimal CSS for styling the page.  There is also some JavaScript
-that has been provided to the team by the architect.
+![The Tiers & Layers of the Architecture](architecture-tiers-and-layers.png)
 
 The server-side tiers include the UI Tier that is composed of UI Controllers and Views.
 Controllers are built using the Spark framework and View are built using the FreeMarker framework.  The Application and Model tiers are built using plain-old Java objects (POJOs).
 
 Details of the components within these tiers are supplied below.
-
 
 ### Overview of User Interface
 
