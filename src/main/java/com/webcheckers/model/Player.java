@@ -1,5 +1,7 @@
 package com.webcheckers.model;
 
+import java.util.Objects;
+
 /**
  *  {@code Player}
  *  <p>
@@ -25,6 +27,7 @@ public class Player {
    * @param name  the name of this player
    */
   public Player(String name) {
+    Objects.requireNonNull(name, "name must not be null");
     this.name = name;
   }
 
