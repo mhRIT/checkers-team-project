@@ -1,5 +1,9 @@
 package com.webcheckers.ui;
 
+import static com.webcheckers.ui.PostSigninRoute.ERROR_TYPE;
+import static com.webcheckers.ui.PostSigninRoute.ERROR_VIEW_NAME;
+import static com.webcheckers.ui.PostSigninRoute.INVALID_USERNAME;
+import static com.webcheckers.ui.PostSigninRoute.MESSAGE_TYPE_ATTR;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -77,8 +81,8 @@ public class PostSigninRouteTest {
     CuT.handle(request, response);
 
     testHelper.assertViewModelAttribute(GetSigninRoute.TITLE_ATTR, PostSigninRoute.TITLE);
-    testHelper.assertViewModelAttribute(PostSigninRoute.MESSAGE_TYPE_ATTR,
-        PostSigninRoute.ERROR_TYPE);
+    testHelper.assertViewModelAttribute(MESSAGE_TYPE_ATTR,
+        ERROR_TYPE);
 
     testHelper.assertViewName(GetSigninRoute.VIEW_NAME);
 
@@ -86,11 +90,15 @@ public class PostSigninRouteTest {
 
   @Test
   public void testHandle(){
+    final TemplateEngineTester testHelper = new TemplateEngineTester();
+    when(engine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
+
     when(request.queryParams("username")).thenReturn("test");
     CuT.handle(request, response);
 
     assertNotNull(testLobby.getPlayer("test"));
     assertFalse(testLobby.validateName("test"));
+    testHelper.assertViewModelAttributeIsAbsent(ERROR_TYPE);
 
     when(session.attribute("player")).thenReturn(testLobby.getPlayer("test"));
     CuT.handle(request, response);
@@ -100,7 +108,10 @@ public class PostSigninRouteTest {
 
     assertNull(testLobby.getPlayer(""));
     assertFalse(testLobby.validateName(""));
+    testHelper.assertViewModelAttribute(MESSAGE_TYPE_ATTR,ERROR_TYPE);
 
+    when(session.attribute("player")).thenReturn(null);
+    CuT.handle(request,response);
 
   }
 }
