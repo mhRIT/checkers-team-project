@@ -33,9 +33,9 @@ public class PostSigninRoute implements Route {
   // Constants
   //
 
-  private static final String USERNAME = "username";
-  private static final String TITLE = "Welcome";
-  private static final String VIEW_NAME = "home.ftl";
+  static final String USERNAME = "username";
+  static final String TITLE = "Welcome";
+  static final String VIEW_NAME = "home.ftl";
 
   static final String MESSAGE_ATTR = "message";
   static final String MESSAGE_TYPE_ATTR = "messageType";
