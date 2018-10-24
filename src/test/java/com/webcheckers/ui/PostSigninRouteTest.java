@@ -1,10 +1,13 @@
 package com.webcheckers.ui;
 
+import static com.sun.javaws.JnlpxArgs.verify;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.mockito.internal.verification.VerificationModeFactory.times;
 
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
@@ -27,9 +30,7 @@ public class PostSigninRouteTest {
   private TemplateEngine engine;
 
   private PlayerLobby playerLobby;
-
-  private final String ILLEGAL_NAME_1 = "";
-  private final String LEGAL_NAME = "Rick Astley";
+  private PlayerLobby testLobby;
 
   @BeforeEach
   public void setup(){
@@ -37,10 +38,11 @@ public class PostSigninRouteTest {
     session = mock(Session.class);
     response = mock(Response.class);
     engine = mock(TemplateEngine.class);
+    testLobby = new PlayerLobby(mock(GameCenter.class));
     playerLobby = mock(PlayerLobby.class);
 
     when(request.queryParams("username")).thenReturn("test");
-    when(playerLobby.signin("test")).thenReturn(new Player("test"));
+    when(playerLobby.signin(anyString())).thenReturn(testLobby.signin("test"));
     when(request.session()).thenReturn(session);
 
     CuT = new PostSigninRoute(playerLobby, engine);
@@ -80,6 +82,26 @@ public class PostSigninRouteTest {
         PostSigninRoute.ERROR_TYPE);
 
     testHelper.assertViewName(GetSigninRoute.VIEW_NAME);
+
+  }
+
+  @Test
+  public void testHandle(){
+    when(request.queryParams("username")).thenReturn("test");
+    CuT.handle(request, response);
+
+    assertNotNull(testLobby.getPlayer("test"));
+    assertFalse(testLobby.validateName("test"));
+
+    when(session.attribute("player")).thenReturn(testLobby.getPlayer("test"));
+    CuT.handle(request, response);
+
+    when(request.queryParams("username")).thenReturn("");
+    CuT.handle(request, response);
+
+    assertNull(testLobby.getPlayer(""));
+    assertFalse(testLobby.validateName(""));
+
 
   }
 }
