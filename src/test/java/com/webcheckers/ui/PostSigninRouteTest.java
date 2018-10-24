@@ -1,6 +1,5 @@
 package com.webcheckers.ui;
 
-import static com.sun.javaws.JnlpxArgs.verify;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
