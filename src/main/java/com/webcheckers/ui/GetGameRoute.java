@@ -33,10 +33,18 @@ import spark.TemplateEngine;
  *  @author <a href='mailto:axf5592@rit.edu'>Andrew Festa</a>
  */
 public class GetGameRoute implements Route {
+
   //
   // Statics
   //
   private static int count = 0; // count of times this Route handler has been invoked
+
+  //
+  // Constants
+  //
+  public static final String TITLE_ATTR = "title";
+  public static final String TITLE = "Game!";
+  public static final String VIEW_NAME = "game.ftl";
 
   //
   // Attributes
@@ -100,6 +108,6 @@ public class GetGameRoute implements Route {
     vm.put("board", new BoardView(game.getState(player)));
     vm.put("message", new Message("GetGameRoute", MESSAGE_TYPE.info));
 
-    return templateEngine.render(new ModelAndView(vm, "game.ftl"));
+    return templateEngine.render(new ModelAndView(vm, VIEW_NAME));
   }
 }

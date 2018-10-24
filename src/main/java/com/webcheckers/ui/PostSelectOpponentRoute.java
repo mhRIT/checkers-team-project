@@ -38,6 +38,8 @@ public class PostSelectOpponentRoute implements Route {
   //Constants
   //
 
+  public static final String TITLE_ATTR = "title";
+  public static final String TITLE = "Game!";
   public static final String OPP_PLAYER_NAME = "opponent";
   public static final String MESSAGE = "message";
 
@@ -96,11 +98,19 @@ public class PostSelectOpponentRoute implements Route {
     final Session session = request.session();
     Player currPlayer = session.attribute(PLAYER);
     Player opponent = playerLobby.getPlayer(request.queryParams(OPP_PLAYER_NAME));
-    LOG.finer("PostSelectOpponentRoute is invoked: " + currPlayer.getName());
-
     Map<String, Object> vm = new HashMap<>();
-    vm.put("title", "Welcome!");
 
+    if(currPlayer == null || playerLobby.getPlayer(currPlayer.getName()) == null) {
+      String message = "PostSelectOpponentRoute is invoked with no player stored in the current " +
+          "session or the player is not signed in.";
+      LOG.finer(message);
+
+      vm.put(GetHomeRoute.TITLE_ATTR, GetHomeRoute.TITLE);
+      vm.put(GetHomeRoute.NUM_PLAYERS, playerLobby.getNumPlayers());
+      return templateEngine.render(new ModelAndView(vm, "home.ftl"));
+    }
+
+    LOG.finer("PostSelectOpponentRoute is invoked: " + currPlayer.getName());
     if (gameCenter.isPlayerInGame(opponent)) {
       String message = String.format("The selected opponent, %s, is already in a game",
           opponent.getName());
@@ -109,19 +119,18 @@ public class PostSelectOpponentRoute implements Route {
       LOG.finer(String.format("Player \'%s\' is %sin a game",
           currPlayer.getName(),
           gameCenter.isPlayerInGame(currPlayer) ? "" : "not "));
+      vm.put(GetHomeRoute.TITLE_ATTR, GetHomeRoute.TITLE);
       vm.put(ALL_PLAYER_NAMES, playerLobby.playerNames(currPlayer.getName()));
       vm.put(PLAYER, currPlayer);
       vm.put(MESSAGE, message);
 
-//      response.redirect(WebServer.HOME_URL);
-//      halt();
       return templateEngine.render(new ModelAndView(vm, "home.ftl"));
     }
 
     Game game = new Game(currPlayer, opponent);
     gameCenter.addGame(game);
 
-    vm.put("title", "Game!");
+    vm.put(TITLE_ATTR, TITLE);
     vm.put("currentPlayer", currPlayer);
     vm.put("viewMode", VIEW_MODE.PLAY);
     vm.put("redPlayer", game.getRedPlayer());
