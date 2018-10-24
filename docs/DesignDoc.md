@@ -9,12 +9,12 @@ geometry: margin=1in
 > and appear in the generated PDF in italics._
 
 ## Team Information
-* Team name: TEAMNAME
+* Team name: 2181-swen-261-10-e-Echo10   
 * Team members
-  * MEMBER1
-  * MEMBER2
-  * MEMBER3
-  * MEMBER4
+  * Meaghan Hoitt
+  * Andrew Festa
+  * Simon Kirkwood
+  * Matthew M.
 
 ## Executive Summary
 
