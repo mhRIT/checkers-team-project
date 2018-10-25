@@ -17,7 +17,7 @@ import spark.ModelAndView;
  */
 public class TemplateEngineTester {
 
-  /** Holds the View-Model map from the Spark ModelAndView object. */
+  /** Holds the View-model map from the Spark ModelAndView object. */
   private Object model;
   /** Holds the View name from the Spark ModelAndView object. */
   private String viewName;
@@ -42,21 +42,21 @@ public class TemplateEngineTester {
   }
 
   /**
-   * Assert that the View-Model object exists.
+   * Assert that the View-model object exists.
    */
   public void assertViewModelExists() {
-    assertNotNull(model, "the View-Model exists");
+    assertNotNull(model, "the View-model exists");
   }
 
   /**
-   * Assert that the View-Model object exists.
+   * Assert that the View-model object exists.
    */
   public void assertViewModelIsaMap() {
-    assertTrue(model instanceof Map, "the View-Model is a Map");
+    assertTrue(model instanceof Map, "the View-model is a Map");
   }
 
   /**
-   * Assert that the View-Model attributes matches the expected value.
+   * Assert that the View-model attributes matches the expected value.
    */
   public void assertViewModelAttribute(final String attrName, final Object expectedValue) {
     @SuppressWarnings("unchecked")
@@ -65,7 +65,7 @@ public class TemplateEngineTester {
   }
 
   /**
-   * Assert that the View-Model attribute is absent.
+   * Assert that the View-model attribute is absent.
    */
   public void assertViewModelAttributeIsAbsent(final String attrName) {
     @SuppressWarnings("unchecked")

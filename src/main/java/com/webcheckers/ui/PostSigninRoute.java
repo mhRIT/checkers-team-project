@@ -90,7 +90,7 @@ public class PostSigninRoute implements Route {
     username = username.trim();
     LOG.finer("PostSigninRoute is invoked: " + username);
 
-    // start building View-Model
+    // start building View-model
     final Map<String, Object> vm = new HashMap<String,Object>();
     vm.put(TITLE_ATTR, TITLE);
     ModelAndView mv;

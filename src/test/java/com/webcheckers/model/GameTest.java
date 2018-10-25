@@ -1,9 +1,6 @@
-package com.webcheckers.Model;
+package com.webcheckers.model;
 
 import static com.webcheckers.model.Game.COLOR.*;
-
-import com.webcheckers.model.Game;
-import com.webcheckers.model.Player;
 
 import static org.mockito.Mockito.mock;
 
