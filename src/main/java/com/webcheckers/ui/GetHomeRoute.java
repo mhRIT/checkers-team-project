@@ -31,6 +31,8 @@ public class GetHomeRoute implements Route {
   //Constants
   //
 
+  public static final String TITLE_ATTR = "title";
+  public static final String TITLE = "Welcome!";
   public static final String VIEW_NAME = "home.ftl";
   public static final String PLAYER = "player";
   public static final String ALL_PLAYER_NAMES = "allPlayers";

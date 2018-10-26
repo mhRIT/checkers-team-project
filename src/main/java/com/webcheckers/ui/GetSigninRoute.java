@@ -63,7 +63,7 @@ public class GetSigninRoute implements Route {
   public Object handle(Request request, Response response) {
     LOG.finer("GetSigninRoute is invoked");
 
-    //start building the View-Model
+    //start building the View-model
     final Map<String, Object> vm = new HashMap<>();
     vm.put(TITLE_ATTR, TITLE);
 
