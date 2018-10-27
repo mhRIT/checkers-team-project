@@ -1,5 +1,10 @@
 package com.webcheckers.model;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 /**
  *  {@code Board}
  *  <p>
@@ -83,12 +88,6 @@ public class Board {
     }
   }
 
-  public SPACE_TYPE[] getCol(int idx){
-    // TODO complete
-    SPACE_TYPE[] toReturn = new SPACE_TYPE[Y_BOARD_SIZE];
-    return new SPACE_TYPE[0];
-  }
-
   public SPACE_TYPE[] getRow(int idx){
     // TODO complete
     SPACE_TYPE[] toReturn = new SPACE_TYPE[X_BOARD_SIZE];
@@ -96,6 +95,18 @@ public class Board {
       SPACE_TYPE eachSpace = getPieceAtLocation(i, idx);
       toReturn[i] = eachSpace;
     }
+    return toReturn;
+  }
+
+  public SPACE_TYPE[] getRowReverse(int idx){
+    // TODO complete
+    SPACE_TYPE[] spaceList = getRow(idx);
+    SPACE_TYPE[] toReturn = new SPACE_TYPE[spaceList.length];
+
+    for(int i = 0; i < toReturn.length; i++) {
+      toReturn[i] = spaceList[spaceList.length-(i+1)];
+    }
+
     return toReturn;
   }
 

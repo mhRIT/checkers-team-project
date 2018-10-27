@@ -1,9 +1,14 @@
 package com.webcheckers.ui.boardView;
 
+import static com.webcheckers.model.Board.Y_BOARD_SIZE;
+
 import com.webcheckers.model.Board;
 import com.webcheckers.model.Board.SPACE_TYPE;
+import com.webcheckers.model.Game;
+import com.webcheckers.model.Player;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  *  {@code BoardView}
@@ -22,7 +27,7 @@ public class BoardView implements Iterable {
   // Attributes
   //
 
-  private ArrayList<Row> rows = new ArrayList<>();
+  private List<Row> rows;
 
   /**
    * Constructs the view of the board, as needed by the game.ftl
@@ -30,14 +35,20 @@ public class BoardView implements Iterable {
    *
    * @param boardState  the current state of the board
    */
-  public BoardView(Board boardState) {
-    for (int i = 0; i < Board.Y_BOARD_SIZE; i++) {
-      SPACE_TYPE[] rowSpaces = new SPACE_TYPE[Board.X_BOARD_SIZE];
-      for(int j = 0; j < rowSpaces.length; j++){
-        rowSpaces[j] = boardState.getPieceAtLocation(j,i);
+  public BoardView(Game game, Player player) {
+    this.rows = new ArrayList<>();
+    Board boardState = game.getBoardState();
+    if(game.getRedPlayer().equals(player)){
+      for (int i = Y_BOARD_SIZE-1; i >= 0; i--) {
+        Row eachRow = new Row(i, boardState.getRow(i));
+        rows.add(eachRow);
       }
-      Row eachRow = new Row(i, rowSpaces);
-      rows.add(eachRow);
+    } else {
+      for (int i = 0; i < Y_BOARD_SIZE; i++) {
+        SPACE_TYPE[] spacesRev = boardState.getRowReverse(i);
+        Row eachRow = new Row(i, spacesRev);
+        rows.add(eachRow);
+      }
     }
   }
 
