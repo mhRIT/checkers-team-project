@@ -1,5 +1,6 @@
 package com.webcheckers.ui.boardView;
 
+import com.webcheckers.model.Board;
 import com.webcheckers.model.Board.SPACE_TYPE;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -27,11 +28,15 @@ public class BoardView implements Iterable {
    * Constructs the view of the board, as needed by the game.ftl
    * Freemarker template.
    *
-   * @param spaceMat  the current state of the board
+   * @param boardState  the current state of the board
    */
-  public BoardView(SPACE_TYPE[][] spaceMat) {
-    for (int i = 0; i < spaceMat.length; i++) {
-      Row eachRow = new Row(i, spaceMat[i]);
+  public BoardView(Board boardState) {
+    for (int i = 0; i < Board.Y_BOARD_SIZE; i++) {
+      SPACE_TYPE[] rowSpaces = new SPACE_TYPE[Board.X_BOARD_SIZE];
+      for(int j = 0; j < rowSpaces.length; j++){
+        rowSpaces[j] = boardState.getPieceAtLocation(j,i);
+      }
+      Row eachRow = new Row(i, rowSpaces);
       rows.add(eachRow);
     }
   }

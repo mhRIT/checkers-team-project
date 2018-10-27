@@ -15,26 +15,25 @@ package com.webcheckers.model;
 public class Board {
 
   public enum SPACE_TYPE {EMPTY, SINGLE_RED, SINGLE_WHITE, KING_RED, KING_WHITE}
-  private SPACE_TYPE[][] boardState = null;
+  public static int X_BOARD_SIZE = 8;
+  public static int Y_BOARD_SIZE = 8;
+
+  // bit set 0 -> empty
+  // bit set 1 -> occupied
+  private int pieceLocations = 0b0000_0000_0000_0000_0000_0000_0000_0000;
+
+  // bit set 0 -> white
+  // bit set 1 -> red
+  private int pieceColors = 0b0000_0000_0000_0000_0000_0000_0000_0000;
+
+  // bit set 0 -> single
+  // bit set 1 -> king
+  private int pieceTypes = 0b0000_0000_0000_0000_0000_0000_0000_0000;
 
   public void initStart() {
-    boardState = new SPACE_TYPE[8][8];
-    int modVal = 1;
-    for (int i = 0; i < 8; i++) {
-      for (int j = 0; j < 8; j++) {
-        boardState[i][j] = SPACE_TYPE.EMPTY;
-        if(i < 3 && (i * 8 + j) % 2 == modVal){
-          boardState[i][j] = SPACE_TYPE.SINGLE_WHITE;
-        } else if(i > 4 && (i * 8 + j) % 2 == modVal){
-          boardState[i][j] = SPACE_TYPE.SINGLE_RED;
-        }
-      }
-      modVal ^= 1;
-    }
-  }
-
-  public void initMid(int numRedPieces, int numWhitePieces) {
-    // TODO
+    pieceLocations =  0b1111_1111_1111_0000_0000_1111_1111_1111;
+    pieceColors =     0b0000_0000_0000_0000_0000_1111_1111_1111;
+    pieceTypes =      0b0000_0000_0000_0000_0000_0000_0000_0000;
   }
 
   public boolean validateMove(){
@@ -51,22 +50,74 @@ public class Board {
     return false;
   }
 
-  public int getNumPieces(SPACE_TYPE pieceType){
-    // TODO
-    return 1;
-  }
-
-  public SPACE_TYPE[][] getState() {
-    return boardState;
-  }
-
-  public SPACE_TYPE[][] getBoardTranspose(){
-    SPACE_TYPE[][] toReturnBoard = new SPACE_TYPE[8][8];
-    for(int i = 0; i < 8; i++){
-      for(int j = 0; j < 8; j++){
-        toReturnBoard[i][j] = boardState[7-i][7-j];
-      }
+  public int cartesianToIndex(int x, int y){
+    int position = (y*X_BOARD_SIZE) + (x);
+    if((position % 2) == (y%2)){
+      return position/2;
     }
-    return toReturnBoard;
+    return -1;
+  }
+
+  public SPACE_TYPE getPieceAtLocation(int x, int y){
+    int bitIdx = cartesianToIndex(x, y);
+    if(bitIdx == -1){
+      return SPACE_TYPE.EMPTY;
+    }
+    int bitMask = 1 << bitIdx;
+    if((bitMask & pieceLocations) != 0){
+      if((bitMask & pieceColors) != 0){
+        if((bitMask & pieceTypes) != 0){
+          return SPACE_TYPE.KING_RED;
+        } else {
+          return SPACE_TYPE.SINGLE_RED;
+        }
+      } else {
+        if((bitMask & pieceTypes) != 0){
+          return SPACE_TYPE.KING_WHITE;
+        } else {
+          return SPACE_TYPE.SINGLE_WHITE;
+        }
+      }
+    } else {
+      return SPACE_TYPE.EMPTY;
+    }
+  }
+
+  public SPACE_TYPE[] getCol(int idx){
+    // TODO complete
+    SPACE_TYPE[] toReturn = new SPACE_TYPE[Y_BOARD_SIZE];
+    return new SPACE_TYPE[0];
+  }
+
+  public SPACE_TYPE[] getRow(int idx){
+    // TODO complete
+    SPACE_TYPE[] toReturn = new SPACE_TYPE[X_BOARD_SIZE];
+    for(int i = 0; i < toReturn.length; i++){
+      SPACE_TYPE eachSpace = getPieceAtLocation(i, idx);
+      toReturn[i] = eachSpace;
+    }
+    return toReturn;
+  }
+
+  public int getRedLocations(){
+    return pieceLocations & pieceColors;
+  }
+
+  public int getNumRedPieces(){
+    int redLocs = getRedLocations();
+    return Integer.bitCount(redLocs);
+  }
+
+  public int getWhiteLocations(){
+    return pieceLocations & (~pieceColors);
+  }
+
+  public int getNumWhitePieces(){
+    int whiteLocs = getWhiteLocations();
+    return Integer.bitCount(whiteLocs);
+  }
+
+  public int getNumPieces(){
+    return Integer.bitCount(pieceLocations);
   }
 }

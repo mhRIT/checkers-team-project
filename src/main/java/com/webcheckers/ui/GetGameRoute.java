@@ -105,7 +105,7 @@ public class GetGameRoute implements Route {
     vm.put("redPlayer", game.getRedPlayer());
     vm.put("whitePlayer", game.getWhitePlayer());
     vm.put("activeColor", game.getActiveColor());
-    vm.put("board", new BoardView(game.getState(player)));
+    vm.put("board", new BoardView(game.getBoardState()));
     vm.put("message", new Message("GetGameRoute", MESSAGE_TYPE.info));
 
     return templateEngine.render(new ModelAndView(vm, VIEW_NAME));

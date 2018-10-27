@@ -136,7 +136,7 @@ public class PostSelectOpponentRoute implements Route {
     vm.put("redPlayer", game.getRedPlayer());
     vm.put("whitePlayer", game.getWhitePlayer());
     vm.put("activeColor", game.getActiveColor());
-    vm.put("board", new BoardView(game.getState(currPlayer)));
+    vm.put("board", new BoardView(game.getBoardState()));
     vm.put("message", new Message("This is a triumph", MESSAGE_TYPE.info));
 
     return templateEngine.render(new ModelAndView(vm, "game.ftl"));

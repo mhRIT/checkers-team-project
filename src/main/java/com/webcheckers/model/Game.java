@@ -116,16 +116,16 @@ public class Game {
   }
 
   /**
+   *
+   * TODO update
+   *
    * Retrieves the current state of the board, as seen by the specified player.
    *
    * @param player  the player to use for perspective of the board.
    * @return  the current board state
    */
-  public SPACE_TYPE[][] getState(Player player) {
-    if(player.equals(whitePlayer)){
-      return board.getBoardTranspose();
-    }
-    return board.getState();
+  public Board getBoardState() {
+    return board;
   }
 
   /**
