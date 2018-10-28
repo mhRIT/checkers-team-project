@@ -62,14 +62,29 @@ class BoardTest {
 
   @Test
   void testValidateMove() {
+    int x0 = 0;
+    int y0 = 0;
+
+    cut.initStart();
+    assertFalse(cut.validateMove(x0, y0));
   }
 
   @Test
   void testMovePiece() {
+    int x0 = 0;
+    int y0 = 0;
+
+    int x1 = 0;
+    int y1 = 0;
+
+    cut.initStart();
+    assertFalse(cut.movePiece(x0, y0, x1, y1));
   }
 
   @Test
   void testCheckEnd() {
+    cut.initStart();
+    assertFalse(cut.checkEnd());
   }
 
   @Test
@@ -102,7 +117,7 @@ class BoardTest {
     }
   }
 
-  void testPlacePieceType(SPACE_TYPE pieceToPlace){
+  private void testPlacePieceType(SPACE_TYPE pieceToPlace){
     boolean piecePlaced;
     SPACE_TYPE pieceAtLoc;
 
@@ -161,6 +176,51 @@ class BoardTest {
         modVal ^= 1;
       }
       modVal ^= 1;
+    }
+  }
+
+  @Test
+  void testGetRowReverse(){
+    cut.initStart();
+
+    SPACE_TYPE[][] expectedRows = new SPACE_TYPE[][]{
+        {SPACE_TYPE.EMPTY, SPACE_TYPE.SINGLE_RED, SPACE_TYPE.EMPTY, SPACE_TYPE.SINGLE_RED,
+            SPACE_TYPE.EMPTY, SPACE_TYPE.SINGLE_RED, SPACE_TYPE.EMPTY, SPACE_TYPE.SINGLE_RED},
+
+        {SPACE_TYPE.SINGLE_RED, SPACE_TYPE.EMPTY, SPACE_TYPE.SINGLE_RED, SPACE_TYPE.EMPTY,
+            SPACE_TYPE.SINGLE_RED, SPACE_TYPE.EMPTY, SPACE_TYPE.SINGLE_RED, SPACE_TYPE.EMPTY},
+
+        {SPACE_TYPE.EMPTY, SPACE_TYPE.SINGLE_RED, SPACE_TYPE.EMPTY, SPACE_TYPE.SINGLE_RED,
+            SPACE_TYPE.EMPTY, SPACE_TYPE.SINGLE_RED, SPACE_TYPE.EMPTY, SPACE_TYPE.SINGLE_RED},
+
+        {SPACE_TYPE.EMPTY, SPACE_TYPE.EMPTY, SPACE_TYPE.EMPTY, SPACE_TYPE.EMPTY,
+            SPACE_TYPE.EMPTY, SPACE_TYPE.EMPTY, SPACE_TYPE.EMPTY, SPACE_TYPE.EMPTY},
+
+        {SPACE_TYPE.EMPTY, SPACE_TYPE.EMPTY, SPACE_TYPE.EMPTY, SPACE_TYPE.EMPTY,
+            SPACE_TYPE.EMPTY, SPACE_TYPE.EMPTY, SPACE_TYPE.EMPTY, SPACE_TYPE.EMPTY},
+
+        {SPACE_TYPE.SINGLE_WHITE, SPACE_TYPE.EMPTY, SPACE_TYPE.SINGLE_WHITE, SPACE_TYPE.EMPTY,
+            SPACE_TYPE.SINGLE_WHITE, SPACE_TYPE.EMPTY, SPACE_TYPE.SINGLE_WHITE, SPACE_TYPE.EMPTY},
+
+        {SPACE_TYPE.EMPTY, SPACE_TYPE.SINGLE_WHITE, SPACE_TYPE.EMPTY, SPACE_TYPE.SINGLE_WHITE,
+            SPACE_TYPE.EMPTY, SPACE_TYPE.SINGLE_WHITE, SPACE_TYPE.EMPTY, SPACE_TYPE.SINGLE_WHITE},
+
+        {SPACE_TYPE.SINGLE_WHITE, SPACE_TYPE.EMPTY, SPACE_TYPE.SINGLE_WHITE, SPACE_TYPE.EMPTY,
+            SPACE_TYPE.SINGLE_WHITE, SPACE_TYPE.EMPTY, SPACE_TYPE.SINGLE_WHITE, SPACE_TYPE.EMPTY},
+    };
+
+    for(int i = 0; i < expectedRows.length; i++){
+      testEachRowReverse(i, expectedRows[i]);
+    }
+  }
+
+  private void testEachRowReverse(int idx, SPACE_TYPE[] expectedRow){
+    SPACE_TYPE[] actualRow = cut.getRowReverse(idx);
+    assertEquals(expectedRow.length, actualRow.length,
+        String.format("exp len: %d, act len: %d", expectedRow.length, actualRow.length));
+    for(int i = 0; i < expectedRow.length; i++){
+      assertEquals(expectedRow[i], actualRow[i],
+          String.format("row idx: %d, col idx: %d", idx, i));
     }
   }
 

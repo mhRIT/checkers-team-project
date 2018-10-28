@@ -1,11 +1,5 @@
 package com.webcheckers.model;
 
-import com.webcheckers.ui.boardView.Space;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
 /**
  *  {@code Board}
  *  <p>
@@ -42,13 +36,14 @@ public class Board {
     pieceTypes =      0b0000_0000_0000_0000_0000_0000_0000_0000;
   }
 
-  public boolean validateMove(){
+  public boolean validateMove(int x0, int y0){
     // TODO
     return false;
   }
 
-  public void movePiece() {
+  public boolean movePiece(int x0, int y0, int x1, int y1) {
     // TODO
+    return false;
   }
 
   public boolean checkEnd() {

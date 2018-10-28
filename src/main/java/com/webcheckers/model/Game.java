@@ -96,7 +96,7 @@ public class Game {
    * @return    whether the specified move was successful
    */
   public boolean makeMove(int x0, int x1, int y0, int y1) {
-    board.movePiece();
+    board.movePiece(x0, x1, y0, y1);
     switchTurn();
     return true;
   }
