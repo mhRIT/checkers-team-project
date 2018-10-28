@@ -1,5 +1,6 @@
 package com.webcheckers.model;
 
+import com.webcheckers.ui.boardView.Space;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -88,8 +89,53 @@ public class Board {
     }
   }
 
+  public boolean placePiece(int x, int y, SPACE_TYPE piece){
+    int bitIdx = cartesianToIndex(x, y);
+    if(bitIdx == -1){
+      return false;
+    }
+    int bitMask = 1 << bitIdx;
+    if((bitMask & pieceLocations) == 0){
+      pieceLocations |= bitMask;
+      switch (piece){
+        case SINGLE_RED:
+          pieceColors |= bitMask;
+          pieceTypes &= ~bitMask;
+          break;
+        case KING_RED:
+          pieceColors |= bitMask;
+          pieceTypes |= bitMask;
+          break;
+        case SINGLE_WHITE:
+          pieceColors &= ~bitMask;
+          pieceTypes &= ~bitMask;
+          break;
+        case KING_WHITE:
+          pieceColors &= ~bitMask;
+          pieceTypes |= bitMask;
+          break;
+        case EMPTY:
+          return false;
+      }
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public SPACE_TYPE removePiece(int x, int y){
+    SPACE_TYPE remPiece = getPieceAtLocation(x, y);
+    int bitIdx = cartesianToIndex(x, y);
+    int bitMask = 1 << bitIdx;
+    pieceLocations &= ~bitMask;
+    return remPiece;
+  }
+
+  public boolean isValidLocation(int x, int y){
+    return cartesianToIndex(x, y) != -1;
+  }
+
   public SPACE_TYPE[] getRow(int idx){
-    // TODO complete
     SPACE_TYPE[] toReturn = new SPACE_TYPE[X_BOARD_SIZE];
     for(int i = 0; i < toReturn.length; i++){
       SPACE_TYPE eachSpace = getPieceAtLocation(i, idx);
@@ -99,7 +145,6 @@ public class Board {
   }
 
   public SPACE_TYPE[] getRowReverse(int idx){
-    // TODO complete
     SPACE_TYPE[] spaceList = getRow(idx);
     SPACE_TYPE[] toReturn = new SPACE_TYPE[spaceList.length];
 

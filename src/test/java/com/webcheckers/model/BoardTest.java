@@ -95,6 +95,76 @@ class BoardTest {
   }
 
   @Test
+  void testPlacePiece() {
+    for(SPACE_TYPE eachSpaceType : SPACE_TYPE.values()){
+      cut.initStart();
+      testPlacePieceType(eachSpaceType);
+    }
+  }
+
+  void testPlacePieceType(SPACE_TYPE pieceToPlace){
+    boolean piecePlaced;
+    SPACE_TYPE pieceAtLoc;
+
+    for(int yCoord = 0; yCoord < Board.Y_BOARD_SIZE; yCoord++){
+      for(int xCoord = 0; xCoord < Board.X_BOARD_SIZE; xCoord++){
+        pieceAtLoc = cut.getPieceAtLocation(xCoord, yCoord);
+        piecePlaced = cut.placePiece(xCoord, yCoord, pieceToPlace);
+
+        if(pieceAtLoc.equals(SPACE_TYPE.EMPTY)
+            && cut.isValidLocation(xCoord, yCoord)
+            && !pieceToPlace.equals(SPACE_TYPE.EMPTY)){
+          assertTrue(piecePlaced,
+              String.format("(%d, %d): %s", xCoord, yCoord, piecePlaced));
+          pieceAtLoc = cut.getPieceAtLocation(xCoord, yCoord);
+          assertEquals(pieceAtLoc, pieceToPlace,
+              String.format("(%d, %d): exp: %s, act: %s", xCoord, yCoord, pieceToPlace, pieceAtLoc));
+        } else {
+          assertFalse(piecePlaced,
+              String.format("(%d, %d): %s", xCoord, yCoord, piecePlaced));
+        }
+      }
+    }
+  }
+
+  @Test
+  void testRemovePiece() {
+    cut.initStart();
+
+    for(int yCoord = 0; yCoord < Board.Y_BOARD_SIZE; yCoord++){
+      for(int xCoord = 0; xCoord < Board.X_BOARD_SIZE; xCoord++){
+        SPACE_TYPE pieceAtLoc = cut.getPieceAtLocation(xCoord, yCoord);
+        SPACE_TYPE remPiece = cut.removePiece(xCoord, yCoord);
+        assertEquals(pieceAtLoc, remPiece,
+            String.format("(%d, %d): exp: %s, act: %s", xCoord, yCoord, pieceAtLoc, remPiece));
+
+        pieceAtLoc = cut.getPieceAtLocation(xCoord, yCoord);
+        assertEquals(pieceAtLoc, SPACE_TYPE.EMPTY,
+            String.format("(%d, %d): exp: %s, act: %s", xCoord, yCoord, pieceAtLoc, remPiece));
+      }
+    }
+  }
+
+  @Test
+  void testIsValidLocation(){
+    cut.initStart();
+    int modVal = 0;
+
+    for(int yCoord = 0; yCoord < Board.Y_BOARD_SIZE; yCoord++){
+      for(int xCoord = 0; xCoord < Board.X_BOARD_SIZE; xCoord++){
+        boolean isValid = cut.isValidLocation(xCoord, yCoord);
+        if(modVal % 2 == 0){
+          assertTrue(isValid, String.format("(%d, %d)", xCoord, yCoord));
+        } else {
+          assertFalse(isValid, String.format("(%d, %d)", xCoord, yCoord));
+        }
+        modVal ^= 1;
+      }
+      modVal ^= 1;
+    }
+  }
+
+  @Test
   void testGetRow() {
     cut.initStart();
 
@@ -143,6 +213,7 @@ class BoardTest {
   void testGetPieceAtLocation() {
     cut.initStart();
 
+    // TODO create unit tests
   }
 
   @Test
