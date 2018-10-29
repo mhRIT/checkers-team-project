@@ -13,7 +13,6 @@ import java.util.Set;
  *    Represents the lobby in which all players inhabit and from which they log in and out of.
  *  </p>
  *
- *
  *  @author <a href='mailto:mlh1964@rit.edu'>Meaghan Hoitt</a>
  *  @author <a href='mailto:sjk7867@rit.edu'>Simon Kirwkwood</a>
  *  @author <a href='mailto:mvm7902@rit.edu'>Matthew Milone</a>
@@ -22,7 +21,9 @@ import java.util.Set;
  */
 public class PlayerLobby {
 
-
+  //
+  // Attributes
+  //
   private HashMap<String, Player> playerList;
   private GameCenter gameCenter;
 
@@ -71,7 +72,7 @@ public class PlayerLobby {
    * @param   name  the player's username
    * @return  true  if player's username is valid, else false
    */
-  public Boolean isAvailable(String name) {
+  public boolean isAvailable(String name) {
     for (String eachName : playerList.keySet()) {
       if (name.equals(eachName)) {
         return false;
@@ -89,10 +90,7 @@ public class PlayerLobby {
    *          false otherwise
    */
   private boolean nameContainsLegalChars(String name) {
-    if (name.matches("[a-zA-Z\\s\\d]+") && name.trim().length() > 0) {
-      return true;
-    }
-    return false;
+    return name.matches("[a-zA-Z\\s\\d]+") && name.trim().length() > 0;
   }
 
   /**
@@ -116,6 +114,17 @@ public class PlayerLobby {
     return playerList.getOrDefault(name, null);
   }
 
+
+  /**
+   * Checks if the playerLobby knows about the specified player.
+   *
+   * @param   player  the player to check the existence of
+   * @return  true    if the player is known by the playerLobby
+   *          false   otherwise
+   */
+  public boolean containsPlayers(Player player) {
+    return playerList.containsValue(player);
+  }
 
   /**
    * Retrieves the number of players that are currently signed-in.
