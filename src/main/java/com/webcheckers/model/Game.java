@@ -1,7 +1,5 @@
 package com.webcheckers.model;
 
-import com.webcheckers.model.Board.SPACE_TYPE;
-
 /**
  *  {@code Game}
  *  <p>

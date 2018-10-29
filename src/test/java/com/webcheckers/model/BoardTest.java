@@ -64,9 +64,11 @@ class BoardTest {
   void testValidateMove() {
     int x0 = 0;
     int y0 = 0;
+    int x1 = 1;
+    int y1 = 1;
 
     cut.initStart();
-    assertFalse(cut.validateMove(x0, y0));
+    assertFalse(cut.validateMove(x0, y0, x1, y1));
   }
 
   @Test

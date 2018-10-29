@@ -13,45 +13,124 @@ package com.webcheckers.model;
  *
  */
 public class Board {
-
+  //
+  // Enums
+  //
   public enum SPACE_TYPE {EMPTY, SINGLE_RED, SINGLE_WHITE, KING_RED, KING_WHITE}
+
+  //
+  // Constants
+  //
   public static int X_BOARD_SIZE = 8;
   public static int Y_BOARD_SIZE = 8;
 
-  // bit set 0 -> empty
-  // bit set 1 -> occupied
+  /**
+   * Tracks whether a current position on the board is occupied.
+   *
+   * bit set 0 -> empty
+   * bit set 1 -> occupied
+   */
   private int pieceLocations = 0b0000_0000_0000_0000_0000_0000_0000_0000;
 
-  // bit set 0 -> white
-  // bit set 1 -> red
+  /**
+   * Tracks the color of the last piece which was stored at a location
+   * on the board.
+   *
+   * bit set 0 -> white
+   * bit set 1 -> red
+   */
   private int pieceColors = 0b0000_0000_0000_0000_0000_0000_0000_0000;
 
-  // bit set 0 -> single
-  // bit set 1 -> king
+  /**
+   * Tracks the rank of the last piece which was stored at a location
+   * on the board.
+   *
+   * bit set 0 -> single
+   * bit set 1 -> king
+   */
   private int pieceTypes = 0b0000_0000_0000_0000_0000_0000_0000_0000;
 
+  /**
+   * Initializes the state of the board and places red and white pieces
+   * in the correct positions, as would be expected when the game
+   * first starts.
+   *
+   */
   public void initStart() {
     pieceLocations =  0b1111_1111_1111_0000_0000_1111_1111_1111;
     pieceColors =     0b0000_0000_0000_0000_0000_1111_1111_1111;
     pieceTypes =      0b0000_0000_0000_0000_0000_0000_0000_0000;
   }
 
-  public boolean validateMove(int x0, int y0){
+  /**
+   * Checks whether the move specified by the initial and end
+   * positions is a valid move, based on the current state of the board.
+   * This criteria can be stated as follows:
+   *  the initial position must be occupied by a piece
+   *  the end position must not be occupied by a space
+   *  if the end position is farther than sqrt(2), then the intermediate
+   *    location must be occupied by a piece of a different color
+   *    than the piece on the starting location
+   *
+   * @param x0  the initial x coordinate
+   * @param y0  the initial y coordinate
+   * @param x1  the final x coordinate
+   * @param y1  the final y coordinate
+   * @return    true if the specified move is a valid move
+   *            false otherwise
+   */
+  public boolean validateMove(int x0, int y0, int x1, int y1){
     // TODO
     return false;
   }
 
+  /**
+   * Attempts to move a piece from the starting position to some ending location.
+   * This method first verifies that the move is a valid move and then
+   * tried to update the board to reflect the move, if it is valid.
+   *
+   * @param x0  the initial x coordinate
+   * @param y0  the initial y coordinate
+   * @param x1  the final x coordinate
+   * @param y1  the final y coordinate
+   * @return    true if the specified move was able to be performed
+   *            false otherwise
+   */
   public boolean movePiece(int x0, int y0, int x1, int y1) {
     // TODO
     return false;
   }
 
+  /**
+   * TODO this method should likely be in the Game class
+   *
+   * Checks the state of the board in an attempt to detect an end state.
+   * A board is considered to be in an end state when any of the following
+   * conditions are met:
+   *  there are no red pieces on the board
+   *  there are no white pieces on the board
+   *  the red player has no more valid moves to make
+   *  the white player has no more valid moves to make
+   *
+   * @return  true  if the current state of the board is indicative of an
+   *                end state
+   *          false otherwise
+   */
   public boolean checkEnd() {
     // TODO
     return false;
   }
 
-  public int cartesianToIndex(int x, int y){
+  /**
+   * Converts the x and y coordinate positions (as would be expected on a typical
+   * cartesian coordinate system) into the corresponding bit index of the location
+   * of the coordinate pair.
+   *
+   * @param   x x coordinate on the cartesian board
+   * @param   y y coordinate on the cartesian board
+   * @return    equivalent bit position of the coordinate paid
+   */
+  int cartesianToIndex(int x, int y){
     int position = (y*X_BOARD_SIZE) + (x);
     if((position % 2) == (y%2)){
       return position/2;
@@ -59,6 +138,16 @@ public class Board {
     return -1;
   }
 
+  /**
+   * Retrieves the piece at the location specified by the (x,y)
+   * coordinate pair.
+   * If no piece is present at the location, the returned piece
+   * is an EMPTY piece.
+   *
+   * @param   x x coordinate on the cartesian board
+   * @param   y y coordinate on the cartesian board
+   * @return    the piece located at the specified location
+   */
   public SPACE_TYPE getPieceAtLocation(int x, int y){
     int bitIdx = cartesianToIndex(x, y);
     if(bitIdx == -1){
@@ -84,6 +173,17 @@ public class Board {
     }
   }
 
+  /**
+   * Attempts to place a specified piece at the location designate by
+   * the (x,y) coordinate pair.
+   * TODO make a note of the conditions for failure/success
+   *
+   * @param   x     x coordinate on the cartesian board
+   * @param   y     y coordinate on the cartesian board
+   * @param   piece the type of piece to place
+   * @return  true  if the board was altered to reflect the placed piece
+   *          else  otherwise
+   */
   public boolean placePiece(int x, int y, SPACE_TYPE piece){
     int bitIdx = cartesianToIndex(x, y);
     if(bitIdx == -1){
@@ -118,6 +218,17 @@ public class Board {
     }
   }
 
+  /**
+   * Attempts to remove the piece that is at the location designated
+   * by the (x,y) coordinate pair.
+   * Note that if the location either does not contain a piece
+   * or if the location is not a valid position for a piece to be placed,
+   * then this method returns that the removed piece was EMPTY.
+   *
+   * @param   x x coordinate on the cartesian board
+   * @param   y y coordinate on the cartesian board
+   * @return    the piece that was removed
+   */
   public SPACE_TYPE removePiece(int x, int y){
     SPACE_TYPE remPiece = getPieceAtLocation(x, y);
     int bitIdx = cartesianToIndex(x, y);
@@ -126,10 +237,29 @@ public class Board {
     return remPiece;
   }
 
+  /**
+   * Checks if the locations specified by the (x,y) coordinate pair
+   * is a location on which a piece could be place, ie. if the location
+   * is a black square. This is due to the fact that as the board is setup,
+   * all pieces must reside only on black spaces.
+   *
+   * @param   x     x coordinate on the cartesian board
+   * @param   y     y coordinate on the cartesian board
+   * @return  true  if the specified location is a black square
+   *          false otherwise
+   */
   public boolean isValidLocation(int x, int y){
     return cartesianToIndex(x, y) != -1;
   }
 
+  /**
+   * Retrieves a single, indexed row from the current state of the board.
+   * Note that the side initialized with the red pieces is considered
+   * to be the bottom of the board.
+   *
+   * @param   idx the index from the bottom of the board
+   * @return      an array of pieces that make up the specified row
+   */
   public SPACE_TYPE[] getRow(int idx){
     SPACE_TYPE[] toReturn = new SPACE_TYPE[X_BOARD_SIZE];
     for(int i = 0; i < toReturn.length; i++){
@@ -139,6 +269,14 @@ public class Board {
     return toReturn;
   }
 
+  /**
+   * Retrieves a single, indexed row, in reverse order, from the current state of the board.
+   * Note that the side initialized with the red pieces is considered
+   * to be the bottom of the board.
+   *
+   * @param   idx the index from the bottom of the board
+   * @return      an array of pieces that make up the specified row, in reverse order
+   */
   public SPACE_TYPE[] getRowReverse(int idx){
     SPACE_TYPE[] spaceList = getRow(idx);
     SPACE_TYPE[] toReturn = new SPACE_TYPE[spaceList.length];
@@ -150,24 +288,50 @@ public class Board {
     return toReturn;
   }
 
+  /**
+   * Retrieves the locations of all red pieces on the board.
+   *
+   * @return  the bit indices of the positions of the red pieces
+   */
   public int getRedLocations(){
     return pieceLocations & pieceColors;
   }
 
+  /**
+   * Retrieves the number of red pieces currently on the board.
+   *
+   * @return  the number of red pieces on the board
+   */
   public int getNumRedPieces(){
     int redLocs = getRedLocations();
     return Integer.bitCount(redLocs);
   }
 
+  /**
+   * Retrieves the locations of all white pieces on the board.
+   *
+   * @return  the bit indices of the positions of the white pieces
+   */
   public int getWhiteLocations(){
     return pieceLocations & (~pieceColors);
   }
 
+  /**
+   * Retrieves the number of white pieces currently on the board.
+   *
+   * @return  the number of white pieces on the board
+   */
   public int getNumWhitePieces(){
     int whiteLocs = getWhiteLocations();
     return Integer.bitCount(whiteLocs);
   }
 
+  /**
+   * Retrieves the total number of pieces currently placed
+   * on the board.
+   *
+   * @return  the number of pieces on the board
+   */
   public int getNumPieces(){
     return Integer.bitCount(pieceLocations);
   }
