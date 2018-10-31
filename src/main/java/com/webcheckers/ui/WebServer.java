@@ -158,6 +158,10 @@ public class WebServer {
     get("*",
         new GetHomeRoute(gameCenter, playerLobby, templateEngine));
 
+    post(SUBMIT_TURN_URL,
+        new PostSubmitTurnRoute(gameCenter,gson,playerLobby,templateEngine),
+        gson::toJson);
+
     LOG.config("WebServer is initialized.");
   }
 }
