@@ -12,11 +12,9 @@ define(function(require){
   function Position(row, cell) {
     // validate
     if (typeof row !== 'number') {
-      alert('error: position');
       throw new Error('row (' + row + ') is not a number.');
     }
     if (typeof cell !== 'number') {
-      alert('error: position');
       throw new Error('cell (' + cell + ') is not a number.');
     }
     //
