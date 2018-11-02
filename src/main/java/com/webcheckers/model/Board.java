@@ -1,5 +1,10 @@
 package com.webcheckers.model;
 
+import static com.webcheckers.ui.boardView.Message.MESSAGE_TYPE.error;
+import static java.lang.Math.abs;
+
+import com.webcheckers.ui.boardView.Message;
+
 /**
  *  {@code Board}
  *  <p>
@@ -81,6 +86,26 @@ public class Board {
    */
   public boolean validateMove(int x0, int y0, int x1, int y1){
     // TODO
+    SPACE_TYPE pieceToMove = getPieceAtLocation(x0, y0);
+    if(x1 < 1 || x1 > X_BOARD_SIZE || y1 < 1 || y1 > Y_BOARD_SIZE){
+      return false;
+    }
+    if(getPieceAtLocation(x1, y1) == SPACE_TYPE.EMPTY) {
+      // Simple Move
+      if (abs(x1 - x0) == 1 && abs(y1 = y0) == 1) {
+        if (y1 - y0 == 1 || isKing(pieceToMove)) {
+          return true;
+        }
+      }
+      // Single Jump
+      else if (abs(x1 - x0) == 2 && abs(y1 - y0) == 2) {
+        SPACE_TYPE opponentPiece = getPieceAtLocation((x0 + x1) / 2, (y0 + y1) / 2);
+        if (y1 - y0 == 2 || isKing(pieceToMove)) {
+          if (isRed(pieceToMove) != isRed(opponentPiece))
+            return true;
+        }
+      }
+    }
     return false;
   }
 
@@ -98,6 +123,15 @@ public class Board {
    */
   public boolean movePiece(int x0, int y0, int x1, int y1) {
     // TODO
+    if(validateMove(x0, y0, x1, y1)){
+      SPACE_TYPE pieceType = getPieceAtLocation(x0, y0);
+      removePiece(x0, y0);
+      placePiece(x1, y1, pieceType);
+      if(abs(x0 - x1) == 2) {
+        removePiece((x0 + x1) / 2, (y0 + y1) / 2);
+      }
+      return true;
+    }
     return false;
   }
 
@@ -136,6 +170,26 @@ public class Board {
       return position/2;
     }
     return -1;
+  }
+
+  /**
+   * Determines whether a given piece is red.
+   *
+   * @param   piece a SPACE_TYPE representing the piece in question
+   * @return    a boolean stating whether the piece is red
+   */
+  public boolean isRed(SPACE_TYPE piece){
+    return piece == SPACE_TYPE.SINGLE_RED || piece == SPACE_TYPE.KING_RED;
+  }
+
+  /**
+   * Determines whether a given piece is a king.
+   *
+   * @param   piece a SPACE_TYPE representing the piece in question
+   * @return    a boolean stating whether the piece is a king
+   */
+  public boolean isKing(SPACE_TYPE piece){
+    return piece == SPACE_TYPE.KING_RED || piece == SPACE_TYPE.KING_WHITE;
   }
 
   /**

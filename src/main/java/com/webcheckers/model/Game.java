@@ -119,10 +119,10 @@ public class Game {
    *
    * Retrieves the current state of the board, as seen by the specified player.
    *
-   * @param player  the player to use for perspective of the board.
+   * @param   player  the player to use for perspective of the board.
    * @return  the current board state
    */
-  public Board getBoardState() {
+  public Board getBoardState(Player player) {
     return board;
   }
 
