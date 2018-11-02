@@ -23,18 +23,11 @@ import spark.TemplateEngine;
 public class PostCheckTurnRoute implements Route {
 
   private final GameCenter gameCenter;
-  private final Gson gson;
-  private final TemplateEngine templateEngine;
   private static final Logger LOG = Logger.getLogger(PostSigninRoute.class.getName());
 
-  public PostCheckTurnRoute(GameCenter gameCenter, Gson gson, TemplateEngine templateEngine){
+  public PostCheckTurnRoute(GameCenter gameCenter){
     Objects.requireNonNull(gameCenter, "gameCenter must not be null");
-    Objects.requireNonNull(gson, "gson must not be null");
-    Objects.requireNonNull(templateEngine, "templateEngine must not be null");
-
     this.gameCenter = gameCenter;
-    this.gson = gson;
-    this.templateEngine = templateEngine;
   }
 
   public Object handle(Request request, Response response){

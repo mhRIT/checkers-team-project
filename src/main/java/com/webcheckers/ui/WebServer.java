@@ -163,7 +163,7 @@ public class WebServer {
         gson::toJson);
 
     post(CHECK_TURN_URL,
-        new PostCheckTurnRoute(gameCenter,gson,templateEngine),
+        new PostCheckTurnRoute(gameCenter),
         gson::toJson);
 
     LOG.config("WebServer is initialized.");
