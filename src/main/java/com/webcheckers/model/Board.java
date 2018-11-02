@@ -87,16 +87,19 @@ public class Board {
   public boolean validateMove(int x0, int y0, int x1, int y1){
     // TODO
     SPACE_TYPE pieceToMove = getPieceAtLocation(x0, y0);
-    if(abs(x1 - x0) == 1 && abs(y1 = y0) == 1){
-      if(y1 - y0 == 1 || isKing(pieceToMove)){
-        return true;
-      }
-    }
-    else if(abs(x1 - x0) == 2 && abs(y1 - y0) == 2){
-      SPACE_TYPE opponentPiece = getPieceAtLocation((x0 + x1)/2, (y0 + y1)/2);
-      if(y1 - y0 == 2 || isKing(pieceToMove)){
-        if(isRed(pieceToMove) != isRed(opponentPiece)){
+    if(getPieceAtLocation(x1, y1) == SPACE_TYPE.EMPTY) {
+      // Simple Move
+      if (abs(x1 - x0) == 1 && abs(y1 = y0) == 1) {
+        if (y1 - y0 == 1 || isKing(pieceToMove)) {
           return true;
+        }
+      }
+      // Single Jump
+      else if (abs(x1 - x0) == 2 && abs(y1 - y0) == 2) {
+        SPACE_TYPE opponentPiece = getPieceAtLocation((x0 + x1) / 2, (y0 + y1) / 2);
+        if (y1 - y0 == 2 || isKing(pieceToMove)) {
+          if (isRed(pieceToMove) != isRed(opponentPiece))
+            return true;
         }
       }
     }
