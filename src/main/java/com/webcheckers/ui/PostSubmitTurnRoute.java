@@ -39,8 +39,14 @@ public class PostSubmitTurnRoute implements Route {
     final Session session = request.session();
     Player player = session.attribute("player");
 
+    Game game = gameCenter.getGames(player)[0];
 
-    return new Message("false", MESSAGE_TYPE.error);
+    if(game.isLastTurnValid()){
+      return new Message("true", MESSAGE_TYPE.info);
+    }
+    else{
+      return new Message("false", MESSAGE_TYPE.error);
+    }
   }
 
 

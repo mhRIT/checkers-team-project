@@ -29,6 +29,7 @@ public class Game {
   private Player redPlayer = null;
   private COLOR activeColor;
   private Board board;
+  private boolean lastTurn;
 
   /**
    * The constructor for the Game class.
@@ -164,5 +165,13 @@ public class Game {
    */
   public Boolean hasPlayer(Player player) {
     return player.equals(redPlayer) || player.equals(whitePlayer);
+  }
+
+  public void setLastTurn(Boolean x){
+    lastTurn = x;
+  }
+
+  public Boolean isLastTurnValid(){
+    return lastTurn;
   }
 }

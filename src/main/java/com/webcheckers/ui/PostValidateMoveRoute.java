@@ -84,8 +84,10 @@ public class PostValidateMoveRoute implements Route {
     LinkedTreeMap startPos = map.get("start");
     LinkedTreeMap endPos = map.get("end");
     if(game.validateMove(0,0,0,0)){
+      game.setLastTurn(true);
       return new Message("Valid move", MESSAGE_TYPE.info);
     } else {
+      game.setLastTurn(false);
       return new Message("Invalid move", MESSAGE_TYPE.error);
     }
   }
