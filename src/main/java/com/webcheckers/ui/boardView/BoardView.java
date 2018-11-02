@@ -33,7 +33,7 @@ public class BoardView implements Iterable {
    * Constructs the view of the board, as needed by the game.ftl
    * Freemarker template.
    *
-   * @param boardState  the current state of the board
+   * @param  boardState  the current state of the board
    */
   public BoardView(Game game, Player player) {
     this.rows = new ArrayList<>();
