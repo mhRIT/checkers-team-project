@@ -30,6 +30,11 @@ public class Game {
   private COLOR activeColor;
   private Board board;
   private boolean lastTurn;
+
+  /*turnSwitch records the "rising edge" of a turn, so to speak.
+   * It is only true as a turn is being toggled over to the other player,
+   * so that the PostCheckTurnRoute can verify that the opponent's turn has just ended.
+   * */
   private boolean turnSwitch;
 
   /**
@@ -177,7 +182,7 @@ public class Game {
     return lastTurn;
   }
 
-  public Boolean registeredTurnSwitch() {return true;}
+  public Boolean getTurnSwitch() {return turnSwitch;}
 
-  public void toggleTurnSwitch() {turnSwitch = !turnSwitch;}
+  public void setTurnSwitch(Boolean x) {turnSwitch = x;}
 }

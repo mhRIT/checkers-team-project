@@ -39,7 +39,8 @@ public class PostSubmitTurnRoute implements Route {
     Game game = gameCenter.getGames(player)[0];
 
     if(game.isLastTurnValid()){
-      game.toggleTurnSwitch();
+      game.setTurnSwitch(true);
+      game.switchTurn();
       return new Message("true", MESSAGE_TYPE.info);
     }
     else{

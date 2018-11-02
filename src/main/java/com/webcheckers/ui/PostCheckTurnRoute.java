@@ -36,14 +36,14 @@ public class PostCheckTurnRoute implements Route {
     Player player = session.attribute("player");
     Game game = gameCenter.getGames(player)[0];
 
-    if(game.registeredTurnSwitch()){
-      game.toggleTurnSwitch();
+    if(game.getTurnSwitch()){
+      game.setTurnSwitch(false);
       LOG.finer("CheckTurn is true for player: " + player.getName());
-      return new Message("Your turn", MESSAGE_TYPE.info);
+      return new Message("true", MESSAGE_TYPE.info);
     }
     else{
       LOG.finer("CheckTurn is false for player: " + player.getName());
-      return new Message("Opponent's turn",MESSAGE_TYPE.error);
+      return new Message("false",MESSAGE_TYPE.error);
     }
   }
 }
