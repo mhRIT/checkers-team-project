@@ -314,4 +314,14 @@ class BoardTest {
     int numPieces = 24;
     assertEquals(numPieces, cut.getNumPieces());
   }
+
+  //@Test: try to move a piece directly sideways, or one space sideways and three spaces up, etc.
+
+  //@Test: try to move a non-king backwards.
+
+  //@Test: try to make a piece jump a piece of its own color.
+
+  //@Test: try to move a piece on top of another piece.
+
+  //@Test: try to move a piece off of the board.
 }

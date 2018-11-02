@@ -87,6 +87,9 @@ public class Board {
   public boolean validateMove(int x0, int y0, int x1, int y1){
     // TODO
     SPACE_TYPE pieceToMove = getPieceAtLocation(x0, y0);
+    if(x1 < 1 || x1 > X_BOARD_SIZE || y1 < 1 || y1 > Y_BOARD_SIZE){
+      return false;
+    }
     if(getPieceAtLocation(x1, y1) == SPACE_TYPE.EMPTY) {
       // Simple Move
       if (abs(x1 - x0) == 1 && abs(y1 = y0) == 1) {
