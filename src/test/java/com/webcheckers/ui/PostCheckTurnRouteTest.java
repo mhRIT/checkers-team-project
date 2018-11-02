@@ -51,8 +51,11 @@ public class PostCheckTurnRouteTest {
     Message msg = (Message)CuT.handle(request,response);
     Message info = new Message("true",MESSAGE_TYPE.info);
     Message error = new Message("false",MESSAGE_TYPE.error);
-    assertEquals(msg,error);
+    assertTrue(msg.equals(error));
 
+    when(game.getTurnSwitch()).thenReturn(true);
+    msg = (Message)CuT.handle(request,response);
+    assertTrue(msg.equals(info));
   }
 
 }
