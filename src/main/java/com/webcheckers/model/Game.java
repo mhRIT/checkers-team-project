@@ -30,6 +30,7 @@ public class Game {
   private COLOR activeColor;
   private Board board;
   private boolean lastTurn;
+  private boolean turnSwitch;
 
   /**
    * The constructor for the Game class.
@@ -42,6 +43,7 @@ public class Game {
     this.whitePlayer = wPlayer;
 
     this.board = new Board();
+    this.turnSwitch = false;
     activeColor = COLOR.RED;
     board.initStart();
   }
@@ -174,4 +176,8 @@ public class Game {
   public Boolean isLastTurnValid(){
     return lastTurn;
   }
+
+  public Boolean registeredTurnSwitch() {return true;}
+
+  public void toggleTurnSwitch() {turnSwitch = !turnSwitch;}
 }

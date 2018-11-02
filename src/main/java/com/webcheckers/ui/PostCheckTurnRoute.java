@@ -2,7 +2,6 @@ package com.webcheckers.ui;
 
 import com.google.gson.Gson;
 import com.webcheckers.application.GameCenter;
-import com.webcheckers.application.PlayerLobby;
 import com.webcheckers.model.Game;
 import com.webcheckers.model.Player;
 import com.webcheckers.ui.boardView.Message;
@@ -15,14 +14,14 @@ import spark.Route;
 import spark.Session;
 import spark.TemplateEngine;
 
-public class PostSubmitTurnRoute implements Route {
+public class PostCheckTurnRoute implements Route {
 
   private final GameCenter gameCenter;
   private final Gson gson;
   private final TemplateEngine templateEngine;
   private static final Logger LOG = Logger.getLogger(PostSigninRoute.class.getName());
 
-  public PostSubmitTurnRoute(GameCenter gameCenter, Gson gson, TemplateEngine templateEngine){
+  public PostCheckTurnRoute(GameCenter gameCenter, Gson gson, TemplateEngine templateEngine){
     Objects.requireNonNull(gameCenter, "gameCenter must not be null");
     Objects.requireNonNull(gson, "gson must not be null");
     Objects.requireNonNull(templateEngine, "templateEngine must not be null");
@@ -32,20 +31,19 @@ public class PostSubmitTurnRoute implements Route {
     this.templateEngine = templateEngine;
   }
 
-  public Object handle(Request request, Response response) {
+  public Object handle(Request request, Response response){
     final Session session = request.session();
     Player player = session.attribute("player");
-
     Game game = gameCenter.getGames(player)[0];
 
-    if(game.isLastTurnValid()){
+    if(game.registeredTurnSwitch()){
       game.toggleTurnSwitch();
-      return new Message("true", MESSAGE_TYPE.info);
+      LOG.finer("CheckTurn is true for player: " + player.getName());
+      return new Message("Your turn", MESSAGE_TYPE.info);
     }
     else{
-      return new Message("false", MESSAGE_TYPE.error);
+      LOG.finer("CheckTurn is false for player: " + player.getName());
+      return new Message("Opponent's turn",MESSAGE_TYPE.error);
     }
   }
-
-
 }
