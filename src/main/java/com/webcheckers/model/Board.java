@@ -1,6 +1,9 @@
 package com.webcheckers.model;
 
+import static com.webcheckers.ui.boardView.Message.MESSAGE_TYPE.error;
 import static java.lang.Math.abs;
+
+import com.webcheckers.ui.boardView.Message;
 
 /**
  *  {@code Board}
