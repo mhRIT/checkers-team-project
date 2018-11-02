@@ -14,6 +14,12 @@ import spark.Route;
 import spark.Session;
 import spark.TemplateEngine;
 
+/**
+ * The {@code POST /checkTurn} route handler.
+ * Check if the opponent has submitted their turn.
+ *
+ *  @author <a href='mailto:sjk7867@rit.edu'>Simon Kirwkwood</a>
+ */
 public class PostCheckTurnRoute implements Route {
 
   private final GameCenter gameCenter;
