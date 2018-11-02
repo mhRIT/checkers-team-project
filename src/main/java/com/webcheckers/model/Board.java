@@ -110,7 +110,12 @@ public class Board {
   public boolean movePiece(int x0, int y0, int x1, int y1) {
     // TODO
     if(validateMove(x0, y0, x1, y1)){
-      removePiece((x0 + x1)/2, (y0 + y1)/2);
+      SPACE_TYPE pieceType = getPieceAtLocation(x0, y0);
+      removePiece(x0, y0);
+      placePiece(x1, y1, pieceType);
+      if(abs(x0 - x1) == 2) {
+        removePiece((x0 + x1) / 2, (y0 + y1) / 2);
+      }
       return true;
     }
     return false;
