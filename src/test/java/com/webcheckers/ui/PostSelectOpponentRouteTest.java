@@ -82,7 +82,7 @@ class PostSelectOpponentRouteTest {
   }
 
   /**
-   *  Test the construct of the SelectOpponent Route.
+   *  Test the construction of the SelectOpponent Route.
    */
   @Test
   public void testRouteCreation() {

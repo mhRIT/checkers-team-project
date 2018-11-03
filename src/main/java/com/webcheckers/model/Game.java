@@ -80,8 +80,8 @@ public class Game {
    * @param y1  the ending y position of the move
    * @return    whether the specified move is valid
    */
-  public boolean validateMove(int x0, int x1, int y0, int y1){
-    return true;
+  public boolean validateMove(Move move){
+    return board.validateMove(move.getStart(), move.getEnd());
   }
 
   /**
@@ -93,10 +93,8 @@ public class Game {
    * @param y1  the ending y position of the move
    * @return    whether the specified move was successful
    */
-  public boolean makeMove(int x0, int x1, int y0, int y1) {
-    board.movePiece(x0, x1, y0, y1);
-    switchTurn();
-    return true;
+  public boolean makeMove(Move move) {
+    return board.movePiece(move.getStart(), move.getEnd());
   }
 
   /**

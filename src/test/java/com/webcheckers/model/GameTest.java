@@ -26,13 +26,16 @@ public class GameTest {
 
   @Test
   public void testSwitchTurn(){
+    Move testMove0 = new Move(new Position(0,1), new Position(0,1));
+    Move testMove1 = new Move(new Position(1,2), new Position(1,2));
+
     CuT.switchTurn();
     assertSame(CuT.getActiveColor(), WHITE);
     CuT.switchTurn();
     assertSame(CuT.getActiveColor(), RED);
-    CuT.makeMove(0,1,0,1);
+    CuT.makeMove(testMove0);
     assertSame(CuT.getActiveColor(),WHITE);
-    CuT.makeMove(1,2,1,2);
+    CuT.makeMove(testMove1);
     assertSame(CuT.getActiveColor(),RED);
   }
 

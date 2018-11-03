@@ -3,7 +3,11 @@ package com.webcheckers.model;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import com.webcheckers.model.Board.SPACE_TYPE;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -62,25 +66,74 @@ class BoardTest {
 
   @Test
   void testValidateMove() {
-    int x0 = 0;
-    int y0 = 0;
-    int x1 = 1;
-    int y1 = 1;
+    Map<Move, Boolean> testMoves = new HashMap();
 
-    cut.initStart();
-    assertFalse(cut.validateMove(x0, y0, x1, y1));
+    testMoves.put(new Move(new Position(0, 0), new Position(0, 0)), false);
+    testMoves.put(new Move(new Position(0, 0), new Position(0, 1)), false);
+    testMoves.put(new Move(new Position(0, 0), new Position(1, 1)), false);
+    testMoves.put(new Move(new Position(0, 0), new Position(1, 0)), false);
+    testMoves.put(new Move(new Position(0, 0), new Position(1, -1)), false);
+    testMoves.put(new Move(new Position(0, 0), new Position(0, -1)), false);
+    testMoves.put(new Move(new Position(0, 0), new Position(-1, -1)), false);
+    testMoves.put(new Move(new Position(0, 0), new Position(-1, 0)), false);
+    testMoves.put(new Move(new Position(0, 0), new Position(-1, 1)), false);
+
+    testMoves.put(new Move(new Position(0, 2), new Position(0, 2)), false);
+    testMoves.put(new Move(new Position(0, 2), new Position(0, 3)), false);
+    testMoves.put(new Move(new Position(0, 2), new Position(1, 3)), true);
+    testMoves.put(new Move(new Position(0, 2), new Position(1, 2)), false);
+    testMoves.put(new Move(new Position(0, 2), new Position(1, 1)), false);
+    testMoves.put(new Move(new Position(0, 2), new Position(0, 1)), false);
+    testMoves.put(new Move(new Position(0, 2), new Position(-1, 1)), false);
+    testMoves.put(new Move(new Position(0, 2), new Position(-1, 2)), false);
+    testMoves.put(new Move(new Position(0, 2), new Position(-1, 3)), false);
+
+    testMoves.put(new Move(new Position(6, 2), new Position(6, 2)), false);
+    testMoves.put(new Move(new Position(6, 2), new Position(6, 3)), false);
+    testMoves.put(new Move(new Position(6, 2), new Position(7, 3)), true);
+    testMoves.put(new Move(new Position(6, 2), new Position(7, 2)), false);
+    testMoves.put(new Move(new Position(6, 2), new Position(7, 1)), false);
+    testMoves.put(new Move(new Position(6, 2), new Position(6, 1)), false);
+    testMoves.put(new Move(new Position(6, 2), new Position(5, 1)), false);
+    testMoves.put(new Move(new Position(6, 2), new Position(5, 2)), false);
+    testMoves.put(new Move(new Position(6, 2), new Position(5, 3)), true);
+
+    testMoves.put(new Move(new Position(1, 5), new Position(1, 5)), false);
+    testMoves.put(new Move(new Position(1, 5), new Position(1, 6)), false);
+    testMoves.put(new Move(new Position(1, 5), new Position(2, 6)), false);
+    testMoves.put(new Move(new Position(1, 5), new Position(3, 5)), false);
+    testMoves.put(new Move(new Position(1, 5), new Position(2, 4)), true);
+    testMoves.put(new Move(new Position(1, 5), new Position(1, 4)), false);
+    testMoves.put(new Move(new Position(1, 5), new Position(0, 4)), true);
+    testMoves.put(new Move(new Position(1, 5), new Position(0, 5)), false);
+    testMoves.put(new Move(new Position(1, 5), new Position(0, 6)), false);
+
+    testMoves.put(new Move(new Position(7, 5), new Position(7, 5)), false);
+    testMoves.put(new Move(new Position(7, 5), new Position(7, 6)), false);
+    testMoves.put(new Move(new Position(7, 5), new Position(8, 6)), false);
+    testMoves.put(new Move(new Position(7, 5), new Position(8, 5)), false);
+    testMoves.put(new Move(new Position(7, 5), new Position(8, 4)), false);
+    testMoves.put(new Move(new Position(7, 5), new Position(7, 4)), false);
+    testMoves.put(new Move(new Position(7, 5), new Position(6, 4)), true);
+    testMoves.put(new Move(new Position(7, 5), new Position(6, 5)), false);
+    testMoves.put(new Move(new Position(7, 5), new Position(6, 6)), false);
+
+    for(Entry eachEntry : testMoves.entrySet()){
+      Move eachMove = (Move) eachEntry.getKey();
+      Boolean validMove = (Boolean) eachEntry.getValue();
+      cut.initStart();
+      assertEquals(validMove, cut.validateMove(eachMove.getStart(), eachMove.getEnd()),
+          String.format("Start: %s -> End: %s", eachMove.getStart(), eachMove.getEnd()));
+    }
   }
 
   @Test
   void testMovePiece() {
-    int x0 = 0;
-    int y0 = 0;
-
-    int x1 = 0;
-    int y1 = 0;
+    Position testStart = new Position(0,0);
+    Position testEnd = new Position(0,0);
 
     cut.initStart();
-    assertFalse(cut.movePiece(x0, y0, x1, y1));
+    assertFalse(cut.movePiece(testStart, testEnd));
   }
 
   @Test
@@ -315,13 +368,7 @@ class BoardTest {
     assertEquals(numPieces, cut.getNumPieces());
   }
 
-  //@Test: try to move a piece directly sideways, or one space sideways and three spaces up, etc.
-
   //@Test: try to move a non-king backwards.
 
   //@Test: try to make a piece jump a piece of its own color.
-
-  //@Test: try to move a piece on top of another piece.
-
-  //@Test: try to move a piece off of the board.
 }
