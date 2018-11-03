@@ -1,5 +1,9 @@
 package com.webcheckers.model;
 
+import static java.lang.Math.abs;
+
+import com.webcheckers.model.Board.SPACE_TYPE;
+
 /**
  *  {@code Game}
  *  <p>
@@ -72,29 +76,70 @@ public class Game {
   }
 
   /**
-   * Validates the specified move.
+   * Checks whether the move specified is a valid move, based on the
+   * current state of the board.
+   * This criteria can be stated as follows:
+   *  the initial position must be occupied by a piece
+   *  the end position must not be occupied by a space
+   *  if the end position is farther than sqrt(2), then the intermediate
+   *    location must be occupied by a piece of a different color
+   *    than the piece on the starting location
    *
-   * @param x0  the starting x position of the move
-   * @param x1  the ending x position of the move
-   * @param y0  the starting y position of the move
-   * @param y1  the ending y position of the move
-   * @return    whether the specified move is valid
+   * @param   move  the move to be checked
+   * @return        true if the specified move is a valid move
+   *                false otherwise
    */
   public boolean validateMove(Move move){
-    return board.validateMove(move.getStart(), move.getEnd());
+    Position start = move.getStart();
+    Position end = move.getEnd();
+
+    if(!board.isOnBoard(start) || !board.isOnBoard(end)){
+      return false;
+    }
+
+    SPACE_TYPE pieceAtStart = board.getPieceAtLocation(start);
+    SPACE_TYPE pieceAtEnd = board.getPieceAtLocation(end);
+
+    if(pieceAtStart == SPACE_TYPE.EMPTY || pieceAtEnd != SPACE_TYPE.EMPTY){
+      return false;
+    }
+
+    int x0 = start.getCell();
+    int y0 = start.getRow();
+
+    int x1 = end.getCell();
+    int y1 = end.getRow();
+
+    if(abs(x1 - x0) != 1){
+      return false;
+    } else {
+      if(Board.isRed(pieceAtStart)){
+        return (y1 - y0) == 1;
+      } else {
+        return (y0 - y1) == 1;
+      }
+    }
   }
 
   /**
-   * Applies the specified move to the current board state
+   * Attempts to move a piece from the starting position to some ending
+   * location. This method first verifies that the move is a valid move
+   * and then tries to update the board to reflect the move, if it is valid.
    *
-   * @param x0  the starting x position of the move
-   * @param x1  the ending x position of the move
-   * @param y0  the starting y position of the move
-   * @param y1  the ending y position of the move
-   * @return    whether the specified move was successful
+   * @param   move  the move to be checked
+   * @return        true if the move was successfully made
    */
   public boolean makeMove(Move move) {
-    return board.movePiece(move.getStart(), move.getEnd());
+    if(!validateMove(move)){
+      return false;
+    }
+
+    Position start = move.getStart();
+    Position end = move.getEnd();
+
+    SPACE_TYPE pieceAtStart = board.getPieceAtLocation(start);
+
+    return board.placePiece(end, pieceAtStart) && board.removePiece(start) == pieceAtStart;
   }
 
   /**
@@ -124,13 +169,32 @@ public class Game {
   }
 
   /**
+   *
+   * Checks the state of the board in an attempt to detect an end state.
+   * A board is considered to be in an end state when any of the following
+   * conditions are met:
+   *  there are no red pieces on the board
+   *  there are no white pieces on the board
+   *  the red player has no more valid moves to make
+   *  the white player has no more valid moves to make
+   *
+   * @return  true  if the current state of the board is indicative of an
+   *                end state
+   *          false otherwise
+   */
+  public boolean checkEnd() {
+    // TODO
+    return false;
+  }
+
+  /**
    * Ends the game.
    *
    * @return  whether the game was successfully ended
    */
   public boolean endGame() {
     // TODO
-    return board.checkEnd();
+    return checkEnd();
   }
 
   /**
