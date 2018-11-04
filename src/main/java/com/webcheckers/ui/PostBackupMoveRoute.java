@@ -14,6 +14,13 @@ import spark.Response;
 import spark.Route;
 import spark.Session;
 
+/**
+ * The {@code POST /backupMove} route handler.
+ * Handles a player undoing their turn.
+ *
+ *  @author <a href='mailto:sjk7867@rit.edu'>Simon Kirkwood</a>
+ */
+
 public class PostBackupMoveRoute implements Route {
 
   private GameCenter gameCenter;
@@ -31,6 +38,7 @@ public class PostBackupMoveRoute implements Route {
 
     COLOR c = game.getActiveColor();
     Player compare;
+    //Get the active player based on the active color
     switch(c){
       case RED:
         compare = game.getRedPlayer();
@@ -40,6 +48,7 @@ public class PostBackupMoveRoute implements Route {
         break;
     }
 
+    //If the current player is the active player, return a successful undo message
     if (game.hasPlayer(player) && player.equals(compare)) {
       return new Message("Move undone", MESSAGE_TYPE.info);
     } else {
