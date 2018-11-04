@@ -136,23 +136,6 @@ public class Game {
     return board.checkEnd();
   }
 
-  /**
-   * Resigns the specified player from the game and returns
-   * if the player was successfully removed and the game
-   * was successfully ended.
-   *
-   * @param resignPlayer  the player that resigned
-   * @return true         if the player was successfully removed and
-   *                      and the game was successfully ended
-   *         false        otherwise
-   */
-  public boolean resign(Player resignPlayer){
-    // TODO complete and verify functionality
-    if(hasPlayer(resignPlayer)){
-      return endGame();
-    }
-    return false;
-  }
 
   /**
    * Checks if one of the players in the game is the specified player.

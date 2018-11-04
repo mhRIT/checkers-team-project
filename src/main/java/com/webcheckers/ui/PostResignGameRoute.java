@@ -5,6 +5,9 @@ import com.webcheckers.application.PlayerLobby;
 import com.webcheckers.ui.boardView.Message;
 import com.webcheckers.ui.boardView.Message.MESSAGE_TYPE;
 import com.webcheckers.model.Player;
+
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -55,7 +58,7 @@ public class PostResignGameRoute implements Route {
 
   /**
    * {@inheritDoc}
-   * Render the WebCheckers Home page.
+   * Redirects to the WebCheckers Home page.
    *
    * @param request the HTTP request
    * @param response the HTTP response
@@ -65,10 +68,14 @@ public class PostResignGameRoute implements Route {
   public Object handle(Request request, Response response) {
     final Session session = request.session();
     Player player = session.attribute("player");
+
     LOG.finer("PostResignGameRoute is invoked: " + player.getName());
 
-    gameCenter.removeGame(gameCenter.getGames(player)[0]);
+    // start building View-model
+    final Map<String, Object> vm = new HashMap<String,Object>();
 
-    return new Message("Resigning from game: You lost", MESSAGE_TYPE.info);
+    gameCenter.resignAll(player);
+
+    return new Message("jjk", MESSAGE_TYPE.info);
   }
 }
