@@ -159,7 +159,7 @@ public class WebServer {
         new GetHomeRoute(gameCenter, playerLobby, templateEngine));
 
     post(SUBMIT_TURN_URL,
-        new PostSubmitTurnRoute(gameCenter,gson,templateEngine),
+        new PostSubmitTurnRoute(gameCenter),
         gson::toJson);
 
     post(CHECK_TURN_URL,

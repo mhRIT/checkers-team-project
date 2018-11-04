@@ -19,23 +19,17 @@ import spark.TemplateEngine;
  * The {@code POST /submitTurn} route handler.
  * Handles a player submitting their turn.
  *
- *  @author <a href='mailto:sjk7867@rit.edu'>Simon Kirwkwood</a>
+ *  @author <a href='mailto:sjk7867@rit.edu'>Simon Kirkwood</a>
  */
 public class PostSubmitTurnRoute implements Route {
 
   private final GameCenter gameCenter;
-  private final Gson gson;
-  private final TemplateEngine templateEngine;
   private static final Logger LOG = Logger.getLogger(PostSigninRoute.class.getName());
 
-  public PostSubmitTurnRoute(GameCenter gameCenter, Gson gson, TemplateEngine templateEngine){
+  public PostSubmitTurnRoute(GameCenter gameCenter){
     Objects.requireNonNull(gameCenter, "gameCenter must not be null");
-    Objects.requireNonNull(gson, "gson must not be null");
-    Objects.requireNonNull(templateEngine, "templateEngine must not be null");
 
     this.gameCenter = gameCenter;
-    this.gson = gson;
-    this.templateEngine = templateEngine;
   }
 
   public Object handle(Request request, Response response) {
