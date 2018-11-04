@@ -54,4 +54,11 @@ public class Message {
   public MESSAGE_TYPE getType() {
     return type;
   }
+
+  public boolean equals(Message msg){
+    return this.toString().equals(msg.toString());
+  }
+  public String toString(){
+    return "" + text + ", " + type.toString();
+  }
 }
