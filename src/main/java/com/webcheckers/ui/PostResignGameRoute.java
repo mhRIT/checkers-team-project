@@ -71,11 +71,12 @@ public class PostResignGameRoute implements Route {
 
     LOG.finer("PostResignGameRoute is invoked: " + player.getName());
 
-    // start building View-model
-    final Map<String, Object> vm = new HashMap<String,Object>();
 
     gameCenter.resignAll(player);
 
-    return new Message("jjk", MESSAGE_TYPE.info);
+
+    return new Message("", MESSAGE_TYPE.info);
+
+
   }
 }

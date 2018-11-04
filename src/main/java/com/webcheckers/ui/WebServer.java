@@ -158,7 +158,9 @@ public class WebServer {
     get("*",
         new GetHomeRoute(gameCenter, playerLobby, templateEngine));
 
-    post(RESIGN_URL, new PostResignGameRoute(gameCenter,templateEngine));
+    post(RESIGN_URL,
+            new PostResignGameRoute(gameCenter,templateEngine),
+            gson::toJson);
 
     LOG.config("WebServer is initialized.");
   }
