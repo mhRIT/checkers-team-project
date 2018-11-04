@@ -49,6 +49,4 @@ public class PostSubmitTurnRoute implements Route {
       return new Message("false", MESSAGE_TYPE.error);
     }
   }
-
-
 }
