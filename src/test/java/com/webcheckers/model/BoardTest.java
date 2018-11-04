@@ -3,7 +3,11 @@ package com.webcheckers.model;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
+//import com.sun.org.apache.xpath.internal.operations.Bool;
 import com.webcheckers.model.Board.SPACE_TYPE;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -62,32 +66,10 @@ class BoardTest {
 
   @Test
   void testValidateMove() {
-    int x0 = 0;
-    int y0 = 0;
-    int x1 = 1;
-    int y1 = 1;
 
-    cut.initStart();
-    assertFalse(cut.validateMove(x0, y0, x1, y1));
   }
 
-  @Test
-  void testMovePiece() {
-    int x0 = 0;
-    int y0 = 0;
 
-    int x1 = 0;
-    int y1 = 0;
-
-    cut.initStart();
-    assertFalse(cut.movePiece(x0, y0, x1, y1));
-  }
-
-  @Test
-  void testCheckEnd() {
-    cut.initStart();
-    assertFalse(cut.checkEnd());
-  }
 
   @Test
   void testCartesianToIndex() {
@@ -314,4 +296,8 @@ class BoardTest {
     int numPieces = 24;
     assertEquals(numPieces, cut.getNumPieces());
   }
+
+  //@Test: try to move a non-king backwards.
+
+  //@Test: try to make a piece jump a piece of its own color.
 }

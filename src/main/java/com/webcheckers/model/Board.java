@@ -1,5 +1,10 @@
 package com.webcheckers.model;
 
+import static com.webcheckers.ui.boardView.Message.MESSAGE_TYPE.error;
+import static java.lang.Math.abs;
+
+import com.webcheckers.ui.boardView.Message;
+
 /**
  *  {@code Board}
  *  <p>
@@ -62,63 +67,9 @@ public class Board {
     pieceTypes =      0b0000_0000_0000_0000_0000_0000_0000_0000;
   }
 
-  /**
-   * Checks whether the move specified by the initial and end
-   * positions is a valid move, based on the current state of the board.
-   * This criteria can be stated as follows:
-   *  the initial position must be occupied by a piece
-   *  the end position must not be occupied by a space
-   *  if the end position is farther than sqrt(2), then the intermediate
-   *    location must be occupied by a piece of a different color
-   *    than the piece on the starting location
-   *
-   * @param x0  the initial x coordinate
-   * @param y0  the initial y coordinate
-   * @param x1  the final x coordinate
-   * @param y1  the final y coordinate
-   * @return    true if the specified move is a valid move
-   *            false otherwise
-   */
-  public boolean validateMove(int x0, int y0, int x1, int y1){
-    // TODO
-    return false;
-  }
-
-  /**
-   * Attempts to move a piece from the starting position to some ending location.
-   * This method first verifies that the move is a valid move and then
-   * tried to update the board to reflect the move, if it is valid.
-   *
-   * @param x0  the initial x coordinate
-   * @param y0  the initial y coordinate
-   * @param x1  the final x coordinate
-   * @param y1  the final y coordinate
-   * @return    true if the specified move was able to be performed
-   *            false otherwise
-   */
-  public boolean movePiece(int x0, int y0, int x1, int y1) {
-    // TODO
-    return false;
-  }
-
-  /**
-   * TODO this method should likely be in the Game class
-   *
-   * Checks the state of the board in an attempt to detect an end state.
-   * A board is considered to be in an end state when any of the following
-   * conditions are met:
-   *  there are no red pieces on the board
-   *  there are no white pieces on the board
-   *  the red player has no more valid moves to make
-   *  the white player has no more valid moves to make
-   *
-   * @return  true  if the current state of the board is indicative of an
-   *                end state
-   *          false otherwise
-   */
-  public boolean checkEnd() {
-    // TODO
-    return false;
+  public boolean isOnBoard(Position position){
+    return position.getCell() >= 0 && position.getCell() < X_BOARD_SIZE
+            && position.getRow() >= 0 && position.getRow() < Y_BOARD_SIZE;
   }
 
   /**
@@ -136,6 +87,40 @@ public class Board {
       return position/2;
     }
     return -1;
+  }
+
+  /**
+   * Determines whether a given piece is white.
+   *
+   * @param   piece a SPACE_TYPE representing the piece in question
+   * @return    a boolean stating whether the piece is white
+   */
+  public static boolean isWhite(SPACE_TYPE piece){
+    return piece == SPACE_TYPE.SINGLE_WHITE || piece == SPACE_TYPE.KING_WHITE;
+  }
+
+  /**
+   * Determines whether a given piece is red.
+   *
+   * @param   piece a SPACE_TYPE representing the piece in question
+   * @return    a boolean stating whether the piece is red
+   */
+  public static boolean isRed(SPACE_TYPE piece){
+    return piece == SPACE_TYPE.SINGLE_RED || piece == SPACE_TYPE.KING_RED;
+  }
+
+  /**
+   * Determines whether a given piece is a king.
+   *
+   * @param   piece a SPACE_TYPE representing the piece in question
+   * @return    a boolean stating whether the piece is a king
+   */
+  public static boolean isKing(SPACE_TYPE piece){
+    return piece == SPACE_TYPE.KING_RED || piece == SPACE_TYPE.KING_WHITE;
+  }
+
+  public SPACE_TYPE getPieceAtLocation(Position position){
+    return getPieceAtLocation(position.getCell(), position.getRow());
   }
 
   /**
@@ -175,14 +160,28 @@ public class Board {
 
   /**
    * Attempts to place a specified piece at the location designate by
+   * the position.
+   *
+   * @param   position  the Position containing the coordinates of the
+   *                    piece to be removed
+   * @param   piece     the type of piece to place
+   * @return  true      if the board was altered to reflect the placed piece
+   *          false     otherwise
+   */
+  public boolean placePiece(Position position, SPACE_TYPE piece){
+    return placePiece(position.getCell(), position.getRow(), piece);
+  }
+
+  /**
+   * Attempts to place a specified piece at the location designate by
    * the (x,y) coordinate pair.
    * TODO make a note of the conditions for failure/success
    *
-   * @param   x     x coordinate on the cartesian board
-   * @param   y     y coordinate on the cartesian board
-   * @param   piece the type of piece to place
-   * @return  true  if the board was altered to reflect the placed piece
-   *          else  otherwise
+   * @param   x       x coordinate on the cartesian board
+   * @param   y       y coordinate on the cartesian board
+   * @param   piece   the type of piece to place
+   * @return  true    if the board was altered to reflect the placed piece
+   *          false   otherwise
    */
   public boolean placePiece(int x, int y, SPACE_TYPE piece){
     int bitIdx = cartesianToIndex(x, y);
@@ -216,6 +215,21 @@ public class Board {
     } else {
       return false;
     }
+  }
+
+  /**
+   * Attempts to remove the piece that is at the location designated
+   * by the (x,y) coordinate pair.
+   * Note that if the location either does not contain a piece
+   * or if the location is not a valid position for a piece to be placed,
+   * then this method returns that the removed piece was EMPTY.
+   *
+   * @param   position  the Position containing the coordinates of the
+   *                    piece to be removed
+   * @return            the piece that was removed
+   */
+  public SPACE_TYPE removePiece(Position position){
+    return removePiece(position.getCell(), position.getRow());
   }
 
   /**
