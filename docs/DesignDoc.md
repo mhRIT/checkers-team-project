@@ -52,9 +52,12 @@ In order to implement the basic features described in the section above, the fol
   - [x] Player sign-in
   - [x] Player sign-out
   - [x] Game initialization
+- Procession
+  - [x] Backup move
+  - [ ] Turn Tracking
 - Piece Movement
   - [x] Simple move
-  - [x] Single jump move
+  - [x] Single-jump move
   - [ ] Multi-jump move
 - Resignation
   - [ ] User Resigns
@@ -167,28 +170,23 @@ Starting a game against another player brings both players to the game page. On 
 > and the results of the testing._
 
 ### Acceptance Testing
-> _Report on the number of user stories that have passed all their
-> acceptance criteria tests, the number that have some acceptance
-> criteria tests failing, and the number of user stories that
-> have not had any testing yet. Highlight the issues found during
-> acceptance testing and if there are any concerns._
 
-| Term | Completion | Issues Discovered |
-|------|-------------------------|
-| Player sign-in | All acceptance criteria pass | None |
-| Player sign-out | All acceptance criteria pass | None |
-| Game initialization | All acceptance criteria pass | None |
-| Turn Tracking | TBD | None |
-| Backup Move | All acceptance criteria pass | None |
-| Simple move | All acceptance criteria pass | None |
-| Single jump move | All acceptance criteria pass | None |
-| Multi-jump move | Not yet implemented | N/A |
-| User Resigns | TBD | An issue arises when a player is able to be in multiple game at the same time against the same opponent. This is due to not being able to differentiate between two distinct games, as it is expected that the combination of the two players forms a superkey which is able to uniquely identify a game. Thus, a restriction was put in place which limits how many games a player is allowed to be playing at once. |
-| Opponent Resigns | TBD | See above |
-| Piece Promotion | Not yet implemented | N/A |
-| Reverse Movement | Not yet implemented | N/A |
-| All Pieces Captured | Not yet implemented | N/A |
-| Unable to Move | Not yet implemented | N/A |
+|   Story             |   Completion   | Issues Discovered |
+|---------------------|------------------------|-------------------|
+| Player sign-in      | 9/9    | None |
+| Player sign-out     | 6/6    | None |
+| Game initialization | 8/8    | None |
+| Turn Tracking       | ?/6    | None |
+| Backup Move         | 3/3    | None |
+| Simple move         | 2/2    | None |
+| Single jump move    | ?/3    | None |
+| Multi-jump move     | Not started | N/A |
+| User Resigns        | ?/6         | An issue arises when a player is able to be in multiple game at the same time against the same opponent. This is due to not being able to differentiate between two distinct games, as it is expected that the combination of the two players forms a superkey which is able to uniquely identify a game. Thus, a restriction was put in place which limits how many games a player is allowed to be playing at once. |
+| Opponent Resigns    | ?/2         | See above |
+| Piece Promotion     | Not started | N/A |
+| Reverse Movement    | Not started | N/A |
+| All Pieces Captured | Not started | N/A |
+| Unable to Move      | Not started | N/A |
 
 ### Unit Testing and Code Coverage
 > _Discuss your unit testing strategy. Report on the code coverage
