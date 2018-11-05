@@ -138,7 +138,6 @@ Starting a game against another player brings both players to the game page. On 
 > separate section for describing significant features. Place this after
 > you describe the design of the three tiers._
 
-
 ![Application and Model tier Class Diagram](appl_mdl.png)
 
 ### Application Tier
@@ -195,9 +194,17 @@ Starting a game against another player brings both players to the game page. On 
 > code coverage met your targets. If there are any anomalies, discuss
 > those._
 
-![Application-tier Code Coverage Report](appl_code_coverage.PNG)
-
-![Model-tier Code Coverage Report](model_code_coverage.PNG)
-
+#### UI Tier
 ![UI-tier Code Coverage Report](ui_code_coverage.PNG)
 
+Inside of our UI tier there are 10 different classes that need to be tested and only 7 of which that actually were. This left for a lot of gaps in areas of the UI tier that are untested. Additionally, even for the Routes and UI classes that do have corresponding unit tests, these tests tend to test the correct functionality rather than the states in which failure is more likely to happen. For example, most of the classes are not tested for the anamolous scenario when a Player is not stored in the current session, or even if it is, it is not correctly tracked by the PlayerLobby class. It is for this reason, as well as to reduce duplication of effort, that an abstract class was created that intends to implement a base set of unit tests to force each Route into the aforementioned states and to ensure that they are able to crash gracefully or recover.
+
+#### Application Tier
+![Application-tier Code Coverage Report](appl_code_coverage.PNG)
+
+Both of the classes in the application tier tended to be rather complex and contain many branches and flow of execution. The PlayerLobby has near total coverage, while the GameCenter class is lacking in several regards. For GameCenter, this is due to a change in the expected flow of operation as well as the addition of several convenience methods that were not fully tested as they do not contribute as much to the correct operation of the application, as of yet. Still, these are both core and important classes, and as a team, it was decided that both should exceed 95% coverage in order to consider the unit tests complete.
+
+#### Model Tier
+![Model-tier Code Coverage Report](model_code_coverage.PNG)
+
+For the model tier, most of the classes were well tested enough, as per team decision. The areas of low coverage, namely the Position and Move classes, are simple and while it would be close to trivial to reach perfect coverage and to create unit tests for these classes, this would be more in attempt to reach certain metric goals rather than for gaining any meaningful confidence in the operation of these classes. For the more important classes, namely the Game and Board class, these should be addressed as they drive much of the actual functionality between the actual gameplay of the application. Furthermore, by considering the cyclomatic complexity, it is clear that a large number of entire flows of operation have not been adequately tested, even if the number of tested instruction is relatively high. This is particularly evident in the Board class, and as such, this indicates that a fair number of effort is still required in order to adequately this class.
