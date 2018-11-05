@@ -154,5 +154,9 @@ Starting a game against another player brings both players to the game page. On 
 > code coverage met your targets. If there are any anomalies, discuss
 > those._
 
+![Application-tier Code Coverage Report](appl_code_coverage.png)
 
+![Model-tier Code Coverage Report](model_code_coverage.png)
+
+![UI-tier Code Coverage Report](ui_code_coverage.png)
 
