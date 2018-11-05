@@ -9,10 +9,12 @@ import com.webcheckers.model.Move;
 import com.webcheckers.model.Player;
 import com.webcheckers.ui.boardView.Message;
 import com.webcheckers.ui.boardView.Message.MESSAGE_TYPE;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -77,6 +79,11 @@ public class PostValidateMoveRoute implements Route {
   public Object handle(Request request, Response response) {
     final Session session = request.session();
     Player player = session.attribute("player");
+
+    if(player == null || playerLobby.getPlayer(player.getName()) == null) {
+      return new Message("Invalid move", MESSAGE_TYPE.error);
+    }
+
     Game game = gameCenter.getGames(player)[0];
     LOG.finer("PostValidateMoveRoute is invoked: " + player.getName());
 
