@@ -136,16 +136,21 @@ Starting a game against another player brings both players to the game page. On 
 > you describe the design of the three tiers._
 
 
+![The WebCheckers Domain Model](appl_mdl.png)
+
 ### Application Tier
 > _Provide a summary of the Application tier of your architecture. This
 > section will follow the same instructions that are given for the UI
 > Tier above._
 
+![The WebCheckers Domain Model](appl.png)
 
 ### Model Tier
 > _Provide a summary of the Application tier of your architecture. This
 > section will follow the same instructions that are given for the UI
 > Tier above._
+
+![The WebCheckers Domain Model](mdl_fields.png)
 
 ### Design Improvements
 > _Discuss design improvements that you would make if the project were
