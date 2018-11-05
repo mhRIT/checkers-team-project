@@ -2,6 +2,7 @@
 ---
 geometry: margin=1in
 ---
+
 # PROJECT Design Documentation
 
 ## Team Information
@@ -40,10 +41,30 @@ This section describes the features of the application.
 Upon first landing on the home page, a user is only able to see a count of the number of players currently signed in. However, users are able to sign in using a preferred username, and upon signing in, they are able to see a list of the names of all signed in players. From this list, they are able to select an opponent to play against. Once selecting an opponent to play against, the two players are brought into the game, and thus begins the battle of wits.
 
 ### Definition of MVP
-> _Provide a simple description of the Minimum Viable Product._
+
+At the core, this application allows for a user to play the game of checkers against another player through their web browser. This includes the ability to sign in and reserve a user name, which is the name other users see and are able to select when selecting an opponent. For the actual game of checkers, the rules are based on the [American Rules](http://www.se.rit.edu/~swen-261/projects/WebCheckers/American%20Rules.html "American Rules"). A user is also able to resign from a game at any point. This ends the game and allows both players to move on to another game, if they so desire. Finally, a user may sign out from the web application. In doing so, they release their reservation on their username, and other players may take that name as their own.
 
 ### MVP Features
-> _Provide a list of top-level Epics and/or Stories of the MVP._
+
+In order to implement the basic features described in the section above, the following Epics and Stories are to be implemented:
+
+- Start of Game
+  - [x] Player sign-in
+  - [x] Player sign-out
+  - [x] Game initialization
+- Piece Movement
+  - [x] Simple move
+  - [x] Single jump move
+  - [ ] Multi-jump move
+- Resignation
+  - [ ] User Resigns
+  - [ ] Opponent Resigns
+- Rank Elevation
+  - [ ] Piece Promotion
+  - [ ] Reverse Movement
+- End-of-game Detection
+  - [ ] All Pieces Captured
+  - [ ] Unable to Move
 
 ### Roadmap of Enhancements
 > _Provide a list of top-level features in the order you plan to consider them._
@@ -154,9 +175,9 @@ Starting a game against another player brings both players to the game page. On 
 > code coverage met your targets. If there are any anomalies, discuss
 > those._
 
-![Application-tier Code Coverage Report](appl_code_coverage.png)
+![Application-tier Code Coverage Report](appl_code_coverage.PNG)
 
-![Model-tier Code Coverage Report](model_code_coverage.png)
+![Model-tier Code Coverage Report](model_code_coverage.PNG)
 
-![UI-tier Code Coverage Report](ui_code_coverage.png)
+![UI-tier Code Coverage Report](ui_code_coverage.PNG)
 
