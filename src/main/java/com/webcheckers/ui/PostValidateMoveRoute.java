@@ -5,6 +5,7 @@ import com.google.gson.internal.LinkedTreeMap;
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
 import com.webcheckers.model.Game;
+import com.webcheckers.model.Move;
 import com.webcheckers.model.Player;
 import com.webcheckers.ui.boardView.Message;
 import com.webcheckers.ui.boardView.Message.MESSAGE_TYPE;
@@ -79,11 +80,8 @@ public class PostValidateMoveRoute implements Route {
     Game game = gameCenter.getGames(player)[0];
     LOG.finer("PostValidateMoveRoute is invoked: " + player.getName());
 
-    //
-    Map<String, LinkedTreeMap> map = gson.fromJson(request.body(), Map.class);
-    LinkedTreeMap startPos = map.get("start");
-    LinkedTreeMap endPos = map.get("end");
-    if(game.validateMove(0,0,0,0)){
+    Move requestMove = gson.fromJson(request.body(), Move.class);
+    if(game.validateMove(requestMove)){
       return new Message("Valid move", MESSAGE_TYPE.info);
     } else {
       return new Message("Invalid move", MESSAGE_TYPE.error);

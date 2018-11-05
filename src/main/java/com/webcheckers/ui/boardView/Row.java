@@ -1,9 +1,11 @@
 package com.webcheckers.ui.boardView;
 
+import com.webcheckers.model.Board;
 import com.webcheckers.model.Board.SPACE_TYPE;
 import com.webcheckers.ui.boardView.Piece.COLOR;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  *  {@code Row}
@@ -22,7 +24,7 @@ public class Row implements Iterable {
   //
 
   private final int index;
-  private ArrayList<Space> spaces;
+  private List<Space> spaces;
 
   /**
    * Constructs a single row, as would be seen on a board.
@@ -34,7 +36,7 @@ public class Row implements Iterable {
     this.spaces = new ArrayList<>();
     for(int i = 0; i < spaceList.length; i++){
       SPACE_TYPE eachSpace = spaceList[i];
-      boolean validPos = (idx*8 + i) % 2 != idx % 2;
+      boolean validPos = (idx * Board.X_BOARD_SIZE + i) % 2 == (idx % 2);
 
       if(eachSpace.equals(SPACE_TYPE.SINGLE_RED)){
         spaces.add(new Space(i, new Piece(COLOR.RED, idx, i), validPos));
