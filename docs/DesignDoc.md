@@ -136,21 +136,21 @@ Starting a game against another player brings both players to the game page. On 
 > you describe the design of the three tiers._
 
 
-![The WebCheckers Domain Model](appl_mdl.png)
+![Application and Model tier Class Diagram](appl_mdl.png)
 
 ### Application Tier
 > _Provide a summary of the Application tier of your architecture. This
 > section will follow the same instructions that are given for the UI
 > Tier above._
 
-![The WebCheckers Domain Model](appl.png)
+![Application tier Class Diagram](appl.png)
 
 ### Model Tier
 > _Provide a summary of the Application tier of your architecture. This
 > section will follow the same instructions that are given for the UI
 > Tier above._
 
-![The WebCheckers Domain Model](mdl_fields.png)
+![Model tier Class Diagram](mdl_fields.png)
 
 ### Design Improvements
 > _Discuss design improvements that you would make if the project were
@@ -172,6 +172,19 @@ Starting a game against another player brings both players to the game page. On 
 > criteria tests failing, and the number of user stories that
 > have not had any testing yet. Highlight the issues found during
 > acceptance testing and if there are any concerns._
+
+- [x] Player sign-in
+- [x] Player sign-out
+- [x] Game initialization
+- [x] Simple move
+- [x] Single jump move
+- [ ] Multi-jump move
+- [ ] User Resigns
+- [ ] Opponent Resigns
+- [ ] Piece Promotion
+- [ ] Reverse Movement
+- [ ] All Pieces Captured
+- [ ] Unable to Move
 
 ### Unit Testing and Code Coverage
 > _Discuss your unit testing strategy. Report on the code coverage
