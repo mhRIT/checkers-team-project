@@ -173,18 +173,22 @@ Starting a game against another player brings both players to the game page. On 
 > have not had any testing yet. Highlight the issues found during
 > acceptance testing and if there are any concerns._
 
-- [x] Player sign-in
-- [x] Player sign-out
-- [x] Game initialization
-- [x] Simple move
-- [x] Single jump move
-- [ ] Multi-jump move
-- [ ] User Resigns
-- [ ] Opponent Resigns
-- [ ] Piece Promotion
-- [ ] Reverse Movement
-- [ ] All Pieces Captured
-- [ ] Unable to Move
+| Term | Completion | Issues Discovered |
+|------|-------------------------|
+| Player sign-in | All acceptance criteria pass | None |
+| Player sign-out | All acceptance criteria pass | None |
+| Game initialization | All acceptance criteria pass | None |
+| Turn Tracking | TBD | None |
+| Backup Move | All acceptance criteria pass | None |
+| Simple move | All acceptance criteria pass | None |
+| Single jump move | All acceptance criteria pass | None |
+| Multi-jump move | Not yet implemented | N/A |
+| User Resigns | TBD | An issue arises when a player is able to be in multiple game at the same time against the same opponent. This is due to not being able to differentiate between two distinct games, as it is expected that the combination of the two players forms a superkey which is able to uniquely identify a game. Thus, a restriction was put in place which limits how many games a player is allowed to be playing at once. |
+| Opponent Resigns | TBD | See above |
+| Piece Promotion | Not yet implemented | N/A |
+| Reverse Movement | Not yet implemented | N/A |
+| All Pieces Captured | Not yet implemented | N/A |
+| Unable to Move | Not yet implemented | N/A |
 
 ### Unit Testing and Code Coverage
 > _Discuss your unit testing strategy. Report on the code coverage
