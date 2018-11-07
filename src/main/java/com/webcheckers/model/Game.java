@@ -31,6 +31,13 @@ public class Game {
   private Player redPlayer = null;
   private COLOR activeColor;
   private Board board;
+  private boolean lastTurn;
+
+  /*turnSwitch records the "rising edge" of a turn, so to speak.
+   * It is only true as a turn is being toggled over to the other player,
+   * so that the PostCheckTurnRoute can verify that the opponent's turn has just ended.
+   * */
+  private boolean turnSwitch;
 
   /**
    * The constructor for the Game class.
@@ -43,6 +50,7 @@ public class Game {
     this.whitePlayer = wPlayer;
 
     this.board = new Board();
+    this.turnSwitch = false;
     activeColor = COLOR.RED;
     board.initStart();
   }
@@ -224,4 +232,16 @@ public class Game {
   public Boolean hasPlayer(Player player) {
     return player.equals(redPlayer) || player.equals(whitePlayer);
   }
+
+  public void setLastTurn(Boolean x){
+    lastTurn = x;
+  }
+
+  public Boolean isLastTurnValid(){
+    return lastTurn;
+  }
+
+  public Boolean getTurnSwitch() {return turnSwitch;}
+
+  public void setTurnSwitch(Boolean x) {turnSwitch = x;}
 }
