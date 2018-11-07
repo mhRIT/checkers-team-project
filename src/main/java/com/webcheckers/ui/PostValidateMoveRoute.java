@@ -84,6 +84,7 @@ public class PostValidateMoveRoute implements Route {
 
     Move requestMove = gson.fromJson(request.body(), Move.class);
     if(game.validateMove(requestMove)){
+      game.setLastTurn(true);
       return new Message("Valid move", MESSAGE_TYPE.info);
     } else {
       return new Message("Invalid move", MESSAGE_TYPE.error);
