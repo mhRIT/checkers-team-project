@@ -155,6 +155,10 @@ public class WebServer {
         new PostValidateMoveRoute(gameCenter, gson, playerLobby, templateEngine),
         gson::toJson);
 
+    post(BACKUP_MOVE_URL,
+        new PostBackupMoveRoute(gameCenter),
+        gson::toJson);
+
     get("*",
         new GetHomeRoute(gameCenter, playerLobby, templateEngine));
 

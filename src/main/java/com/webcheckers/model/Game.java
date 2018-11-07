@@ -101,12 +101,13 @@ public class Game {
     Position start = move.getStart();
     Position end = move.getEnd();
 
-    if(!board.isOnBoard(start) || !board.isOnBoard(end)){
+    if(!board.isValidLocation(start) || !board.isValidLocation(end)){
       return false;
     }
 
     SPACE_TYPE pieceAtStart = board.getPieceAtLocation(start);
     SPACE_TYPE pieceAtEnd = board.getPieceAtLocation(end);
+    SPACE_TYPE intermediatePiece = board.getMiddlePiece(start, end);
 
     if(pieceAtStart == SPACE_TYPE.EMPTY || pieceAtEnd != SPACE_TYPE.EMPTY){
       return false;
@@ -118,14 +119,24 @@ public class Game {
     int x1 = end.getCell();
     int y1 = end.getRow();
 
-    if(abs(x1 - x0) != 1){
-      return false;
-    } else {
+    if(abs(x1 - x0) == 1){
       if(Board.isRed(pieceAtStart)){
         return (y1 - y0) == 1;
       } else {
         return (y0 - y1) == 1;
       }
+    } else if(abs(x1 - x0) == 2) {
+      if(intermediatePiece.equals(SPACE_TYPE.EMPTY)){
+        return false;
+      } else if(Board.isRed(intermediatePiece) && Board.isWhite(pieceAtStart)){
+        return (y1 - y0) == 2;
+      } else if(Board.isWhite(intermediatePiece) && Board.isRed(pieceAtStart)){
+        return (y0 - y1) == 2;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
     }
   }
 

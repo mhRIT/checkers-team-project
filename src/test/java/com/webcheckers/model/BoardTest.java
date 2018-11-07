@@ -1,13 +1,11 @@
 package com.webcheckers.model;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-//import com.sun.org.apache.xpath.internal.operations.Bool;
 import com.webcheckers.model.Board.SPACE_TYPE;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -63,13 +61,6 @@ class BoardTest {
       modVal ^= 1;
     }
   }
-
-  @Test
-  void testValidateMove() {
-
-  }
-
-
 
   @Test
   void testCartesianToIndex() {

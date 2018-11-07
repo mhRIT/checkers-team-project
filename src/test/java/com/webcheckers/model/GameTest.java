@@ -1,11 +1,8 @@
 package com.webcheckers.model;
 
 import static com.webcheckers.model.Game.COLOR.*;
-
 import static org.mockito.Mockito.mock;
-
 import static org.junit.jupiter.api.Assertions.*;
-
 
 import java.util.HashMap;
 import java.util.Map;
