@@ -79,28 +79,13 @@ public class PostValidateMoveRoute implements Route {
   public Object handle(Request request, Response response) {
     final Session session = request.session();
     Player player = session.attribute("player");
-
-    if(player == null || playerLobby.getPlayer(player.getName()) == null) {
-      return new Message("Invalid move", MESSAGE_TYPE.error);
-    }
-
     Game game = gameCenter.getGames(player)[0];
     LOG.finer("PostValidateMoveRoute is invoked: " + player.getName());
 
-<<<<<<< HEAD
     Move requestMove = gson.fromJson(request.body(), Move.class);
     if(game.validateMove(requestMove)){
-=======
-    //
-    Map<String, LinkedTreeMap> map = gson.fromJson(request.body(), Map.class);
-    LinkedTreeMap startPos = map.get("start");
-    LinkedTreeMap endPos = map.get("end");
-    if(game.validateMove(0,0,0,0)){
-      game.setLastTurn(true);
->>>>>>> TurnTracking
       return new Message("Valid move", MESSAGE_TYPE.info);
     } else {
-      game.setLastTurn(false);
       return new Message("Invalid move", MESSAGE_TYPE.error);
     }
   }
