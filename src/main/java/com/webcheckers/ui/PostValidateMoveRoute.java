@@ -7,6 +7,7 @@ import com.webcheckers.application.PlayerLobby;
 import com.webcheckers.model.Game;
 import com.webcheckers.model.Move;
 import com.webcheckers.model.Player;
+import com.webcheckers.model.Position;
 import com.webcheckers.ui.boardView.Message;
 import com.webcheckers.ui.boardView.Message.MESSAGE_TYPE;
 import java.util.HashMap;
@@ -63,8 +64,12 @@ public class PostValidateMoveRoute extends AjaxRoute {
     LOG.finer("PostValidateMoveRoute is invoked: " + player.getName());
 
     Move requestMove = gson.fromJson(request.body(), Move.class);
+    if(player.equals(game.getWhitePlayer())){
+      requestMove = game.invertMove(requestMove);
+    }
+
     if(game.validateMove(requestMove)){
-      game.setLastTurn(true);
+      game.addPendingMove(requestMove);
       return new Message("Valid move", MESSAGE_TYPE.info);
     } else {
       return new Message("Invalid move", MESSAGE_TYPE.error);

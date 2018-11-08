@@ -47,16 +47,12 @@ public class PostSubmitTurnRouteTest {
       when(session.attribute("player")).thenReturn(player);
       when(gameCenter.getGames(player)).thenReturn(games);
 
-      when(game.isLastTurnValid()).thenReturn(true);
-
       Message info = new Message("true", MESSAGE_TYPE.info);
       Message error = new Message("false",MESSAGE_TYPE.error);
 
       Message msg = (Message)CuT.handle(request,response);
 
       assertTrue(msg.equals(info));
-
-      when(game.isLastTurnValid()).thenReturn(false);
 
       msg = (Message)CuT.handle(request,response);
       assertTrue(msg.equals(error));

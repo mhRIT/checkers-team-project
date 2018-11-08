@@ -3,6 +3,8 @@ package com.webcheckers.model;
 import static java.lang.Math.abs;
 
 import com.webcheckers.model.Board.SPACE_TYPE;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *  {@code Game}
@@ -31,12 +33,7 @@ public class Game {
   private Player redPlayer = null;
   private COLOR activeColor;
   private Board board;
-  private boolean lastTurn;
-
-  /*turnSwitch records the "rising edge" of a turn, so to speak.
-   * It is only true as a turn is being toggled over to the other player,
-   * so that the PostCheckTurnRoute can verify that the opponent's turn has just ended.
-   * */
+  private List<Move> pendingMoves;
 
   /**
    * The constructor for the Game class.
@@ -49,6 +46,7 @@ public class Game {
     this.whitePlayer = wPlayer;
 
     this.board = new Board();
+    this.pendingMoves = new ArrayList<>();
     activeColor = COLOR.RED;
     board.initStart();
   }
@@ -91,6 +89,20 @@ public class Game {
       default:
         return null;
     }
+  }
+
+  public Move invertMove(Move move){
+    Position startPos = move.getStart();
+    Position endPos = move.getEnd();
+
+    Position whiteStart = new Position(
+        (Board.X_BOARD_SIZE-1) - startPos.getCell(),
+        (Board.Y_BOARD_SIZE-1) - startPos.getRow());
+    Position whiteEnd = new Position(
+        (Board.X_BOARD_SIZE-1) - endPos.getCell(),
+        (Board.Y_BOARD_SIZE-1) - endPos.getRow());
+
+    return new Move(whiteStart, whiteEnd);
   }
 
   /**
@@ -169,6 +181,19 @@ public class Game {
     SPACE_TYPE pieceAtStart = board.getPieceAtLocation(start);
 
     return board.placePiece(end, pieceAtStart) && board.removePiece(start) == pieceAtStart;
+  }
+
+  public boolean addPendingMove(Move move) {
+    pendingMoves.add(move);
+    return true;
+  }
+
+  public boolean applyMoves() {
+    for (Move eachMove : pendingMoves) {
+      makeMove(eachMove);
+    }
+    pendingMoves.clear();
+    return true;
   }
 
   /**
@@ -252,13 +277,5 @@ public class Game {
    */
   public boolean hasPlayer(Player player) {
     return player.equals(redPlayer) || player.equals(whitePlayer);
-  }
-
-  public void setLastTurn(Boolean x){
-    lastTurn = x;
-  }
-
-  public boolean isLastTurnValid(){
-    return lastTurn;
   }
 }

@@ -32,17 +32,19 @@ public class PostSubmitTurnRoute extends AjaxRoute {
   public Object handle(Request request, Response response) {
     final Session session = request.session();
     Player player = session.attribute("player");
-
     Game game = gameCenter.getGames(player)[0];
+    game.applyMoves();
+    game.switchTurn();
+    return new Message("true", MESSAGE_TYPE.info);
 
     //If the move being attempted is valid, switch the turn and return a
     //Message of type info. Otherwise, return a Message of type error.
-    if(game.isLastTurnValid()){
-      game.switchTurn();
-      return new Message("true", MESSAGE_TYPE.info);
-    }
-    else{
-      return new Message("false", MESSAGE_TYPE.error);
-    }
+//    if(game.isLastTurnValid()){
+//      game.switchTurn();
+//      return new Message("true", MESSAGE_TYPE.info);
+//    }
+//    else{
+//      return new Message("false", MESSAGE_TYPE.error);
+//    }
   }
 }
