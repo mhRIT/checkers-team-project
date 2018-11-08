@@ -7,6 +7,7 @@ import com.webcheckers.model.Board.SPACE_TYPE;
 import com.webcheckers.model.Game;
 import com.webcheckers.model.Player;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -33,7 +34,8 @@ public class BoardView implements Iterable {
    * Constructs the view of the board, as needed by the game.ftl
    * Freemarker template.
    *
-   * @param  boardState  the current state of the board
+   * @param game    the game to be viewed
+   * @param player  the player who is viewing the board
    */
   public BoardView(Game game, Player player) {
     this.rows = new ArrayList<>();
@@ -46,7 +48,7 @@ public class BoardView implements Iterable {
     } else {
       for (int i = 0; i < Y_BOARD_SIZE; i++) {
         SPACE_TYPE[] spacesRev = boardState.getRowReverse(i);
-        Row eachRow = new Row(i, spacesRev);
+        Row eachRow = new Row(Y_BOARD_SIZE - (i+1), spacesRev);
         rows.add(eachRow);
       }
     }
