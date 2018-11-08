@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>com.webcheckers.model.Board</OriginalElement>
+  <nodes>
+    <node x="0.0" y="295.0">com.webcheckers.application.PlayerLobby</node>
+    <node x="210.0" y="0.0">com.webcheckers.model.Game</node>
+    <node x="303.0" y="295.0">com.webcheckers.application.GameCenter</node>
+    <node x="0.0" y="0.0">com.webcheckers.model.Board</node>
+    <node x="0.0" y="436.0">com.webcheckers.model.Move</node>
+    <node x="303.0" y="436.0">com.webcheckers.model.Player</node>
+    <node x="167.0" y="436.0">com.webcheckers.model.Position</node>
+  </nodes>
+  <notes />
+  <edges />
+  <settings layout="Hierarchic Group" zoom="0.8132337246531484" x="830.9400696304037" y="411.0001653155011" />
+  <SelectedNodes>
+    <node>com.webcheckers.model.Board</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Properties</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

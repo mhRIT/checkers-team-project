@@ -1,5 +1,7 @@
 package com.webcheckers.model;
 
+import static java.lang.Math.abs;
+
 /**
  *  {@code Board}
  *  <p>
@@ -62,9 +64,55 @@ public class Board {
     pieceTypes =      0b0000_0000_0000_0000_0000_0000_0000_0000;
   }
 
+  /**
+   *
+   * @param position the Position containing the coordinates to check
+   * @return        if the specified location lies within
+   *                the bounds of the board
+   */
   public boolean isOnBoard(Position position){
-    return position.getCell() >= 0 && position.getCell() < X_BOARD_SIZE
-            && position.getRow() >= 0 && position.getRow() < Y_BOARD_SIZE;
+    return position.getCell() < 0 || position.getCell() >= X_BOARD_SIZE
+        || position.getRow() < 0 || position.getRow() >= Y_BOARD_SIZE;
+  }
+
+  /**
+   *
+   * @param   x     x coordinate on the cartesian board
+   * @param   y     y coordinate on the cartesian board
+   * @return        if the specified location lies within
+   *                the bounds of the board
+   */
+  public boolean isOnBoard(int x, int y){
+    return x >= 0 && x < X_BOARD_SIZE && y >= 0 && y < Y_BOARD_SIZE;
+  }
+
+  /**
+   * Checks if the locations specified by the (x,y) coordinate pair
+   * is a location on which a piece could be place, ie. if the location
+   * is a black square. This is due to the fact that as the board is setup,
+   * all pieces must reside only on black spaces.
+   *
+   * @param   position  the Position containing the coordinates to check
+   * @return  true  if the specified location is a black square
+   *          false otherwise
+   */
+  public boolean isValidLocation(Position position){
+    return isValidLocation(position.getCell(), position.getRow());
+  }
+
+  /**
+   * Checks if the locations specified by the (x,y) coordinate pair
+   * is a location on which a piece could be place, ie. if the location
+   * is a black square. This is due to the fact that as the board is setup,
+   * all pieces must reside only on black spaces.
+   *
+   * @param   x     x coordinate on the cartesian board
+   * @param   y     y coordinate on the cartesian board
+   * @return  true  if the specified location is a black square
+   *          false otherwise
+   */
+  public boolean isValidLocation(int x, int y){
+    return cartesianToIndex(x, y) != -1 && isOnBoard(x, y);
   }
 
   /**
@@ -114,6 +162,37 @@ public class Board {
     return piece == SPACE_TYPE.KING_RED || piece == SPACE_TYPE.KING_WHITE;
   }
 
+  /**
+   *
+   * @param pos0
+   * @param pos1
+   * @return
+   */
+  public SPACE_TYPE getMiddlePiece(Position pos0, Position pos1){
+    return getMiddlePiece(pos0.getCell(), pos0.getRow(), pos1.getCell(), pos1.getRow());
+  }
+
+  /**
+   *
+   * @param x0
+   * @param y0
+   * @param x1
+   * @param y1
+   * @return
+   */
+  public SPACE_TYPE getMiddlePiece(int x0, int y0, int x1, int y1){
+    return getPieceAtLocation(Math.floorDiv(x0+x1,2), Math.floorDiv(y0+y1,2));
+  }
+
+  /**
+   * Retrieves the piece at the location specified by the (x,y)
+   * coordinate pair.
+   * If no piece is present at the location, the returned piece
+   * is an EMPTY piece.
+   *
+   * @param   position  the Position containing the coordinates of the piece
+   * @return    the piece located at the specified location
+   */
   public SPACE_TYPE getPieceAtLocation(Position position){
     return getPieceAtLocation(position.getCell(), position.getRow());
   }
@@ -244,21 +323,6 @@ public class Board {
     int bitMask = 1 << bitIdx;
     pieceLocations &= ~bitMask;
     return remPiece;
-  }
-
-  /**
-   * Checks if the locations specified by the (x,y) coordinate pair
-   * is a location on which a piece could be place, ie. if the location
-   * is a black square. This is due to the fact that as the board is setup,
-   * all pieces must reside only on black spaces.
-   *
-   * @param   x     x coordinate on the cartesian board
-   * @param   y     y coordinate on the cartesian board
-   * @return  true  if the specified location is a black square
-   *          false otherwise
-   */
-  public boolean isValidLocation(int x, int y){
-    return cartesianToIndex(x, y) != -1;
   }
 
   /**

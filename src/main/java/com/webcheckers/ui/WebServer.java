@@ -152,11 +152,23 @@ public class WebServer {
         new GetGameRoute(gameCenter, templateEngine));
 
     post(VALIDATE_MOVE_URL,
-        new PostValidateMoveRoute(gameCenter, gson, playerLobby, templateEngine),
+        new PostValidateMoveRoute(gameCenter, gson),
+        gson::toJson);
+
+    post(BACKUP_MOVE_URL,
+        new PostBackupMoveRoute(gameCenter),
         gson::toJson);
 
     get("*",
         new GetHomeRoute(gameCenter, playerLobby, templateEngine));
+
+    post(SUBMIT_TURN_URL,
+        new PostSubmitTurnRoute(gameCenter),
+        gson::toJson);
+
+    post(CHECK_TURN_URL,
+        new PostCheckTurnRoute(gameCenter),
+        gson::toJson);
 
     LOG.config("WebServer is initialized.");
   }

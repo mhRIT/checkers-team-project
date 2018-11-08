@@ -3,6 +3,8 @@ package com.webcheckers.model;
 import static java.lang.Math.abs;
 
 import com.webcheckers.model.Board.SPACE_TYPE;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *  {@code Game}
@@ -31,6 +33,7 @@ public class Game {
   private Player redPlayer = null;
   private COLOR activeColor;
   private Board board;
+  private List<Move> pendingMoves;
 
   /**
    * The constructor for the Game class.
@@ -43,6 +46,7 @@ public class Game {
     this.whitePlayer = wPlayer;
 
     this.board = new Board();
+    this.pendingMoves = new ArrayList<>();
     activeColor = COLOR.RED;
     board.initStart();
   }
@@ -75,6 +79,32 @@ public class Game {
     return activeColor;
   }
 
+  public Player getActivePlayer(){
+    COLOR c = getActiveColor();
+    switch(c){
+      case RED:
+        return getRedPlayer();
+      case WHITE:
+        return getWhitePlayer();
+      default:
+        return null;
+    }
+  }
+
+  public Move invertMove(Move move){
+    Position startPos = move.getStart();
+    Position endPos = move.getEnd();
+
+    Position whiteStart = new Position(
+        (Board.X_BOARD_SIZE-1) - startPos.getCell(),
+        (Board.Y_BOARD_SIZE-1) - startPos.getRow());
+    Position whiteEnd = new Position(
+        (Board.X_BOARD_SIZE-1) - endPos.getCell(),
+        (Board.Y_BOARD_SIZE-1) - endPos.getRow());
+
+    return new Move(whiteStart, whiteEnd);
+  }
+
   /**
    * Checks whether the move specified is a valid move, based on the
    * current state of the board.
@@ -93,12 +123,13 @@ public class Game {
     Position start = move.getStart();
     Position end = move.getEnd();
 
-    if(!board.isOnBoard(start) || !board.isOnBoard(end)){
+    if(!board.isValidLocation(start) || !board.isValidLocation(end)){
       return false;
     }
 
     SPACE_TYPE pieceAtStart = board.getPieceAtLocation(start);
     SPACE_TYPE pieceAtEnd = board.getPieceAtLocation(end);
+    SPACE_TYPE intermediatePiece = board.getMiddlePiece(start, end);
 
     if(pieceAtStart == SPACE_TYPE.EMPTY || pieceAtEnd != SPACE_TYPE.EMPTY){
       return false;
@@ -110,14 +141,24 @@ public class Game {
     int x1 = end.getCell();
     int y1 = end.getRow();
 
-    if(abs(x1 - x0) != 1){
-      return false;
-    } else {
+    if(abs(x1 - x0) == 1){
       if(Board.isRed(pieceAtStart)){
         return (y1 - y0) == 1;
       } else {
         return (y0 - y1) == 1;
       }
+    } else if(abs(x1 - x0) == 2) {
+      if(intermediatePiece.equals(SPACE_TYPE.EMPTY)){
+        return false;
+      } else if(Board.isRed(intermediatePiece) && Board.isWhite(pieceAtStart)){
+        return (y1 - y0) == 2;
+      } else if(Board.isWhite(intermediatePiece) && Board.isRed(pieceAtStart)){
+        return (y0 - y1) == 2;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
     }
   }
 
@@ -140,6 +181,19 @@ public class Game {
     SPACE_TYPE pieceAtStart = board.getPieceAtLocation(start);
 
     return board.placePiece(end, pieceAtStart) && board.removePiece(start) == pieceAtStart;
+  }
+
+  public boolean addPendingMove(Move move) {
+    pendingMoves.add(move);
+    return true;
+  }
+
+  public boolean applyMoves() {
+    for (Move eachMove : pendingMoves) {
+      makeMove(eachMove);
+    }
+    pendingMoves.clear();
+    return true;
   }
 
   /**
@@ -221,7 +275,7 @@ public class Game {
    * @param player  the player to check
    * @return  whether the specified player is a participant of the game
    */
-  public Boolean hasPlayer(Player player) {
+  public boolean hasPlayer(Player player) {
     return player.equals(redPlayer) || player.equals(whitePlayer);
   }
 }

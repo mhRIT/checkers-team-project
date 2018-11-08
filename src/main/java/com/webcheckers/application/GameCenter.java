@@ -22,7 +22,6 @@ public class GameCenter {
   //
   // Attributes
   //
-
   private ArrayList<Game> gameList;
   private static final Logger LOG = Logger.getLogger(GameCenter.class.getName());
 
