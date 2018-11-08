@@ -21,15 +21,12 @@ import spark.TemplateEngine;
  *
  *  @author <a href='mailto:sjk7867@rit.edu'>Simon Kirkwood</a>
  */
-public class PostSubmitTurnRoute implements Route {
+public class PostSubmitTurnRoute extends AjaxRoute {
 
-  private final GameCenter gameCenter;
-  private static final Logger LOG = Logger.getLogger(PostSigninRoute.class.getName());
+  private static final Logger LOG = Logger.getLogger(PostSubmitTurnRoute.class.getName());
 
   public PostSubmitTurnRoute(GameCenter gameCenter){
-    Objects.requireNonNull(gameCenter, "gameCenter must not be null");
-
-    this.gameCenter = gameCenter;
+    super(gameCenter);
   }
 
   public Object handle(Request request, Response response) {
@@ -41,7 +38,6 @@ public class PostSubmitTurnRoute implements Route {
     //If the move being attempted is valid, switch the turn and return a
     //Message of type info. Otherwise, return a Message of type error.
     if(game.isLastTurnValid()){
-      game.setTurnSwitch(true);
       game.switchTurn();
       return new Message("true", MESSAGE_TYPE.info);
     }

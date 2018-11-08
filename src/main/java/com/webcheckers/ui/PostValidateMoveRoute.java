@@ -29,42 +29,22 @@ import spark.TemplateEngine;
  *  @author <a href='mailto:mvm7902@rit.edu'>Matthew Milone</a>
  *  @author <a href='mailto:axf5592@rit.edu'>Andrew Festa</a>
  */
-public class PostValidateMoveRoute implements Route {
+public class PostValidateMoveRoute extends AjaxRoute {
   //
   // Attributes
   //
-
-  private final GameCenter gameCenter;
-  private final Gson gson;
-  private final PlayerLobby playerLobby;
-  private final TemplateEngine templateEngine;
-  private static final Logger LOG = Logger.getLogger(PostSigninRoute.class.getName());
+  private static final Logger LOG = Logger.getLogger(PostValidateMoveRoute.class.getName());
 
   /**
    * Create the Spark Route (UI controller) for the {@code POST /validateMove} HTTP request.
    *
    * @param gameCenter  the {@link GameCenter} for tracking all ongoing games
-   * @param playerLobby the {@link PlayerLobby} for tracking all signed in players
-   * @param templateEngine the {@link TemplateEngine} used for rendering page HTML.
    * @throws NullPointerException when the {@code gameCenter}, {@code playerLobby}, or {@code
    * templateEngine} parameter is null
    */
-  public PostValidateMoveRoute(GameCenter gameCenter, Gson gson, PlayerLobby playerLobby,
-      final TemplateEngine templateEngine) {
+  public PostValidateMoveRoute(GameCenter gameCenter, Gson gson) {
+    super(gameCenter,gson);
     LOG.setLevel(Level.ALL);
-    // validation
-    Objects.requireNonNull(gameCenter, "gameCenter must not be null");
-    Objects.requireNonNull(gson, "gson must not be null");
-    Objects.requireNonNull(playerLobby, "playerLobby must not be null");
-    Objects.requireNonNull(templateEngine, "templateEngine must not be null");
-
-    //
-    // Attributes
-    //
-    this.gameCenter = gameCenter;
-    this.gson = gson;
-    this.playerLobby = playerLobby;
-    this.templateEngine = templateEngine;
   }
 
   /**

@@ -21,14 +21,10 @@ import spark.Session;
  *  @author <a href='mailto:sjk7867@rit.edu'>Simon Kirkwood</a>
  */
 
-public class PostBackupMoveRoute implements Route {
-
-  private GameCenter gameCenter;
+public class PostBackupMoveRoute extends AjaxRoute {
 
   public PostBackupMoveRoute(GameCenter gameCenter) {
-    Objects.requireNonNull(gameCenter, "gameCenter must not be null");
-
-    this.gameCenter = gameCenter;
+    super(gameCenter);
   }
 
   public Object handle(Request request, Response response) {

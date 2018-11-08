@@ -20,14 +20,12 @@ import spark.TemplateEngine;
  *
  *  @author <a href='mailto:sjk7867@rit.edu'>Simon Kirwkwood</a>
  */
-public class PostCheckTurnRoute implements Route {
+public class PostCheckTurnRoute extends AjaxRoute {
 
-  private final GameCenter gameCenter;
-  private static final Logger LOG = Logger.getLogger(PostSigninRoute.class.getName());
+  private static final Logger LOG = Logger.getLogger(PostCheckTurnRoute.class.getName());
 
   public PostCheckTurnRoute(GameCenter gameCenter){
-    Objects.requireNonNull(gameCenter, "gameCenter must not be null");
-    this.gameCenter = gameCenter;
+    super(gameCenter);
   }
 
   public Object handle(Request request, Response response){
@@ -35,8 +33,7 @@ public class PostCheckTurnRoute implements Route {
     Player player = session.attribute("player");
     Game game = gameCenter.getGames(player)[0];
 
-    if(game.getTurnSwitch()){
-      game.setTurnSwitch(false);
+    if(player.equals(game.getActivePlayer())){
       LOG.finer("CheckTurn is true for player: " + player.getName());
       return new Message("true", MESSAGE_TYPE.info);
     }

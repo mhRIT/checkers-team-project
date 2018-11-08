@@ -18,6 +18,6 @@ class PostValidateMoveRouteTest extends RouteTest {
     super.setUp();
 
     // create a unique CuT for each test
-    CuT = new PostValidateMoveRoute(gameCenter, gson, playerLobby, engine);
+    CuT = new PostValidateMoveRoute(gameCenter, gson);
   }
 }

@@ -37,7 +37,6 @@ public class Game {
    * It is only true as a turn is being toggled over to the other player,
    * so that the PostCheckTurnRoute can verify that the opponent's turn has just ended.
    * */
-  private boolean turnSwitch;
 
   /**
    * The constructor for the Game class.
@@ -50,7 +49,6 @@ public class Game {
     this.whitePlayer = wPlayer;
 
     this.board = new Board();
-    this.turnSwitch = false;
     activeColor = COLOR.RED;
     board.initStart();
   }
@@ -81,6 +79,18 @@ public class Game {
    */
   public COLOR getActiveColor() {
     return activeColor;
+  }
+
+  public Player getActivePlayer(){
+    COLOR c = getActiveColor();
+    switch(c){
+      case RED:
+        return getRedPlayer();
+      case WHITE:
+        return getWhitePlayer();
+      default:
+        return null;
+    }
   }
 
   /**
@@ -240,7 +250,7 @@ public class Game {
    * @param player  the player to check
    * @return  whether the specified player is a participant of the game
    */
-  public Boolean hasPlayer(Player player) {
+  public boolean hasPlayer(Player player) {
     return player.equals(redPlayer) || player.equals(whitePlayer);
   }
 
@@ -248,11 +258,7 @@ public class Game {
     lastTurn = x;
   }
 
-  public Boolean isLastTurnValid(){
+  public boolean isLastTurnValid(){
     return lastTurn;
   }
-
-  public Boolean getTurnSwitch() {return turnSwitch;}
-
-  public void setTurnSwitch(Boolean x) {turnSwitch = x;}
 }

@@ -152,7 +152,7 @@ public class WebServer {
         new GetGameRoute(gameCenter, templateEngine));
 
     post(VALIDATE_MOVE_URL,
-        new PostValidateMoveRoute(gameCenter, gson, playerLobby, templateEngine),
+        new PostValidateMoveRoute(gameCenter, gson),
         gson::toJson);
 
     post(BACKUP_MOVE_URL,

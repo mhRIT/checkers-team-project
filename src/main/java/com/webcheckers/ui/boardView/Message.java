@@ -60,6 +60,6 @@ public class Message {
   }
 
   public String toString(){
-    return "" + text + ", " + type.toString();
+    return String.format("%s, %s", text, getType().toString());
   }
 }
