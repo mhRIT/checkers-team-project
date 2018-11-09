@@ -25,6 +25,10 @@ public class Game {
 
   public enum COLOR {RED, WHITE}
 
+  public enum EndState{
+    ALL_PIECES, NO_MOVES, RESIGNATION, NOT_OVER;
+  }
+
   //
   // Attributes
   //
@@ -34,6 +38,8 @@ public class Game {
   private COLOR activeColor;
   private Board board;
   private List<Move> pendingMoves;
+
+  private Player winner = null;
 
   /**
    * The constructor for the Game class.
@@ -232,23 +238,34 @@ public class Game {
    *  the red player has no more valid moves to make
    *  the white player has no more valid moves to make
    *
-   * @return  true  if the current state of the board is indicative of an
-   *                end state
-   *          false otherwise
+   *  Sets a player as the winner
+   *
+   * @return  an enum indicating the reason the game ended
    */
-  public boolean checkEnd() {
-    // TODO
-    return false;
+  public EndState checkEnd() {
+    if(board.getNumRedPieces() ==  0){
+      this.winner = getWhitePlayer();
+      return EndState.ALL_PIECES;
+    }
+    if(board.getNumWhitePieces() == 0){
+      this.winner = getRedPlayer();
+      return EndState.ALL_PIECES;
+    }
+    return EndState.NOT_OVER;
   }
 
   /**
    * Ends the game.
    *
-   * @return  whether the game was successfully ended
+   * @return true if the game has ended
+   *          false if the game has not ended
    */
   public boolean endGame() {
-    // TODO
-    return checkEnd();
+    String[] returnMessage = new String[2];
+
+    returnMessage[0] = winner.getName();
+    returnMessage[1] = checkEnd().toString();
+    return false;
   }
 
   /**
