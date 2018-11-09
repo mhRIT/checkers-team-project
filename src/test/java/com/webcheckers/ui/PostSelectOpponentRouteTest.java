@@ -48,8 +48,7 @@ class PostSelectOpponentRouteTest extends RouteTest {
     Player testOppPlayer = playerLobby.signin(TEST_OPP_NAME);
     when(request.queryParams(OPP_PLAYER_NAME)).thenReturn(TEST_OPP_NAME);
 
-    Game game = new Game(testPlayer, testOppPlayer);
-    gameCenter.addGame(game);
+    Game game = gameCenter.createGame(testPlayer, testOppPlayer);
 
     CuT.handle(request,response);
 
@@ -80,8 +79,7 @@ class PostSelectOpponentRouteTest extends RouteTest {
     Player testOppPlayer = playerLobby.signin(TEST_OPP_NAME);
     when(request.queryParams(OPP_PLAYER_NAME)).thenReturn(TEST_OPP_NAME);
 
-    Game game = new Game(testPlayer, testOppPlayer);
-    gameCenter.addGame(game);
+    Game game = gameCenter.createGame(testPlayer, testOppPlayer);
 
     String message = String.format("The selected opponent, %s, is already in a game", TEST_OPP_NAME);
 

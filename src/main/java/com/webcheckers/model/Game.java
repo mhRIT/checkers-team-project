@@ -29,8 +29,8 @@ public class Game {
   // Attributes
   //
 
-  private Player whitePlayer = null;
-  private Player redPlayer = null;
+  private Player whitePlayer;
+  private Player redPlayer;
   private COLOR activeColor;
   private Board board;
   private List<Move> pendingMoves;
@@ -96,11 +96,11 @@ public class Game {
     Position endPos = move.getEnd();
 
     Position whiteStart = new Position(
-        (Board.X_BOARD_SIZE-1) - startPos.getCell(),
-        (Board.Y_BOARD_SIZE-1) - startPos.getRow());
+        (Board.BOARD_SIZE-1) - startPos.getCell(),
+        (Board.BOARD_SIZE -1) - startPos.getRow());
     Position whiteEnd = new Position(
-        (Board.X_BOARD_SIZE-1) - endPos.getCell(),
-        (Board.Y_BOARD_SIZE-1) - endPos.getRow());
+        (Board.BOARD_SIZE-1) - endPos.getCell(),
+        (Board.BOARD_SIZE -1) - endPos.getRow());
 
     return new Move(whiteStart, whiteEnd);
   }
@@ -135,31 +135,8 @@ public class Game {
       return false;
     }
 
-    int x0 = start.getCell();
-    int y0 = start.getRow();
-
-    int x1 = end.getCell();
-    int y1 = end.getRow();
-
-    if(abs(x1 - x0) == 1){
-      if(Board.isRed(pieceAtStart)){
-        return (y1 - y0) == 1;
-      } else {
-        return (y0 - y1) == 1;
-      }
-    } else if(abs(x1 - x0) == 2) {
-      if(intermediatePiece.equals(SPACE_TYPE.EMPTY)){
-        return false;
-      } else if(Board.isRed(intermediatePiece) && Board.isWhite(pieceAtStart)){
-        return (y1 - y0) == 2;
-      } else if(Board.isWhite(intermediatePiece) && Board.isRed(pieceAtStart)){
-        return (y0 - y1) == 2;
-      } else {
-        return false;
-      }
-    } else {
-      return false;
-    }
+    List<Move> validSimpleMoves = Board.isRed(pieceAtStart) ? board.getAllRedSimpleMoves() : board.getAllWhiteSimpleMoves();
+    return validSimpleMoves.contains(move);
   }
 
   /**
@@ -170,44 +147,31 @@ public class Game {
    * @param   move  the move to be checked
    * @return        true if the move was successfully made
    */
-  public boolean makeMove(Move move) {
-    if(!validateMove(move)){
-      return false;
-    }
-
-    Position start = move.getStart();
-    Position end = move.getEnd();
-
-    SPACE_TYPE pieceAtStart = board.getPieceAtLocation(start);
-
-    return board.placePiece(end, pieceAtStart) && board.removePiece(start) == pieceAtStart;
+  boolean makeMove(Move move) {
+    return validateMove(move) && board.movePiece(move);
   }
 
-  public boolean addPendingMove(Move move) {
+  public void addPendingMove(Move move) {
     pendingMoves.add(move);
-    return true;
   }
 
-  public boolean applyMoves() {
+  public void applyMoves() {
     for (Move eachMove : pendingMoves) {
       makeMove(eachMove);
     }
     pendingMoves.clear();
-    return true;
   }
 
   /**
    * Toggles the player who turn it currently is.
    *
-   * @return true if the turn was successfully switched
    */
-  public boolean switchTurn(){
+  public void switchTurn(){
     if (activeColor.equals(COLOR.RED)) {
       activeColor = COLOR.WHITE;
     } else {
       activeColor = COLOR.RED;
     }
-    return true;
   }
 
   /**
@@ -236,7 +200,7 @@ public class Game {
    *                end state
    *          false otherwise
    */
-  public boolean checkEnd() {
+  boolean checkEnd() {
     // TODO
     return false;
   }
@@ -246,7 +210,7 @@ public class Game {
    *
    * @return  whether the game was successfully ended
    */
-  public boolean endGame() {
+  private boolean endGame() {
     // TODO
     return checkEnd();
   }
