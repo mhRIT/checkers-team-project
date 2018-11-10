@@ -16,7 +16,7 @@ import java.util.List;
  *  @author <a href='mailto:axf5592@rit.edu'>Andrew Festa</a>
  *
  */
-public class Board {
+public class Board implements Cloneable {
   //
   // Enums
   //
@@ -663,5 +663,16 @@ public class Board {
    */
   int getNumPieces(){
     return Integer.bitCount(pieceLocations);
+  }
+
+  /**
+   * TODO
+   *
+   * @return
+   * @throws CloneNotSupportedException
+   */
+  @Override
+  public Object clone() throws CloneNotSupportedException {
+    return super.clone();
   }
 }

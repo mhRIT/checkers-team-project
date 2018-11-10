@@ -3,8 +3,8 @@ package com.webcheckers.model;
 import static java.lang.Math.abs;
 
 import com.webcheckers.model.Board.SPACE_TYPE;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 /**
  *  {@code Game}
@@ -32,9 +32,11 @@ public class Game {
   private Player whitePlayer;
   private Player redPlayer;
   private COLOR activeColor;
-  private Board board;
-  private List<Move> pendingMoves;
+  private Stack<Board> boardStack;
 
+  private boolean turnOver;
+  private Stack<Move> moveStack;
+  
   /**
    * The constructor for the Game class.
    *
@@ -45,10 +47,15 @@ public class Game {
     this.redPlayer = rPlayer;
     this.whitePlayer = wPlayer;
 
-    this.board = new Board();
-    this.pendingMoves = new ArrayList<>();
+    this.boardStack = new Stack<>();
     activeColor = COLOR.RED;
-    board.initStart();
+
+    Board startBoard = new Board();
+    startBoard.initStart();
+    boardStack.push(startBoard);
+
+    turnOver = false;
+    moveStack = new Stack<>();
   }
 
   /**
@@ -80,15 +87,12 @@ public class Game {
   }
 
   public Player getActivePlayer(){
-    COLOR c = getActiveColor();
-    switch(c){
-      case RED:
-        return getRedPlayer();
-      case WHITE:
-        return getWhitePlayer();
-      default:
-        return null;
+    COLOR c = activeColor;
+    Player activePlayer = redPlayer;
+    if(c.equals(COLOR.WHITE)){
+      activePlayer = whitePlayer;
     }
+    return activePlayer;
   }
 
   /**
@@ -113,7 +117,7 @@ public class Game {
 
   /**
    * Checks whether the move specified is a valid move, based on the
-   * current state of the board.
+   * current state of the currentBoard.
    * This criteria can be stated as follows:
    *  the initial position must be occupied by a piece
    *  the end position must not be occupied by a space
@@ -128,20 +132,23 @@ public class Game {
   public boolean validateMove(Move move){
     Position start = move.getStart();
     Position end = move.getEnd();
+    Board currentBoard = boardStack.peek();
 
-    if(!board.isValidLocation(start) || !board.isValidLocation(end)){
+    if(!currentBoard.isValidLocation(start) || !currentBoard.isValidLocation(end)){
       return false;
     }
 
-    SPACE_TYPE pieceAtStart = board.getPieceAtLocation(start);
-    SPACE_TYPE pieceAtEnd = board.getPieceAtLocation(end);
+    SPACE_TYPE pieceAtStart = currentBoard.getPieceAtLocation(start);
+    SPACE_TYPE pieceAtEnd = currentBoard.getPieceAtLocation(end);
 
     if(pieceAtStart == SPACE_TYPE.EMPTY || pieceAtEnd != SPACE_TYPE.EMPTY){
       return false;
     }
 
-    List<Move> validSimpleMoves = Board.isRed(pieceAtStart) ? board.getAllRedSimpleMoves() : board.getAllWhiteSimpleMoves();
-    List<Move> validJumpMoves = Board.isRed(pieceAtStart) ? board.getAllRedJumpMoves() : board.getAllWhiteJumpMoves();
+    List<Move> validSimpleMoves = Board.isRed(pieceAtStart) ? currentBoard.getAllRedSimpleMoves() : currentBoard
+        .getAllWhiteSimpleMoves();
+    List<Move> validJumpMoves = Board.isRed(pieceAtStart) ? currentBoard.getAllRedJumpMoves() : currentBoard
+        .getAllWhiteJumpMoves();
 
     if(validJumpMoves.size() != 0){
       return validJumpMoves.contains(move);
@@ -150,15 +157,51 @@ public class Game {
     return validSimpleMoves.contains(move);
   }
 
+  public List<Move> getActivePlayerJumpMoves(){
+    List<Move> moveList = getBoardState().getAllRedJumpMoves();
+    if(activeColor.equals(COLOR.WHITE)){
+      getBoardState().getAllWhiteJumpMoves();
+    }
+    return moveList;
+  }
+
+  /**
+   * TODO
+   *
+   * @return
+   */
+  public boolean isTurnOver(){
+    if(moveStack.empty()){
+      return false;
+    }
+
+    List<Move> moveList = getActivePlayerJumpMoves();
+    Move lastMove = moveStack.peek();
+    Position lastMoveStart = lastMove.getStart();
+    Position lastMoveEnd = lastMove.getEnd();
+
+    if(lastMoveStart.getRow() - lastMoveEnd.getRow() == 1){
+      return true;
+    }
+
+    for (Move eachJumpMove : moveList) {
+      if(lastMoveEnd.equals(eachJumpMove.getStart())){
+        return false;
+      }
+    }
+
+    return true;
+  }
+
   /**
    * Attempts to move a piece from the starting position to some ending
    * location. This method first verifies that the move is a valid move
-   * and then tries to update the board to reflect the move, if it is valid.
+   * and then tries to update the currentBoard to reflect the move, if it is valid.
    *
    * @param   move  the move to be checked
    * @return        true if the move was successfully made
    */
-  boolean makeMove(Move move) {
+  public boolean makeMove(Move move) {
     Position startPos = move.getStart();
     Position endPos = move.getEnd();
     Position midPos = new Position(
@@ -169,36 +212,41 @@ public class Game {
       return false;
     }
 
-    if(Math.abs(startPos.getRow() - endPos.getRow()) == 2){
-      board.removePiece(midPos);
+    if(!moveStack.empty()){
+      Move prevMove = moveStack.peek();
+      Position previousEnd = prevMove.getEnd();
+      if(!previousEnd.equals(startPos)){
+        return false;
+      }
     }
-    return board.movePiece(move);
-  }
 
-  /**
-   * TODO
-   */
-  public void removeLastMove() {
-    pendingMoves.remove(pendingMoves.size() - 1);
-  }
+    Board currentBoard = boardStack.peek();
+    try {
+      Board nextBoard = (Board) currentBoard.clone();
 
-  /**
-   * TODO
-   *
-   * @param move
-   */
-  public void addPendingMove(Move move) {
-    pendingMoves.add(move);
-  }
+      turnOver = true;
+      boardStack.push(nextBoard);
+      moveStack.push(move);
 
-  /**
-   * TODO
-   */
-  public void applyMoves() {
-    for (Move eachMove : pendingMoves) {
-      makeMove(eachMove);
+      if(Math.abs(startPos.getRow() - endPos.getRow()) == 2){
+        nextBoard.removePiece(midPos);
+      }
+      nextBoard.movePiece(move);
+
+      return true;
+    } catch (CloneNotSupportedException e) {
+      e.printStackTrace();
     }
-    pendingMoves.clear();
+    return false;
+  }
+
+  /**
+   * TODO
+   */
+  public void undoLastMove() {
+    turnOver = false;
+    moveStack.pop();
+    boardStack.pop();
   }
 
   /**
@@ -206,10 +254,13 @@ public class Game {
    *
    */
   public void switchTurn(){
-    if (activeColor.equals(COLOR.RED)) {
-      activeColor = COLOR.WHITE;
-    } else {
-      activeColor = COLOR.RED;
+    if(turnOver){
+      moveStack = new Stack<>();
+      if (activeColor.equals(COLOR.RED)) {
+        activeColor = COLOR.WHITE;
+      } else {
+        activeColor = COLOR.RED;
+      }
     }
   }
 
@@ -217,25 +268,25 @@ public class Game {
    *
    * TODO update
    *
-   * Retrieves the current state of the board, as seen by the specified player.
+   * Retrieves the current state of the currentBoard, as seen by the specified player.
    *
-   * @return  the current board state
+   * @return  the current currentBoard state
    */
   public Board getBoardState() {
-    return board;
+    return boardStack.peek();
   }
 
   /**
    *
-   * Checks the state of the board in an attempt to detect an end state.
-   * A board is considered to be in an end state when any of the following
+   * Checks the state of the currentBoard in an attempt to detect an end state.
+   * A currentBoard is considered to be in an end state when any of the following
    * conditions are met:
-   *  there are no red pieces on the board
-   *  there are no white pieces on the board
+   *  there are no red pieces on the currentBoard
+   *  there are no white pieces on the currentBoard
    *  the red player has no more valid moves to make
    *  the white player has no more valid moves to make
    *
-   * @return  true  if the current state of the board is indicative of an
+   * @return  true  if the current state of the currentBoard is indicative of an
    *                end state
    *          false otherwise
    */

@@ -69,7 +69,7 @@ public class PostValidateMoveRoute extends AjaxRoute {
     }
 
     if(game.validateMove(requestMove)){
-      game.addPendingMove(requestMove);
+      game.makeMove(requestMove);
       return new Message("Valid move", MESSAGE_TYPE.info);
     } else {
       return new Message("Invalid move", MESSAGE_TYPE.error);
