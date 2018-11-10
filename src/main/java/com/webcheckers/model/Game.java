@@ -129,13 +129,18 @@ public class Game {
 
     SPACE_TYPE pieceAtStart = board.getPieceAtLocation(start);
     SPACE_TYPE pieceAtEnd = board.getPieceAtLocation(end);
-    SPACE_TYPE intermediatePiece = board.getMiddlePiece(start, end);
 
     if(pieceAtStart == SPACE_TYPE.EMPTY || pieceAtEnd != SPACE_TYPE.EMPTY){
       return false;
     }
 
     List<Move> validSimpleMoves = Board.isRed(pieceAtStart) ? board.getAllRedSimpleMoves() : board.getAllWhiteSimpleMoves();
+    List<Move> validJumpMoves = Board.isRed(pieceAtStart) ? board.getAllRedJumpMoves() : board.getAllWhiteJumpMoves();
+
+    if(validJumpMoves.size() != 0){
+      return validJumpMoves.contains(move);
+    }
+
     return validSimpleMoves.contains(move);
   }
 
@@ -148,7 +153,24 @@ public class Game {
    * @return        true if the move was successfully made
    */
   boolean makeMove(Move move) {
-    return validateMove(move) && board.movePiece(move);
+    Position startPos = move.getStart();
+    Position endPos = move.getEnd();
+    Position midPos = new Position(
+        (startPos.getCell() + endPos.getCell()) / 2,
+        (startPos.getRow() + endPos.getRow()) / 2);
+
+    if(!validateMove(move)){
+      return false;
+    }
+
+    if(Math.abs(startPos.getRow() - endPos.getRow()) == 2){
+      board.removePiece(midPos);
+    }
+    return board.movePiece(move);
+  }
+
+  public void removeLastMove() {
+    pendingMoves.remove(pendingMoves.size() - 1);
   }
 
   public void addPendingMove(Move move) {

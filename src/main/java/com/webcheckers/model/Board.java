@@ -613,17 +613,15 @@ public class Board {
     boolean validIdxDiff = false;
 
     if(isRed(idx0Piece)){
-      int adjIdxDiff = idxDiff;
       boolean rightPieceWrap = idx0RightEdge && idxDiff == 9;
       boolean leftPieceWrap = idx0LeftEdge && idxDiff == 7;
 
-      validIdxDiff = !rightPieceWrap && !leftPieceWrap && JUMP_SHIFT_AMTS.contains(adjIdxDiff);
+      validIdxDiff = !rightPieceWrap && !leftPieceWrap && JUMP_SHIFT_AMTS.contains(idxDiff);
     } else if(isWhite(idx0Piece)){
-      int adjIdxDiff = idxDiff;
       boolean rightPieceWrap = idx0RightEdge && idxDiff == 7;
       boolean leftPieceWrap = idx0LeftEdge && idxDiff == 9;
 
-      validIdxDiff = !rightPieceWrap && !leftPieceWrap && JUMP_SHIFT_AMTS.contains(adjIdxDiff);
+      validIdxDiff = !rightPieceWrap && !leftPieceWrap && JUMP_SHIFT_AMTS.contains(idxDiff);
     }
 
     return validStartIdx && validEndIdx && validMidIdx && validIdxDiff;

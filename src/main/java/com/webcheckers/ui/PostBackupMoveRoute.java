@@ -46,6 +46,7 @@ public class PostBackupMoveRoute extends AjaxRoute {
 
     //If the current player is the active player, return a successful undo message
     if (game.hasPlayer(player) && player.equals(compare)) {
+      game.removeLastMove();
       return new Message("Move undone", MESSAGE_TYPE.info);
     } else {
       return new Message("Could not undo move", MESSAGE_TYPE.error);
