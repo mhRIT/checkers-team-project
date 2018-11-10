@@ -91,6 +91,12 @@ public class Game {
     }
   }
 
+  /**
+   * TODO
+   *
+   * @param move
+   * @return
+   */
   public Move invertMove(Move move){
     Position startPos = move.getStart();
     Position endPos = move.getEnd();
@@ -169,14 +175,25 @@ public class Game {
     return board.movePiece(move);
   }
 
+  /**
+   * TODO
+   */
   public void removeLastMove() {
     pendingMoves.remove(pendingMoves.size() - 1);
   }
 
+  /**
+   * TODO
+   *
+   * @param move
+   */
   public void addPendingMove(Move move) {
     pendingMoves.add(move);
   }
 
+  /**
+   * TODO
+   */
   public void applyMoves() {
     for (Move eachMove : pendingMoves) {
       makeMove(eachMove);

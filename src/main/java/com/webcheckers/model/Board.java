@@ -3,7 +3,6 @@ package com.webcheckers.model;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.jetbrains.annotations.NotNull;
 
 /**
  *  {@code Board}
@@ -24,10 +23,21 @@ public class Board {
   public enum SPACE_TYPE {EMPTY(0), SINGLE_RED(1), SINGLE_WHITE(-1), KING_RED(2), KING_WHITE(-2);
 
     private final int value;
+
+    /**
+     * TODO
+     *
+     * @param i
+     */
     SPACE_TYPE(int i) {
       this.value = i;
     }
 
+    /**
+     * TODO
+     *
+     * @return
+     */
     int getValue() {
       return value;
     }
@@ -91,6 +101,7 @@ public class Board {
   }
 
   /**
+   * TODO
    *
    * @param   x     x coordinate on the cartesian board
    * @param   y     y coordinate on the cartesian board
@@ -561,8 +572,6 @@ public class Board {
 
     SPACE_TYPE startPiece = getPieceAtLocation(bitIdx);
     int colorParity = startPiece.getValue()/Math.abs(startPiece.getValue());
-//    int rowParity = colorParity > 0 ? getBitY(bitIdx)%2 : (getBitY(bitIdx)+1)%2;
-//    int totalParity = colorParity*rowParity;
 
     for(int eachJumpShiftAmt : JUMP_SHIFT_AMTS){
       int endBitIdx = bitIdx + eachJumpShiftAmt*colorParity;
