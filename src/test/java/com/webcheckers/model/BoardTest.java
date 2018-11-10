@@ -159,9 +159,8 @@ class BoardTest {
   @Test
   void testGetAllSimpleMoves(){
     cut.initStart();
-
-    testRedSimpleMoves();
-    testWhiteSimpleMoves();
+    testRedSimpleMoves(7);
+    testWhiteSimpleMoves(7);
 
     List<Move> testMoves = new ArrayList<>();
     testMoves.add(new Move(new Position(0,2), new Position(1,3)));
@@ -174,35 +173,71 @@ class BoardTest {
       assertTrue(success);
     }
 
-    testRedSimpleMoves();
-    testWhiteSimpleMoves();
+    testRedSimpleMoves(14);
 
-//    Position[] expectedStarts = {
-//        new Position(0,0),
-//        new Position(0,0)
-//    };
-//    Position[] expectedEnds = {
-//        new Position(0,0),
-//        new Position(0,0)
-//    };
-//
-//    for (int i = 0; i < expectedEnds.length; i++){
-//      Move eachMove = allRedMoves.get(i);
-//      assertEquals(expectedStarts[i], eachMove.getStart());
-//      assertEquals(expectedEnds[i], eachMove.getEnd());
-//    }
+    cut.initStart();
+    testMoves = new ArrayList<>();
+    testMoves.add(new Move(new Position(1,5), new Position(0,4)));
+    testMoves.add(new Move(new Position(3,5), new Position(2,4)));
+    testMoves.add(new Move(new Position(5,5), new Position(4,4)));
+    testMoves.add(new Move(new Position(7,5), new Position(6,4)));
+
+    for(Move eachMove : testMoves){
+      boolean success = cut.movePiece(eachMove);
+      assertTrue(success);
+    }
+
+    testWhiteSimpleMoves(14);
   }
 
-  void testRedSimpleMoves(){
+  private void testRedSimpleMoves(int numMoves){
     List<Move> allRedMoves = cut.getAllRedSimpleMoves();
     assertNotNull(allRedMoves);
-    assertEquals(7, allRedMoves.size());
+    assertEquals(numMoves, allRedMoves.size());
   }
 
-  void testWhiteSimpleMoves(){
+  private void testWhiteSimpleMoves(int numMoves){
     List<Move> allWhiteMoves = cut.getAllWhiteSimpleMoves();
     assertNotNull(allWhiteMoves);
-    assertEquals(7, allWhiteMoves.size());
+    assertEquals(numMoves, allWhiteMoves.size());
+  }
+
+  @Test
+  void testGetAllJumpMoves(){
+    cut.initStart();
+    testRedJumpMoves(0);
+    testWhiteJumpMoves(0);
+
+    List<Move> testMoves = new ArrayList<>();
+    testMoves.add(new Move(new Position(0,2), new Position(1,3)));
+    testMoves.add(new Move(new Position(2,2), new Position(3,3)));
+    testMoves.add(new Move(new Position(4,2), new Position(5,3)));
+    testMoves.add(new Move(new Position(6,2), new Position(7,3)));
+
+    testMoves.add(new Move(new Position(1,5), new Position(0,4)));
+    testMoves.add(new Move(new Position(3,5), new Position(2,4)));
+    testMoves.add(new Move(new Position(5,5), new Position(4,4)));
+    testMoves.add(new Move(new Position(7,5), new Position(6,4)));
+
+    for(Move eachMove : testMoves){
+      boolean success = cut.movePiece(eachMove);
+      assertTrue(success);
+    }
+
+    testRedJumpMoves(6);
+    testWhiteJumpMoves(6);
+  }
+
+  private void testRedJumpMoves(int numMoves){
+    List<Move> allRedMoves = cut.getAllRedJumpMoves();
+    assertNotNull(allRedMoves);
+    assertEquals(numMoves, allRedMoves.size());
+  }
+
+  private void testWhiteJumpMoves(int numMoves){
+    List<Move> allWhiteMoves = cut.getAllWhiteJumpMoves();
+    assertNotNull(allWhiteMoves);
+    assertEquals(numMoves, allWhiteMoves.size());
   }
 
   @Test

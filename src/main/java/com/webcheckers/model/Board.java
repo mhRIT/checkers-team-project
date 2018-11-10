@@ -39,7 +39,7 @@ public class Board {
 //  public static int X_BOARD_SIZE = 8;
   public static int BOARD_SIZE = 8;
   private static List<Integer> SIMPLE_SHIFT_AMTS = Arrays.asList(3,4);
-  private static List<Integer> JUMP_SHIFT_AMTS = Arrays.asList(6,8);
+  private static List<Integer> JUMP_SHIFT_AMTS = Arrays.asList(7,9);
 
   /**
    * Tracks whether a current position on the board is occupied.
@@ -439,7 +439,7 @@ public class Board {
   }
 
   /**
-   * Gets a list of the valid, simple moves able to be made by the red player.
+   * Gets a list of the valid, simple moves able to be made by the white player.
    *
    */
   List<Move> getAllWhiteSimpleMoves(){
@@ -464,12 +464,6 @@ public class Board {
     int rowParity = colorParity > 0 ? getBitY(bitIdx)%2 : (getBitY(bitIdx)+1)%2;
     int totalParity = colorParity*rowParity;
 
-//    if(isKing(startPiece)){
-//      List<Integer> kingShiftAmts =
-//          isRed(startPiece) ? BACKWARDS_SIMPLE_SHIFT_AMTS : FORWARD_SIMPLE_SHIFT_AMTS;
-//      shiftAmts.addAll(kingShiftAmts);
-//    }
-
     for(int eachSimpleShiftAmt : SIMPLE_SHIFT_AMTS){
       int endBitIdx = bitIdx + eachSimpleShiftAmt*colorParity + totalParity;
       Position endPos = getPosition(endBitIdx);
@@ -492,8 +486,9 @@ public class Board {
    * TODO
    */
   private boolean validateSimpleMove(Position pos0, Position pos1){
-    return validateSimpleMove(cartesianToIndex(pos0.getCell(), pos0.getRow()),
-                              cartesianToIndex(pos1.getCell(), pos1.getRow()));
+    return validateSimpleMove(
+        cartesianToIndex(pos0.getCell(), pos0.getRow()),
+        cartesianToIndex(pos1.getCell(), pos1.getRow()));
   }
 
   /**
@@ -502,24 +497,136 @@ public class Board {
   private boolean validateSimpleMove(int idx0, int idx1){
     SPACE_TYPE idx0Piece = getPieceAtLocation(idx0);
     SPACE_TYPE idx1Piece = getPieceAtLocation(idx1);
-    int colorParity = idx0Piece.getValue()/Math.abs(idx0Piece.getValue());
-    int rowParity = colorParity > 0 ? getBitY(idx0)%2 : (getBitY(idx0)+1)%2;
-    int totalParity = colorParity*rowParity;
+
+    boolean validStartIdx = isRed(idx0Piece) || isWhite(idx0Piece);
+    boolean validEndIdx = idx1Piece.equals(SPACE_TYPE.EMPTY);
 
     int idxDiff = Math.abs(idx1 - idx0);
-    int adjIdxDiff = idxDiff+totalParity;
     boolean idx0RightEdge = (idx0 & 0x7) == 7;
     boolean idx0LeftEdge = (idx0 & 0x7) == 0;
 
-    boolean rightPieceWrap = idx0RightEdge && idxDiff < (BOARD_SIZE/2);
-    boolean leftPieceWrap = idx0LeftEdge && idxDiff > (BOARD_SIZE/2);
+    boolean validIdxDiff = false;
 
-    boolean retVal = (isRed(idx0Piece) || isWhite(idx0Piece))
-        && (idx1Piece.equals(SPACE_TYPE.EMPTY))
-        && !rightPieceWrap
-        && !leftPieceWrap
-        && SIMPLE_SHIFT_AMTS.contains(adjIdxDiff);
-    return retVal;
+    if(isRed(idx0Piece)){
+      int adjIdxDiff = idxDiff - getBitY(idx0)%2;
+      boolean rightPieceWrap = idx0RightEdge && idxDiff == 5;
+      boolean leftPieceWrap = idx0LeftEdge && idxDiff == 3;
+
+      validIdxDiff = !rightPieceWrap && !leftPieceWrap && SIMPLE_SHIFT_AMTS.contains(adjIdxDiff);
+    } else if(isWhite(idx0Piece)){
+      int adjIdxDiff = idxDiff - (getBitY(idx0)+1)%2;
+      boolean rightPieceWrap = idx0RightEdge && idxDiff == 3;
+      boolean leftPieceWrap = idx0LeftEdge && idxDiff == 5;
+
+      validIdxDiff = !rightPieceWrap && !leftPieceWrap && SIMPLE_SHIFT_AMTS.contains(adjIdxDiff);
+    }
+
+    return validStartIdx && validEndIdx && validIdxDiff;
+  }
+
+  /**
+   * Gets a list of the valid, jump moves able to be made by the red player.
+   *
+   */
+  List<Move> getAllRedJumpMoves(){
+    List<Move> moveList = new ArrayList<>();
+    for(int i = 0; i < 32; i++){
+      if(isRed(getPieceAtLocation(i))){
+        moveList.addAll(getPieceJumpMoves(i));
+      }
+    }
+    return moveList;
+  }
+
+  /**
+   * Gets a list of the valid, jump moves able to be made by the white player.
+   *
+   */
+  List<Move> getAllWhiteJumpMoves(){
+    List<Move> moveList = new ArrayList<>();
+    for(int i = 0; i < 32; i++){
+      if(isWhite(getPieceAtLocation(i))){
+        moveList.addAll(getPieceJumpMoves(i));
+      }
+    }
+    return moveList;
+  }
+
+  /**
+   * TODO
+   */
+  private List<Move> getPieceJumpMoves(int bitIdx){
+    List<Move> moveList = new ArrayList<>();
+    Position startPos = getPosition(bitIdx);
+
+    SPACE_TYPE startPiece = getPieceAtLocation(bitIdx);
+    int colorParity = startPiece.getValue()/Math.abs(startPiece.getValue());
+//    int rowParity = colorParity > 0 ? getBitY(bitIdx)%2 : (getBitY(bitIdx)+1)%2;
+//    int totalParity = colorParity*rowParity;
+
+    for(int eachJumpShiftAmt : JUMP_SHIFT_AMTS){
+      int endBitIdx = bitIdx + eachJumpShiftAmt*colorParity;
+      Position endPos = getPosition(endBitIdx);
+      Move testMove = new Move(startPos, endPos);
+      if(validateJumpMove(testMove)){
+        moveList.add(testMove);
+      }
+    }
+    return moveList;
+  }
+
+  /**
+   * TODO
+   */
+  private boolean validateJumpMove(Move move){
+    return validateJumpMove(move.getStart(), move.getEnd());
+  }
+
+  /**
+   * TODO
+   */
+  private boolean validateJumpMove(Position pos0, Position pos1){
+    return validateJumpMove(
+        cartesianToIndex(pos0.getCell(), pos0.getRow()),
+        cartesianToIndex(pos1.getCell(), pos1.getRow()));
+  }
+
+  /**
+   * TODO
+   */
+  private boolean validateJumpMove(int idx0, int idx1){
+    SPACE_TYPE idx0Piece = getPieceAtLocation(idx0);
+    SPACE_TYPE idx1Piece = getPieceAtLocation(idx1);
+    Position startPos = getPosition(idx0);
+    Position endPos = getPosition(idx1);
+    SPACE_TYPE middlePiece = getMiddlePiece(startPos, endPos);
+
+    boolean validStartIdx = isRed(idx0Piece) || isWhite(idx0Piece);
+    boolean validEndIdx = idx1Piece.equals(SPACE_TYPE.EMPTY);
+    boolean validMidIdx = !middlePiece.equals(SPACE_TYPE.EMPTY)
+        && isRed(idx0Piece) != isRed(middlePiece);
+
+    int idxDiff = Math.abs(idx1 - idx0);
+    boolean idx0RightEdge = (idx0 & 0x3) == 3;
+    boolean idx0LeftEdge = (idx0 & 0x3) == 0;
+
+    boolean validIdxDiff = false;
+
+    if(isRed(idx0Piece)){
+      int adjIdxDiff = idxDiff;
+      boolean rightPieceWrap = idx0RightEdge && idxDiff == 9;
+      boolean leftPieceWrap = idx0LeftEdge && idxDiff == 7;
+
+      validIdxDiff = !rightPieceWrap && !leftPieceWrap && JUMP_SHIFT_AMTS.contains(adjIdxDiff);
+    } else if(isWhite(idx0Piece)){
+      int adjIdxDiff = idxDiff;
+      boolean rightPieceWrap = idx0RightEdge && idxDiff == 7;
+      boolean leftPieceWrap = idx0LeftEdge && idxDiff == 9;
+
+      validIdxDiff = !rightPieceWrap && !leftPieceWrap && JUMP_SHIFT_AMTS.contains(adjIdxDiff);
+    }
+
+    return validStartIdx && validEndIdx && validMidIdx && validIdxDiff;
   }
 
   /**
