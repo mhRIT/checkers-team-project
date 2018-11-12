@@ -2,7 +2,6 @@ package com.webcheckers.ui;
 
 import static com.webcheckers.ui.GetHomeRoute.ALL_PLAYER_NAMES;
 import static com.webcheckers.ui.GetHomeRoute.PLAYER;
-import static spark.Spark.halt;
 
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
@@ -127,8 +126,7 @@ public class PostSelectOpponentRoute implements Route {
       return templateEngine.render(new ModelAndView(vm, "home.ftl"));
     }
 
-    Game game = new Game(currPlayer, opponent);
-    gameCenter.addGame(game);
+    Game game = gameCenter.createGame(currPlayer, opponent);
 
     vm.put(TITLE_ATTR, TITLE);
     vm.put("currentPlayer", currPlayer);

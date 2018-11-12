@@ -108,7 +108,7 @@ public class WebServer {
    * Initialize all of the HTTP routes that make up this web application.
    *
    * <p>
-   * Initialization of the web server includes defining the location for static files, and defining
+   * GameInit of the web server includes defining the location for static files, and defining
    * all routes for processing client requests. The method returns after the web server finishes its
    * initialization.
    * </p>

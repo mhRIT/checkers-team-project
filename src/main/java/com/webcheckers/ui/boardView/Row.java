@@ -36,7 +36,7 @@ public class Row implements Iterable {
     this.spaces = new ArrayList<>();
     for(int i = 0; i < spaceList.length; i++){
       SPACE_TYPE eachSpace = spaceList[i];
-      boolean validPos = (idx * Board.X_BOARD_SIZE + i) % 2 == (idx % 2);
+      boolean validPos = (idx * Board.BOARD_SIZE + i) % 2 == (idx % 2);
 
       if(eachSpace.equals(SPACE_TYPE.SINGLE_RED)){
         spaces.add(new Space(i, new Piece(COLOR.RED, idx, i), validPos));

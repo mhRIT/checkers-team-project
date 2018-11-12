@@ -33,8 +33,8 @@ public class Game {
   // Attributes
   //
 
-  private Player whitePlayer = null;
-  private Player redPlayer = null;
+  private Player whitePlayer;
+  private Player redPlayer;
   private COLOR activeColor;
   private Board board;
   private List<Move> pendingMoves;
@@ -98,16 +98,22 @@ public class Game {
     }
   }
 
+  /**
+   * TODO
+   *
+   * @param move
+   * @return
+   */
   public Move invertMove(Move move){
     Position startPos = move.getStart();
     Position endPos = move.getEnd();
 
     Position whiteStart = new Position(
-        (Board.X_BOARD_SIZE-1) - startPos.getCell(),
-        (Board.Y_BOARD_SIZE-1) - startPos.getRow());
+        (Board.BOARD_SIZE-1) - startPos.getCell(),
+        (Board.BOARD_SIZE -1) - startPos.getRow());
     Position whiteEnd = new Position(
-        (Board.X_BOARD_SIZE-1) - endPos.getCell(),
-        (Board.Y_BOARD_SIZE-1) - endPos.getRow());
+        (Board.BOARD_SIZE-1) - endPos.getCell(),
+        (Board.BOARD_SIZE -1) - endPos.getRow());
 
     return new Move(whiteStart, whiteEnd);
   }
@@ -136,37 +142,19 @@ public class Game {
 
     SPACE_TYPE pieceAtStart = board.getPieceAtLocation(start);
     SPACE_TYPE pieceAtEnd = board.getPieceAtLocation(end);
-    SPACE_TYPE intermediatePiece = board.getMiddlePiece(start, end);
 
     if(pieceAtStart == SPACE_TYPE.EMPTY || pieceAtEnd != SPACE_TYPE.EMPTY){
       return false;
     }
 
-    int x0 = start.getCell();
-    int y0 = start.getRow();
+    List<Move> validSimpleMoves = Board.isRed(pieceAtStart) ? board.getAllRedSimpleMoves() : board.getAllWhiteSimpleMoves();
+    List<Move> validJumpMoves = Board.isRed(pieceAtStart) ? board.getAllRedJumpMoves() : board.getAllWhiteJumpMoves();
 
-    int x1 = end.getCell();
-    int y1 = end.getRow();
-
-    if(abs(x1 - x0) == 1){
-      if(Board.isRed(pieceAtStart)){
-        return (y1 - y0) == 1;
-      } else {
-        return (y0 - y1) == 1;
-      }
-    } else if(abs(x1 - x0) == 2) {
-      if(intermediatePiece.equals(SPACE_TYPE.EMPTY)){
-        return false;
-      } else if(Board.isRed(intermediatePiece) && Board.isWhite(pieceAtStart)){
-        return (y1 - y0) == 2;
-      } else if(Board.isWhite(intermediatePiece) && Board.isRed(pieceAtStart)){
-        return (y0 - y1) == 2;
-      } else {
-        return false;
-      }
-    } else {
-      return false;
+    if(validJumpMoves.size() != 0){
+      return validJumpMoves.contains(move);
     }
+
+    return validSimpleMoves.contains(move);
   }
 
   /**
@@ -177,44 +165,59 @@ public class Game {
    * @param   move  the move to be checked
    * @return        true if the move was successfully made
    */
-  public boolean makeMove(Move move) {
+  boolean makeMove(Move move) {
+    Position startPos = move.getStart();
+    Position endPos = move.getEnd();
+    Position midPos = new Position(
+        (startPos.getCell() + endPos.getCell()) / 2,
+        (startPos.getRow() + endPos.getRow()) / 2);
+
     if(!validateMove(move)){
       return false;
     }
 
-    Position start = move.getStart();
-    Position end = move.getEnd();
-
-    SPACE_TYPE pieceAtStart = board.getPieceAtLocation(start);
-
-    return board.placePiece(end, pieceAtStart) && board.removePiece(start) == pieceAtStart;
+    if(Math.abs(startPos.getRow() - endPos.getRow()) == 2){
+      board.removePiece(midPos);
+    }
+    return board.movePiece(move);
   }
 
-  public boolean addPendingMove(Move move) {
+  /**
+   * TODO
+   */
+  public void removeLastMove() {
+    pendingMoves.remove(pendingMoves.size() - 1);
+  }
+
+  /**
+   * TODO
+   *
+   * @param move
+   */
+  public void addPendingMove(Move move) {
     pendingMoves.add(move);
-    return true;
   }
 
-  public boolean applyMoves() {
+  /**
+   * TODO
+   */
+  public void applyMoves() {
     for (Move eachMove : pendingMoves) {
       makeMove(eachMove);
     }
     pendingMoves.clear();
-    return true;
   }
 
   /**
    * Toggles the player who turn it currently is.
    *
-   * @return true if the turn was successfully switched
    */
-  public boolean switchTurn(){
+  public void switchTurn(){
     if (activeColor.equals(COLOR.RED)) {
       activeColor = COLOR.WHITE;
     } else {
       activeColor = COLOR.RED;
     }
-    return true;
   }
 
   /**
@@ -243,6 +246,7 @@ public class Game {
    *
    * @return  an enum indicating the reason the game ended
    */
+<<<<<<< HEAD
   public boolean checkEnd() {
     if(board.getNumRedPieces() ==  0){
       this.winner = getWhitePlayer();
@@ -254,6 +258,10 @@ public class Game {
       this.endState = EndState.ALL_PIECES;
       return true;
     }
+=======
+  boolean checkEnd() {
+    // TODO
+>>>>>>> master
     return false;
   }
 
@@ -263,8 +271,14 @@ public class Game {
    * @return true if the game has ended
    *          false if the game has not ended
    */
+<<<<<<< HEAD
   public boolean endGame() {
     return false;
+=======
+  private boolean endGame() {
+    // TODO
+    return checkEnd();
+>>>>>>> master
   }
 
   /**
