@@ -282,7 +282,6 @@ public class Game {
   public String[] endGame() {
     endInfo[0] = winner.getName();
     endInfo[1] = endState.toString();
-
     return endInfo;
   }
 

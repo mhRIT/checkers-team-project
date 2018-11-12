@@ -6,6 +6,7 @@ import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
 import com.webcheckers.model.Game;
 import com.webcheckers.model.Player;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -49,7 +50,7 @@ public class GetHomeRoute implements Route {
   private final TemplateEngine templateEngine;
   private static final Logger LOG = Logger.getLogger(GetHomeRoute.class.getName());
 
-  private static boolean gameEnd = false;
+  private ArrayList<Player> outOfGame = new ArrayList<Player>();
 
   //
   // Constructor
@@ -113,6 +114,12 @@ public class GetHomeRoute implements Route {
         Game game = gameCenter.getGames(currPlayer)[0];
         if(game.checkEnd()){
           vm.put(MESSAGE,game.endMessage());
+          outOfGame.add(currPlayer);
+          Player p1 = game.getRedPlayer();
+          Player p2 = game.getWhitePlayer();
+          if(outOfGame.contains(p1) && outOfGame.contains(p2)){
+            gameCenter.removeGame(game);
+          }
         }else{
         response.redirect(WebServer.GAME_URL);
         halt();
