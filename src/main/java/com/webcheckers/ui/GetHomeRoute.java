@@ -37,6 +37,7 @@ public class GetHomeRoute implements Route {
   public static final String PLAYER = "player";
   public static final String ALL_PLAYER_NAMES = "allPlayers";
   public static final String NUM_PLAYERS = "numPlayers";
+  public static final String MESSAGE = "message";
 
   //
   // Attributes

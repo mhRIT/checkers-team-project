@@ -40,6 +40,7 @@ public class Game {
   private List<Move> pendingMoves;
 
   private Player winner = null;
+  private EndState endState = EndState.NOT_OVER;
 
   /**
    * The constructor for the Game class.
@@ -242,16 +243,18 @@ public class Game {
    *
    * @return  an enum indicating the reason the game ended
    */
-  public EndState checkEnd() {
+  public boolean checkEnd() {
     if(board.getNumRedPieces() ==  0){
       this.winner = getWhitePlayer();
-      return EndState.ALL_PIECES;
+      this.endState = EndState.ALL_PIECES;
+      return true;
     }
     if(board.getNumWhitePieces() == 0){
       this.winner = getRedPlayer();
-      return EndState.ALL_PIECES;
+      this.endState = EndState.ALL_PIECES;
+      return true;
     }
-    return EndState.NOT_OVER;
+    return false;
   }
 
   /**
@@ -261,10 +264,6 @@ public class Game {
    *          false if the game has not ended
    */
   public boolean endGame() {
-    String[] returnMessage = new String[2];
-
-    returnMessage[0] = winner.getName();
-    returnMessage[1] = checkEnd().toString();
     return false;
   }
 
