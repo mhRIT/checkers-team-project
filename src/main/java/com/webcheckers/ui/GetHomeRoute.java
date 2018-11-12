@@ -49,6 +49,8 @@ public class GetHomeRoute implements Route {
   private final TemplateEngine templateEngine;
   private static final Logger LOG = Logger.getLogger(GetHomeRoute.class.getName());
 
+  private static boolean gameEnd = false;
+
   //
   // Constructor
   //
@@ -110,8 +112,7 @@ public class GetHomeRoute implements Route {
       if(gameCenter.isPlayerInGame(currPlayer)) {
         Game game = gameCenter.getGames(currPlayer)[0];
         if(game.checkEnd()){
-          String[] info = game.endGame();
-          vm.put(MESSAGE,String.format("Game is over. \'%s\' is the winner. They won %s",info[0],info[1]));
+          vm.put(MESSAGE,game.endMessage());
         }else{
         response.redirect(WebServer.GAME_URL);
         halt();

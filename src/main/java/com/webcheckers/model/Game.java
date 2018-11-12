@@ -54,6 +54,7 @@ public class Game {
 
   private Player winner = null;
   private EndState endState = EndState.NOT_OVER;
+  String[] endInfo = new String[2];
 
   /**
    * The constructor for the Game class.
@@ -279,11 +280,14 @@ public class Game {
    * @return a string array containing information from the ended game
    */
   public String[] endGame() {
-    String[] info = new String[2];
-    info[0] = winner.getName();
-    info[1] = endState.toString();
+    endInfo[0] = winner.getName();
+    endInfo[1] = endState.toString();
 
-    return info;
+    return endInfo;
+  }
+
+  public String endMessage(){
+    return String.format("Game is over. \'%s\' is the winner. They won %s",this.endInfo[0],this.endInfo[1]);
   }
 
   /**
