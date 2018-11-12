@@ -4,6 +4,7 @@ import static spark.Spark.halt;
 
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
+import com.webcheckers.model.Game;
 import com.webcheckers.model.Player;
 import java.util.HashMap;
 import java.util.Map;
@@ -107,9 +108,15 @@ public class GetHomeRoute implements Route {
       // if player is in game, go to game page
       // else go to home page
       if(gameCenter.isPlayerInGame(currPlayer)) {
+        Game game = gameCenter.getGames(currPlayer)[0];
+        if(game.checkEnd()){
+          String[] info = game.endGame();
+          vm.put(MESSAGE,String.format("Game is over. \'%s\' is the winner. They won %s",info[0],info[1]));
+        }else{
         response.redirect(WebServer.GAME_URL);
         halt();
         return "nothing";
+        }
       }
     }
 

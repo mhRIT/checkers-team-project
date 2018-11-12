@@ -27,6 +27,19 @@ public class Game {
 
   public enum EndState{
     ALL_PIECES, NO_MOVES, RESIGNATION, NOT_OVER;
+
+    public String toString(){
+      switch(this){
+        case ALL_PIECES:
+          return " by removing all of their opponent's pieces.";
+        case NO_MOVES:
+          return " because their opponent could not make a move.";
+        case RESIGNATION:
+          return " because their opponent resigned.";
+        default:
+          return " because I am a terrible programmer.";
+      }
+    }
   }
 
   //
@@ -261,14 +274,16 @@ public class Game {
   }
 
   /**
-   * Ends the game.
+   * Explains the end of a game
    *
-   * @return true if the game has ended
-   *          false if the game has not ended
+   * @return a string array containing information from the ended game
    */
-  private boolean endGame() {
-    // TODO
-    return checkEnd();
+  public String[] endGame() {
+    String[] info = new String[2];
+    info[0] = winner.getName();
+    info[1] = endState.toString();
+
+    return info;
   }
 
   /**
@@ -284,7 +299,7 @@ public class Game {
   public boolean resign(Player resignPlayer){
     // TODO complete and verify functionality
     if(hasPlayer(resignPlayer)){
-      return endGame();
+      return checkEnd();
     }
     return false;
   }

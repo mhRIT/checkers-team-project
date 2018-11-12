@@ -102,10 +102,9 @@ public class GetGameRoute implements Route {
     Map<String, Object> vm = new HashMap<>();
 
     if(game.checkEnd()){
-      gameCenter.removeGame(game);
-      session.removeAttribute(PLAYER);
-      vm.put(MESSAGE,String.format("Game is over"));
-      return templateEngine.render(new ModelAndView(vm, GetHomeRoute.VIEW_NAME));
+      response.redirect(WebServer.HOME_URL);
+      halt();
+      return "nothing";
     }
 
     vm.put("title", "Game!");
