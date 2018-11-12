@@ -62,8 +62,8 @@ public class Board {
    */
   public void initStart() {
     if(Application.demoMode){
-      pieceLocations = 0b0000_0000_0001_0100_0000_0000_0000_0000;
-      pieceColors = 0b0000_0000_0001_0000_0000_0000_0000_0000;
+      pieceLocations = 0b0001_0000_0000_0100_0000_0000_0000_0000;
+      pieceColors = 0b0000_0000_0000_0100_0000_0000_0000_0000;
       pieceTypes = 0b0000_0000_0000_0000_0000_0000_0000_0000;
     }
     else {
