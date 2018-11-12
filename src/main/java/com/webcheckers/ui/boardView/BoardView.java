@@ -1,13 +1,12 @@
 package com.webcheckers.ui.boardView;
 
-import static com.webcheckers.model.Board.Y_BOARD_SIZE;
+import static com.webcheckers.model.Board.BOARD_SIZE;
 
 import com.webcheckers.model.Board;
 import com.webcheckers.model.Board.SPACE_TYPE;
 import com.webcheckers.model.Game;
 import com.webcheckers.model.Player;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -41,14 +40,14 @@ public class BoardView implements Iterable {
     this.rows = new ArrayList<>();
     Board boardState = game.getBoardState();
     if(game.getRedPlayer().equals(player)){
-      for (int i = Y_BOARD_SIZE-1; i >= 0; i--) {
+      for (int i = BOARD_SIZE -1; i >= 0; i--) {
         Row eachRow = new Row(i, boardState.getRow(i));
         rows.add(eachRow);
       }
     } else {
-      for (int i = 0; i < Y_BOARD_SIZE; i++) {
+      for (int i = 0; i < BOARD_SIZE; i++) {
         SPACE_TYPE[] spacesRev = boardState.getRowReverse(i);
-        Row eachRow = new Row(Y_BOARD_SIZE - (i+1), spacesRev);
+        Row eachRow = new Row(BOARD_SIZE - (i+1), spacesRev);
         rows.add(eachRow);
       }
     }

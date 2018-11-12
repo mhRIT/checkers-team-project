@@ -6,9 +6,18 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.webcheckers.model.Board.SPACE_TYPE;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
+/**
+ * The unit test suite for the {@link Board} component.
+ *
+ * @author <a href='mailto:axf5592@rit.edu'>Andrew Festa</a>
+ */
+@Tag("model-tier")
 class BoardTest {
 
   //
@@ -36,13 +45,16 @@ class BoardTest {
     assertNotNull(cut);
   }
 
+  /**
+   * TODO
+   */
   @Test
   void TestInitStart() {
     cut.initStart();
 
     int modVal = 0;
-    for(int i = 0; i < Board.Y_BOARD_SIZE; i++){
-      for(int j = 0; j < Board.X_BOARD_SIZE; j++){
+    for(int i = 0; i < Board.BOARD_SIZE; i++){
+      for(int j = 0; j < Board.BOARD_SIZE; j++){
         SPACE_TYPE eachSpace = cut.getPieceAtLocation(j,i);
         assertNotNull(eachSpace);
         if(modVal % 2 == 0){
@@ -62,6 +74,9 @@ class BoardTest {
     }
   }
 
+  /**
+   * TODO
+   */
   @Test
   void testCartesianToIndex() {
     int[] indices = {
@@ -76,14 +91,17 @@ class BoardTest {
     };
     int counter = 0;
 
-    for(int i = 0; i < Board.Y_BOARD_SIZE; i++){
-      for(int j = 0; j < Board.X_BOARD_SIZE; j++){
+    for(int i = 0; i < Board.BOARD_SIZE; i++){
+      for(int j = 0; j < Board.BOARD_SIZE; j++){
         assertEquals(indices[counter++], cut.cartesianToIndex(j,i),
             String.format("(%d, %d), %d", j, i, counter));
       }
     }
   }
 
+  /**
+   *
+   */
   @Test
   void testPlacePiece() {
     for(SPACE_TYPE eachSpaceType : SPACE_TYPE.values()){
@@ -92,17 +110,22 @@ class BoardTest {
     }
   }
 
+  /**
+   * TODO
+   *
+   * @param pieceToPlace
+   */
   private void testPlacePieceType(SPACE_TYPE pieceToPlace){
     boolean piecePlaced;
     SPACE_TYPE pieceAtLoc;
 
-    for(int yCoord = 0; yCoord < Board.Y_BOARD_SIZE; yCoord++){
-      for(int xCoord = 0; xCoord < Board.X_BOARD_SIZE; xCoord++){
+    for(int yCoord = 0; yCoord < Board.BOARD_SIZE; yCoord++){
+      for(int xCoord = 0; xCoord < Board.BOARD_SIZE; xCoord++){
         pieceAtLoc = cut.getPieceAtLocation(xCoord, yCoord);
         piecePlaced = cut.placePiece(xCoord, yCoord, pieceToPlace);
 
         if(pieceAtLoc.equals(SPACE_TYPE.EMPTY)
-            && cut.isValidLocation(xCoord, yCoord)
+            && cut.isValidLocation(new Position(xCoord, yCoord))
             && !pieceToPlace.equals(SPACE_TYPE.EMPTY)){
           assertTrue(piecePlaced,
               String.format("(%d, %d): %s", xCoord, yCoord, piecePlaced));
@@ -117,12 +140,15 @@ class BoardTest {
     }
   }
 
+  /**
+   * TODO
+   */
   @Test
   void testRemovePiece() {
     cut.initStart();
 
-    for(int yCoord = 0; yCoord < Board.Y_BOARD_SIZE; yCoord++){
-      for(int xCoord = 0; xCoord < Board.X_BOARD_SIZE; xCoord++){
+    for(int yCoord = 0; yCoord < Board.BOARD_SIZE; yCoord++){
+      for(int xCoord = 0; xCoord < Board.BOARD_SIZE; xCoord++){
         SPACE_TYPE pieceAtLoc = cut.getPieceAtLocation(xCoord, yCoord);
         SPACE_TYPE remPiece = cut.removePiece(xCoord, yCoord);
         assertEquals(pieceAtLoc, remPiece,
@@ -135,14 +161,17 @@ class BoardTest {
     }
   }
 
+  /**
+   * TODO
+   */
   @Test
   void testIsValidLocation(){
     cut.initStart();
     int modVal = 0;
 
-    for(int yCoord = 0; yCoord < Board.Y_BOARD_SIZE; yCoord++){
-      for(int xCoord = 0; xCoord < Board.X_BOARD_SIZE; xCoord++){
-        boolean isValid = cut.isValidLocation(xCoord, yCoord);
+    for(int yCoord = 0; yCoord < Board.BOARD_SIZE; yCoord++){
+      for(int xCoord = 0; xCoord < Board.BOARD_SIZE; xCoord++){
+        boolean isValid = cut.isValidLocation(new Position(xCoord, yCoord));
         if(modVal % 2 == 0){
           assertTrue(isValid, String.format("(%d, %d)", xCoord, yCoord));
         } else {
@@ -154,6 +183,134 @@ class BoardTest {
     }
   }
 
+  /**
+   * TODO
+   */
+  @Test
+  void testGetAllSimpleMoves(){
+    cut.initStart();
+    testRedSimpleMoves(7);
+    testWhiteSimpleMoves(7);
+
+    List<Move> testMoves = new ArrayList<>();
+    testMoves.add(new Move(new Position(0,2), new Position(1,3)));
+    testMoves.add(new Move(new Position(2,2), new Position(3,3)));
+    testMoves.add(new Move(new Position(4,2), new Position(5,3)));
+    testMoves.add(new Move(new Position(6,2), new Position(7,3)));
+
+    for(Move eachMove : testMoves){
+      boolean success = cut.movePiece(eachMove);
+      assertTrue(success);
+    }
+
+    testRedSimpleMoves(14);
+
+    cut.initStart();
+    testMoves = new ArrayList<>();
+    testMoves.add(new Move(new Position(1,5), new Position(0,4)));
+    testMoves.add(new Move(new Position(3,5), new Position(2,4)));
+    testMoves.add(new Move(new Position(5,5), new Position(4,4)));
+    testMoves.add(new Move(new Position(7,5), new Position(6,4)));
+
+    for(Move eachMove : testMoves){
+      boolean success = cut.movePiece(eachMove);
+      assertTrue(success);
+    }
+
+    testWhiteSimpleMoves(14);
+  }
+
+  /**
+   * TODO
+   */
+  private void testRedSimpleMoves(int numMoves){
+    List<Move> allRedMoves = cut.getAllRedSimpleMoves();
+    assertNotNull(allRedMoves);
+    assertEquals(numMoves, allRedMoves.size());
+  }
+
+  /**
+   * TODO
+   */
+  private void testWhiteSimpleMoves(int numMoves){
+    List<Move> allWhiteMoves = cut.getAllWhiteSimpleMoves();
+    assertNotNull(allWhiteMoves);
+    assertEquals(numMoves, allWhiteMoves.size());
+  }
+
+  /**
+   * TODO
+   */
+  @Test
+  void testGetAllJumpMoves(){
+    cut.initStart();
+    testRedJumpMoves(0);
+    testWhiteJumpMoves(0);
+
+    List<Move> testMoves = new ArrayList<>();
+    testMoves.add(new Move(new Position(0,2), new Position(1,3)));
+    testMoves.add(new Move(new Position(2,2), new Position(3,3)));
+    testMoves.add(new Move(new Position(4,2), new Position(5,3)));
+    testMoves.add(new Move(new Position(6,2), new Position(7,3)));
+
+    testMoves.add(new Move(new Position(1,5), new Position(0,4)));
+    testMoves.add(new Move(new Position(3,5), new Position(2,4)));
+    testMoves.add(new Move(new Position(5,5), new Position(4,4)));
+    testMoves.add(new Move(new Position(7,5), new Position(6,4)));
+
+    for(Move eachMove : testMoves){
+      boolean success = cut.movePiece(eachMove);
+      assertTrue(success);
+    }
+
+    testRedJumpMoves(6);
+    testWhiteJumpMoves(6);
+  }
+
+  /**
+   * TODO
+   *
+   * @param numMoves
+   */
+  private void testRedJumpMoves(int numMoves){
+    List<Move> allRedMoves = cut.getAllRedJumpMoves();
+    assertNotNull(allRedMoves);
+    assertEquals(numMoves, allRedMoves.size());
+  }
+
+  /**
+   * TODO
+   *
+   * @param numMoves
+   */
+  private void testWhiteJumpMoves(int numMoves){
+    List<Move> allWhiteMoves = cut.getAllWhiteJumpMoves();
+    assertNotNull(allWhiteMoves);
+    assertEquals(numMoves, allWhiteMoves.size());
+  }
+
+  /**
+   * TODO
+   */
+  @Test
+  void testMovePiece(){
+    cut.initStart();
+
+    List<Move> testMoves = new ArrayList<>();
+    testMoves.add(new Move(new Position(0,2), new Position(1,3)));
+    testMoves.add(new Move(new Position(2,2), new Position(3,3)));
+    testMoves.add(new Move(new Position(4,2), new Position(5,3)));
+    testMoves.add(new Move(new Position(6,2), new Position(7,3)));
+
+    for(Move eachMove : testMoves){
+      boolean success = cut.movePiece(eachMove);
+      assertTrue(success);
+    }
+  }
+
+  /**
+   * TODO
+   */
   @Test
   void testGetRowReverse(){
     cut.initStart();
@@ -189,6 +346,11 @@ class BoardTest {
     }
   }
 
+  /**
+   *
+   * @param idx
+   * @param expectedRow
+   */
   private void testEachRowReverse(int idx, SPACE_TYPE[] expectedRow){
     SPACE_TYPE[] actualRow = cut.getRowReverse(idx);
     assertEquals(expectedRow.length, actualRow.length,
@@ -199,6 +361,9 @@ class BoardTest {
     }
   }
 
+  /**
+   * TODO
+   */
   @Test
   void testGetRow() {
     cut.initStart();
@@ -234,6 +399,11 @@ class BoardTest {
     }
   }
 
+  /**
+   *
+   * @param idx
+   * @param expectedRow
+   */
   private void testEachRow(int idx, SPACE_TYPE[] expectedRow){
     SPACE_TYPE[] actualRow = cut.getRow(idx);
     assertEquals(expectedRow.length, actualRow.length,
@@ -244,6 +414,9 @@ class BoardTest {
     }
   }
 
+  /**
+   * TODO
+   */
   @Test
   void testGetPieceAtLocation() {
     cut.initStart();
@@ -251,6 +424,9 @@ class BoardTest {
     // TODO create unit tests
   }
 
+  /**
+   * TODO
+   */
   @Test
   void testGetRedLocations() {
     cut.initStart();
@@ -259,6 +435,9 @@ class BoardTest {
     assertEquals(locVal, cut.getRedLocations());
   }
 
+  /**
+   * TODO
+   */
   @Test
   void testGetNumRedPieces() {
     cut.initStart();
@@ -266,6 +445,9 @@ class BoardTest {
     assertEquals(numPieces, cut.getNumRedPieces());
   }
 
+  /**
+   * TODO
+   */
   @Test
   void testGetWhiteLocations() {
     cut.initStart();
@@ -274,6 +456,9 @@ class BoardTest {
     assertEquals(locVal, cut.getWhiteLocations());
   }
 
+  /**
+   * TODO
+   */
   @Test
   void testGetNumWhitePieces() {
     cut.initStart();
@@ -281,14 +466,13 @@ class BoardTest {
     assertEquals(numPieces, cut.getNumWhitePieces());
   }
 
+  /**
+   * TODO
+   */
   @Test
   void testGetNumPieces() {
     cut.initStart();
     int numPieces = 24;
     assertEquals(numPieces, cut.getNumPieces());
   }
-
-  //@Test: try to move a non-king backwards.
-
-  //@Test: try to make a piece jump a piece of its own color.
 }
