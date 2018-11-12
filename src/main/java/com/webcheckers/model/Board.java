@@ -85,24 +85,16 @@ public class Board {
    * first starts.
    *
    */
-<<<<<<< HEAD
-  public void initStart() {
-    if(Application.demoMode){
+  void initStart() {
+    if (Application.demoMode) {
       pieceLocations = 0b0001_0000_0000_0100_0000_0000_0000_0000;
       pieceColors = 0b0000_0000_0000_0100_0000_0000_0000_0000;
       pieceTypes = 0b0000_0000_0000_0000_0000_0000_0000_0000;
-    }
-    else {
+    } else {
       pieceLocations = 0b1111_1111_1111_0000_0000_1111_1111_1111;
       pieceColors = 0b0000_0000_0000_0000_0000_1111_1111_1111;
       pieceTypes = 0b0000_0000_0000_0000_0000_0000_0000_0000;
     }
-=======
-  void initStart() {
-    pieceLocations =  0b1111_1111_1111_0000_0000_1111_1111_1111;
-    pieceColors =     0b0000_0000_0000_0000_0000_1111_1111_1111;
-    pieceTypes =      0b0000_0000_0000_0000_0000_0000_0000_0000;
->>>>>>> master
   }
 
   /**

@@ -246,7 +246,6 @@ public class Game {
    *
    * @return  an enum indicating the reason the game ended
    */
-<<<<<<< HEAD
   public boolean checkEnd() {
     if(board.getNumRedPieces() ==  0){
       this.winner = getWhitePlayer();
@@ -258,10 +257,6 @@ public class Game {
       this.endState = EndState.ALL_PIECES;
       return true;
     }
-=======
-  boolean checkEnd() {
-    // TODO
->>>>>>> master
     return false;
   }
 
@@ -271,14 +266,9 @@ public class Game {
    * @return true if the game has ended
    *          false if the game has not ended
    */
-<<<<<<< HEAD
-  public boolean endGame() {
-    return false;
-=======
   private boolean endGame() {
     // TODO
     return checkEnd();
->>>>>>> master
   }
 
   /**
