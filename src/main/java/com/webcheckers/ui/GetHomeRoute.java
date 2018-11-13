@@ -119,6 +119,8 @@ public class GetHomeRoute implements Route {
           Player p2 = game.getWhitePlayer();
           if(outOfGame.contains(p1) && outOfGame.contains(p2)){
             gameCenter.removeGame(game);
+            outOfGame.remove(p1);
+            outOfGame.remove(p2);
           }
         }else{
         response.redirect(WebServer.GAME_URL);
