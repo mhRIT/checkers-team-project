@@ -31,13 +31,13 @@ public class Game {
     public String toString(){
       switch(this){
         case ALL_PIECES:
-          return " by removing all of their opponent's pieces.";
+          return " they captured all of their opponent's pieces.";
         case NO_MOVES:
-          return " because their opponent could not make a move.";
+          return " their opponent could not make a move.";
         case RESIGNATION:
-          return " because their opponent resigned.";
+          return " their opponent resigned.";
         default:
-          return " because I am a terrible programmer.";
+          return " I am a terrible programmer.";
       }
     }
   }
@@ -285,7 +285,7 @@ public class Game {
   }
 
   public String endMessage(){
-    return String.format("Game is over. \'%s\' is the winner. They won %s",this.endInfo[0],this.endInfo[1]);
+    return String.format("Game is over. \'%s\' is the winner. They won because %s",this.endInfo[0],this.endInfo[1]);
   }
 
   /**
