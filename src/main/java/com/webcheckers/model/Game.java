@@ -150,6 +150,11 @@ public class Game {
     List<Move> validJumpMoves = Board.isRed(pieceAtStart) ? currentBoard.getAllRedJumpMoves() : currentBoard
         .getAllWhiteJumpMoves();
 
+    //
+    // TODO add check for if this is the first move or a subsequent move
+    //      if not first move, a player is only able to make a jump move
+    //      a player is expected to make a jump move after making a simple move
+    //
     if(validJumpMoves.size() != 0){
       return validJumpMoves.contains(move);
     }
