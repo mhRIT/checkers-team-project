@@ -316,4 +316,8 @@ public class Game {
   public boolean hasPlayer(Player player) {
     return player.equals(redPlayer) || player.equals(whitePlayer);
   }
+
+  public Player getWinner(){return winner;}
+  public EndState getEndState(){return endState;}
+  public void setBoardTest(Board board){this.board = board;}
 }

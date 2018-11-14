@@ -117,6 +117,8 @@ public class GetHomeRoute implements Route {
           outOfGame.add(currPlayer);
           Player p1 = game.getRedPlayer();
           Player p2 = game.getWhitePlayer();
+          //If both players have left the game screen and reached the home page, only then can the game be removed
+          //because both sessions have gotten the information they need out of it
           if(outOfGame.contains(p1) && outOfGame.contains(p2)){
             gameCenter.removeGame(game);
             outOfGame.remove(p1);
