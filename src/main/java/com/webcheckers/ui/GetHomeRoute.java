@@ -50,7 +50,7 @@ public class GetHomeRoute implements Route {
   private final TemplateEngine templateEngine;
   private static final Logger LOG = Logger.getLogger(GetHomeRoute.class.getName());
 
-  private ArrayList<Player> outOfGame = new ArrayList<Player>();
+  public static ArrayList<Player> outOfGame = new ArrayList<Player>();
 
   //
   // Constructor
