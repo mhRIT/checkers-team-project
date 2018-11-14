@@ -323,7 +323,21 @@ public class Game {
     }
     winner = opponent;
     endState = EndState.RESIGNATION;
+    endGame();
     return true;
+  }
+
+  /**
+   * Checks if a player has resigned
+   *
+   * @param player the player who has resigned
+   * @returned true, if the player has resigned, false otherwise
+   */
+  public boolean hasResigned(Player player){
+    if(endState == EndState.RESIGNATION && winner.equals(getOpponent(player))){
+      return true;
+    }
+    return false;
   }
 
   public String endMessage(){
