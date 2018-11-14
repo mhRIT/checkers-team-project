@@ -1,5 +1,6 @@
 package com.webcheckers.ui;
 
+import static com.webcheckers.ui.GetHomeRoute.MESSAGE;
 import static com.webcheckers.ui.GetHomeRoute.PLAYER;
 import static spark.Spark.halt;
 
@@ -99,6 +100,14 @@ public class GetGameRoute implements Route {
 
     //
     Map<String, Object> vm = new HashMap<>();
+
+    if(game.checkEnd()){
+      game.endGame();
+      response.redirect(WebServer.HOME_URL);
+      halt();
+      return "nothing";
+    }
+
     vm.put("title", "Game!");
     vm.put("currentPlayer", player);
     vm.put("viewMode", VIEW_MODE.PLAY);

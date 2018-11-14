@@ -25,6 +25,23 @@ public class Game {
 
   public enum COLOR {RED, WHITE}
 
+  public enum EndState{
+    ALL_PIECES, NO_MOVES, RESIGNATION, NOT_OVER;
+
+    public String toString(){
+      switch(this){
+        case ALL_PIECES:
+          return " by removing all of their opponent's pieces.";
+        case NO_MOVES:
+          return " because their opponent could not make a move.";
+        case RESIGNATION:
+          return " because their opponent resigned.";
+        default:
+          return " because I am a terrible programmer.";
+      }
+    }
+  }
+
   //
   // Attributes
   //
@@ -34,6 +51,10 @@ public class Game {
   private COLOR activeColor;
   private Board board;
   private List<Move> pendingMoves;
+
+  private Player winner = null;
+  private EndState endState = EndState.NOT_OVER;
+  String[] endInfo = new String[2];
 
   /**
    * The constructor for the Game class.
@@ -235,23 +256,37 @@ public class Game {
    *  the red player has no more valid moves to make
    *  the white player has no more valid moves to make
    *
-   * @return  true  if the current state of the board is indicative of an
-   *                end state
-   *          false otherwise
+   *  Sets a player as the winner
+   *
+   * @return  an enum indicating the reason the game ended
    */
-  boolean checkEnd() {
-    // TODO
+  public boolean checkEnd() {
+    if(board.getNumRedPieces() ==  0){
+      this.winner = getWhitePlayer();
+      this.endState = EndState.ALL_PIECES;
+      return true;
+    }
+    if(board.getNumWhitePieces() == 0){
+      this.winner = getRedPlayer();
+      this.endState = EndState.ALL_PIECES;
+      return true;
+    }
     return false;
   }
 
   /**
-   * Ends the game.
+   * Explains the end of a game
    *
-   * @return  whether the game was successfully ended
+   * @return a string array containing information from the ended game
    */
-  private boolean endGame() {
-    // TODO
-    return checkEnd();
+  public String[] endGame() {
+    endInfo[0] = winner.getName();
+    endInfo[1] = endState.toString();
+    return endInfo;
+  }
+
+  public String endMessage(){
+    return String.format("Game is over. \'%s\' is the winner. They won %s",this.endInfo[0],this.endInfo[1]);
   }
 
 

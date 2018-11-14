@@ -4,7 +4,9 @@ import static spark.Spark.halt;
 
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
+import com.webcheckers.model.Game;
 import com.webcheckers.model.Player;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -37,6 +39,7 @@ public class GetHomeRoute implements Route {
   public static final String PLAYER = "player";
   public static final String ALL_PLAYER_NAMES = "allPlayers";
   public static final String NUM_PLAYERS = "numPlayers";
+  public static final String MESSAGE = "message";
 
   //
   // Attributes
@@ -46,6 +49,8 @@ public class GetHomeRoute implements Route {
   private final PlayerLobby playerLobby;
   private final TemplateEngine templateEngine;
   private static final Logger LOG = Logger.getLogger(GetHomeRoute.class.getName());
+
+  private ArrayList<Player> outOfGame = new ArrayList<Player>();
 
   //
   // Constructor
@@ -106,9 +111,22 @@ public class GetHomeRoute implements Route {
       // if player is in game, go to game page
       // else go to home page
       if(gameCenter.isPlayerInGame(currPlayer)) {
+        Game game = gameCenter.getGames(currPlayer)[0];
+        if(game.checkEnd()){
+          vm.put(MESSAGE,game.endMessage());
+          outOfGame.add(currPlayer);
+          Player p1 = game.getRedPlayer();
+          Player p2 = game.getWhitePlayer();
+          if(outOfGame.contains(p1) && outOfGame.contains(p2)){
+            gameCenter.removeGame(game);
+            outOfGame.remove(p1);
+            outOfGame.remove(p2);
+          }
+        }else{
         response.redirect(WebServer.GAME_URL);
         halt();
         return "nothing";
+        }
       }
     }
 
