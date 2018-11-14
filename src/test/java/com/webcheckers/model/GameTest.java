@@ -1,25 +1,32 @@
 package com.webcheckers.model;
 
 import static com.webcheckers.model.Game.COLOR.*;
-
 import static org.mockito.Mockito.mock;
-
 import static org.junit.jupiter.api.Assertions.*;
-
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-
+/**
+ * The unit test suite for the {@link Game} component.
+ *
+ * @author <a href='mailto:sjk7867@rit.edu'>Simon Kirkwood</a>
+ * @author <a href='mailto:axf5592@rit.edu'>Andrew Festa</a>
+ */
+@Tag("model-tier")
 public class GameTest {
 
   private Game CuT;
   private Player wPlayer;
   private Player rPlayer;
 
+  /**
+   * TODO
+   */
   @BeforeEach
   public void setup(){
     wPlayer = mock(Player.class);
@@ -27,6 +34,9 @@ public class GameTest {
     CuT = new Game(rPlayer,wPlayer);
   }
 
+  /**
+   * TODO
+   */
   @Test
   public void testSwitchTurn(){
     Move testMove0 = new Move(new Position(0,1), new Position(0,1));
@@ -42,6 +52,9 @@ public class GameTest {
 //    assertSame(CuT.getActiveColor(), RED);
   }
 
+  /**
+   * TODO
+   */
   @Test
   public void testPlayers(){
     assertTrue(CuT.hasPlayer(wPlayer));
@@ -51,9 +64,12 @@ public class GameTest {
     assertSame(CuT.getRedPlayer(),rPlayer);
   }
 
+  /**
+   * TODO
+   */
   @Test
   public void testMoveValidation(){
-    Map<Move, Boolean> testMoves = new HashMap();
+    Map<Move, Boolean> testMoves = new HashMap<>();
 
     testMoves.put(new Move(new Position(0, 0), new Position(0, 0)), false);
     testMoves.put(new Move(new Position(0, 0), new Position(0, 1)), false);
@@ -113,9 +129,12 @@ public class GameTest {
     }
   }
 
+  /**
+   * TODO
+   */
   @Test
   void testMovePiece() {
-    Map<Move, Boolean> testMoves = new HashMap();
+    Map<Move, Boolean> testMoves = new HashMap<>();
 
     testMoves.put(new Move(new Position(0, 0), new Position(0, 0)), false);
     testMoves.put(new Move(new Position(0, 0), new Position(0, 1)), false);
@@ -135,6 +154,9 @@ public class GameTest {
     }
   }
 
+  /**
+   * TODO
+   */
   @Test
   void testCheckEnd() {
     assertFalse(CuT.checkEnd());

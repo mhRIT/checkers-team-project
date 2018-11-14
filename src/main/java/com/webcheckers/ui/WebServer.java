@@ -108,7 +108,7 @@ public class WebServer {
    * Initialize all of the HTTP routes that make up this web application.
    *
    * <p>
-   * Initialization of the web server includes defining the location for static files, and defining
+   * GameInit of the web server includes defining the location for static files, and defining
    * all routes for processing client requests. The method returns after the web server finishes its
    * initialization.
    * </p>
@@ -152,7 +152,11 @@ public class WebServer {
         new GetGameRoute(gameCenter, templateEngine));
 
     post(VALIDATE_MOVE_URL,
-        new PostValidateMoveRoute(gameCenter, gson, playerLobby, templateEngine),
+        new PostValidateMoveRoute(gameCenter, gson),
+        gson::toJson);
+
+    post(BACKUP_MOVE_URL,
+        new PostBackupMoveRoute(gameCenter),
         gson::toJson);
 
     get("*",
@@ -161,6 +165,13 @@ public class WebServer {
     post(RESIGN_URL,
             new PostResignGameRoute(gameCenter,templateEngine),
             gson::toJson);
+    post(SUBMIT_TURN_URL,
+        new PostSubmitTurnRoute(gameCenter),
+        gson::toJson);
+
+    post(CHECK_TURN_URL,
+        new PostCheckTurnRoute(gameCenter),
+        gson::toJson);
 
     LOG.config("WebServer is initialized.");
   }

@@ -3,6 +3,8 @@ package com.webcheckers.model;
 import static java.lang.Math.abs;
 
 import com.webcheckers.model.Board.SPACE_TYPE;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *  {@code Game}
@@ -27,10 +29,11 @@ public class Game {
   // Attributes
   //
 
-  private Player whitePlayer = null;
-  private Player redPlayer = null;
+  private Player whitePlayer;
+  private Player redPlayer;
   private COLOR activeColor;
   private Board board;
+  private List<Move> pendingMoves;
 
   /**
    * The constructor for the Game class.
@@ -43,6 +46,7 @@ public class Game {
     this.whitePlayer = wPlayer;
 
     this.board = new Board();
+    this.pendingMoves = new ArrayList<>();
     activeColor = COLOR.RED;
     board.initStart();
   }
@@ -75,6 +79,38 @@ public class Game {
     return activeColor;
   }
 
+  public Player getActivePlayer(){
+    COLOR c = getActiveColor();
+    switch(c){
+      case RED:
+        return getRedPlayer();
+      case WHITE:
+        return getWhitePlayer();
+      default:
+        return null;
+    }
+  }
+
+  /**
+   * TODO
+   *
+   * @param move
+   * @return
+   */
+  public Move invertMove(Move move){
+    Position startPos = move.getStart();
+    Position endPos = move.getEnd();
+
+    Position whiteStart = new Position(
+        (Board.BOARD_SIZE-1) - startPos.getCell(),
+        (Board.BOARD_SIZE -1) - startPos.getRow());
+    Position whiteEnd = new Position(
+        (Board.BOARD_SIZE-1) - endPos.getCell(),
+        (Board.BOARD_SIZE -1) - endPos.getRow());
+
+    return new Move(whiteStart, whiteEnd);
+  }
+
   /**
    * Checks whether the move specified is a valid move, based on the
    * current state of the board.
@@ -93,7 +129,7 @@ public class Game {
     Position start = move.getStart();
     Position end = move.getEnd();
 
-    if(!board.isOnBoard(start) || !board.isOnBoard(end)){
+    if(!board.isValidLocation(start) || !board.isValidLocation(end)){
       return false;
     }
 
@@ -104,21 +140,14 @@ public class Game {
       return false;
     }
 
-    int x0 = start.getCell();
-    int y0 = start.getRow();
+    List<Move> validSimpleMoves = Board.isRed(pieceAtStart) ? board.getAllRedSimpleMoves() : board.getAllWhiteSimpleMoves();
+    List<Move> validJumpMoves = Board.isRed(pieceAtStart) ? board.getAllRedJumpMoves() : board.getAllWhiteJumpMoves();
 
-    int x1 = end.getCell();
-    int y1 = end.getRow();
-
-    if(abs(x1 - x0) != 1){
-      return false;
-    } else {
-      if(Board.isRed(pieceAtStart)){
-        return (y1 - y0) == 1;
-      } else {
-        return (y0 - y1) == 1;
-      }
+    if(validJumpMoves.size() != 0){
+      return validJumpMoves.contains(move);
     }
+
+    return validSimpleMoves.contains(move);
   }
 
   /**
@@ -129,31 +158,59 @@ public class Game {
    * @param   move  the move to be checked
    * @return        true if the move was successfully made
    */
-  public boolean makeMove(Move move) {
+  boolean makeMove(Move move) {
+    Position startPos = move.getStart();
+    Position endPos = move.getEnd();
+    Position midPos = new Position(
+        (startPos.getCell() + endPos.getCell()) / 2,
+        (startPos.getRow() + endPos.getRow()) / 2);
+
     if(!validateMove(move)){
       return false;
     }
 
-    Position start = move.getStart();
-    Position end = move.getEnd();
+    if(Math.abs(startPos.getRow() - endPos.getRow()) == 2){
+      board.removePiece(midPos);
+    }
+    return board.movePiece(move);
+  }
 
-    SPACE_TYPE pieceAtStart = board.getPieceAtLocation(start);
+  /**
+   * TODO
+   */
+  public void removeLastMove() {
+    pendingMoves.remove(pendingMoves.size() - 1);
+  }
 
-    return board.placePiece(end, pieceAtStart) && board.removePiece(start) == pieceAtStart;
+  /**
+   * TODO
+   *
+   * @param move
+   */
+  public void addPendingMove(Move move) {
+    pendingMoves.add(move);
+  }
+
+  /**
+   * TODO
+   */
+  public void applyMoves() {
+    for (Move eachMove : pendingMoves) {
+      makeMove(eachMove);
+    }
+    pendingMoves.clear();
   }
 
   /**
    * Toggles the player who turn it currently is.
    *
-   * @return true if the turn was successfully switched
    */
-  public boolean switchTurn(){
+  public void switchTurn(){
     if (activeColor.equals(COLOR.RED)) {
       activeColor = COLOR.WHITE;
     } else {
       activeColor = COLOR.RED;
     }
-    return true;
   }
 
   /**
@@ -182,7 +239,7 @@ public class Game {
    *                end state
    *          false otherwise
    */
-  public boolean checkEnd() {
+  boolean checkEnd() {
     // TODO
     return false;
   }
@@ -192,7 +249,7 @@ public class Game {
    *
    * @return  whether the game was successfully ended
    */
-  public boolean endGame() {
+  private boolean endGame() {
     // TODO
     return checkEnd();
   }
@@ -204,7 +261,7 @@ public class Game {
    * @param player  the player to check
    * @return  whether the specified player is a participant of the game
    */
-  public Boolean hasPlayer(Player player) {
+  public boolean hasPlayer(Player player) {
     return player.equals(redPlayer) || player.equals(whitePlayer);
   }
 }

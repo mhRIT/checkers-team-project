@@ -22,7 +22,6 @@ public class GameCenter {
   //
   // Attributes
   //
-
   private ArrayList<Game> gameList;
   private static final Logger LOG = Logger.getLogger(GameCenter.class.getName());
 
@@ -42,7 +41,9 @@ public class GameCenter {
    * @return          the newly created Game
    */
   public Game createGame(Player player1, Player player2) {
-    return new Game(player1, player2);
+    Game game = new Game(player1, player2);
+    gameList.add(game);
+    return game;
   }
 
   /**
@@ -91,16 +92,6 @@ public class GameCenter {
     }
 
     return playerGameList.toArray(new Game[0]);
-  }
-
-  /**
-   * Adds the specified instance of a game to the list of games
-   * this GameCenter tracks.
-   *
-   * @param game  the instance of a game to add
-   */
-  public void addGame(Game game) {
-    gameList.add(game);
   }
 
   /**
