@@ -285,6 +285,44 @@ public class Game {
     return endInfo;
   }
 
+  /**
+   * Gets a player's opponent
+   *
+   * @param player the specified player
+   * @return the player's opponent
+   */
+  public Player getOpponent(Player player){
+    if(player.equals(whitePlayer)){
+      return redPlayer;
+    }
+    else if(player.equals(redPlayer)){
+      return whitePlayer;
+    }
+    else
+      return null;
+  }
+
+  /**
+   * Resigns a player from the game
+   *
+   * @param player the player who resigned
+   * @return true if player resigned, otherwise false
+   */
+  public boolean resignPlayer(Player player){
+    Player opponent = getOpponent(player);
+    //checking if player has an opponent, thus in a game
+    if(opponent == null){
+      return false;
+    }
+    //checking that game has not already ended
+    if(endState != EndState.NOT_OVER){
+      return false;
+    }
+    winner = opponent;
+    endState = EndState.RESIGNATION;
+    return true;
+  }
+
   public String endMessage(){
     return String.format("Game is over. \'%s\' is the winner. They won %s",this.endInfo[0],this.endInfo[1]);
   }
