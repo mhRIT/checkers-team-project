@@ -165,6 +165,7 @@ public class WebServer {
     post(RESIGN_URL,
             new PostResignGameRoute(gameCenter,templateEngine),
             gson::toJson);
+
     post(SUBMIT_TURN_URL,
         new PostSubmitTurnRoute(gameCenter),
         gson::toJson);

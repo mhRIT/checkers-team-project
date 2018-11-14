@@ -31,8 +31,15 @@ public class PostCheckTurnRoute extends AjaxRoute {
   public Object handle(Request request, Response response){
     final Session session = request.session();
     Player player = session.attribute("player");
-    Game game = gameCenter.getGames(player)[0];
 
+    //If a game does not exist, the opponent has resigned
+    Game[] games = gameCenter.getGames(player);
+    if(games.length == 0){
+      return new Message("true", MESSAGE_TYPE.info);
+    }
+
+    Game game = games[0];
+    //If a game does exist it check if it is the current player's turn
     if(player.equals(game.getActivePlayer())){
       LOG.finer("CheckTurn is true for player: " + player.getName());
       return new Message("true", MESSAGE_TYPE.info);

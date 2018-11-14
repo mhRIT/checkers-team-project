@@ -71,12 +71,12 @@ public class PostResignGameRoute implements Route {
 
     LOG.finer("PostResignGameRoute is invoked: " + player.getName());
 
-
-    gameCenter.resignAll(player);
-
-
-    return new Message("", MESSAGE_TYPE.info);
-
-
+    if(gameCenter.resignAll(player) > 0){
+      //tells client game was successfully resigned
+      return new Message("", MESSAGE_TYPE.info);
+    }
+    else{
+      return new Message("",MESSAGE_TYPE.error);
+    }
   }
 }
