@@ -90,6 +90,31 @@ public class Board implements Cloneable {
   }
 
   /**
+   * Initializes the state of the board and places red and white pieces
+   * in random positions, as is approaching the midpoint way
+   * of the game.
+   *
+   */
+  void initMid() {
+    // TODO
+    pieceLocations =  0b1111_1111_1111_0000_0000_1111_1111_1111;
+    pieceColors =     0b0000_0000_0000_0000_0000_1111_1111_1111;
+    pieceTypes =      0b0000_0000_0000_0000_0000_0000_0000_0000;
+  }
+
+  /**
+   * Initializes the state of the board and places red and white pieces
+   * in set positions, as is approaching the endpoint of the game.
+   *
+   */
+  void initEnd() {
+    // TODO
+    pieceLocations =  0b1111_1111_1111_0000_0000_1111_1111_1111;
+    pieceColors =     0b0000_0000_0000_0000_0000_1111_1111_1111;
+    pieceTypes =      0b0000_0000_0000_0000_0000_0000_0000_0000;
+  }
+
+  /**
    * TODO
    *
    * @param position the Position containing the coordinates to check

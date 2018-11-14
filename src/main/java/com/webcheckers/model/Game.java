@@ -2,6 +2,7 @@ package com.webcheckers.model;
 
 import static java.lang.Math.abs;
 
+import com.webcheckers.Application.DEMO_STATE;
 import com.webcheckers.model.Board.SPACE_TYPE;
 import java.util.List;
 import java.util.Stack;
@@ -50,12 +51,27 @@ public class Game {
     this.boardStack = new Stack<>();
     activeColor = COLOR.RED;
 
-    Board startBoard = new Board();
-    startBoard.initStart();
-    boardStack.push(startBoard);
+    Board board = new Board();
+    boardStack.push(board);
+    initializeStart();
 
     turnOver = false;
     moveStack = new Stack<>();
+  }
+
+  public void initializeStart(){
+    Board currentBoard = boardStack.peek();
+    currentBoard.initStart();
+  }
+
+  public void initializeMid(){
+    Board currentBoard = boardStack.peek();
+    currentBoard.initMid();
+  }
+
+  public void initializeEnd(){
+    Board currentBoard = boardStack.peek();
+    currentBoard.initEnd();
   }
 
   /**
@@ -165,7 +181,7 @@ public class Game {
   public List<Move> getActivePlayerJumpMoves(){
     List<Move> moveList = getBoardState().getAllRedJumpMoves();
     if(activeColor.equals(COLOR.WHITE)){
-      getBoardState().getAllWhiteJumpMoves();
+      moveList = getBoardState().getAllWhiteJumpMoves();
     }
     return moveList;
   }
@@ -185,17 +201,18 @@ public class Game {
     Position lastMoveStart = lastMove.getStart();
     Position lastMoveEnd = lastMove.getEnd();
 
-    if(lastMoveStart.getRow() - lastMoveEnd.getRow() == 1){
+    if(Math.abs(lastMoveStart.getRow() - lastMoveEnd.getRow()) == 1){
       return true;
     }
 
-    for (Move eachJumpMove : moveList) {
-      if(lastMoveEnd.equals(eachJumpMove.getStart())){
-        return false;
-      }
-    }
-
-    return true;
+    return moveList.isEmpty();
+//    for (Move eachJumpMove : moveList) {
+//      if(lastMoveEnd.equals(eachJumpMove.getStart())){
+//        return false;
+//      }
+//    }
+//
+//    return true;
   }
 
   /**
