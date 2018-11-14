@@ -279,10 +279,9 @@ public class Game {
    *
    * @return a string array containing information from the ended game
    */
-  public String[] endGame() {
+  public void endGame() {
     endInfo[0] = winner.getName();
     endInfo[1] = endState.toString();
-    return endInfo;
   }
 
   public String endMessage(){
