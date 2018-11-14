@@ -100,22 +100,31 @@ public class GetGameRoute implements Route {
 
     //
     Map<String, Object> vm = new HashMap<>();
+    vm.put("message", new Message("GetGameRoute", MESSAGE_TYPE.info));
+    vm.put("viewMode", VIEW_MODE.PLAY);
 
-    if(game.checkEnd()){
-      game.endGame();
+    if(game.hasResigned(player)){
       response.redirect(WebServer.HOME_URL);
       halt();
       return "nothing";
     }
+    else if (game.hasResigned(game.getOpponent(player))){
+      vm.put("viewMode", VIEW_MODE.REPLAY);
+      vm.put("message", new Message("You opponent has resigned!", MESSAGE_TYPE.info));
+    }
+    else if(game.checkEnd()){
+        game.endGame();
+        response.redirect(WebServer.HOME_URL);
+        halt();
+        return "nothing";
+    }
 
     vm.put("title", "Game!");
     vm.put("currentPlayer", player);
-    vm.put("viewMode", VIEW_MODE.PLAY);
     vm.put("redPlayer", game.getRedPlayer());
     vm.put("whitePlayer", game.getWhitePlayer());
     vm.put("activeColor", game.getActiveColor());
     vm.put("board", new BoardView(game, player));
-    vm.put("message", new Message("GetGameRoute", MESSAGE_TYPE.info));
 
     return templateEngine.render(new ModelAndView(vm, VIEW_NAME));
   }
