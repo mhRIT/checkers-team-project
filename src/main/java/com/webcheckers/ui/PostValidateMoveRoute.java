@@ -68,8 +68,8 @@ public class PostValidateMoveRoute extends AjaxRoute {
       requestMove = game.invertMove(requestMove);
     }
 
-    if(game.validateMove(requestMove)){
-      game.addPendingMove(requestMove);
+    if(!game.isTurnOver() &&game.validateMove(requestMove)){
+      game.makeMove(requestMove);
       return new Message("Valid move", MESSAGE_TYPE.info);
     } else {
       return new Message("Invalid move", MESSAGE_TYPE.error);

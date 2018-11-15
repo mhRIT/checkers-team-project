@@ -11,6 +11,7 @@ import static spark.Spark.staticFiles;
 import com.google.gson.Gson;
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
+import com.webcheckers.model.Player;
 import java.util.Objects;
 import java.util.logging.Logger;
 import spark.TemplateEngine;
@@ -87,17 +88,19 @@ public class WebServer {
    */
   public WebServer(final TemplateEngine templateEngine,
                   final Gson gson,
-                  final GameCenter gameCenter) {
+                  final GameCenter gameCenter,
+                  final PlayerLobby playerLobby) {
     // validation
     Objects.requireNonNull(gameCenter, "gameCenter must not be null");
     Objects.requireNonNull(gson, "gson must not be null");
     Objects.requireNonNull(templateEngine, "templateEngine must not be null");
+    Objects.requireNonNull(playerLobby, "playerLobby must not be null");
 
     //
     this.templateEngine = templateEngine;
     this.gson = gson;
     this.gameCenter = gameCenter;
-    this.playerLobby = new PlayerLobby(gameCenter);
+    this.playerLobby = playerLobby;
   }
 
   //
