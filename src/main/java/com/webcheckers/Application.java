@@ -21,7 +21,17 @@ import spark.template.freemarker.FreeMarkerEngine;
 public final class Application {
   private static final Logger LOG = Logger.getLogger(Application.class.getName());
 
-  public static boolean demoMode;
+  public enum demoMode{START, MID, END}
+  public static demoMode mode;
+
+  public static demoMode modeFromString(String d){
+    for(demoMode s: demoMode.values()){
+      if(s.toString().equals(d)){
+        return s;
+      }
+    }
+    return demoMode.START;
+  }
 
   //
   // Application Launch method
@@ -39,7 +49,7 @@ public final class Application {
    *    Command line arguments; none expected.
    */
   public static void main(String[] args) {
-    demoMode = Boolean.parseBoolean(System.getProperty("demoMode","false"));
+    mode = modeFromString(System.getProperty("demoMode"));
     // initialize Logging
     try {
       ClassLoader classLoader = Application.class.getClassLoader();

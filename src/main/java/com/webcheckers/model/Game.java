@@ -2,6 +2,7 @@ package com.webcheckers.model;
 
 import static java.lang.Math.abs;
 
+import com.webcheckers.Application;
 import com.webcheckers.model.Board.SPACE_TYPE;
 import java.util.ArrayList;
 import java.util.List;
@@ -69,7 +70,20 @@ public class Game {
     this.board = new Board();
     this.pendingMoves = new ArrayList<>();
     activeColor = COLOR.RED;
-    board.initStart();
+
+    switch(Application.mode){
+      case START:
+        board.initStart();
+        break;
+      case MID:
+        board.initMid();
+        break;
+      case END:
+        board.initEnd();
+        break;
+      default:
+        board.initStart();
+    }
   }
 
   /**

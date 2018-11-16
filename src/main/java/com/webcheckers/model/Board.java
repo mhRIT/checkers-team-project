@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.webcheckers.Application;
-
 /**
  *  {@code Board}
  *  <p>
@@ -86,15 +84,21 @@ public class Board {
    *
    */
   void initStart() {
-    if (Application.demoMode) {
-      pieceLocations = 0b0000_0000_0100_0100_0000_0000_0000_0000;
-      pieceColors = 0b0000_0000_0000_0100_0000_0000_0000_0000;
-      pieceTypes = 0b0000_0000_0000_0000_0000_0000_0000_0000;
-    } else {
       pieceLocations = 0b1111_1111_1111_0000_0000_1111_1111_1111;
       pieceColors = 0b0000_0000_0000_0000_0000_1111_1111_1111;
       pieceTypes = 0b0000_0000_0000_0000_0000_0000_0000_0000;
-    }
+  }
+
+  void initMid(){
+    pieceLocations = 0b0000_0101_1100_0100_0010_1001_0010_0000;
+    pieceColors = 0b0000_0000_0000_0000_0010_1001_0010_0000;
+    pieceTypes = 0b0000_0000_0000_0000_0000_0000_0000_0000;
+  }
+
+  void initEnd() {
+    pieceLocations = 0b0000_0000_0100_0100_0000_0000_0000_0000;
+    pieceColors = 0b0000_0000_0000_0100_0000_0000_0000_0000;
+    pieceTypes = 0b0000_0000_0000_0000_0000_0000_0000_0000;
   }
 
   /**
