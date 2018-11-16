@@ -1,5 +1,6 @@
 package com.webcheckers.model;
 
+import static com.webcheckers.model.Board.isKing;
 import static com.webcheckers.model.Board.isRed;
 import static com.webcheckers.model.Board.isWhite;
 import static java.lang.Math.abs;
@@ -203,12 +204,20 @@ public class Game {
     Position lastMoveStart = lastMove.getStart();
     Position lastMoveEnd = lastMove.getEnd();
 
-    // Matt's code
-    int row = lastMoveEnd.getRow();
-    int cell = lastMoveEnd.getCell();
+    // Determines whether piece was promoted
+    int currentRow = lastMoveEnd.getRow();
+    int currentCell = lastMoveEnd.getCell();
     Board currentBoard = boardStack.peek();
-    SPACE_TYPE movedPiece = currentBoard.getPieceAtLocation(cell, row);
-    if(isRed(movedPiece) && row == 7 || isWhite(movedPiece) && row == 0){
+    SPACE_TYPE currentType = currentBoard.getPieceAtLocation(currentCell, currentRow);
+    int len = boardStack.size();
+    int previousRow = lastMoveStart.getRow();
+    int previousCell = lastMoveStart.getCell();
+    Board previousBoard = boardStack.get(len - 2);
+    SPACE_TYPE previousType = previousBoard.getPieceAtLocation(previousCell, previousRow);
+    if(isKing(previousType)){
+      return false;
+    }
+    if(isRed(currentType) && currentRow == 7 || isWhite(currentType) && currentRow == 0){
       return true;
     }
 
