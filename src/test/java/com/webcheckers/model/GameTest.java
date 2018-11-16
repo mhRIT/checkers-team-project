@@ -3,7 +3,9 @@ package com.webcheckers.model;
 import static com.webcheckers.model.Game.COLOR.*;
 import static org.mockito.Mockito.mock;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
+import com.webcheckers.model.Game.EndState;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -159,6 +161,28 @@ public class GameTest {
    */
   @Test
   void testCheckEnd() {
+    Board board = mock(Board.class);
+    CuT = new Game(wPlayer,rPlayer);
+    CuT.setBoardTest(board);
+
+    when(board.getNumRedPieces()).thenReturn(0);
+    assertTrue(CuT.checkEnd());
+    assertEquals(CuT.getWhitePlayer(),CuT.getWinner());
+    assertEquals(EndState.ALL_PIECES,CuT.getEndState());
+
+    CuT = new Game(wPlayer,rPlayer);
+    CuT.setBoardTest(board);
+    when(board.getNumRedPieces()).thenReturn(1);
+    when(board.getNumWhitePieces()).thenReturn(0);
+    assertTrue(CuT.checkEnd());
+    assertEquals(CuT.getRedPlayer(),CuT.getWinner());
+    assertEquals(EndState.ALL_PIECES,CuT.getEndState());
+
+    CuT = new Game(wPlayer,rPlayer);
+    CuT.setBoardTest(board);
+    when(board.getNumWhitePieces()).thenReturn(1);;
     assertFalse(CuT.checkEnd());
+    assertNull(CuT.getWinner());
+    assertEquals(EndState.NOT_OVER,CuT.getEndState());
   }
 }

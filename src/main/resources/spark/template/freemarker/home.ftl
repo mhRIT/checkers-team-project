@@ -43,13 +43,15 @@
       </#if>
     </div>
 
-    <#if message??>
+
+
+    <div class="body">
+      <#if message??>
       <div>
         <p style="color: red">${message}</p>
       </div>
-    </#if>
+      </#if>
 
-    <div class="body">
       <#if allPlayers??>
         <#if allPlayers?size gt 0>
           <p> Other players currently signed in:</p>
