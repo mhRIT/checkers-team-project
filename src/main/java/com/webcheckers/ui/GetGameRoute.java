@@ -101,6 +101,7 @@ public class GetGameRoute implements Route {
     //
     Map<String, Object> vm = new HashMap<>();
 
+    //If the game is over, go to the home page
     if(game.checkEnd()){
       game.endGame();
       response.redirect(WebServer.HOME_URL);

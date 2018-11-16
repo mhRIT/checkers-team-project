@@ -267,12 +267,10 @@ public class Game {
    * conditions are met:
    *  there are no red pieces on the board
    *  there are no white pieces on the board
-   *  the red player has no more valid moves to make
-   *  the white player has no more valid moves to make
    *
    *  Sets a player as the winner
    *
-   * @return  an enum indicating the reason the game ended
+   * @return  whether the  turn ended
    */
   public boolean checkEnd() {
     if(board.getNumRedPieces() ==  0){
