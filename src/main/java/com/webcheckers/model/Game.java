@@ -207,7 +207,6 @@ public class Game {
     int row = lastMoveEnd.getRow();
     int cell = lastMoveEnd.getCell();
     Board currentBoard = boardStack.peek();
-
     SPACE_TYPE movedPiece = currentBoard.getPieceAtLocation(cell, row);
     if(isRed(movedPiece) && row == 7 || isWhite(movedPiece) && row == 0){
       return true;
