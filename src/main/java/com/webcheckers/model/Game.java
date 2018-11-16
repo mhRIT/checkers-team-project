@@ -218,11 +218,8 @@ public class Game {
     int previousCell = lastMoveStart.getCell();
     Board previousBoard = boardStack.get(len - 2);
     SPACE_TYPE previousType = previousBoard.getPieceAtLocation(previousCell, previousRow);
-    if(isKing(previousType)){
-      return false;
-    }
     if(isRed(currentType) && currentRow == 7 || isWhite(currentType) && currentRow == 0){
-      return true;
+      if(!isKing(previousType)){return true;}
     }
 
     return moveList.isEmpty();
