@@ -199,10 +199,14 @@ public class Game {
       return false;
     }
 
+    // Determines whether move was a simple move
     List<Move> moveList = getActivePlayerJumpMoves();
     Move lastMove = moveStack.peek();
     Position lastMoveStart = lastMove.getStart();
     Position lastMoveEnd = lastMove.getEnd();
+    if(Math.abs(lastMoveStart.getRow() - lastMoveEnd.getRow()) == 1){
+      return true;
+    }
 
     // Determines whether piece was promoted
     int currentRow = lastMoveEnd.getRow();
@@ -218,10 +222,6 @@ public class Game {
       return false;
     }
     if(isRed(currentType) && currentRow == 7 || isWhite(currentType) && currentRow == 0){
-      return true;
-    }
-
-    if(Math.abs(lastMoveStart.getRow() - lastMoveEnd.getRow()) == 1){
       return true;
     }
 
