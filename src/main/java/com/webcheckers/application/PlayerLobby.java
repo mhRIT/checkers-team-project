@@ -25,6 +25,7 @@ public class PlayerLobby {
   // Attributes
   //
   private HashMap<String, Player> playerList;
+  private HashMap<Player, Boolean> checkedOut;
   private GameCenter gameCenter;
 
   /**
@@ -34,12 +35,14 @@ public class PlayerLobby {
    *                    this PlayerLobby
    */
   public PlayerLobby(GameCenter gameCenter) {
-    playerList = new HashMap<String, Player>();
+    playerList = new HashMap<>();
+    checkedOut = new HashMap<>();
+
     this.gameCenter = gameCenter;
   }
 
   /**
-   * Given that a user name isAvailable, store player name in the player hash map --thus player is
+   * Given that a user name isAvailable, store player name in the player hash map -- thus player is
    * signed-in.
    *
    * @param   name  the player's username

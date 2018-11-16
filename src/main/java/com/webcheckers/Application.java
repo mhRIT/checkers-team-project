@@ -1,6 +1,9 @@
 package com.webcheckers;
 
 import com.webcheckers.application.GameCenter;
+import com.webcheckers.application.PlayerLobby;
+import com.webcheckers.model.Game;
+import com.webcheckers.model.Player;
 import java.io.InputStream;
 import java.util.Objects;
 import java.util.logging.LogManager;
@@ -17,21 +20,33 @@ import spark.template.freemarker.FreeMarkerEngine;
  * The entry point for the WebCheckers web application.
  *
  * @author <a href='mailto:bdbvse@rit.edu'>Bryan Basham</a>
+ * @author <a href='mailto:axf5592@rit.edu'>Andrew Festa</a>
  */
 public final class Application {
-  private static final Logger LOG = Logger.getLogger(Application.class.getName());
-
-  public enum demoMode{START, MID, END}
-  public static demoMode mode;
-
-  public static demoMode modeFromString(String d){
-    for(demoMode s: demoMode.values()){
-      if(s.toString().equals(d)){
-        return s;
+  public enum DEMO_STATE { START, MID, END, DEBUG, PRODUCTION;
+    /**
+     * TODO
+     *
+     * @param stateString
+     */
+    public static DEMO_STATE getState(String stateString) {
+      switch (stateString.toLowerCase()){
+        case "start":
+          return DEMO_STATE.START;
+        case "mid":
+          return DEMO_STATE.MID;
+        case "end":
+          return DEMO_STATE.END;
+        case "debug":
+          return DEMO_STATE.DEBUG;
+        case "production":
+        default:
+          return DEMO_STATE.PRODUCTION;
       }
     }
-    return demoMode.START;
   }
+
+  private static final Logger LOG = Logger.getLogger(Application.class.getName());
 
   //
   // Application Launch method
@@ -49,7 +64,10 @@ public final class Application {
    *    Command line arguments; none expected.
    */
   public static void main(String[] args) {
-    mode = modeFromString(System.getProperty("demoMode"));
+    String demoStateString = System.getProperty("demoState", "false");
+//    System.out.printf("Demo state: %s\n", demoStateString);
+    DEMO_STATE demoState = DEMO_STATE.getState(demoStateString);
+
     // initialize Logging
     try {
       ClassLoader classLoader = Application.class.getClassLoader();
@@ -73,8 +91,31 @@ public final class Application {
     // create the one and only game center
     final GameCenter gameCenter = new GameCenter();
 
+    // create the one and only PlayerLobby
+    final PlayerLobby playerLobby = new PlayerLobby(gameCenter);
+
+    switch (demoState){
+      case START:
+        playerLobby.signin("Player1");
+        playerLobby.signin("Player2");
+
+        Player player1 = playerLobby.getPlayer("Player1");
+        Player player2 = playerLobby.getPlayer("Player2");
+
+        Game newGame = gameCenter.createGame(player1, player2);
+        newGame.initializeStart();
+      case MID:
+        break;
+      case END:
+        break;
+      case DEBUG:
+        break;
+      case PRODUCTION:
+        break;
+    }
+
     // inject the game center and freemarker engine into web server
-    final WebServer webServer = new WebServer(templateEngine, gson, gameCenter);
+    final WebServer webServer = new WebServer(templateEngine, gson, gameCenter, playerLobby);
 
     // inject web server into application
     final Application app = new Application(webServer);
@@ -111,8 +152,6 @@ public final class Application {
     webServer.initialize();
 
     // other applications might have additional services to configure
-
     LOG.config("WebCheckers initialization complete.");
   }
-
 }

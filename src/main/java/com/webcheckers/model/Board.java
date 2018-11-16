@@ -16,7 +16,7 @@ import java.util.List;
  *  @author <a href='mailto:axf5592@rit.edu'>Andrew Festa</a>
  *
  */
-public class Board {
+public class Board implements Cloneable {
   //
   // Enums
   //
@@ -99,6 +99,31 @@ public class Board {
     pieceLocations = 0b0000_0000_0100_0100_0000_0000_0000_0000;
     pieceColors = 0b0000_0000_0000_0100_0000_0000_0000_0000;
     pieceTypes = 0b0000_0000_0000_0000_0000_0000_0000_0000;
+  }
+
+  /**
+   * Initializes the state of the board and places red and white pieces
+   * in random positions, as is approaching the midpoint way
+   * of the game.
+   *
+   */
+  void initMid() {
+    // TODO
+    pieceLocations =  0b1111_1111_1111_0000_0000_1111_1111_1111;
+    pieceColors =     0b0000_0000_0000_0000_0000_1111_1111_1111;
+    pieceTypes =      0b0000_0000_0000_0000_0000_0000_0000_0000;
+  }
+
+  /**
+   * Initializes the state of the board and places red and white pieces
+   * in set positions, as is approaching the endpoint of the game.
+   *
+   */
+  void initEnd() {
+    // TODO
+    pieceLocations =  0b1111_1111_1111_0000_0000_1111_1111_1111;
+    pieceColors =     0b0000_0000_0000_0000_0000_1111_1111_1111;
+    pieceTypes =      0b0000_0000_0000_0000_0000_0000_0000_0000;
   }
 
   /**
@@ -675,5 +700,16 @@ public class Board {
    */
   int getNumPieces(){
     return Integer.bitCount(pieceLocations);
+  }
+
+  /**
+   * TODO
+   *
+   * @return
+   * @throws CloneNotSupportedException
+   */
+  @Override
+  public Object clone() throws CloneNotSupportedException {
+    return super.clone();
   }
 }
