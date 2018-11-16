@@ -1,5 +1,7 @@
 package com.webcheckers.model;
 
+import static com.webcheckers.model.Board.isRed;
+import static com.webcheckers.model.Board.isWhite;
 import static java.lang.Math.abs;
 
 import com.webcheckers.Application.DEMO_STATE;
@@ -161,9 +163,9 @@ public class Game {
       return false;
     }
 
-    List<Move> validSimpleMoves = Board.isRed(pieceAtStart) ? currentBoard.getAllRedSimpleMoves() : currentBoard
+    List<Move> validSimpleMoves = isRed(pieceAtStart) ? currentBoard.getAllRedSimpleMoves() : currentBoard
         .getAllWhiteSimpleMoves();
-    List<Move> validJumpMoves = Board.isRed(pieceAtStart) ? currentBoard.getAllRedJumpMoves() : currentBoard
+    List<Move> validJumpMoves = isRed(pieceAtStart) ? currentBoard.getAllRedJumpMoves() : currentBoard
         .getAllWhiteJumpMoves();
 
     //
@@ -259,6 +261,18 @@ public class Game {
     } catch (CloneNotSupportedException e) {
       e.printStackTrace();
     }
+
+    // Promote a piece if it lands on the rank opposite to where it started.
+    int row = endPos.getRow();
+    int cell = endPos.getCell();
+    SPACE_TYPE movedPiece = currentBoard.getPieceAtLocation(cell, row);
+    if(isRed(movedPiece) && row == 7){
+      currentBoard.promotePiece(cell, row);
+    }
+    else if(isWhite(movedPiece) && row == 0){
+      currentBoard.promotePiece(cell, row);
+    }
+
     return false;
   }
 
