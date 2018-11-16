@@ -203,6 +203,8 @@ public class Game {
     Position lastMoveStart = lastMove.getStart();
     Position lastMoveEnd = lastMove.getEnd();
 
+
+
     if(Math.abs(lastMoveStart.getRow() - lastMoveEnd.getRow()) == 1){
       return true;
     }
@@ -266,10 +268,7 @@ public class Game {
     int row = endPos.getRow();
     int cell = endPos.getCell();
     SPACE_TYPE movedPiece = currentBoard.getPieceAtLocation(cell, row);
-    if(isRed(movedPiece) && row == 7){
-      currentBoard.promotePiece(cell, row);
-    }
-    else if(isWhite(movedPiece) && row == 0){
+    if(isRed(movedPiece) && row == 7 || isWhite(movedPiece) && row == 0){
       currentBoard.promotePiece(cell, row);
     }
 
