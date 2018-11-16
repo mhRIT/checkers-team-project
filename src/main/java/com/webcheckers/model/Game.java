@@ -247,7 +247,6 @@ public class Game {
   }
 
   /**
-   *
    * Checks the state of the board in an attempt to detect an end state.
    * A board is considered to be in an end state when any of the following
    * conditions are met:
@@ -312,15 +311,16 @@ public class Game {
    * @return true if player resigned, otherwise false
    */
   public boolean resignPlayer(Player player){
+    //checking that game has not already ended
+    if(endState != EndState.NOT_OVER){
+      return false;
+    }
     Player opponent = getOpponent(player);
     //checking if player has an opponent, thus in a game
     if(opponent == null){
       return false;
     }
-    //checking that game has not already ended
-    if(endState != EndState.NOT_OVER){
-      return false;
-    }
+
     winner = opponent;
     endState = EndState.RESIGNATION;
     endGame();

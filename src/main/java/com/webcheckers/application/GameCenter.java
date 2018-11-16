@@ -65,9 +65,9 @@ public class GameCenter {
    */
   public int resignAll(Player player){
     int resignCount = 0;
-    Game[] game = getGames(player);
+    Game[] games = getGames(player);
 
-    for (Game eachGame: game) {
+    for (Game eachGame: games) {
       if(eachGame.resignPlayer(player)){
           resignCount++;
       }
