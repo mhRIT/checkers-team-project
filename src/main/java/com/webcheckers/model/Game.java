@@ -203,13 +203,14 @@ public class Game {
     Position lastMoveStart = lastMove.getStart();
     Position lastMoveEnd = lastMove.getEnd();
 
+    // Matt's code
     int row = lastMoveEnd.getRow();
     int cell = lastMoveEnd.getCell();
     Board currentBoard = boardStack.peek();
 
     SPACE_TYPE movedPiece = currentBoard.getPieceAtLocation(cell, row);
     if(isRed(movedPiece) && row == 7 || isWhite(movedPiece) && row == 0){
-      currentBoard.promotePiece(cell, row);
+      return true;
     }
 
     if(Math.abs(lastMoveStart.getRow() - lastMoveEnd.getRow()) == 1){
