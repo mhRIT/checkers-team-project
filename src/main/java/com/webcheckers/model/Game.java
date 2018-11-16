@@ -203,7 +203,14 @@ public class Game {
     Position lastMoveStart = lastMove.getStart();
     Position lastMoveEnd = lastMove.getEnd();
 
+    int row = lastMoveEnd.getRow();
+    int cell = lastMoveEnd.getCell();
+    Board currentBoard = boardStack.peek();
 
+    SPACE_TYPE movedPiece = currentBoard.getPieceAtLocation(cell, row);
+    if(isRed(movedPiece) && row == 7 || isWhite(movedPiece) && row == 0){
+      currentBoard.promotePiece(cell, row);
+    }
 
     if(Math.abs(lastMoveStart.getRow() - lastMoveEnd.getRow()) == 1){
       return true;
@@ -259,17 +266,17 @@ public class Game {
       }
       nextBoard.movePiece(move);
 
+      // Promote a piece if it lands on the rank opposite to where it started.
+      int row = endPos.getRow();
+      int cell = endPos.getCell();
+      SPACE_TYPE movedPiece = nextBoard.getPieceAtLocation(cell, row);
+      if(isRed(movedPiece) && row == 7 || isWhite(movedPiece) && row == 0){
+        currentBoard.promotePiece(cell, row);
+      }
+
       return true;
     } catch (CloneNotSupportedException e) {
       e.printStackTrace();
-    }
-
-    // Promote a piece if it lands on the rank opposite to where it started.
-    int row = endPos.getRow();
-    int cell = endPos.getCell();
-    SPACE_TYPE movedPiece = currentBoard.getPieceAtLocation(cell, row);
-    if(isRed(movedPiece) && row == 7 || isWhite(movedPiece) && row == 0){
-      currentBoard.promotePiece(cell, row);
     }
 
     return false;
