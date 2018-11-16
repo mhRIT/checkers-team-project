@@ -163,15 +163,14 @@ public class GameTest {
   void testCheckEnd() {
     Board board = mock(Board.class);
     CuT = new Game(wPlayer,rPlayer);
-    CuT.setBoardTest(board);
 
+    when(CuT.getBoardState()).thenReturn(board);
     when(board.getNumRedPieces()).thenReturn(0);
     assertTrue(CuT.checkEnd());
     assertEquals(CuT.getWhitePlayer(),CuT.getWinner());
     assertEquals(EndState.ALL_PIECES,CuT.getEndState());
 
     CuT = new Game(wPlayer,rPlayer);
-    CuT.setBoardTest(board);
     when(board.getNumRedPieces()).thenReturn(1);
     when(board.getNumWhitePieces()).thenReturn(0);
     assertTrue(CuT.checkEnd());
@@ -179,7 +178,6 @@ public class GameTest {
     assertEquals(EndState.ALL_PIECES,CuT.getEndState());
 
     CuT = new Game(wPlayer,rPlayer);
-    CuT.setBoardTest(board);
     when(board.getNumWhitePieces()).thenReturn(1);;
     assertFalse(CuT.checkEnd());
     assertNull(CuT.getWinner());

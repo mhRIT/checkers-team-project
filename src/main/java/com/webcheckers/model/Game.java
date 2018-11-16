@@ -297,7 +297,7 @@ public class Game {
    *
    */
   public void switchTurn(){
-    if(turnOver){
+    if(isTurnOver()){
       moveStack = new Stack<>();
       if (activeColor.equals(COLOR.RED)) {
         activeColor = COLOR.WHITE;
@@ -334,12 +334,12 @@ public class Game {
    *          false otherwise
    */
   public boolean checkEnd() {
-    if(board.getNumRedPieces() ==  0){
+    if(getBoardState().getNumRedPieces() ==  0){
       this.winner = getWhitePlayer();
       this.endState = EndState.ALL_PIECES;
       return true;
     }
-    if(board.getNumWhitePieces() == 0){
+    if(getBoardState().getNumWhitePieces() == 0){
       this.winner = getRedPlayer();
       this.endState = EndState.ALL_PIECES;
       return true;
@@ -391,5 +391,4 @@ public class Game {
 
   public Player getWinner(){return winner;}
   public EndState getEndState(){return endState;}
-  public void setBoardTest(Board board){this.board = board;}
 }
