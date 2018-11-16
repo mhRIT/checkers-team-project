@@ -394,6 +394,21 @@ public class Board implements Cloneable {
     return remPiece;
   }
 
+  /*
+  * Changes a single piece to a king.
+  *
+  * @param   x x coordinate on the cartesian board
+  * @param   y y coordinate on the cartesian board
+  * @return    the promoted piece
+  */
+  SPACE_TYPE promotePiece(int x, int y){
+    SPACE_TYPE piece = getPieceAtLocation(x, y);
+    int bitIdx = cartesianToIndex(x, y);
+    int bitMask = 1 << bitIdx;
+    pieceTypes |= bitMask;
+    return piece;
+  }
+
   /**
    * TODO
    */
