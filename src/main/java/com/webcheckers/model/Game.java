@@ -320,7 +320,10 @@ public class Game {
     if(opponent == null){
       return false;
     }
-
+    //if the player is the active player make the opponent the active player
+    if(getActivePlayer().equals(player)){
+      switchTurn();
+    }
     winner = opponent;
     endState = EndState.RESIGNATION;
     endGame();
