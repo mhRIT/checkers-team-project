@@ -109,7 +109,6 @@ public class GetGameRoute implements Route {
       return "nothing";
     }
     else if (game.hasResigned(game.getOpponent(player))){
-      vm.put("viewMode", VIEW_MODE.REPLAY);
       vm.put("message", new Message("You opponent has resigned!", MESSAGE_TYPE.info));
     }
     else if(game.checkEnd()){
