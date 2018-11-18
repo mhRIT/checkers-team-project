@@ -19,6 +19,7 @@ import spark.TemplateEngine;
  * Check if the opponent has submitted their turn.
  *
  *  @author <a href='mailto:sjk7867@rit.edu'>Simon Kirwkwood</a>
+ *  @author <a href='mailto:mlh1964@rit.edu'>Meaghan Hoitt</a>
  */
 public class PostCheckTurnRoute extends AjaxRoute {
 
@@ -32,14 +33,11 @@ public class PostCheckTurnRoute extends AjaxRoute {
     final Session session = request.session();
     Player player = session.attribute("player");
 
-    //If the opponent has resigned
     Game game = gameCenter.getGames(player)[0];
-    if(game.hasResigned(game.getOpponent(player))){
-      return new Message("true", MESSAGE_TYPE.info);
-    }
 
-    //If a game does exist it check if it is the current player's turn
-    if(player.equals(game.getActivePlayer())){
+    //If the game has ended OR
+    //If it is the active player's turn
+    if(game.checkEnd() || player.equals(game.getActivePlayer())){
       LOG.finer("CheckTurn is true for player: " + player.getName());
       return new Message("true", MESSAGE_TYPE.info);
     }
