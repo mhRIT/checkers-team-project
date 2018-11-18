@@ -9,6 +9,8 @@ import com.webcheckers.model.Game.EndState;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import javafx.beans.binding.When;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -41,18 +43,113 @@ public class GameTest {
    */
   @Test
   public void testSwitchTurn(){
-    Move testMove0 = new Move(new Position(0,1), new Position(0,1));
-    Move testMove1 = new Move(new Position(1,2), new Position(1,2));
+    Move testMove0 = new Move(new Position(2,2), new Position(3,3));
+    Move testMove1 = new Move(new Position(4,2), new Position(5,3));
 
+    //attempt to switch turn before it should be possible
     CuT.switchTurn();
-    assertSame(CuT.getActiveColor(), WHITE);
-    CuT.switchTurn();
+    //expected: turn does not change
     assertSame(CuT.getActiveColor(), RED);
-//    CuT.makeMove(testMove0);
-//    assertSame(CuT.getActiveColor(), WHITE);
-//    CuT.makeMove(testMove1);
-//    assertSame(CuT.getActiveColor(), RED);
+
+    //red makes a move
+    CuT.makeMove(testMove0);
+    CuT.switchTurn();
+    //expected: turn changes to wplayer
+    assertSame(CuT.getActiveColor(), WHITE);
+
+    //white makes a move
+    CuT.makeMove(testMove1);
+    CuT.switchTurn();
+    //expected: turn changes to rplayer
+    assertSame(CuT.getActiveColor(), RED);
   }
+
+
+  @Test
+  public void testGetOpponent(){
+    Player sPlayer = mock(Player.class);
+    assertNull(CuT.getOpponent(sPlayer));
+    assertEquals(CuT.getOpponent(rPlayer), wPlayer);
+    assertEquals(CuT.getOpponent(wPlayer), rPlayer);
+  }
+
+
+  @Test
+  public void test1ResignPlayer(){
+    assertFalse(CuT.hasResigned(rPlayer));
+    assertFalse(CuT.hasResigned(wPlayer));
+
+    //rplayer resigns successfully
+    assertTrue(CuT.resignPlayer(rPlayer));
+    assertTrue(CuT.hasResigned(rPlayer));
+
+    //expected: turn changes to wplayer
+    assertSame(CuT.getActiveColor(), WHITE);
+
+    //wplayer resigns unsuccessfully
+    assertFalse(CuT.resignPlayer(wPlayer));
+    assertFalse(CuT.hasResigned(wPlayer));
+
+    //expected: still wplayer turn
+    assertSame(CuT.getActiveColor(), WHITE);
+  }
+
+  @Test
+  public void test2ResignPlayer(){
+    assertFalse(CuT.hasResigned(rPlayer));
+    assertFalse(CuT.hasResigned(wPlayer));
+
+    //rplayer turn, but wplayer resigns successfully
+    assertTrue(CuT.resignPlayer(wPlayer));
+    assertTrue(CuT.hasResigned(wPlayer));
+
+    //expected: rplayer turn
+    assertSame(CuT.getActiveColor(), RED);
+
+    //rplayer resigns unsuccessfully
+    assertFalse(CuT.resignPlayer(rPlayer));
+    assertFalse(CuT.hasResigned(rPlayer));
+
+    //expected: still rplayer turn
+    assertSame(CuT.getActiveColor(), RED);
+  }
+
+  @Test
+  public void test3ResignPlayer(){
+    //rplayer moves
+    Move testMove0 = new Move(new Position(2,2), new Position(3,3));
+    CuT.makeMove(testMove0);
+    CuT.switchTurn();
+
+    //wplayer resigns successfully
+    assertTrue(CuT.resignPlayer(wPlayer));
+    //expected: turn changes to rplayer
+    assertSame(CuT.getActiveColor(), RED);
+
+    //rplayer resigns unsuccessfully
+    assertFalse(CuT.resignPlayer(rPlayer));
+    //expected: still rplayer turn
+    assertSame(CuT.getActiveColor(), RED);
+  }
+
+  @Test
+  public void test4ResignPlayer(){
+    //rplayer makes a move
+    Move testMove1 = new Move(new Position(2,2), new Position(3,3));
+    CuT.makeMove(testMove1);
+    CuT.switchTurn();
+
+    //wplayer turn, but rplayer resigns successfully
+    assertTrue(CuT.resignPlayer(rPlayer));
+    //expected: wplayer turn
+    assertSame(CuT.getActiveColor(), WHITE);
+
+    //wplayer resigns unsuccessfully
+    assertFalse(CuT.resignPlayer(wPlayer));
+    //expected: still wplayer turn
+    assertSame(CuT.getActiveColor(), WHITE);
+  }
+
 
   /**
    * TODO
@@ -162,8 +259,8 @@ public class GameTest {
   @Test
   void testCheckEnd() {
     Board board = mock(Board.class);
-    CuT = new Game(wPlayer,rPlayer);
 
+    CuT = new Game(wPlayer,rPlayer);
     when(CuT.getBoardState()).thenReturn(board);
     when(board.getNumRedPieces()).thenReturn(0);
     assertTrue(CuT.checkEnd());
