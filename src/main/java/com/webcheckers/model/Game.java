@@ -297,7 +297,16 @@ public class Game {
    *
    */
   public void switchTurn(){
-    if(isTurnOver()){
+    if(endState == EndState.RESIGNATION){
+      //if your opponent has resigned and then player also tries to resign
+      if(!hasResigned(getActivePlayer())){
+        return;
+      }
+    }
+    else if(!isTurnOver()){
+      return;
+    }
+    //if player's turn is over
       moveStack = new Stack<>();
       if (activeColor.equals(COLOR.RED)) {
         activeColor = COLOR.WHITE;
@@ -305,7 +314,6 @@ public class Game {
         activeColor = COLOR.RED;
       }
     }
-  }
 
   /**
    *
@@ -394,12 +402,14 @@ public class Game {
     if(opponent == null){
       return false;
     }
+
+    winner = opponent;
+    endState = EndState.RESIGNATION;
+
     //if the player is the active player make the opponent the active player
     if(getActivePlayer().equals(player)){
       switchTurn();
     }
-    winner = opponent;
-    endState = EndState.RESIGNATION;
     endGame();
     return true;
   }
