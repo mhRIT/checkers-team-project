@@ -111,6 +111,7 @@ public class GetGameRoute implements Route {
     else if (game.hasResigned(game.getOpponent(player))){
       vm.put("message", new Message("You opponent has resigned!", MESSAGE_TYPE.info));
     }
+    //If the game is over, go to the home page
     else if(game.checkEnd()){
         game.endGame();
         response.redirect(WebServer.HOME_URL);

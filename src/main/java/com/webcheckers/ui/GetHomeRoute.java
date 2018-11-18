@@ -2,6 +2,7 @@ package com.webcheckers.ui;
 
 import static spark.Spark.halt;
 
+import com.webcheckers.Application.DEMO_STATE;
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
 import com.webcheckers.model.Game;
@@ -50,7 +51,7 @@ public class GetHomeRoute implements Route {
   private final TemplateEngine templateEngine;
   private static final Logger LOG = Logger.getLogger(GetHomeRoute.class.getName());
 
-  private ArrayList<Player> outOfGame = new ArrayList<Player>();
+  public static ArrayList<Player> outOfGame = new ArrayList<Player>();
 
   //
   // Constructor
@@ -121,6 +122,8 @@ public class GetHomeRoute implements Route {
           }
           Player p1 = game.getRedPlayer();
           Player p2 = game.getWhitePlayer();
+          //If both players have left the game screen and reached the home page, only then can the game be removed
+          //because both sessions have gotten the information they need out of it
           if(outOfGame.contains(p1) && outOfGame.contains(p2)){
             gameCenter.removeGame(game);
             outOfGame.remove(p1);

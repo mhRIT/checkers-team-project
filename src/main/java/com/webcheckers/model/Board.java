@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.webcheckers.Application;
-
 /**
  *  {@code Board}
  *  <p>
@@ -18,7 +16,7 @@ import com.webcheckers.Application;
  *  @author <a href='mailto:axf5592@rit.edu'>Andrew Festa</a>
  *
  */
-public class Board {
+public class Board implements Cloneable {
   //
   // Enums
   //
@@ -86,15 +84,32 @@ public class Board {
    *
    */
   void initStart() {
-    if (Application.demoMode) {
-      pieceLocations = 0b0000_0000_0100_0100_0000_0000_0000_0000;
-      pieceColors = 0b0000_0000_0000_0100_0000_0000_0000_0000;
-      pieceTypes = 0b0000_0000_0000_0000_0000_0000_0000_0000;
-    } else {
       pieceLocations = 0b1111_1111_1111_0000_0000_1111_1111_1111;
       pieceColors = 0b0000_0000_0000_0000_0000_1111_1111_1111;
       pieceTypes = 0b0000_0000_0000_0000_0000_0000_0000_0000;
-    }
+  }
+
+  /**
+   * Initializes the state of the board and places red and white pieces
+   * in random positions, as is approaching the midpoint way
+   * of the game.
+   *
+   */
+  void initMid(){
+    pieceLocations = 0b0000_0101_1100_0100_0010_1001_0010_0000;
+    pieceColors = 0b0000_0000_0000_0000_0010_1001_0010_0000;
+    pieceTypes = 0b0000_0000_0000_0000_0000_0000_0000_0000;
+  }
+
+  /**
+   * Initializes the state of the board and places red and white pieces
+   * in set positions, as is approaching the endpoint of the game.
+   *
+   */
+  void initEnd() {
+    pieceLocations = 0b0000_0000_0100_0100_0000_0000_0000_0000;
+    pieceColors = 0b0000_0000_0000_0100_0000_0000_0000_0000;
+    pieceTypes = 0b0000_0000_0000_0000_0000_0000_0000_0000;
   }
 
   /**
@@ -671,5 +686,16 @@ public class Board {
    */
   int getNumPieces(){
     return Integer.bitCount(pieceLocations);
+  }
+
+  /**
+   * TODO
+   *
+   * @return
+   * @throws CloneNotSupportedException
+   */
+  @Override
+  public Object clone() throws CloneNotSupportedException {
+    return super.clone();
   }
 }
