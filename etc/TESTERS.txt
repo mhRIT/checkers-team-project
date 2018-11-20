@@ -1,0 +1,13 @@
+1. Open command prompt
+2. Type "mvn -DdemoState=START compile exec:java"
+3. Open an internet browser
+4. Go to 127.0.0.1:4567
+5. For each additional client, count up by one on the last 
+	segment of the IP in a new tab.
+6. Sign in on at least two clients
+7. Choose one of your alternate clients on the home page 
+	to start a game with them.
+8. Click and drag pieces to move them, Backup to undo, Submit to submit.
+9. If you want to start the game from different states,
+	i.e. an example with most pieces already captured, change START
+	in the compile command to MID or END and recompile.
