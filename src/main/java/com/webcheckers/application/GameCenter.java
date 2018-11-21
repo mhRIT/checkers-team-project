@@ -1,8 +1,9 @@
 package com.webcheckers.application;
 
-import com.webcheckers.model.Game;
+import com.webcheckers.model.GameState.GameContext;
 import com.webcheckers.model.Player;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 /**
@@ -22,7 +23,8 @@ public class GameCenter {
   //
   // Attributes
   //
-  private ArrayList<Game> gameList;
+//  private ArrayList<Game> gameList;
+  private ArrayList<GameContext> gameList;
   private static final Logger LOG = Logger.getLogger(GameCenter.class.getName());
 
   /**
@@ -38,10 +40,12 @@ public class GameCenter {
    *
    * @param   player1 the player that will play as Red
    * @param   player2 the player that will play as white
-   * @return          the newly created Game
+   * @return          the newly created GameState
    */
-  public Game createGame(Player player1, Player player2) {
-    Game game = new Game(player1, player2);
+  public GameContext createGame(Player player1, Player player2) {
+//    Game game = new Game(player1, player2);
+//    gameList.add(game);
+    GameContext game = new GameContext(player1, player2);
     gameList.add(game);
     return game;
   }
@@ -54,23 +58,7 @@ public class GameCenter {
    *          false   otherwise
    */
   public boolean isPlayerInGame(Player player) {
-    return getGames(player).length > 0;
-  }
-
-  /**
-   * Resigns the specified player from any games they may be playing in.
-   *
-   * @param player  the player to resign
-   * @return        the number of games the player resigned from
-   */
-  public int resignAll(Player player){
-    int resignCount = 0;
-    for (Game eachGame: gameList) {
-      if(eachGame.resign(player)){
-        resignCount++;
-      }
-    }
-    return resignCount;
+    return getGames(player).size() > 0;
   }
 
   /**
@@ -78,30 +66,18 @@ public class GameCenter {
    * specified player.
    *
    * @param   player  the player whose games are to be retrieved
-   * @return          an array of Game objects that contain
+   * @return          an array of GameState objects that contain
    *                  the specified player as one of the players
    */
-  public Game[] getGames(Player player) {
-    ArrayList<Game> playerGameList = new ArrayList<>();
+  public List<GameContext> getGames(Player player) {
+    ArrayList<GameContext> playerGameList = new ArrayList<>();
 
-    for (Game eachGame : gameList) {
-      if (eachGame.hasPlayer(player)) {
+    for (GameContext eachGame : gameList) {
+      if (eachGame.getRedPlayer().equals(player) || eachGame.getWhitePlayer().equals(player)){
         playerGameList.add(eachGame);
       }
     }
 
-    return playerGameList.toArray(new Game[0]);
-  }
-
-  /**
-   * Removes the specified instance of a game from the list of games
-   * this GameCenter tracks.
-   *
-   * @param   game  the instance of a game remove
-   * @return  true  if the game exists and was successfully removed
-   *          false otherwise
-   */
-  public boolean removeGame(Game game) {
-    return gameList.remove(game);
+    return playerGameList;
   }
 }

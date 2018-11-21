@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.Stack;
 
 /**
- *  {@code Game}
+ *  {@code GameState}
  *  <p>
- *  Represents a single checkers Game played by two players.
+ *  Represents a single checkers GameState played by two players.
  *  </p>
  *
  *  @author <a href='mailto:mlh1964@rit.edu'>Meaghan Hoitt</a>
@@ -21,10 +21,10 @@ import java.util.Stack;
  *
  */
 public class Game {
+
   //
   // Enums
   //
-
   public enum COLOR {RED, WHITE}
 
   public enum EndState{
@@ -55,13 +55,12 @@ public class Game {
 
   private Player winner = null;
   private EndState endState = EndState.NOT_OVER;
-  String[] endInfo = new String[2];
+  private String[] endInfo = new String[2];
 
-  private boolean turnOver;
   private Stack<Move> moveStack;
   
   /**
-   * The constructor for the Game class.
+   * The constructor for the GameState class.
    *
    * @param rPlayer the red player
    * @param wPlayer the white player
@@ -78,7 +77,6 @@ public class Game {
 //    initializeStart();
     initializeMid();
 
-    turnOver = false;
     moveStack = new Stack<>();
   }
 
@@ -132,26 +130,6 @@ public class Game {
       activePlayer = whitePlayer;
     }
     return activePlayer;
-  }
-
-  /**
-   * TODO
-   *
-   * @param move
-   * @return
-   */
-  public Move invertMove(Move move){
-    Position startPos = move.getStart();
-    Position endPos = move.getEnd();
-
-    Position whiteStart = new Position(
-        (Board.BOARD_SIZE-1) - startPos.getCell(),
-        (Board.BOARD_SIZE -1) - startPos.getRow());
-    Position whiteEnd = new Position(
-        (Board.BOARD_SIZE-1) - endPos.getCell(),
-        (Board.BOARD_SIZE -1) - endPos.getRow());
-
-    return new Move(whiteStart, whiteEnd);
   }
 
   /**
@@ -283,7 +261,6 @@ public class Game {
     try {
       Board nextBoard = (Board) currentBoard.clone();
 
-      turnOver = true;
       boardStack.push(nextBoard);
       moveStack.push(move);
 
@@ -312,7 +289,6 @@ public class Game {
    * TODO
    */
   public void undoLastMove() {
-    turnOver = false;
     moveStack.pop();
     boardStack.pop();
   }
@@ -372,36 +348,8 @@ public class Game {
     return false;
   }
 
-  /**
-   * Explains the end of a game
-   *
-   * @return a string array containing information from the ended game
-   */
-  public void endGame() {
-    endInfo[0] = winner.getName();
-    endInfo[1] = endState.toString();
-  }
-
   public String endMessage(){
-    return String.format("Game is over. \'%s\' is the winner. They won because %s",this.endInfo[0],this.endInfo[1]);
-  }
-
-  /**
-   * Resigns the specified player from the game and returns
-   * if the player was successfully removed and the game
-   * was successfully ended.
-   *
-   * @param resignPlayer  the player that resigned
-   * @return true         if the player was successfully removed and
-   *                      and the game was successfully ended
-   *         false        otherwise
-   */
-  public boolean resign(Player resignPlayer){
-    // TODO complete and verify functionality
-    if(hasPlayer(resignPlayer)){
-      return checkEnd();
-    }
-    return false;
+    return String.format("GameState is over. \'%s\' is the winner. They won because %s",this.endInfo[0],this.endInfo[1]);
   }
 
   /**

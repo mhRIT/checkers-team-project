@@ -1,5 +1,10 @@
 package com.webcheckers.model;
 
+import com.webcheckers.model.GameState.GameContext;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -20,6 +25,7 @@ public class Player {
   //
 
   private String name;
+  private Map<GameContext, Move> pendingMoveMap;
 
   /**
    * The default constructor for the Player class.
@@ -28,7 +34,9 @@ public class Player {
    */
   public Player(String name) {
     Objects.requireNonNull(name, "name must not be null");
+
     this.name = name;
+    this.pendingMoveMap = new HashMap<>();
   }
 
   /**
@@ -38,6 +46,14 @@ public class Player {
    */
   public String getName() {
     return name;
+  }
+
+  public void addNextMove(GameContext game, Move move){
+    pendingMoveMap.put(game, move);
+  }
+
+  public Move getNextMove(GameContext game){
+    return pendingMoveMap.getOrDefault(game, null);
   }
 
   /**

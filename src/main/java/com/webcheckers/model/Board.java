@@ -83,7 +83,7 @@ public class Board implements Cloneable {
    * first starts.
    *
    */
-  void initStart() {
+  public void initStart() {
       pieceLocations = 0b1111_1111_1111_0000_0000_1111_1111_1111;
       pieceColors = 0b0000_0000_0000_0000_0000_1111_1111_1111;
       pieceTypes = 0b0000_0000_0000_0000_0000_0000_0000_0000;
@@ -95,7 +95,7 @@ public class Board implements Cloneable {
    * of the game.
    *
    */
-  void initMid(){
+  public void initMid(){
 //    pieceLocations =  0b0000_1111_0001_0000_0000_0001_1111_0000;
 //    pieceColors =     0b0000_1110_0001_0000_0000_0000_0001_0000;
 //    pieceTypes =      0b0000_0000_0000_0000_0000_0000_0000_0000;
@@ -109,10 +109,30 @@ public class Board implements Cloneable {
    * in set positions, as is approaching the endpoint of the game.
    *
    */
-  void initEnd() {
+  public void initEnd() {
     pieceLocations = 0b0000_0000_0100_0100_0000_0000_0000_0000;
     pieceColors = 0b0000_0000_0000_0100_0000_0000_0000_0000;
     pieceTypes = 0b0000_0000_0000_0000_0000_0000_0000_0000;
+  }
+
+  /**
+   * TODO
+   *
+   * @param move
+   * @return
+   */
+  public static Move invertMove(Move move){
+    Position startPos = move.getStart();
+    Position endPos = move.getEnd();
+
+    Position whiteStart = new Position(
+        (Board.BOARD_SIZE-1) - startPos.getCell(),
+        (Board.BOARD_SIZE -1) - startPos.getRow());
+    Position whiteEnd = new Position(
+        (Board.BOARD_SIZE-1) - endPos.getCell(),
+        (Board.BOARD_SIZE -1) - endPos.getRow());
+
+    return new Move(whiteStart, whiteEnd);
   }
 
   /**
@@ -582,7 +602,8 @@ public class Board implements Cloneable {
   List<Move> getAllRedJumpMoves(){
     List<Move> moveList = new ArrayList<>();
     for(int i = 0; i < 32; i++){
-      if(isRed(getPieceAtLocation(i))){
+      SPACE_TYPE eachPiece = getPieceAtLocation(i);
+      if(isRed(eachPiece)){
         moveList.addAll(getPieceJumpMoves(i));
       }
     }
@@ -596,7 +617,8 @@ public class Board implements Cloneable {
   List<Move> getAllWhiteJumpMoves(){
     List<Move> moveList = new ArrayList<>();
     for(int i = 0; i < 32; i++){
-      if(isWhite(getPieceAtLocation(i))){
+      SPACE_TYPE eachPiece = getPieceAtLocation(i);
+      if(isWhite(eachPiece)){
         moveList.addAll(getPieceJumpMoves(i));
       }
     }

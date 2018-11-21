@@ -1,13 +1,13 @@
 package com.webcheckers.ui;
 
-import static com.webcheckers.model.Game.COLOR.RED;
+import static com.webcheckers.model.GameState.GameContext.COLOR.RED;
 import static com.webcheckers.ui.GetHomeRoute.PLAYER;
 import static com.webcheckers.ui.PostSelectOpponentRoute.MESSAGE;
 import static com.webcheckers.ui.PostSelectOpponentRoute.OPP_PLAYER_NAME;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import com.webcheckers.model.Game;
+import com.webcheckers.model.GameState.GameContext;
 import com.webcheckers.model.Player;
 import com.webcheckers.ui.PostSelectOpponentRoute.VIEW_MODE;
 import org.junit.jupiter.api.BeforeEach;
@@ -48,7 +48,7 @@ class PostSelectOpponentRouteTest extends RouteTest {
     Player testOppPlayer = playerLobby.signin(TEST_OPP_NAME);
     when(request.queryParams(OPP_PLAYER_NAME)).thenReturn(TEST_OPP_NAME);
 
-    Game game = gameCenter.createGame(testPlayer, testOppPlayer);
+    GameContext game = gameCenter.createGame(testPlayer, testOppPlayer);
 
     CuT.handle(request,response);
 
@@ -79,7 +79,7 @@ class PostSelectOpponentRouteTest extends RouteTest {
     Player testOppPlayer = playerLobby.signin(TEST_OPP_NAME);
     when(request.queryParams(OPP_PLAYER_NAME)).thenReturn(TEST_OPP_NAME);
 
-    Game game = gameCenter.createGame(testPlayer, testOppPlayer);
+    GameContext game = gameCenter.createGame(testPlayer, testOppPlayer);
 
     String message = String.format("The selected opponent, %s, is already in a game", TEST_OPP_NAME);
 

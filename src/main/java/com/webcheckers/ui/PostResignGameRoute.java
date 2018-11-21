@@ -67,7 +67,7 @@ public class PostResignGameRoute implements Route {
     Player player = session.attribute("player");
     LOG.finer("PostResignGameRoute is invoked: " + player.getName());
 
-    gameCenter.removeGame(gameCenter.getGames(player)[0]);
+//    gameCenter.removeGame(gameCenter.getGames(player).get(0));
 
     return new Message("Resigning from game: You lost", MESSAGE_TYPE.info);
   }

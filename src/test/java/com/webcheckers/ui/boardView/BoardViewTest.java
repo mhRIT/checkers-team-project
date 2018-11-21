@@ -6,6 +6,8 @@ import static org.mockito.Mockito.when;
 
 import com.webcheckers.model.Board;
 import com.webcheckers.model.Game;
+import com.webcheckers.model.GameState.GameContext;
+import com.webcheckers.model.GameState.GameContextTest;
 import com.webcheckers.model.Player;
 import java.util.Iterator;
 import org.junit.jupiter.api.AfterEach;
@@ -30,7 +32,7 @@ class BoardViewTest {
   private BoardView redCut;
   private BoardView whiteCut;
 
-  private Game game;
+  private GameContext game;
   private Player redPlayer;
   private Player whitePlayer;
 
@@ -41,7 +43,7 @@ class BoardViewTest {
   void setUp() {
     redPlayer = new Player(TEST_RED_NAME);
     whitePlayer = new Player(TEST_WHITE_NAME);
-    game = new Game(redPlayer, whitePlayer);
+    game = new GameContext(redPlayer, whitePlayer);
 
     redCut = new BoardView(game, redPlayer);
     whiteCut = new BoardView(game, whitePlayer);

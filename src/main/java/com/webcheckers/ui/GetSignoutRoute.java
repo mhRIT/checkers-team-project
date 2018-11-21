@@ -87,7 +87,7 @@ public class GetSignoutRoute implements Route {
     LOG.finer("GetSignoutRoute is invoked: " + currPlayer.getName());
 
     if (playerLobby.containsPlayers(currPlayer)) {
-      gameCenter.resignAll(currPlayer);
+//      gameCenter.resignAll(currPlayer);
       playerLobby.signout(currPlayer.getName());
       session.removeAttribute("player");
     }

@@ -2,24 +2,19 @@ package com.webcheckers.ui;
 
 import static com.webcheckers.ui.GetHomeRoute.ALL_PLAYER_NAMES;
 import static com.webcheckers.ui.GetHomeRoute.NUM_PLAYERS;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.junit.jupiter.api.Assertions.*;
 
 import com.webcheckers.application.GameCenter;
-import com.webcheckers.application.PlayerLobby;
 import com.webcheckers.model.Game;
 import com.webcheckers.model.Player;
-import java.util.ArrayList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import spark.ModelAndView;
-import spark.Request;
-import spark.Response;
-import spark.Session;
-import spark.TemplateEngine;
 
 /**
  * The unit test suite for the {@link GetHomeRoute} component.
@@ -71,7 +66,7 @@ public class GetHomeRouteTest extends RouteTest {
 //      assertEquals("nothing", CuT.handle(request,response));
 
       when(gameCenter.isPlayerInGame(mock)).thenReturn(true);
-      when(gameCenter.getGames(mock)).thenReturn(games);
+//      when(gameCenter.getGames(mock)).thenReturn(games);
       when(mockGame.checkEnd()).thenReturn(true);
 
       CuT.handle(request,response);

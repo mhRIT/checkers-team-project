@@ -5,7 +5,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import com.webcheckers.application.GameCenter;
-import com.webcheckers.model.Game;
+import com.webcheckers.model.GameState.GameContext;
 import com.webcheckers.model.Player;
 import com.webcheckers.ui.boardView.Message;
 import com.webcheckers.ui.boardView.Message.MESSAGE_TYPE;
@@ -21,21 +21,21 @@ public class PostSubmitTurnRouteTest {
 
     private PostSubmitTurnRoute CuT;
     private GameCenter gameCenter;
-    private Game game;
-    private Game[] games;
-    private Player player;
+    private GameContext game;
+    private Player player1;
+    private Player player2;
     private Request request;
     private Response response;
     private Session session;
 
     @BeforeEach
     public void setup(){
+      gameCenter = new GameCenter();
+      player1 = new Player("Test1");
+      player2 = new Player("Test2");
+      game = gameCenter.createGame(player1, player2);
+
       session = mock(Session.class);
-      gameCenter = mock(GameCenter.class);
-      game = mock(Game.class);
-      games = new Game[1];
-      games[0] = game;
-      player = mock(Player.class);
       request = mock(Request.class);
       response = mock(Response.class);
 
@@ -46,8 +46,7 @@ public class PostSubmitTurnRouteTest {
 
     @Test
     public void testRoute(){
-      when(session.attribute("player")).thenReturn(player);
-      when(gameCenter.getGames(player)).thenReturn(games);
+      when(session.attribute("player")).thenReturn(player1);
 
       Message info = new Message("true", MESSAGE_TYPE.info);
       Message error = new Message("false",MESSAGE_TYPE.error);

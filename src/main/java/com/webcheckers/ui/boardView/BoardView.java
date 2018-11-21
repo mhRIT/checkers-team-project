@@ -5,6 +5,7 @@ import static com.webcheckers.model.Board.BOARD_SIZE;
 import com.webcheckers.model.Board;
 import com.webcheckers.model.Board.SPACE_TYPE;
 import com.webcheckers.model.Game;
+import com.webcheckers.model.GameState.GameContext;
 import com.webcheckers.model.Player;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -36,9 +37,9 @@ public class BoardView implements Iterable {
    * @param game    the game to be viewed
    * @param player  the player who is viewing the board
    */
-  public BoardView(Game game, Player player) {
+  public BoardView(GameContext game, Player player) {
     this.rows = new ArrayList<>();
-    Board boardState = game.getBoardState();
+    Board boardState = game.getCurrentBoard();
     if(game.getRedPlayer().equals(player)){
       for (int i = BOARD_SIZE -1; i >= 0; i--) {
         Row eachRow = new Row(i, boardState.getRow(i));

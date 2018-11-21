@@ -5,7 +5,7 @@ import static com.webcheckers.ui.GetHomeRoute.PLAYER;
 
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
-import com.webcheckers.model.Game;
+import com.webcheckers.model.GameState.GameContext;
 import com.webcheckers.model.Player;
 import com.webcheckers.ui.boardView.BoardView;
 import com.webcheckers.ui.boardView.Message;
@@ -38,7 +38,7 @@ public class PostSelectOpponentRoute implements Route {
   //
 
   public static final String TITLE_ATTR = "title";
-  public static final String TITLE = "Game!";
+  public static final String TITLE = "GameState!";
   public static final String OPP_PLAYER_NAME = "opponent";
   public static final String MESSAGE = "message";
 
@@ -85,7 +85,7 @@ public class PostSelectOpponentRoute implements Route {
 
   /**
    * {@inheritDoc}
-   * Render the WebCheckers Game page or the Home page, depending on whether
+   * Render the WebCheckers GameState page or the Home page, depending on whether
    * the selected opponent is already in a game or not.
    *
    * @param request the HTTP request
@@ -126,7 +126,7 @@ public class PostSelectOpponentRoute implements Route {
       return templateEngine.render(new ModelAndView(vm, "home.ftl"));
     }
 
-    Game game = gameCenter.createGame(currPlayer, opponent);
+    GameContext game = gameCenter.createGame(currPlayer, opponent);
 
     vm.put(TITLE_ATTR, TITLE);
     vm.put("currentPlayer", currPlayer);

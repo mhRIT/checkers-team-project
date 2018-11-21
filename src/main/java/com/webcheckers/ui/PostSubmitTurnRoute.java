@@ -1,7 +1,7 @@
 package com.webcheckers.ui;
 
 import com.webcheckers.application.GameCenter;
-import com.webcheckers.model.Game;
+import com.webcheckers.model.GameState.GameContext;
 import com.webcheckers.model.Player;
 import com.webcheckers.ui.boardView.Message;
 import com.webcheckers.ui.boardView.Message.MESSAGE_TYPE;
@@ -29,13 +29,13 @@ public class PostSubmitTurnRoute extends AjaxRoute {
   public Object handle(Request request, Response response) {
     final Session session = request.session();
     Player player = session.attribute("player");
-    Game game = gameCenter.getGames(player)[0];
-    if(game.isTurnOver()){
-      game.switchTurn();
-      return new Message("true", MESSAGE_TYPE.info);
-    } else {
+    GameContext game = gameCenter.getGames(player).get(0);
+//    if(game.isTurnOver()){
+//      game.switchTurn();
+//      return new Message("true", MESSAGE_TYPE.info);
+//    } else {
       return new Message("Your turn is not yet complete", MESSAGE_TYPE.error);
-    }
+//    }
     //If the move being attempted is valid, switch the turn and return a
     //Message of type info. Otherwise, return a Message of type error.
 //    if(game.isLastTurnValid()){

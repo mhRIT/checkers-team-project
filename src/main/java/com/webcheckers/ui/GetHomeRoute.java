@@ -2,10 +2,9 @@ package com.webcheckers.ui;
 
 import static spark.Spark.halt;
 
-import com.webcheckers.Application.DEMO_STATE;
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
-import com.webcheckers.model.Game;
+import com.webcheckers.model.GameState.GameContext;
 import com.webcheckers.model.Player;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -84,7 +83,7 @@ public class GetHomeRoute implements Route {
 
   /**
    * {@inheritDoc}
-   * Render the WebCheckers Home page or the Game page, depending on whether the current
+   * Render the WebCheckers Home page or the GameState page, depending on whether the current
    * player is in a game or not.
    *
    * @param request the HTTP request
@@ -112,23 +111,23 @@ public class GetHomeRoute implements Route {
       // if player is in game, go to game page
       // else go to home page
       if(gameCenter.isPlayerInGame(currPlayer)) {
-        Game game = gameCenter.getGames(currPlayer)[0];
-        if(game.checkEnd()){
-          vm.put(MESSAGE,game.endMessage());
+        GameContext game = gameCenter.getGames(currPlayer).get(0);
+        if(game.isGameOver()){
+//          vm.put(MESSAGE,game.endMessage());
           outOfGame.add(currPlayer);
           Player p1 = game.getRedPlayer();
           Player p2 = game.getWhitePlayer();
           //If both players have left the game screen and reached the home page, only then can the game be removed
           //because both sessions have gotten the information they need out of it
           if(outOfGame.contains(p1) && outOfGame.contains(p2)){
-            gameCenter.removeGame(game);
+//            gameCenter.removeGame(game);
             outOfGame.remove(p1);
             outOfGame.remove(p2);
           }
-        }else{
-        response.redirect(WebServer.GAME_URL);
-        halt();
-        return "nothing";
+        } else {
+          response.redirect(WebServer.GAME_URL);
+          halt();
+          return "nothing";
         }
       }
     }

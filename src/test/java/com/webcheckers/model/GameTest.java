@@ -1,6 +1,6 @@
 package com.webcheckers.model;
 
-import static com.webcheckers.model.Game.COLOR.*;
+import static com.webcheckers.model.GameState.GameContext.COLOR;
 import static org.mockito.Mockito.mock;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
@@ -45,9 +45,9 @@ public class GameTest {
     Move testMove1 = new Move(new Position(1,2), new Position(1,2));
 
     CuT.switchTurn();
-    assertSame(CuT.getActiveColor(), WHITE);
+    assertSame(CuT.getActiveColor(), COLOR.WHITE);
     CuT.switchTurn();
-    assertSame(CuT.getActiveColor(), RED);
+    assertSame(CuT.getActiveColor(), COLOR.RED);
 //    CuT.makeMove(testMove0);
 //    assertSame(CuT.getActiveColor(), WHITE);
 //    CuT.makeMove(testMove1);

@@ -2,7 +2,7 @@
  * This module exports the WaitingForUserActionState class constructor.
  * 
  * This component is an concrete implementation of a state
- * for the Game view; this state represents the state in which
+ * for the GameState view; this state represents the state in which
  * the view is waiting for the user to perform an action, such as
  * click the 'Next' or 'Previous' buttons.
  */

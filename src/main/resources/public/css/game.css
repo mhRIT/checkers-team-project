@@ -1,5 +1,5 @@
 /*
- * Game view styles
+ * GameState view styles
  */
  
 /* animation definitions */
@@ -15,7 +15,7 @@
 }
 
 /*
-* Generic Game Controls style
+* Generic GameState Controls style
 */
 div#game-controls {
   /* Using a FlexBox container provides simple side-by-side,
@@ -36,7 +36,7 @@ div#game-controls fieldset legend {
 }
 
 /*
-* Game Info styles
+* GameState Info styles
 */
 fieldset#game-info table {
   width: 40%;
@@ -58,7 +58,7 @@ fieldset#game-info table td.name {
 }
 
 /*
-* Game Controls styles
+* GameState Controls styles
 */
 fieldset#game-toolbar button {
   padding: 9px;
@@ -76,7 +76,7 @@ fieldset#game-toolbar button:disabled {
 }
 
 /*
-* Game board styles
+* GameState board styles
 */
 div.game-board {
   clear: both;

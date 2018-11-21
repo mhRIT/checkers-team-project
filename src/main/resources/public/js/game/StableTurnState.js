@@ -2,7 +2,7 @@
  * This module exports the StableTurnState class constructor.
  * 
  * This component is an concrete implementation of a state
- * for the Game view; this state represents the view state
+ * for the GameState view; this state represents the view state
  * in which the player has created a non-empty Turn.  From
  * this state the user may request another move or to submit
  * the current set of moves as a single turn.
@@ -17,7 +17,7 @@ define(function(require){
    * Constructor function.
    * 
    * @param {GameView} view
-   *    The Game view object.
+   *    The GameState view object.
    */
   var StableTurnState = function(view) {
     // public (internal) methods
@@ -89,8 +89,8 @@ define(function(require){
   /**
    * Submit the Turn to the server.
    * 
-   * This action leaves the current Game view and retrieves an
-   * updated Game view from the server.
+   * This action leaves the current GameState view and retrieves an
+   * updated GameState view from the server.
    */
   StableTurnState.prototype.submitTurn = function submitTurn() {
     jQuery('#gameForm').submit();
@@ -116,7 +116,7 @@ define(function(require){
   }
   
   /**
-   * Get the next Game view state based upon whether there
+   * Get the next GameState view state based upon whether there
    * is still an active turn or not.
    */
   function getNextState(view) {

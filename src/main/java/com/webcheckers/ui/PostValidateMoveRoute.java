@@ -1,26 +1,18 @@
 package com.webcheckers.ui;
 
 import com.google.gson.Gson;
-import com.google.gson.internal.LinkedTreeMap;
 import com.webcheckers.application.GameCenter;
-import com.webcheckers.application.PlayerLobby;
-import com.webcheckers.model.Game;
+import com.webcheckers.model.Board;
+import com.webcheckers.model.GameState.GameContext;
 import com.webcheckers.model.Move;
 import com.webcheckers.model.Player;
-import com.webcheckers.model.Position;
 import com.webcheckers.ui.boardView.Message;
 import com.webcheckers.ui.boardView.Message.MESSAGE_TYPE;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
-import spark.Route;
 import spark.Session;
-import spark.TemplateEngine;
 
 /**
  * The {@code POST /validateMove} route handler.
@@ -50,7 +42,7 @@ public class PostValidateMoveRoute extends AjaxRoute {
 
   /**
    * {@inheritDoc}
-   * Render the WebCheckers Game page.
+   * Render the WebCheckers GameState page.
    *
    * @param request the HTTP request
    * @param response the HTTP response
@@ -60,16 +52,17 @@ public class PostValidateMoveRoute extends AjaxRoute {
   public Object handle(Request request, Response response) {
     final Session session = request.session();
     Player player = session.attribute("player");
-    Game game = gameCenter.getGames(player)[0];
+    GameContext game = gameCenter.getGames(player).get(0);
     LOG.finer("PostValidateMoveRoute is invoked: " + player.getName());
 
     Move requestMove = gson.fromJson(request.body(), Move.class);
     if(player.equals(game.getWhitePlayer())){
-      requestMove = game.invertMove(requestMove);
+      requestMove = Board.invertMove(requestMove);
     }
+    player.addNextMove(game, requestMove);
 
-    if(!game.isTurnOver() &&game.validateMove(requestMove)){
-      game.makeMove(requestMove);
+    if(!game.isTurnOver()){
+      game.proceed();
       return new Message("Valid move", MESSAGE_TYPE.info);
     } else {
       return new Message("Invalid move", MESSAGE_TYPE.error);

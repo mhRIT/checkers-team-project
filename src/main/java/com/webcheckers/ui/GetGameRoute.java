@@ -1,17 +1,17 @@
 package com.webcheckers.ui;
 
-import static com.webcheckers.ui.GetHomeRoute.MESSAGE;
 import static com.webcheckers.ui.GetHomeRoute.PLAYER;
 import static spark.Spark.halt;
 
 import com.webcheckers.application.GameCenter;
-import com.webcheckers.model.Game;
+import com.webcheckers.model.GameState.GameContext;
 import com.webcheckers.model.Player;
 import com.webcheckers.ui.PostSelectOpponentRoute.VIEW_MODE;
 import com.webcheckers.ui.boardView.BoardView;
 import com.webcheckers.ui.boardView.Message;
 import com.webcheckers.ui.boardView.Message.MESSAGE_TYPE;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Level;
@@ -44,7 +44,7 @@ public class GetGameRoute implements Route {
   // Constants
   //
   public static final String TITLE_ATTR = "title";
-  public static final String TITLE = "Game!";
+  public static final String TITLE = "GameState!";
   public static final String VIEW_NAME = "game.ftl";
 
   //
@@ -75,11 +75,11 @@ public class GetGameRoute implements Route {
 
   /**
    * {@inheritDoc}
-   * Render the WebCheckers Game page.
+   * Render the WebCheckers GameState page.
    *
    * @param request the HTTP request
    * @param response the HTTP response
-   * @return the rendered HTML for the Game page
+   * @return the rendered HTML for the GameState page
    */
   @Override
   public Object handle(Request request, Response response) {
@@ -87,11 +87,13 @@ public class GetGameRoute implements Route {
     Player player = session.attribute(PLAYER);
     LOG.finer("GetGameRoute is invoked (" + count++ + "): " + player.getName());
 
-    Game[] gameList = gameCenter.getGames(player);
-    Game game;
+//    Game[] gameList = gameCenter.getGames(player);
+//    Game game;
+    List<GameContext> gameList = gameCenter.getGames(player);
+    GameContext game;
 
-    if(gameList.length > 0){
-      game = gameList[0];
+    if(gameList.size() > 0){
+      game = gameList.get(0);
     } else {
       response.redirect(WebServer.HOME_URL);
       halt();
@@ -102,14 +104,14 @@ public class GetGameRoute implements Route {
     Map<String, Object> vm = new HashMap<>();
 
     //If the game is over, go to the home page
-    if(game.checkEnd()){
-      game.endGame();
-      response.redirect(WebServer.HOME_URL);
-      halt();
-      return "nothing";
-    }
+//    if(game.checkEnd()){
+//      game.endGame();
+//      response.redirect(WebServer.HOME_URL);
+//      halt();
+//      return "nothing";
+//    }
 
-    vm.put("title", "Game!");
+    vm.put("title", "GameState!");
     vm.put("currentPlayer", player);
     vm.put("viewMode", VIEW_MODE.PLAY);
     vm.put("redPlayer", game.getRedPlayer());

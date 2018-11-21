@@ -1,18 +1,14 @@
 package com.webcheckers.ui;
 
-import com.google.gson.Gson;
 import com.webcheckers.application.GameCenter;
-import com.webcheckers.model.Game;
+import com.webcheckers.model.GameState.GameContext;
 import com.webcheckers.model.Player;
 import com.webcheckers.ui.boardView.Message;
 import com.webcheckers.ui.boardView.Message.MESSAGE_TYPE;
-import java.util.Objects;
 import java.util.logging.Logger;
 import spark.Request;
 import spark.Response;
-import spark.Route;
 import spark.Session;
-import spark.TemplateEngine;
 
 /**
  * The {@code POST /checkTurn} route handler.
@@ -31,7 +27,7 @@ public class PostCheckTurnRoute extends AjaxRoute {
   public Object handle(Request request, Response response){
     final Session session = request.session();
     Player player = session.attribute("player");
-    Game game = gameCenter.getGames(player)[0];
+    GameContext game = gameCenter.getGames(player).get(0);
 
     if(player.equals(game.getActivePlayer())){
       LOG.finer("CheckTurn is true for player: " + player.getName());

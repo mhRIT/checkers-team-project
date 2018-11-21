@@ -150,7 +150,7 @@ public class WebServer {
     post(SELECT_OPPONENT_URL,
         new PostSelectOpponentRoute(gameCenter, playerLobby, templateEngine));
 
-    // Displays the Game page
+    // Displays the GameState page
     get(GAME_URL,
         new GetGameRoute(gameCenter, templateEngine));
 

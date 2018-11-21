@@ -1,7 +1,7 @@
 /**
  * This module exports the SpectatorController class constructor.
  * 
- * This component controls the user experience of the Spectator's Game view.
+ * This component controls the user experience of the Spectator's GameState view.
  * There's a simple State model that largely toggles between waiting to
  * check for a game turn to the state that actually performs the check on
  * the server, via an Ajax call.
@@ -26,7 +26,7 @@ define(function(require){
    */
   function SpectatorController(view, gameState) {
 
-    // expose read-only Game data
+    // expose read-only GameState data
     this.getGameID = function () {
       return gameState.getGameID();
     };
@@ -56,7 +56,7 @@ define(function(require){
     };
 
     /**
-     * Display a message to the Game View.
+     * Display a message to the GameState View.
      */
     this.displayMessage = function displayMessage(message) {
       // delegate to the GameView component.

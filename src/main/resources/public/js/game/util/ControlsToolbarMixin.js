@@ -3,7 +3,7 @@
  * 
  * This component provides a mixin to imbue another class with
  * methods to create and manage (enable/disable) buttons in the
- * 'Controls' fieldset of the Game View UI.
+ * 'Controls' fieldset of the GameState View UI.
  */
 define(function(require){
   'use strict';

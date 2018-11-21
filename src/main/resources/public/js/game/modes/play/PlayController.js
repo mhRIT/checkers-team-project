@@ -32,7 +32,7 @@ define(function(require){
    * Constructor function.
    * 
    * @param {GameView} view
-   *    The Game view object.
+   *    The GameState view object.
    * @param {BoardController} boardController
    *    The game board controller object.
    * @param {GameState} gameState
@@ -95,7 +95,7 @@ define(function(require){
     };
     
     /**
-     * Display a message to the Game View.
+     * Display a message to the GameState View.
      * Delegate to the GameView component.
      */
     this.displayMessage = function displayMessage(message) {
@@ -133,8 +133,8 @@ define(function(require){
   /**
    * Resign from the game.
    * 
-   * This action leaves the current Game view and retrieves an
-   * updated Game view from the server.
+   * This action leaves the current GameState view and retrieves an
+   * updated GameState view from the server.
    */
   PlayController.prototype.resignGame = function resignGame() {
     // confirm that the player really wants to resign
