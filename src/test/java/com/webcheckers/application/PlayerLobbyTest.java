@@ -43,7 +43,8 @@ public class PlayerLobbyTest {
     /**
      * Test the initial state of Player Lobby.
      */
-    @Test void init_state(){
+    @Test
+    void init_state(){
         assertEquals(INIT_NUM_PLAYERS, CuT.getNumPlayers());
     }
 

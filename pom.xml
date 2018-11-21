@@ -211,26 +211,20 @@
           <execution>
             <id>ui</id>
             <configuration>
-              <properties>
-                <includeTags>UI-tier</includeTags>
-              </properties>
-            </configuration>
+               <groups>UI-tier</groups>
+             </configuration>
           </execution>
           <execution>
             <id>appl</id>
             <configuration>
-              <properties>
-                <includeTags>Application-tier</includeTags>
-              </properties>
-            </configuration>
+               <groups>Application-tier</groups>
+        	</configuration>
           </execution>
           <execution>
             <id>model</id>
             <configuration>
-              <properties>
-                <includeTags>Model-tier</includeTags>
-              </properties>
-            </configuration>
+               <groups>Model-tier</groups>
+        	</configuration>
           </execution>
         </executions>
       </plugin>

@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Test;
  * @author <a href='mailto:sjk7867@rit.edu'>Simon Kirkwood</a>
  * @author <a href='mailto:axf5592@rit.edu'>Andrew Festa</a>
  */
-@Tag("model-tier")
+@Tag("Model-tier")
 public class GameTest {
 
   private Game CuT;

@@ -97,8 +97,8 @@ public class Board implements Cloneable {
    */
   void initMid() {
     // TODO
-    pieceLocations =  0b1111_1111_1111_0000_0000_1111_1111_1111;
-    pieceColors =     0b0000_0000_0000_0000_0000_1111_1111_1111;
+    pieceLocations =  0b0000_1111_0000_0000_0000_0000_1111_0000;
+    pieceColors =     0b0000_1111_0000_0000_0000_0000_0000_0000;
     pieceTypes =      0b0000_0000_0000_0000_0000_0000_0000_0000;
   }
 

@@ -10,9 +10,11 @@ import com.webcheckers.model.Player;
 import java.util.Iterator;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import spark.TemplateEngine;
 
+@Tag("UI-tier")
 class BoardViewTest {
 
   //

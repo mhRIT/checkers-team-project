@@ -64,7 +64,7 @@ public class Game {
 
   public void initializeStart(){
     Board currentBoard = boardStack.peek();
-    currentBoard.initStart();
+    currentBoard.initMid();
   }
 
   public void initializeMid(){
