@@ -11,8 +11,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author <a href='mailto:axf5592@rit.edu'>Andrew Festa</a>
  */
-@Tag(""
-    + "Model-tier")
+@Tag("Model-tier")
 class PlayerTest {
 
   //

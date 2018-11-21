@@ -84,9 +84,9 @@ public class Board implements Cloneable {
    *
    */
   void initStart() {
-    pieceLocations =  0b1111_1111_1111_0000_0000_1111_1111_1111;
-    pieceColors =     0b0000_0000_0000_0000_0000_1111_1111_1111;
-    pieceTypes =      0b0000_0000_0000_0000_0000_0000_0000_0000;
+      pieceLocations = 0b1111_1111_1111_0000_0000_1111_1111_1111;
+      pieceColors = 0b0000_0000_0000_0000_0000_1111_1111_1111;
+      pieceTypes = 0b0000_0000_0000_0000_0000_0000_0000_0000;
   }
 
   /**
@@ -95,11 +95,13 @@ public class Board implements Cloneable {
    * of the game.
    *
    */
-  void initMid() {
-    // TODO
-    pieceLocations =  0b0000_1111_0001_0000_0000_0001_1111_0000;
-    pieceColors =     0b0000_1110_0001_0000_0000_0000_0001_0000;
-    pieceTypes =      0b0000_0000_0000_0000_0000_0000_0000_0000;
+  void initMid(){
+//    pieceLocations =  0b0000_1111_0001_0000_0000_0001_1111_0000;
+//    pieceColors =     0b0000_1110_0001_0000_0000_0000_0001_0000;
+//    pieceTypes =      0b0000_0000_0000_0000_0000_0000_0000_0000;
+    pieceLocations = 0b0000_0101_1100_0100_0010_1001_0010_0000;
+    pieceColors = 0b0000_0000_0000_0000_0010_1001_0010_0000;
+    pieceTypes = 0b0000_0000_0000_0000_0000_0000_0000_0000;
   }
 
   /**
@@ -108,10 +110,9 @@ public class Board implements Cloneable {
    *
    */
   void initEnd() {
-    // TODO
-    pieceLocations =  0b1111_1111_1111_0000_0000_1111_1111_1111;
-    pieceColors =     0b0000_0000_0000_0000_0000_1111_1111_1111;
-    pieceTypes =      0b0000_0000_0000_0000_0000_0000_0000_0000;
+    pieceLocations = 0b0000_0000_0100_0100_0000_0000_0000_0000;
+    pieceColors = 0b0000_0000_0000_0100_0000_0000_0000_0000;
+    pieceTypes = 0b0000_0000_0000_0000_0000_0000_0000_0000;
   }
 
   /**

@@ -27,6 +27,23 @@ public class Game {
 
   public enum COLOR {RED, WHITE}
 
+  public enum EndState{
+    ALL_PIECES, NO_MOVES, RESIGNATION, NOT_OVER;
+
+    public String toString(){
+      switch(this){
+        case ALL_PIECES:
+          return " they captured all of their opponent's pieces.";
+        case NO_MOVES:
+          return " their opponent could not make a move.";
+        case RESIGNATION:
+          return " their opponent resigned.";
+        default:
+          return " I am a terrible programmer.";
+      }
+    }
+  }
+
   //
   // Attributes
   //
@@ -35,6 +52,10 @@ public class Game {
   private Player redPlayer;
   private COLOR activeColor;
   private Stack<Board> boardStack;
+
+  private Player winner = null;
+  private EndState endState = EndState.NOT_OVER;
+  String[] endInfo = new String[2];
 
   private boolean turnOver;
   private Stack<Move> moveStack;
@@ -301,7 +322,7 @@ public class Game {
    *
    */
   public void switchTurn(){
-    if(turnOver){
+    if(isTurnOver()){
       moveStack = new Stack<>();
       if (activeColor.equals(COLOR.RED)) {
         activeColor = COLOR.WHITE;
@@ -328,28 +349,41 @@ public class Game {
    * Checks the state of the currentBoard in an attempt to detect an end state.
    * A currentBoard is considered to be in an end state when any of the following
    * conditions are met:
-   *  there are no red pieces on the currentBoard
-   *  there are no white pieces on the currentBoard
-   *  the red player has no more valid moves to make
-   *  the white player has no more valid moves to make
+   *  there are no red pieces on the board
+   *  there are no white pieces on the board
+   *
+   *  Sets a player as the winner
    *
    * @return  true  if the current state of the currentBoard is indicative of an
    *                end state
    *          false otherwise
    */
-  boolean checkEnd() {
-    // TODO
+  public boolean checkEnd() {
+    if(getBoardState().getNumRedPieces() ==  0){
+      this.winner = getWhitePlayer();
+      this.endState = EndState.ALL_PIECES;
+      return true;
+    }
+    if(getBoardState().getNumWhitePieces() == 0){
+      this.winner = getRedPlayer();
+      this.endState = EndState.ALL_PIECES;
+      return true;
+    }
     return false;
   }
 
   /**
-   * Ends the game.
+   * Explains the end of a game
    *
-   * @return  whether the game was successfully ended
+   * @return a string array containing information from the ended game
    */
-  private boolean endGame() {
-    // TODO
-    return checkEnd();
+  public void endGame() {
+    endInfo[0] = winner.getName();
+    endInfo[1] = endState.toString();
+  }
+
+  public String endMessage(){
+    return String.format("Game is over. \'%s\' is the winner. They won because %s",this.endInfo[0],this.endInfo[1]);
   }
 
   /**
@@ -365,7 +399,7 @@ public class Game {
   public boolean resign(Player resignPlayer){
     // TODO complete and verify functionality
     if(hasPlayer(resignPlayer)){
-      return endGame();
+      return checkEnd();
     }
     return false;
   }
@@ -379,4 +413,7 @@ public class Game {
   public boolean hasPlayer(Player player) {
     return player.equals(redPlayer) || player.equals(whitePlayer);
   }
+
+  public Player getWinner(){return winner;}
+  public EndState getEndState(){return endState;}
 }
