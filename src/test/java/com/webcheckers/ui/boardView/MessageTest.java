@@ -5,8 +5,10 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.webcheckers.ui.boardView.Message.MESSAGE_TYPE;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
+@Tag("UI-tier")
 class MessageTest {
 
   //

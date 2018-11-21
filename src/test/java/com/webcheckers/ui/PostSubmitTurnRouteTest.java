@@ -10,11 +10,13 @@ import com.webcheckers.model.Player;
 import com.webcheckers.ui.boardView.Message;
 import com.webcheckers.ui.boardView.Message.MESSAGE_TYPE;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import spark.Request;
 import spark.Response;
 import spark.Session;
 
+@Tag("UI-tier")
 public class PostSubmitTurnRouteTest {
 
     private PostSubmitTurnRoute CuT;

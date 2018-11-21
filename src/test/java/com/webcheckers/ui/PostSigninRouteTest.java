@@ -23,6 +23,7 @@ import org.junit.jupiter.api.Test;
 
 import spark.*;
 
+@Tag("UI-tier")
 public class PostSigninRouteTest {
 
   private PostSigninRoute CuT;
