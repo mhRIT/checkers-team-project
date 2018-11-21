@@ -3,6 +3,7 @@ package com.webcheckers.ui.boardView;
 import com.webcheckers.model.Board;
 import com.webcheckers.model.Board.SPACE_TYPE;
 import com.webcheckers.ui.boardView.Piece.COLOR;
+import com.webcheckers.ui.boardView.Piece.TYPE;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -38,13 +39,30 @@ public class Row implements Iterable {
       SPACE_TYPE eachSpace = spaceList[i];
       boolean validPos = (idx * Board.BOARD_SIZE + i) % 2 == (idx % 2);
 
-      if(eachSpace.equals(SPACE_TYPE.SINGLE_RED)){
-        spaces.add(new Space(i, new Piece(COLOR.RED, idx, i), validPos));
-      } else if(eachSpace.equals(SPACE_TYPE.SINGLE_WHITE)) {
-        spaces.add(new Space(i, new Piece(COLOR.WHITE, idx, i), validPos));
-      } else {
-        spaces.add(new Space(i, null, validPos));
+      switch (eachSpace){
+        case SINGLE_RED:
+          spaces.add(new Space(i, new Piece(COLOR.RED, TYPE.SINGLE, idx, i), validPos));
+          break;
+        case KING_RED:
+          spaces.add(new Space(i, new Piece(COLOR.RED, TYPE.KING, idx, i), validPos));
+          break;
+        case SINGLE_WHITE:
+          spaces.add(new Space(i, new Piece(COLOR.WHITE, TYPE.SINGLE, idx, i), validPos));
+          break;
+        case KING_WHITE:
+          spaces.add(new Space(i, new Piece(COLOR.WHITE, TYPE.KING, idx, i), validPos));
+          break;
+        default:
+          spaces.add(new Space(i, null, validPos));
+          break;
       }
+//      if(eachSpace.equals(SPACE_TYPE.SINGLE_RED)){
+//        spaces.add(new Space(i, new Piece(COLOR.RED, idx, i), validPos));
+//      } else if(eachSpace.equals(SPACE_TYPE.SINGLE_WHITE)) {
+//        spaces.add(new Space(i, new Piece(COLOR.WHITE, idx, i), validPos));
+//      } else {
+//        spaces.add(new Space(i, null, validPos));
+//      }
     }
     this.index = idx;
   }

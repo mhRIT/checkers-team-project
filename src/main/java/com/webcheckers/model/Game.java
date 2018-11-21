@@ -3,9 +3,7 @@ package com.webcheckers.model;
 import static com.webcheckers.model.Board.isKing;
 import static com.webcheckers.model.Board.isRed;
 import static com.webcheckers.model.Board.isWhite;
-import static java.lang.Math.abs;
 
-import com.webcheckers.Application.DEMO_STATE;
 import com.webcheckers.model.Board.SPACE_TYPE;
 import java.util.List;
 import java.util.Stack;
@@ -56,7 +54,8 @@ public class Game {
 
     Board board = new Board();
     boardStack.push(board);
-    initializeStart();
+//    initializeStart();
+    initializeMid();
 
     turnOver = false;
     moveStack = new Stack<>();
@@ -64,7 +63,7 @@ public class Game {
 
   public void initializeStart(){
     Board currentBoard = boardStack.peek();
-    currentBoard.initMid();
+    currentBoard.initStart();
   }
 
   public void initializeMid(){
@@ -209,18 +208,18 @@ public class Game {
     }
 
     // Determines whether piece was promoted
-    int currentRow = lastMoveEnd.getRow();
-    int currentCell = lastMoveEnd.getCell();
-    Board currentBoard = boardStack.peek();
-    SPACE_TYPE currentType = currentBoard.getPieceAtLocation(currentCell, currentRow);
-    int len = boardStack.size();
-    int previousRow = lastMoveStart.getRow();
-    int previousCell = lastMoveStart.getCell();
-    Board previousBoard = boardStack.get(len - 2);
-    SPACE_TYPE previousType = previousBoard.getPieceAtLocation(previousCell, previousRow);
-    if(isRed(currentType) && currentRow == 7 || isWhite(currentType) && currentRow == 0){
-      if(!isKing(previousType)){return true;}
-    }
+//    int currentRow = lastMoveEnd.getRow();
+//    int currentCell = lastMoveEnd.getCell();
+//    Board currentBoard = boardStack.peek();
+//    SPACE_TYPE currentType = currentBoard.getPieceAtLocation(currentCell, currentRow);
+//    int len = boardStack.size();
+//    int previousRow = lastMoveStart.getRow();
+//    int previousCell = lastMoveStart.getCell();
+//    Board previousBoard = boardStack.get(len - 2);
+//    SPACE_TYPE previousType = previousBoard.getPieceAtLocation(previousCell, previousRow);
+//    if(isRed(currentType) && currentRow == 7 || isWhite(currentType) && currentRow == 0){
+//      if(!isKing(previousType)){return true;}
+//    }
 
     return moveList.isEmpty();
 //    for (Move eachJumpMove : moveList) {
@@ -277,7 +276,7 @@ public class Game {
       int cell = endPos.getCell();
       SPACE_TYPE movedPiece = nextBoard.getPieceAtLocation(cell, row);
       if(isRed(movedPiece) && row == 7 || isWhite(movedPiece) && row == 0){
-        currentBoard.promotePiece(cell, row);
+        nextBoard.promotePiece(cell, row);
       }
 
       return true;

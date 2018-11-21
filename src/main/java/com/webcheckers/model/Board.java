@@ -97,8 +97,8 @@ public class Board implements Cloneable {
    */
   void initMid() {
     // TODO
-    pieceLocations =  0b0000_1111_0000_0000_0000_0000_1111_0000;
-    pieceColors =     0b0000_1111_0000_0000_0000_0000_0000_0000;
+    pieceLocations =  0b0000_1111_0001_0000_0000_0001_1111_0000;
+    pieceColors =     0b0000_1110_0001_0000_0000_0000_0001_0000;
     pieceTypes =      0b0000_0000_0000_0000_0000_0000_0000_0000;
   }
 
@@ -402,7 +402,7 @@ public class Board implements Cloneable {
   * @return    void
   */
   void promotePiece(int x, int y){
-    SPACE_TYPE piece = getPieceAtLocation(x, y);
+//    SPACE_TYPE piece = getPieceAtLocation(x, y);
     int bitIdx = cartesianToIndex(x, y);
     int bitMask = 1 << bitIdx;
     pieceTypes |= bitMask;
