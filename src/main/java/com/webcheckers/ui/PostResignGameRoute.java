@@ -22,8 +22,6 @@ import spark.TemplateEngine;
  * This is the page where the user starts.
  *
  *  @author <a href='mailto:mlh1964@rit.edu'>Meaghan Hoitt</a>
- *  @author <a href='mailto:sjk7867@rit.edu'>Simon Kirwkwood</a>
- *  @author <a href='mailto:mvm7902@rit.edu'>Matthew Milone</a>
  *  @author <a href='mailto:axf5592@rit.edu'>Andrew Festa</a>
  */
 public class PostResignGameRoute implements Route {
@@ -69,7 +67,8 @@ public class PostResignGameRoute implements Route {
     final Session session = request.session();
     Player player = session.attribute("player");
 
-    LOG.finer("PostResignGameRoute is invoked: " + player.getName());
+    if(player != null)
+      LOG.finer("PostResignGameRoute is invoked: " + player.getName());
 
     if(gameCenter.resignAll(player) > 0){
       //tells client game was successfully resigned
