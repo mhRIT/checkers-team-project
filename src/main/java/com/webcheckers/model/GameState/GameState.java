@@ -4,7 +4,6 @@ public abstract class GameState {
 
   public enum STATE {
     INIT,
-    VALIDATION,
     WAIT_TURN,
     END_TURN,
     GAME_OVER

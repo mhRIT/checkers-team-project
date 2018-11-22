@@ -1,5 +1,6 @@
 package com.webcheckers.model;
 
+import com.webcheckers.model.GameState.GameContext.COLOR;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -84,9 +85,12 @@ public class Board implements Cloneable {
    *
    */
   public void initStart() {
-      pieceLocations = 0b1111_1111_1111_0000_0000_1111_1111_1111;
-      pieceColors = 0b0000_0000_0000_0000_0000_1111_1111_1111;
-      pieceTypes = 0b0000_0000_0000_0000_0000_0000_0000_0000;
+//      pieceLocations = 0b1111_1111_1111_0000_0000_1111_1111_1111;
+//      pieceColors = 0b0000_0000_0000_0000_0000_1111_1111_1111;
+//      pieceTypes = 0b0000_0000_0000_0000_0000_0000_0000_0000;
+    pieceLocations =  0b0000_1111_0001_0000_0000_0001_1111_0000;
+    pieceColors =     0b0000_1101_0001_0000_0000_0000_0001_0000;
+    pieceTypes =      0b0000_0000_0000_0000_0000_0000_0000_0000;
   }
 
   /**
@@ -257,7 +261,7 @@ public class Board implements Cloneable {
   /**
    * TODO
    */
-  SPACE_TYPE getMiddlePiece(Position pos0, Position pos1){
+  private SPACE_TYPE getMiddlePiece(Position pos0, Position pos1){
     return getMiddlePiece(pos0.getCell(), pos0.getRow(), pos1.getCell(), pos1.getRow());
   }
 
@@ -332,7 +336,7 @@ public class Board implements Cloneable {
    * @return  true      if the board was altered to reflect the placed piece
    *          false     otherwise
    */
-  boolean placePiece(Position position, SPACE_TYPE piece){
+  public boolean placePiece(Position position, SPACE_TYPE piece){
     return placePiece(position.getCell(), position.getRow(), piece);
   }
 
@@ -347,7 +351,7 @@ public class Board implements Cloneable {
    * @return  true    if the board was altered to reflect the placed piece
    *          false   otherwise
    */
-  boolean placePiece(int x, int y, SPACE_TYPE piece){
+  public boolean placePiece(int x, int y, SPACE_TYPE piece){
     int bitIdx = cartesianToIndex(x, y);
     if(bitIdx == -1){
       return false;
@@ -392,7 +396,7 @@ public class Board implements Cloneable {
    *                    piece to be removed
    * @return            the piece that was removed
    */
-  SPACE_TYPE removePiece(Position position){
+  public SPACE_TYPE removePiece(Position position){
     return removePiece(position.getCell(), position.getRow());
   }
 
@@ -407,7 +411,7 @@ public class Board implements Cloneable {
    * @param   y y coordinate on the cartesian board
    * @return    the piece that was removed
    */
-  SPACE_TYPE removePiece(int x, int y){
+  public SPACE_TYPE removePiece(int x, int y){
     SPACE_TYPE remPiece = getPieceAtLocation(x, y);
     int bitIdx = cartesianToIndex(x, y);
     int bitMask = 1 << bitIdx;
@@ -422,7 +426,7 @@ public class Board implements Cloneable {
   * @param   y y coordinate on the cartesian board
   * @return    void
   */
-  void promotePiece(int x, int y){
+  public void promotePiece(int x, int y){
 //    SPACE_TYPE piece = getPieceAtLocation(x, y);
     int bitIdx = cartesianToIndex(x, y);
     int bitMask = 1 << bitIdx;
@@ -432,7 +436,7 @@ public class Board implements Cloneable {
   /**
    * TODO
    */
-  boolean movePiece(Move move){
+  public boolean movePiece(Move move){
     Position start = move.getStart();
     Position end = move.getEnd();
 
@@ -495,11 +499,19 @@ public class Board implements Cloneable {
     return Integer.bitCount(redLocs);
   }
 
+  public List<Move> getAllSimpleMoves(COLOR color){
+    if(color.equals(COLOR.WHITE)){
+      return getAllWhiteSimpleMoves();
+    } else {
+      return getAllRedSimpleMoves();
+    }
+  }
+
   /**
    * Gets a list of the valid, simple moves able to be made by the red player.
    *
    */
-  List<Move> getAllRedSimpleMoves(){
+  public List<Move> getAllRedSimpleMoves(){
     List<Move> moveList = new ArrayList<>();
     for(int i = 0; i < 32; i++){
       if(isRed(getPieceAtLocation(i))){
@@ -513,7 +525,7 @@ public class Board implements Cloneable {
    * Gets a list of the valid, simple moves able to be made by the white player.
    *
    */
-  List<Move> getAllWhiteSimpleMoves(){
+  public List<Move> getAllWhiteSimpleMoves(){
     List<Move> moveList = new ArrayList<>();
     for(int i = 0; i < 32; i++){
       if(isWhite(getPieceAtLocation(i))){
@@ -595,6 +607,14 @@ public class Board implements Cloneable {
     return validStartIdx && validEndIdx && validIdxDiff;
   }
 
+  public List<Move> getAllJumpMoves(COLOR color){
+    if(color.equals(COLOR.WHITE)){
+      return getAllWhiteJumpMoves();
+    } else {
+      return getAllRedJumpMoves();
+    }
+  }
+
   /**
    * Gets a list of the valid, jump moves able to be made by the red player.
    *
@@ -628,6 +648,14 @@ public class Board implements Cloneable {
   /**
    * TODO
    */
+  public List<Move> getPieceJumpMoves(Position position){
+    int bitIdx = cartesianToIndex(position.getCell(), position.getRow());
+    return getPieceJumpMoves(bitIdx);
+  }
+
+  /**
+   * TODO
+   */
   private List<Move> getPieceJumpMoves(int bitIdx){
     List<Move> moveList = new ArrayList<>();
     Position startPos = getPosition(bitIdx);
@@ -649,14 +677,14 @@ public class Board implements Cloneable {
   /**
    * TODO
    */
-  private boolean validateJumpMove(Move move){
+  public boolean validateJumpMove(Move move){
     return validateJumpMove(move.getStart(), move.getEnd());
   }
 
   /**
    * TODO
    */
-  private boolean validateJumpMove(Position pos0, Position pos1){
+  public boolean validateJumpMove(Position pos0, Position pos1){
     return validateJumpMove(
         cartesianToIndex(pos0.getCell(), pos0.getRow()),
         cartesianToIndex(pos1.getCell(), pos1.getRow()));
@@ -666,6 +694,10 @@ public class Board implements Cloneable {
    * TODO
    */
   private boolean validateJumpMove(int idx0, int idx1){
+    if(idx0 > 32 || idx1 > 32 || idx0 < 0 || idx1 < 0){
+      return false;
+    }
+
     SPACE_TYPE idx0Piece = getPieceAtLocation(idx0);
     SPACE_TYPE idx1Piece = getPieceAtLocation(idx1);
     Position startPos = getPosition(idx0);

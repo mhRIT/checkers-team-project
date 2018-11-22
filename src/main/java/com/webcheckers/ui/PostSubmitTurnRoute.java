@@ -30,12 +30,12 @@ public class PostSubmitTurnRoute extends AjaxRoute {
     final Session session = request.session();
     Player player = session.attribute("player");
     GameContext game = gameCenter.getGames(player).get(0);
-//    if(game.isTurnOver()){
-//      game.switchTurn();
-//      return new Message("true", MESSAGE_TYPE.info);
-//    } else {
+
+    if(game.isTurnOver() && game.proceed()){
+      return new Message("true", MESSAGE_TYPE.info);
+    } else {
       return new Message("Your turn is not yet complete", MESSAGE_TYPE.error);
-//    }
+    }
     //If the move being attempted is valid, switch the turn and return a
     //Message of type info. Otherwise, return a Message of type error.
 //    if(game.isLastTurnValid()){

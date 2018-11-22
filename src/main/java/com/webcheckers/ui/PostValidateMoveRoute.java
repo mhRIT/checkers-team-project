@@ -56,13 +56,13 @@ public class PostValidateMoveRoute extends AjaxRoute {
     LOG.finer("PostValidateMoveRoute is invoked: " + player.getName());
 
     Move requestMove = gson.fromJson(request.body(), Move.class);
+    requestMove.setType();
     if(player.equals(game.getWhitePlayer())){
       requestMove = Board.invertMove(requestMove);
     }
     player.addNextMove(game, requestMove);
 
-    if(!game.isTurnOver()){
-      game.proceed();
+    if(!game.isTurnOver() && game.proceed()){
       return new Message("Valid move", MESSAGE_TYPE.info);
     } else {
       return new Message("Invalid move", MESSAGE_TYPE.error);

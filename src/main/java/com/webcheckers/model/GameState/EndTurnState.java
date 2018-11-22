@@ -4,7 +4,9 @@ public class EndTurnState extends GameState {
 
   @Override
   public boolean execute(GameContext context) {
-    return false;
+    context.switchTurn();
+    context.setState(new WaitTurnState());
+    return true;
   }
 
   @Override

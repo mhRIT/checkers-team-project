@@ -23,8 +23,6 @@ public class GameContext {
   private COLOR activeColor;
   private Stack<Board> boardStack;
 
-  private Stack<Move> moveStack;
-
   public GameContext(Player rPlayer, Player wPlayer) {
     this.redPlayer = rPlayer;
     this.whitePlayer = wPlayer;
@@ -34,15 +32,13 @@ public class GameContext {
 
     Board board = new Board();
     boardStack.push(board);
-    moveStack = new Stack<>();
 
     gameState = new InitState();
     gameState.execute(this);
   }
 
   public boolean proceed(){
-    gameState.execute(this);
-    return true;
+    return gameState.execute(this);
   }
 
   GameState getState(){
@@ -101,6 +97,10 @@ public class GameContext {
     return boardStack.peek();
   }
 
+  public void addNextBoard(Board board) {
+    boardStack.push(board);
+  }
+
   public boolean isTurnOver(){
     STATE state = gameState.getState();
     return state.equals(STATE.END_TURN);
@@ -109,5 +109,31 @@ public class GameContext {
   public boolean isGameOver(){
     STATE state = gameState.getState();
     return state.equals(STATE.GAME_OVER);
+  }
+
+  /**
+   * Toggles the player who turn it currently is.
+   *
+   */
+  public void switchTurn(){
+    if(isTurnOver()) {
+      if (activeColor.equals(COLOR.RED)) {
+        activeColor = COLOR.WHITE;
+      } else {
+        activeColor = COLOR.RED;
+      }
+    }
+  }
+
+  /**
+   * TODO
+   */
+  public boolean revert() {
+    if(!boardStack.empty()){
+      boardStack.pop();
+      gameState = new WaitTurnState();
+      return true;
+    }
+    return false;
   }
 }

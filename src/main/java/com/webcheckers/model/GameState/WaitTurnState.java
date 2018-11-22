@@ -1,10 +1,72 @@
 package com.webcheckers.model.GameState;
 
+import com.webcheckers.model.Board;
+import com.webcheckers.model.GameState.GameContext.COLOR;
+import com.webcheckers.model.Move;
+import com.webcheckers.model.Player;
+import com.webcheckers.model.Position;
+import java.util.List;
+
 public class WaitTurnState extends GameState {
 
   @Override
   public boolean execute(GameContext context) {
-    return false;
+    boolean toReturn;
+    Player currentPlayer = context.getActivePlayer();
+    Move playerMove = currentPlayer.getNextMove(context);
+    Board currentBoard = context.getCurrentBoard();
+
+    Position startPos = playerMove.getStart();
+    Position endPos = playerMove.getEnd();
+    Position midPos = new Position(
+        (startPos.getCell() + endPos.getCell()) / 2,
+        (startPos.getRow() + endPos.getRow()) / 2);
+
+    List<Move> validJumpList = currentBoard.getAllJumpMoves(context.getActiveColor());
+    List<Move> validSimpleList = currentBoard.getAllSimpleMoves(context.getActiveColor());
+
+    if(!validJumpList.isEmpty()){
+      toReturn = validJumpList.contains(playerMove);
+    } else {
+      toReturn = validSimpleList.contains(playerMove);
+    }
+
+    if(toReturn){
+      try {
+        Board nextBoard = (Board) currentBoard.clone();
+        context.addNextBoard(nextBoard);
+
+        if(Math.abs(startPos.getRow() - endPos.getRow()) == 2){
+          nextBoard.removePiece(midPos);
+        }
+        nextBoard.movePiece(playerMove);
+
+        validJumpList = nextBoard.getPieceJumpMoves(endPos);
+        if(validJumpList.isEmpty()){
+          context.setState(new EndTurnState());
+        } else {
+          if(Math.abs(startPos.getRow() - endPos.getRow()) == 1){
+            context.setState(new EndTurnState());
+          } else {
+            context.setState(new WaitTurnState());
+          }
+        }
+
+        if(context.getActiveColor().equals(COLOR.RED) && endPos.getRow() == Board.BOARD_SIZE - 1){
+          nextBoard.promotePiece(endPos.getCell(), endPos.getRow());
+        } else if(context.getActiveColor().equals(COLOR.WHITE) && endPos.getRow() == 0) {
+          nextBoard.promotePiece(endPos.getCell(), endPos.getRow());
+        }
+
+      } catch (CloneNotSupportedException cnse) {
+        cnse.printStackTrace();
+        context.setState(new WaitTurnState());
+      }
+    } else {
+      context.setState(new WaitTurnState());
+    }
+
+    return toReturn;
   }
 
   @Override

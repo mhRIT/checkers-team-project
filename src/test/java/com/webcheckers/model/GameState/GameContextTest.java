@@ -23,22 +23,35 @@ import org.junit.jupiter.api.Test;
 @Tag("Model-tier")
 public class GameContextTest {
 
-  private GameContext CuT;
-  private Player wPlayer;
-  private Player rPlayer;
+  //
+  // Constants
+  //
+  private static final String PLAYER1_NAME = "player1";
+  private static final String PLAYER2_NAME = "player2";
+
+  //
+  // Attributes
+  //
+  private Player player1;
+  private Player player2;
+
+  //
+  // Components under test
+  //
+  private GameContext cut;
 
   /**
    * TODO
    */
   @BeforeEach
   public void setup(){
-    wPlayer = mock(Player.class);
-    rPlayer = mock(Player.class);
-    CuT = new GameContext(rPlayer,wPlayer);
+    Player player1 = new Player(PLAYER1_NAME);
+    Player player2 = new Player(PLAYER2_NAME);
+    cut = new GameContext(player1, player2);
   }
 
   @Test
   public void testIsOver(){
-    assertFalse(CuT.isGameOver());
+    assertFalse(cut.isGameOver());
   }
 }

@@ -10,7 +10,7 @@ public class InitState extends GameState {
     currentBoard.initStart();
 
     context.setState(new WaitTurnState());
-    return false;
+    return true;
   }
 
   @Override
