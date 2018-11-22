@@ -9,7 +9,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import com.webcheckers.application.GameCenter;
-import com.webcheckers.model.Game;
 import com.webcheckers.model.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -49,9 +48,9 @@ public class GetHomeRouteTest extends RouteTest {
       Player p1 = mock;
       Player p2 = mock(Player.class);
       GameCenter gameCenter = mock(GameCenter.class);
-      Game mockGame = mock(Game.class);
-      Game[] games = new Game[1];
-      games[0] = mockGame;
+//      Game mockGame = mock(Game.class);
+//      Game[] games = new Game[1];
+//      games[0] = mockGame;
       String[] names = new String[0];
       when(session.attribute("player")).thenReturn(mock);
 //      when(playerLobby.playerNames("")).thenReturn(names);
@@ -67,11 +66,11 @@ public class GetHomeRouteTest extends RouteTest {
 
       when(gameCenter.isPlayerInGame(mock)).thenReturn(true);
 //      when(gameCenter.getGames(mock)).thenReturn(games);
-      when(mockGame.checkEnd()).thenReturn(true);
+//      when(mockGame.checkEnd()).thenReturn(true);
 
       CuT.handle(request,response);
 
-      testHelper.assertViewModelAttribute("message",mockGame.endMessage());
+//      testHelper.assertViewModelAttribute("message",mockGame.endMessage());
       assertFalse(GetHomeRoute.outOfGame.contains(p1) && GetHomeRoute.outOfGame.contains(p2));
 
       GetHomeRoute.outOfGame.add(mock);

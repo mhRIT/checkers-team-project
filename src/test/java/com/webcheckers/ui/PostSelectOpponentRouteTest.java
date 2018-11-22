@@ -1,6 +1,6 @@
 package com.webcheckers.ui;
 
-import static com.webcheckers.model.GameState.GameContext.COLOR.RED;
+import static com.webcheckers.model.Board.COLOR.RED;
 import static com.webcheckers.ui.GetHomeRoute.PLAYER;
 import static com.webcheckers.ui.PostSelectOpponentRoute.MESSAGE;
 import static com.webcheckers.ui.PostSelectOpponentRoute.OPP_PLAYER_NAME;

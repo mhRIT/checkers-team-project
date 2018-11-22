@@ -1,6 +1,7 @@
 package com.webcheckers.model.GameState;
 
 import com.webcheckers.model.Board;
+import com.webcheckers.model.Board.COLOR;
 import com.webcheckers.model.GameState.GameState.STATE;
 import com.webcheckers.model.Move;
 import com.webcheckers.model.Player;
@@ -9,11 +10,6 @@ import java.util.Stack;
 public class GameContext {
 
   private GameState gameState;
-
-  //
-  // Enums
-  //
-  public enum COLOR {RED, WHITE}
 
   //
   // Attributes

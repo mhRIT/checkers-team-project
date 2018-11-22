@@ -33,10 +33,10 @@ public class Row implements Iterable {
    * @param idx the index (0 to 7, inclusive) of this row
    * @param spaceList the list of spaces to place in this row
    */
-  public Row(int idx, SPACE_TYPE[] spaceList) {
+  public Row(int idx, List<SPACE_TYPE> spaceList) {
     this.spaces = new ArrayList<>();
-    for(int i = 0; i < spaceList.length; i++){
-      SPACE_TYPE eachSpace = spaceList[i];
+    for(int i = 0; i < spaceList.size(); i++){
+      SPACE_TYPE eachSpace = spaceList.get(i);
       boolean validPos = (idx * Board.BOARD_SIZE + i) % 2 == (idx % 2);
 
       switch (eachSpace){
@@ -56,13 +56,6 @@ public class Row implements Iterable {
           spaces.add(new Space(i, null, validPos));
           break;
       }
-//      if(eachSpace.equals(SPACE_TYPE.SINGLE_RED)){
-//        spaces.add(new Space(i, new Piece(COLOR.RED, idx, i), validPos));
-//      } else if(eachSpace.equals(SPACE_TYPE.SINGLE_WHITE)) {
-//        spaces.add(new Space(i, new Piece(COLOR.WHITE, idx, i), validPos));
-//      } else {
-//        spaces.add(new Space(i, null, validPos));
-//      }
     }
     this.index = idx;
   }

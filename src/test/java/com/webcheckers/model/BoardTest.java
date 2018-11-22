@@ -5,8 +5,11 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.webcheckers.model.Board.COLOR;
 import com.webcheckers.model.Board.SPACE_TYPE;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -224,7 +227,7 @@ class BoardTest {
    * TODO
    */
   private void testRedSimpleMoves(int numMoves){
-    List<Move> allRedMoves = cut.getAllRedSimpleMoves();
+    List<Move> allRedMoves = cut.getAllSimpleMoves(COLOR.RED);
     assertNotNull(allRedMoves);
     assertEquals(numMoves, allRedMoves.size());
   }
@@ -233,7 +236,7 @@ class BoardTest {
    * TODO
    */
   private void testWhiteSimpleMoves(int numMoves){
-    List<Move> allWhiteMoves = cut.getAllWhiteSimpleMoves();
+    List<Move> allWhiteMoves = cut.getAllSimpleMoves(COLOR.WHITE);
     assertNotNull(allWhiteMoves);
     assertEquals(numMoves, allWhiteMoves.size());
   }
@@ -273,7 +276,7 @@ class BoardTest {
    * @param numMoves
    */
   private void testRedJumpMoves(int numMoves){
-    List<Move> allRedMoves = cut.getAllRedJumpMoves();
+    List<Move> allRedMoves = cut.getAllJumpMoves(COLOR.RED);
     assertNotNull(allRedMoves);
     assertEquals(numMoves, allRedMoves.size());
   }
@@ -284,7 +287,7 @@ class BoardTest {
    * @param numMoves
    */
   private void testWhiteJumpMoves(int numMoves){
-    List<Move> allWhiteMoves = cut.getAllWhiteJumpMoves();
+    List<Move> allWhiteMoves = cut.getAllJumpMoves(COLOR.WHITE);
     assertNotNull(allWhiteMoves);
     assertEquals(numMoves, allWhiteMoves.size());
   }
@@ -352,11 +355,12 @@ class BoardTest {
    * @param expectedRow
    */
   private void testEachRowReverse(int idx, SPACE_TYPE[] expectedRow){
-    SPACE_TYPE[] actualRow = cut.getRowReverse(idx);
-    assertEquals(expectedRow.length, actualRow.length,
-        String.format("exp len: %d, act len: %d", expectedRow.length, actualRow.length));
+    List<SPACE_TYPE> actualRow = cut.getRow(idx);
+    Collections.reverse(actualRow);
+    assertEquals(expectedRow.length, actualRow.size(),
+        String.format("exp len: %d, act len: %d", expectedRow.length, actualRow.size()));
     for(int i = 0; i < expectedRow.length; i++){
-      assertEquals(expectedRow[i], actualRow[i],
+      assertEquals(expectedRow[i], actualRow.get(i),
           String.format("row idx: %d, col idx: %d", idx, i));
     }
   }
@@ -395,7 +399,8 @@ class BoardTest {
     };
 
     for(int i = 0; i < expectedRows.length; i++){
-      testEachRow(i, expectedRows[i]);
+      SPACE_TYPE[] eachRow = expectedRows[i];
+      testEachRow(i, Arrays.asList(eachRow));
     }
   }
 
@@ -404,12 +409,12 @@ class BoardTest {
    * @param idx
    * @param expectedRow
    */
-  private void testEachRow(int idx, SPACE_TYPE[] expectedRow){
-    SPACE_TYPE[] actualRow = cut.getRow(idx);
-    assertEquals(expectedRow.length, actualRow.length,
-        String.format("exp len: %d, act len: %d", expectedRow.length, actualRow.length));
-    for(int i = 0; i < expectedRow.length; i++){
-      assertEquals(expectedRow[i], actualRow[i],
+  private void testEachRow(int idx, List<SPACE_TYPE> expectedRow){
+    List<SPACE_TYPE> actualRow = cut.getRow(idx);
+    assertEquals(expectedRow.size(), actualRow.size(),
+        String.format("exp len: %d, act len: %d", expectedRow.size(), actualRow.size()));
+    for(int i = 0; i < expectedRow.size(); i++){
+      assertEquals(expectedRow.get(i), actualRow.get(i),
           String.format("row idx: %d, col idx: %d", idx, i));
     }
   }

@@ -1,7 +1,7 @@
 package com.webcheckers.model.GameState;
 
 import com.webcheckers.model.Board;
-import com.webcheckers.model.GameState.GameContext.COLOR;
+import com.webcheckers.model.Board.COLOR;
 import com.webcheckers.model.Move;
 import com.webcheckers.model.Player;
 import com.webcheckers.model.Position;
@@ -37,11 +37,11 @@ public class WaitTurnState extends GameState {
         context.addNextBoard(nextBoard);
 
         if(Math.abs(startPos.getRow() - endPos.getRow()) == 2){
-          nextBoard.removePiece(midPos);
+          nextBoard.removePiece(midPos.getCell(), midPos.getRow());
         }
         nextBoard.movePiece(playerMove);
 
-        validJumpList = nextBoard.getPieceJumpMoves(endPos);
+        validJumpList = nextBoard.getPieceJumpMoves(endPos.getCell(), endPos.getRow());
         if(validJumpList.isEmpty()){
           context.setState(new EndTurnState());
         } else {

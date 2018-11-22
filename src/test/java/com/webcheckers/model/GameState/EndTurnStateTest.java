@@ -1,11 +1,11 @@
 package com.webcheckers.model.GameState;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.webcheckers.model.GameState.GameContext.COLOR;
+import com.webcheckers.model.Board.COLOR;
 import com.webcheckers.model.GameState.GameState.STATE;
-import com.webcheckers.model.Move;
-import com.webcheckers.model.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
