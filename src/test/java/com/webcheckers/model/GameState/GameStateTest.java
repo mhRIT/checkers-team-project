@@ -22,22 +22,20 @@ abstract class GameStateTest {
   //
   // Attributes
   //
-  private GameContext gameContext;
-  private Player player1;
-  private Player player2;
+  GameContext gameContext;
+  Player player1;
+  Player player2;
 
   //
   // Components under test
   //
-  private GameState cut;
+  GameState cut;
 
   @BeforeEach
   void setUp() {
-    Player player1 = new Player(PLAYER1_NAME);
-    Player player2 = new Player(PLAYER2_NAME);
+    player1 = new Player(PLAYER1_NAME);
+    player2 = new Player(PLAYER2_NAME);
     gameContext = new GameContext(player1, player2);
-
-    cut = new GameOver();
   }
 
   @Test

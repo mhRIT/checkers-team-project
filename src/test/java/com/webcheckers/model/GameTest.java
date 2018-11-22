@@ -39,7 +39,6 @@ public class GameTest {
   /**
    * TODO
    */
-  @Test
   public void testSwitchTurn(){
     Move testMove0 = new Move(new Position(0,1), new Position(0,1));
     Move testMove1 = new Move(new Position(1,2), new Position(1,2));
@@ -69,7 +68,6 @@ public class GameTest {
   /**
    * TODO
    */
-  @Test
   public void testMoveValidation(){
     Map<Move, Boolean> testMoves = new HashMap<>();
 
@@ -159,7 +157,6 @@ public class GameTest {
   /**
    * TODO
    */
-  @Test
   void testCheckEnd() {
     Board board = mock(Board.class);
     CuT = new Game(wPlayer,rPlayer);
