@@ -67,6 +67,21 @@ public class GameCenterTest {
   }
 
   /**
+   * Tests the retrieval of a game that does no exist
+   */
+  @Test
+  public void testGetNOGames(){
+    final Player player3 = new Player("p3");
+    CuT.createGame(player2, player3);
+    final Game[] games = CuT.getGames(player1);
+
+    //Check the game does not exist
+    assertNotNull(games);
+    //Check there is 0 games
+    assertEquals(0, games.length);
+  }
+
+  /**
    * Tests if a player is in a Game
    */
   @Test
@@ -103,8 +118,10 @@ public class GameCenterTest {
    */
   @Test
   public void testResignNone(){
-    int resignCount = CuT.resignAll(player1);
-    assertEquals(0, resignCount);
+    CuT.createGame(player1, player2);
+    CuT.resignAll(player1);
+    int resignPlayer2 = CuT.resignAll(player2);
+    assertEquals(0, resignPlayer2);
   }
 
   /**
@@ -118,7 +135,7 @@ public class GameCenterTest {
   }
 
   /**
-   * Tests removing a game that does not exists
+   * Tests removing a game that does not exist
    */
   @Test
   public void testRemoveNoGame(){
