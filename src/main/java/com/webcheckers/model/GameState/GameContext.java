@@ -164,17 +164,9 @@ public class GameContext {
   public String endMessage(){
     String toReturn = "Game is not over.";
     if(isGameOver()){
-      toReturn = String.format("Game is over. \'%s\' is the winner. %s",
+      toReturn = String.format("Game is over. \'%s\' lost.\n %s",
           getActivePlayer().getName(),
           gameState.getMessage());
-    }
-    return toReturn;
-  }
-
-  public Player getWinner(){
-    Player toReturn = null;
-    if(isGameOver()){
-      toReturn = getActivePlayer();
     }
     return toReturn;
   }

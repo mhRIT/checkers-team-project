@@ -112,7 +112,7 @@ public class PostSelectOpponentRoute implements Route {
 
     LOG.finer("PostSelectOpponentRoute is invoked: " + currPlayer.getName());
     GameContext game = gameCenter.getGame(opponent);
-    if (game != null) {
+    if (game != null && !game.isGameOver()) {
       String message = String.format("The selected opponent, %s, is already in a game",
           opponent.getName());
       LOG.finer(message);
@@ -124,9 +124,7 @@ public class PostSelectOpponentRoute implements Route {
       return templateEngine.render(new ModelAndView(vm, "home.ftl"));
     }
 
-    game = gameCenter.createGame(currPlayer, opponent);
-//    session.attribute(GAME_ID, game);
-
+    gameCenter.createGame(currPlayer, opponent);
     response.redirect(WebServer.GAME_URL);
     halt();
     return "nothing";

@@ -62,12 +62,9 @@ public class PostResignGameRoute extends AjaxRoute {
     final Session session = request.session();
     String currPlayerName = session.attribute(PLAYER);
     Player currPlayer = playerLobby.getPlayer(currPlayerName);
-    GameContext game = gameCenter.getGame(currPlayer);
 
     if(currPlayer != null){
-      LOG.finer("PostResignGameRoute is invoked: " + currPlayer.getName());
       if(gameCenter.resignAll(currPlayer) > 0){
-        //tells client game was successfully resigned
         return new Message("", MESSAGE_TYPE.info);
       }
       else{

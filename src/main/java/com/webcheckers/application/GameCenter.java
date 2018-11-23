@@ -25,13 +25,14 @@ public class GameCenter {
   //
 //  private ArrayList<Game> gameList;
   private ArrayList<GameContext> gameList;
-  private static final Logger LOG = Logger.getLogger(GameCenter.class.getName());
+  private ArrayList<GameContext> archivedGames;
 
   /**
    * The default constructor for the GameCenter class.
    */
   public GameCenter() {
     gameList = new ArrayList<>();
+    archivedGames = new ArrayList<>();
   }
 
   /**
@@ -59,11 +60,28 @@ public class GameCenter {
     List<GameContext> games = getGames(player);
 
     for (GameContext eachGame: games) {
-      if(eachGame.resignPlayer(player)){
+      if(resign(eachGame, player)){
           resignCount++;
       }
     }
     return resignCount;
+  }
+
+  /**
+   * Resigns the specified player from the specified game.
+   *
+   * @param game    the game from which the player resigned
+   * @param player  the player to resign
+   * @return        if the player was successfully resigned
+   */
+  public boolean resign(GameContext game, Player player){
+    boolean toReturn = false;
+
+    if(game.resignPlayer(player)){
+      toReturn = true;
+    }
+
+    return toReturn;
   }
 
   /**
@@ -93,6 +111,18 @@ public class GameCenter {
       if (eachGame.getRedPlayer().equals(player) || eachGame.getWhitePlayer().equals(player)){
         toReturn = eachGame;
       }
+    }
+
+    return toReturn;
+  }
+
+  public boolean archiveGame(GameContext gameContext){
+    boolean toReturn = false;
+
+    if(gameList.contains(gameContext) && gameContext.isGameOver()){
+      gameList.remove(gameContext);
+      archivedGames.add(gameContext);
+      toReturn = true;
     }
 
     return toReturn;
