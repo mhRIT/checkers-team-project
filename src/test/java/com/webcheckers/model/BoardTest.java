@@ -477,7 +477,8 @@ class BoardTest {
   @Test
   void testGetNumPieces() {
     cut.initStart();
-    int numPieces = 24;
-    assertEquals(numPieces, cut.getNumPieces());
+    int numPieces = 12;
+    assertEquals(numPieces, cut.getNumPieces(COLOR.RED));
+    assertEquals(numPieces, cut.getNumPieces(COLOR.WHITE));
   }
 }

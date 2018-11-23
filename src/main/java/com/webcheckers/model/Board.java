@@ -616,6 +616,19 @@ public class Board implements Cloneable {
   }
 
   /**
+   *
+   * @param color
+   * @return
+   */
+  public int getNumPieces(COLOR color){
+    int toReturn = getNumRedPieces();
+    if(color.equals(COLOR.WHITE)){
+      toReturn = getNumWhitePieces();
+    }
+    return toReturn;
+  }
+
+  /**
    * Retrieves the locations of all red pieces on the board.
    *
    * @return  the bit indices of the positions of the red pieces
@@ -652,15 +665,15 @@ public class Board implements Cloneable {
     return Integer.bitCount(getWhiteLocations());
   }
 
-  /**
-   * Retrieves the total number of pieces currently placed
-   * on the board.
-   *
-   * @return  the number of pieces on the board
-   */
-  int getNumPieces(){
-    return Integer.bitCount(pieceLocations);
-  }
+//  /**
+//   * Retrieves the total number of pieces currently placed
+//   * on the board.
+//   *
+//   * @return  the number of pieces on the board
+//   */
+//  int getNumPieces(){
+//    return Integer.bitCount(pieceLocations);
+//  }
 
   /**
    * TODO

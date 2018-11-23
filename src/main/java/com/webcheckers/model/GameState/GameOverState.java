@@ -1,6 +1,6 @@
 package com.webcheckers.model.GameState;
 
-public class GameOver extends GameState {
+public class GameOverState extends GameState {
 
   @Override
   public boolean execute(GameContext context) {

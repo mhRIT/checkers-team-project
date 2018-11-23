@@ -51,7 +51,7 @@ public class GameContextTest {
   @Test
   public void testIsOver(){
     assertFalse(cut.isGameOver());
-    cut.setState(new GameOver());
+    cut.setState(new GameOverState());
     assertTrue(cut.isGameOver());
   }
 }

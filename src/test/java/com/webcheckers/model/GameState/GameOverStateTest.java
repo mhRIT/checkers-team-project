@@ -2,7 +2,6 @@ package com.webcheckers.model.GameState;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.webcheckers.model.GameState.GameContext.COLOR;
 import com.webcheckers.model.GameState.GameState.STATE;
 import com.webcheckers.model.Player;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,13 +14,13 @@ import org.junit.jupiter.api.Test;
  * @author <a href='mailto:axf5592@rit.edu'>Andrew Festa</a>
  */
 @Tag("Model-tier")
-class GameOverTest extends GameStateTest {
+class GameOverStateTest extends GameStateTest {
 
   @Override
   @BeforeEach
   void setUp() {
     super.setUp();
-    cut = new GameOver();
+    cut = new GameOverState();
     gameContext.setState(cut);
   }
 
