@@ -297,7 +297,16 @@ public class Game {
    *
    */
   public void switchTurn(){
-    if(isTurnOver()){
+    if(endState == EndState.RESIGNATION){
+      //if your opponent has resigned and then player also tries to resign
+      if(!hasResigned(getActivePlayer())){
+        return;
+      }
+    }
+    else if(!isTurnOver()){
+      return;
+    }
+    //if player's turn is over
       moveStack = new Stack<>();
       if (activeColor.equals(COLOR.RED)) {
         activeColor = COLOR.WHITE;
@@ -305,7 +314,6 @@ public class Game {
         activeColor = COLOR.RED;
       }
     }
-  }
 
   /**
    *
@@ -320,7 +328,6 @@ public class Game {
   }
 
   /**
-   *
    * Checks the state of the currentBoard in an attempt to detect an end state.
    * A currentBoard is considered to be in an end state when any of the following
    * conditions are met:
@@ -334,6 +341,10 @@ public class Game {
    *          false otherwise
    */
   public boolean checkEnd() {
+
+    if(endState != EndState.NOT_OVER){
+      return true;
+    }
     if(getBoardState().getNumRedPieces() ==  0){
       this.winner = getWhitePlayer();
       this.endState = EndState.ALL_PIECES;
@@ -357,27 +368,69 @@ public class Game {
     endInfo[1] = endState.toString();
   }
 
+
+  /**
+   * Gets a player's opponent
+   *
+   * @param player the specified player
+   * @return the player's opponent
+   */
+  public Player getOpponent(Player player){
+    if(player.equals(whitePlayer)){
+      return redPlayer;
+    }
+    else if(player.equals(redPlayer)){
+      return whitePlayer;
+    }
+    else
+      return null;
+  }
+
+  /**
+   * Resigns a player from the game
+   *
+   * @param player the player who resigned
+   * @return true if player resigned, otherwise false
+   */
+  public boolean resignPlayer(Player player){
+    //checking that game has not already ended
+    if(endState != EndState.NOT_OVER){
+      return false;
+    }
+    Player opponent = getOpponent(player);
+    //checking if player has an opponent, thus in a game
+    if(opponent == null){
+      return false;
+    }
+
+    winner = opponent;
+    endState = EndState.RESIGNATION;
+
+    //if the player is the active player make the opponent the active player
+    if(getActivePlayer().equals(player)){
+      switchTurn();
+    }
+    endGame();
+    return true;
+  }
+
+  /**
+   * Checks if a player has resigned
+   *
+   * @param player the player who has resigned
+   * @returned true, if the player has resigned, false otherwise
+   */
+  public boolean hasResigned(Player player){
+    if(endState == EndState.RESIGNATION && winner.equals(getOpponent(player))){
+      return true;
+    }
+    return false;
+  }
+
   public String endMessage(){
     return String.format("Game is over. \'%s\' is the winner. They won because %s",this.endInfo[0],this.endInfo[1]);
   }
 
-  /**
-   * Resigns the specified player from the game and returns
-   * if the player was successfully removed and the game
-   * was successfully ended.
-   *
-   * @param resignPlayer  the player that resigned
-   * @return true         if the player was successfully removed and
-   *                      and the game was successfully ended
-   *         false        otherwise
-   */
-  public boolean resign(Player resignPlayer){
-    // TODO complete and verify functionality
-    if(hasPlayer(resignPlayer)){
-      return checkEnd();
-    }
-    return false;
-  }
 
   /**
    * Checks if one of the players in the game is the specified player.

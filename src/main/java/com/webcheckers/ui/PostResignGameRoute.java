@@ -5,6 +5,9 @@ import com.webcheckers.application.PlayerLobby;
 import com.webcheckers.ui.boardView.Message;
 import com.webcheckers.ui.boardView.Message.MESSAGE_TYPE;
 import com.webcheckers.model.Player;
+
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,8 +22,6 @@ import spark.TemplateEngine;
  * This is the page where the user starts.
  *
  *  @author <a href='mailto:mlh1964@rit.edu'>Meaghan Hoitt</a>
- *  @author <a href='mailto:sjk7867@rit.edu'>Simon Kirwkwood</a>
- *  @author <a href='mailto:mvm7902@rit.edu'>Matthew Milone</a>
  *  @author <a href='mailto:axf5592@rit.edu'>Andrew Festa</a>
  */
 public class PostResignGameRoute implements Route {
@@ -55,7 +56,7 @@ public class PostResignGameRoute implements Route {
 
   /**
    * {@inheritDoc}
-   * Render the WebCheckers Home page.
+   * Redirects to the WebCheckers Home page.
    *
    * @param request the HTTP request
    * @param response the HTTP response
@@ -65,10 +66,16 @@ public class PostResignGameRoute implements Route {
   public Object handle(Request request, Response response) {
     final Session session = request.session();
     Player player = session.attribute("player");
-    LOG.finer("PostResignGameRoute is invoked: " + player.getName());
 
-    gameCenter.removeGame(gameCenter.getGames(player)[0]);
+    if(player != null)
+      LOG.finer("PostResignGameRoute is invoked: " + player.getName());
 
-    return new Message("Resigning from game: You lost", MESSAGE_TYPE.info);
+    if(gameCenter.resignAll(player) > 0){
+      //tells client game was successfully resigned
+      return new Message("", MESSAGE_TYPE.info);
+    }
+    else{
+      return new Message("",MESSAGE_TYPE.error);
+    }
   }
 }

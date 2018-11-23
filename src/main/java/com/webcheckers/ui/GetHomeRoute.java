@@ -114,8 +114,12 @@ public class GetHomeRoute implements Route {
       if(gameCenter.isPlayerInGame(currPlayer)) {
         Game game = gameCenter.getGames(currPlayer)[0];
         if(game.checkEnd()){
+          LOG.finer("GetHomeRoute game is ended");
           vm.put(MESSAGE,game.endMessage());
-          outOfGame.add(currPlayer);
+          if(!outOfGame.contains(currPlayer)){
+            LOG.finer("player," +currPlayer.getName()+" is added to game"+request.url());
+            outOfGame.add(currPlayer);
+          }
           Player p1 = game.getRedPlayer();
           Player p2 = game.getWhitePlayer();
           //If both players have left the game screen and reached the home page, only then can the game be removed
