@@ -29,31 +29,31 @@ public abstract class RouteTest {
   /**
    * The component-under-test (CuT).
    */
-  Route CuT;
+  protected Route CuT;
 
   //
   // Constants
   //
-  static final String TEST_PLAYER_NAME = "testName";
-  static final String TEST_OPP_NAME = "oppName";
+  protected static final String TEST_PLAYER_NAME = "testName";
+  protected static final String TEST_OPP_NAME = "oppName";
 
   //
   // Required HTTP objects
   //
-  Request request;
-  Session session;
-  Response response;
+  protected Request request;
+  protected Session session;
+  protected Response response;
 
   //
   // Application specific friendlies
   //
-  PlayerLobby playerLobby;
-  Gson gson;
-  GameCenter gameCenter;
-  TemplateEngine engine;
+  protected PlayerLobby playerLobby;
+  protected Gson gson;
+  protected GameCenter gameCenter;
+  protected TemplateEngine engine;
 
   @BeforeEach
-  void setUp() {
+  protected void setUp() {
     request = mock(Request.class);
     session = mock(Session.class);
     when(request.session()).thenReturn(session);

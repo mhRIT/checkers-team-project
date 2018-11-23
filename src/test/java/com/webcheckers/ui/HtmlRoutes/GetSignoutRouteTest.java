@@ -1,4 +1,4 @@
-package com.webcheckers.ui;
+package com.webcheckers.ui.HtmlRoutes;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -8,6 +8,8 @@ import static org.mockito.Mockito.when;
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
 import com.webcheckers.model.Player;
+import com.webcheckers.ui.HtmlRoutes.GetSignoutRoute;
+import com.webcheckers.ui.TemplateEngineTester;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;

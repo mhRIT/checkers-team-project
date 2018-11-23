@@ -1,8 +1,9 @@
-package com.webcheckers.ui;
+package com.webcheckers.ui.AjaxRoutes;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 
+import com.webcheckers.ui.RouteTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 
@@ -14,10 +15,10 @@ import org.junit.jupiter.api.Tag;
 @Tag("UI-tier")
 class PostValidateMoveRouteTest extends RouteTest {
   @BeforeEach
-  void setUp() {
+  protected void setUp() {
     super.setUp();
 
     // create a unique CuT for each test
-    CuT = new PostValidateMoveRoute(gameCenter, gson);
+    CuT = new PostValidateMoveRoute(gameCenter, playerLobby, gson);
   }
 }

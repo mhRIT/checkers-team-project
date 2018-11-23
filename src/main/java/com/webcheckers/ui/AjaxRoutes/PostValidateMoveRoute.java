@@ -1,14 +1,16 @@
-package com.webcheckers.ui;
+package com.webcheckers.ui.AjaxRoutes;
+
+import static com.webcheckers.ui.HtmlRoutes.GetHomeRoute.PLAYER;
 
 import com.google.gson.Gson;
 import com.webcheckers.application.GameCenter;
+import com.webcheckers.application.PlayerLobby;
 import com.webcheckers.model.Board;
 import com.webcheckers.model.GameState.GameContext;
 import com.webcheckers.model.Move;
 import com.webcheckers.model.Player;
 import com.webcheckers.ui.boardView.Message;
 import com.webcheckers.ui.boardView.Message.MESSAGE_TYPE;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import spark.Request;
 import spark.Response;
@@ -32,12 +34,12 @@ public class PostValidateMoveRoute extends AjaxRoute {
    * Create the Spark Route (UI controller) for the {@code POST /validateMove} HTTP request.
    *
    * @param gameCenter  the {@link GameCenter} for tracking all ongoing games
+   * @param playerLobby
    * @throws NullPointerException when the {@code gameCenter}, {@code playerLobby}, or {@code
    * templateEngine} parameter is null
    */
-  public PostValidateMoveRoute(GameCenter gameCenter, Gson gson) {
-    super(gameCenter,gson);
-    LOG.setLevel(Level.ALL);
+  public PostValidateMoveRoute(GameCenter gameCenter, PlayerLobby playerLobby, Gson gson) {
+    super(gameCenter, playerLobby, gson);
   }
 
   /**
@@ -51,16 +53,16 @@ public class PostValidateMoveRoute extends AjaxRoute {
   @Override
   public Object handle(Request request, Response response) {
     final Session session = request.session();
-    Player player = session.attribute("player");
-    GameContext game = gameCenter.getGames(player).get(0);
-    LOG.finer("PostValidateMoveRoute is invoked: " + player.getName());
+    String currPlayerName = session.attribute(PLAYER);
+    Player currPlayer = playerLobby.getPlayer(currPlayerName);
+    GameContext game = gameCenter.getGame(currPlayer);
 
     Move requestMove = gson.fromJson(request.body(), Move.class);
     requestMove.setType();
-    if(player.equals(game.getWhitePlayer())){
+    if(currPlayer.equals(game.getWhitePlayer())){
       requestMove = Board.invertMove(requestMove);
     }
-    player.addNextMove(game, requestMove);
+    currPlayer.addNextMove(game, requestMove);
 
     if(!game.isTurnOver() && game.proceed()){
       return new Message("Valid move", MESSAGE_TYPE.info);

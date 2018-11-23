@@ -1,13 +1,15 @@
-package com.webcheckers.ui;
+package com.webcheckers.ui.AjaxRoutes;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.junit.jupiter.api.Assertions.*;
 
+import com.google.gson.Gson;
 import com.webcheckers.application.GameCenter;
+import com.webcheckers.application.PlayerLobby;
 import com.webcheckers.model.GameState.GameContext;
 import com.webcheckers.model.Player;
+import com.webcheckers.ui.AjaxRoutes.PostBackupMoveRoute;
 import com.webcheckers.ui.boardView.Message;
 import com.webcheckers.ui.boardView.Message.MESSAGE_TYPE;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,10 +20,12 @@ import spark.Response;
 import spark.Session;
 
 @Tag("UI-tier")
-public class PostCheckTurnRouteTest {
+public class PostBackupMoveRouteTest {
+  private PostBackupMoveRoute CuT;
 
-  private PostCheckTurnRoute CuT;
   private GameCenter gameCenter;
+  private PlayerLobby playerLobby;
+  private Gson gson;
   private GameContext game;
   private Player player1;
   private Player player2;
@@ -32,6 +36,8 @@ public class PostCheckTurnRouteTest {
   @BeforeEach
   public void setup(){
     gameCenter = new GameCenter();
+    playerLobby = new PlayerLobby(gameCenter);
+    gson = new Gson();
     player1 = new Player("Test1");
     player2 = new Player("Test2");
     game = gameCenter.createGame(player1, player2);
@@ -42,19 +48,25 @@ public class PostCheckTurnRouteTest {
 
     when(request.session()).thenReturn(session);
 
-    CuT = new PostCheckTurnRoute(gameCenter);
+    CuT = new PostBackupMoveRoute(gameCenter, playerLobby, gson);
   }
-
   @Test
   public void testRoute(){
     when(session.attribute("player")).thenReturn(player1);
 
+//    when(game.getActiveColor()).thenReturn(RED);
+//    when(game.getRedPlayer()).thenReturn(null);
+//    when(game.hasPlayer(player)).thenReturn(false);
+
     Message msg = (Message)CuT.handle(request,response);
-    Message info = new Message("true",MESSAGE_TYPE.info);
-    Message error = new Message("false",MESSAGE_TYPE.error);
+    Message info = new Message("Move undone",MESSAGE_TYPE.info);
+    Message error = new Message("Could not undo move",MESSAGE_TYPE.error);
+
     assertTrue(msg.equals(error));
 
-    when(player1.equals(game.getActivePlayer())).thenReturn(true);
+//    when(game.hasPlayer(player)).thenReturn(true);
+//    when(game.getRedPlayer()).thenReturn(player);
+
     msg = (Message)CuT.handle(request,response);
     assertTrue(msg.equals(info));
   }

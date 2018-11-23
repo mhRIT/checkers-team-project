@@ -1,15 +1,17 @@
-package com.webcheckers.ui;
+package com.webcheckers.ui.HtmlRoutes;
 
 import static com.webcheckers.model.Board.COLOR.RED;
-import static com.webcheckers.ui.GetHomeRoute.PLAYER;
-import static com.webcheckers.ui.PostSelectOpponentRoute.MESSAGE;
-import static com.webcheckers.ui.PostSelectOpponentRoute.OPP_PLAYER_NAME;
+import static com.webcheckers.ui.HtmlRoutes.GetHomeRoute.PLAYER;
+import static com.webcheckers.ui.HtmlRoutes.PostSelectOpponentRoute.MESSAGE;
+import static com.webcheckers.ui.HtmlRoutes.PostSelectOpponentRoute.OPP_PLAYER_NAME;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import com.webcheckers.model.GameState.GameContext;
 import com.webcheckers.model.Player;
-import com.webcheckers.ui.PostSelectOpponentRoute.VIEW_MODE;
+import com.webcheckers.ui.HtmlRoutes.PostSelectOpponentRoute.VIEW_MODE;
+import com.webcheckers.ui.RouteTest;
+import com.webcheckers.ui.TemplateEngineTester;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;

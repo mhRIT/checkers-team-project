@@ -1,6 +1,10 @@
-package com.webcheckers.ui;
+package com.webcheckers.ui.AjaxRoutes;
 
+import static com.webcheckers.ui.HtmlRoutes.GetHomeRoute.PLAYER;
+
+import com.google.gson.Gson;
 import com.webcheckers.application.GameCenter;
+import com.webcheckers.application.PlayerLobby;
 import com.webcheckers.model.GameState.GameContext;
 import com.webcheckers.model.Player;
 import com.webcheckers.ui.boardView.Message;
@@ -22,28 +26,20 @@ public class PostSubmitTurnRoute extends AjaxRoute {
 
   private static final Logger LOG = Logger.getLogger(PostSubmitTurnRoute.class.getName());
 
-  public PostSubmitTurnRoute(GameCenter gameCenter){
-    super(gameCenter);
+  public PostSubmitTurnRoute(GameCenter gameCenter, PlayerLobby playerLobby, Gson gson) {
+    super(gameCenter, playerLobby, gson);
   }
 
   public Object handle(Request request, Response response) {
     final Session session = request.session();
-    Player player = session.attribute("player");
-    GameContext game = gameCenter.getGames(player).get(0);
+    String currPlayerName = session.attribute(PLAYER);
+    Player currPlayer = playerLobby.getPlayer(currPlayerName);
+    GameContext game = gameCenter.getGame(currPlayer);
 
     if(game.isTurnOver() && game.proceed()){
       return new Message("true", MESSAGE_TYPE.info);
     } else {
       return new Message("Your turn is not yet complete", MESSAGE_TYPE.error);
     }
-    //If the move being attempted is valid, switch the turn and return a
-    //Message of type info. Otherwise, return a Message of type error.
-//    if(game.isLastTurnValid()){
-//      game.switchTurn();
-//      return new Message("true", MESSAGE_TYPE.info);
-//    }
-//    else{
-//      return new Message("false", MESSAGE_TYPE.error);
-//    }
   }
 }

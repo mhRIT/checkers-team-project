@@ -1,13 +1,17 @@
-package com.webcheckers.ui;
+package com.webcheckers.ui.AjaxRoutes;
 
+import static com.webcheckers.ui.HtmlRoutes.GetHomeRoute.PLAYER;
+import static spark.Spark.halt;
+
+import com.google.gson.Gson;
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
+import com.webcheckers.model.GameState.GameContext;
+import com.webcheckers.ui.HtmlRoutes.PostSigninRoute;
 import com.webcheckers.ui.boardView.Message;
 import com.webcheckers.ui.boardView.Message.MESSAGE_TYPE;
 import com.webcheckers.model.Player;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,13 +28,13 @@ import spark.TemplateEngine;
  *  @author <a href='mailto:mlh1964@rit.edu'>Meaghan Hoitt</a>
  *  @author <a href='mailto:axf5592@rit.edu'>Andrew Festa</a>
  */
-public class PostResignGameRoute implements Route {
+public class PostResignGameRoute extends AjaxRoute {
   //
   // Attributes
   //
 
-  private final GameCenter gameCenter;
-  private final TemplateEngine templateEngine;
+//  private final GameCenter gameCenter;
+//  private final PlayerLobby playerLobby;
   private static final Logger LOG = Logger.getLogger(PostSigninRoute.class.getName());
 
   /**
@@ -41,17 +45,8 @@ public class PostResignGameRoute implements Route {
    * @throws NullPointerException when the {@code gameCenter}, {@code playerLobby}, or {@code
    * templateEngine} parameter is null
    */
-  public PostResignGameRoute(GameCenter gameCenter, TemplateEngine templateEngine) {
-    LOG.setLevel(Level.ALL);
-    // validation
-    Objects.requireNonNull(gameCenter, "playerLobby must not be null");
-    Objects.requireNonNull(templateEngine, "templateEngine must not be null");
-
-    //
-    // Attributes
-    //
-    this.gameCenter = gameCenter;
-    this.templateEngine = templateEngine;
+  public PostResignGameRoute(GameCenter gameCenter, PlayerLobby playerLobby, Gson gson) {
+    super(gameCenter, playerLobby, gson);
   }
 
   /**
@@ -65,18 +60,21 @@ public class PostResignGameRoute implements Route {
   @Override
   public Object handle(Request request, Response response) {
     final Session session = request.session();
-    Player player = session.attribute("player");
+    String currPlayerName = session.attribute(PLAYER);
+    Player currPlayer = playerLobby.getPlayer(currPlayerName);
+    GameContext game = gameCenter.getGame(currPlayer);
 
-    if(player != null){
-      LOG.finer("PostResignGameRoute is invoked: " + player.getName());
-    }
-
-    if(gameCenter.resignAll(player) > 0){
-      //tells client game was successfully resigned
-      return new Message("", MESSAGE_TYPE.info);
-    }
-    else{
-      return new Message("",MESSAGE_TYPE.error);
+    if(currPlayer != null){
+      LOG.finer("PostResignGameRoute is invoked: " + currPlayer.getName());
+      if(gameCenter.resignAll(currPlayer) > 0){
+        //tells client game was successfully resigned
+        return new Message("", MESSAGE_TYPE.info);
+      }
+      else{
+        return new Message("", MESSAGE_TYPE.error);
+      }
+    } else {
+      return new Message("", MESSAGE_TYPE.error);
     }
   }
 }

@@ -66,7 +66,7 @@ public class GameCenterTest {
    * Tests the retrieval of a game that does no exist
    */
   @Test
-  public void testGetNOGames(){
+  public void testGetNoGames(){
     final Player player3 = new Player("p3");
     CuT.createGame(player2, player3);
     final List<GameContext> games = CuT.getGames(player1);
@@ -83,8 +83,10 @@ public class GameCenterTest {
   @Test
   public void testIsPlayerInGame(){
     CuT.createGame(player1, player1);
-    final boolean isInGame = CuT.isPlayerInGame(player1);
+    boolean isInGame = CuT.getGame(player1) == null;
+    assertTrue(isInGame);
 
+    isInGame = CuT.getGame(player2) == null;
     assertTrue(isInGame);
   }
 
@@ -93,8 +95,8 @@ public class GameCenterTest {
    */
   @Test
   public void testIsPlayerNotInGame(){
-    final Player player3 = new Player("p3");
-    final boolean isInGame = CuT.isPlayerInGame(player3);
+    Player player3 = new Player("p3");
+    boolean isInGame = CuT.getGame(player3) == null;
 
     assertFalse(isInGame);
   }
@@ -118,25 +120,5 @@ public class GameCenterTest {
     CuT.resignAll(player1);
     int resignPlayer2 = CuT.resignAll(player2);
     assertEquals(0, resignPlayer2);
-  }
-
-  /**
-   * Tests removing a game from a the list of games in GameCenter
-   */
-  @Test
-  public void testRemoveGame(){
-    final GameContext game = CuT.createGame(player1, player2);
-    final boolean removeGame = CuT.removeGame(game);
-    assertTrue(removeGame);
-  }
-
-  /**
-   * Tests removing a game that does not exist
-   */
-  @Test
-  public void testRemoveNoGame(){
-    final GameContext game = new GameContext(player1, player2);
-    final boolean removeGame = CuT.removeGame(game);
-    assertFalse(removeGame);
   }
 }

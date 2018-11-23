@@ -1,12 +1,15 @@
-package com.webcheckers.ui;
+package com.webcheckers.ui.AjaxRoutes;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import com.google.gson.Gson;
 import com.webcheckers.application.GameCenter;
+import com.webcheckers.application.PlayerLobby;
 import com.webcheckers.model.GameState.GameContext;
 import com.webcheckers.model.Player;
+import com.webcheckers.ui.AjaxRoutes.PostSubmitTurnRoute;
 import com.webcheckers.ui.boardView.Message;
 import com.webcheckers.ui.boardView.Message.MESSAGE_TYPE;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,18 +22,23 @@ import spark.Session;
 @Tag("UI-tier")
 public class PostSubmitTurnRouteTest {
 
-    private PostSubmitTurnRoute CuT;
-    private GameCenter gameCenter;
-    private GameContext game;
-    private Player player1;
-    private Player player2;
-    private Request request;
-    private Response response;
-    private Session session;
+  private GameCenter gameCenter;
+  private PlayerLobby playerLobby;
+  private Gson gson;
+  private GameContext game;
+  private Player player1;
+  private Player player2;
+  private Request request;
+  private Response response;
+  private Session session;
+
+  private PostSubmitTurnRoute CuT;
 
     @BeforeEach
     public void setup(){
       gameCenter = new GameCenter();
+      playerLobby = new PlayerLobby(gameCenter);
+      gson = new Gson();
       player1 = new Player("Test1");
       player2 = new Player("Test2");
       game = gameCenter.createGame(player1, player2);
@@ -41,7 +49,7 @@ public class PostSubmitTurnRouteTest {
 
       when(request.session()).thenReturn(session);
 
-      CuT = new PostSubmitTurnRoute(gameCenter);
+      CuT = new PostSubmitTurnRoute(gameCenter, playerLobby, gson);
     }
 
     @Test

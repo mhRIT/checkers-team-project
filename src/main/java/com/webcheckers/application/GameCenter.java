@@ -43,22 +43,9 @@ public class GameCenter {
    * @return          the newly created GameState
    */
   public GameContext createGame(Player player1, Player player2) {
-//    Game game = new Game(player1, player2);
-//    gameList.add(game);
     GameContext game = new GameContext(player1, player2);
     gameList.add(game);
     return game;
-  }
-
-  /**
-   * Checks if the specified player is currently playing a game.
-   *
-   * @param   player  the player to check
-   * @return  true    if the player is currently playing a game
-   *          false   otherwise
-   */
-  public boolean isPlayerInGame(Player player) {
-    return getGames(player).size() > 0;
   }
 
   /**
@@ -87,7 +74,7 @@ public class GameCenter {
    * @return          an array of GameState objects that contain
    *                  the specified player as one of the players
    */
-  public List<GameContext> getGames(Player player) {
+  List<GameContext> getGames(Player player) {
     ArrayList<GameContext> playerGameList = new ArrayList<>();
 
     for (GameContext eachGame : gameList) {
@@ -99,11 +86,15 @@ public class GameCenter {
     return playerGameList;
   }
 
-  public boolean removeGame(GameContext game) {
-    if(gameList.contains(game)){
-      gameList.remove(game);
-      return true;
+  public GameContext getGame(Player player){
+    GameContext toReturn = null;
+
+    for (GameContext eachGame : gameList) {
+      if (eachGame.getRedPlayer().equals(player) || eachGame.getWhitePlayer().equals(player)){
+        toReturn = eachGame;
+      }
     }
-    return false;
+
+    return toReturn;
   }
 }

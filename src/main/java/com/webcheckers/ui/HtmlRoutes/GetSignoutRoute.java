@@ -1,10 +1,12 @@
-package com.webcheckers.ui;
+package com.webcheckers.ui.HtmlRoutes;
 
+import static com.webcheckers.ui.HtmlRoutes.GetHomeRoute.PLAYER;
 import static spark.Spark.halt;
 
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
 import com.webcheckers.model.Player;
+import com.webcheckers.ui.WebServer;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -74,12 +76,12 @@ public class GetSignoutRoute implements Route {
   @Override
   public Object handle(Request request, Response response) {
     final Session session = request.session();
-    Player currPlayer = session.attribute("player");
+    String currPlayerName = session.attribute(PLAYER);
+    Player currPlayer = playerLobby.getPlayer(currPlayerName);
 
     if(currPlayer == null){
       LOG.finer("GetSignoutRoute is invoked with no stored player");
       response.redirect(WebServer.HOME_URL);
-
       halt();
       return "nothing";
     }
@@ -87,7 +89,7 @@ public class GetSignoutRoute implements Route {
     LOG.finer("GetSignoutRoute is invoked: " + currPlayer.getName());
 
     if (playerLobby.containsPlayers(currPlayer)) {
-//      gameCenter.resignAll(currPlayer);
+      gameCenter.resignAll(currPlayer);
       playerLobby.signout(currPlayer.getName());
       session.removeAttribute("player");
     }

@@ -1,7 +1,11 @@
-package com.webcheckers.ui;
+package com.webcheckers.ui.AjaxRoutes;
 
 
+import static com.webcheckers.ui.HtmlRoutes.GetHomeRoute.PLAYER;
+
+import com.google.gson.Gson;
 import com.webcheckers.application.GameCenter;
+import com.webcheckers.application.PlayerLobby;
 import com.webcheckers.model.GameState.GameContext;
 import com.webcheckers.model.Player;
 import com.webcheckers.ui.boardView.Message;
@@ -19,14 +23,15 @@ import spark.Session;
 
 public class PostBackupMoveRoute extends AjaxRoute {
 
-  public PostBackupMoveRoute(GameCenter gameCenter) {
-    super(gameCenter);
+  public PostBackupMoveRoute(GameCenter gameCenter, PlayerLobby playerLobby, Gson gson) {
+    super(gameCenter, playerLobby, gson);
   }
 
   public Object handle(Request request, Response response) {
     final Session session = request.session();
-    Player player = session.attribute("player");
-    GameContext game = gameCenter.getGames(player).get(0);
+    String currPlayerName = session.attribute(PLAYER);
+    Player currPlayer = playerLobby.getPlayer(currPlayerName);
+    GameContext game = gameCenter.getGame(currPlayer);
     if(game.revert()){
       return new Message("Move undone", MESSAGE_TYPE.info);
     } else {

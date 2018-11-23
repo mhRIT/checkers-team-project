@@ -1,22 +1,20 @@
-package com.webcheckers.ui;
+package com.webcheckers.ui.HtmlRoutes;
 
-import static com.webcheckers.ui.PostSigninRoute.ERROR_TYPE;
-import static com.webcheckers.ui.PostSigninRoute.ERROR_VIEW_NAME;
-import static com.webcheckers.ui.PostSigninRoute.INVALID_USERNAME;
-import static com.webcheckers.ui.PostSigninRoute.MESSAGE_TYPE_ATTR;
+import static com.webcheckers.ui.HtmlRoutes.PostSigninRoute.ERROR_TYPE;
+import static com.webcheckers.ui.HtmlRoutes.PostSigninRoute.MESSAGE_TYPE_ATTR;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.mockito.internal.verification.VerificationModeFactory.times;
 
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
-import com.webcheckers.model.Player;
-import java.util.logging.Logger;
+import com.webcheckers.ui.HtmlRoutes.GetSigninRoute;
+import com.webcheckers.ui.HtmlRoutes.PostSigninRoute;
 
+import com.webcheckers.ui.TemplateEngineTester;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;

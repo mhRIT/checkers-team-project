@@ -1,12 +1,12 @@
-package com.webcheckers.ui;
+package com.webcheckers.ui.HtmlRoutes;
 
-import static com.webcheckers.ui.GetHomeRoute.PLAYER;
-import static com.webcheckers.ui.GetSigninRoute.TITLE_ATTR;
+import static com.webcheckers.ui.HtmlRoutes.GetHomeRoute.PLAYER;
+import static com.webcheckers.ui.HtmlRoutes.GetSigninRoute.TITLE_ATTR;
 import static spark.Spark.halt;
 
-import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
 import com.webcheckers.model.Player;
+import com.webcheckers.ui.WebServer;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -99,7 +99,7 @@ public class PostSigninRoute implements Route {
     if(session.attribute(PLAYER) == null){
         if(playerLobby.signin(username) != null) {
           Player player = playerLobby.getPlayer(username);
-          session.attribute(PLAYER, player);
+          session.attribute(PLAYER, player.getName());
         } else {
           mv = error(vm,INVALID_USERNAME);
           return templateEngine.render(mv);

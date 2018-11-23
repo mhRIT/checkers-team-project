@@ -1,15 +1,14 @@
-package com.webcheckers.ui;
+package com.webcheckers.ui.HtmlRoutes;
 
-import static com.webcheckers.ui.GetHomeRoute.ALL_PLAYER_NAMES;
-import static com.webcheckers.ui.GetHomeRoute.PLAYER;
+import static com.webcheckers.ui.HtmlRoutes.GetHomeRoute.ALL_PLAYER_NAMES;
+import static com.webcheckers.ui.HtmlRoutes.GetHomeRoute.PLAYER;
+import static spark.Spark.halt;
 
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
 import com.webcheckers.model.GameState.GameContext;
 import com.webcheckers.model.Player;
-import com.webcheckers.ui.boardView.BoardView;
-import com.webcheckers.ui.boardView.Message;
-import com.webcheckers.ui.boardView.Message.MESSAGE_TYPE;
+import com.webcheckers.ui.WebServer;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -95,7 +94,9 @@ public class PostSelectOpponentRoute implements Route {
   @Override
   public Object handle(Request request, Response response) {
     final Session session = request.session();
-    Player currPlayer = session.attribute(PLAYER);
+    String currPlayerName = session.attribute(PLAYER);
+    Player currPlayer = playerLobby.getPlayer(currPlayerName);
+
     Player opponent = playerLobby.getPlayer(request.queryParams(OPP_PLAYER_NAME));
     Map<String, Object> vm = new HashMap<>();
 
@@ -104,20 +105,17 @@ public class PostSelectOpponentRoute implements Route {
           "session or the player is not signed in.";
       LOG.finer(message);
 
-      vm.put(GetHomeRoute.TITLE_ATTR, GetHomeRoute.TITLE);
-      vm.put(GetHomeRoute.NUM_PLAYERS, playerLobby.getNumPlayers());
-      return templateEngine.render(new ModelAndView(vm, "home.ftl"));
+      response.redirect(WebServer.HOME_URL);
+      halt();
+      return "nothing";
     }
 
     LOG.finer("PostSelectOpponentRoute is invoked: " + currPlayer.getName());
-    if (gameCenter.isPlayerInGame(opponent)) {
+    GameContext game = gameCenter.getGame(opponent);
+    if (game != null) {
       String message = String.format("The selected opponent, %s, is already in a game",
           opponent.getName());
       LOG.finer(message);
-
-      LOG.finer(String.format("Player \'%s\' is %sin a game",
-          currPlayer.getName(),
-          gameCenter.isPlayerInGame(currPlayer) ? "" : "not "));
       vm.put(GetHomeRoute.TITLE_ATTR, GetHomeRoute.TITLE);
       vm.put(ALL_PLAYER_NAMES, playerLobby.playerNames(currPlayer.getName()));
       vm.put(PLAYER, currPlayer);
@@ -126,17 +124,11 @@ public class PostSelectOpponentRoute implements Route {
       return templateEngine.render(new ModelAndView(vm, "home.ftl"));
     }
 
-    GameContext game = gameCenter.createGame(currPlayer, opponent);
+    game = gameCenter.createGame(currPlayer, opponent);
+//    session.attribute(GAME_ID, game);
 
-    vm.put(TITLE_ATTR, TITLE);
-    vm.put("currentPlayer", currPlayer);
-    vm.put("viewMode", VIEW_MODE.PLAY);
-    vm.put("redPlayer", game.getRedPlayer());
-    vm.put("whitePlayer", game.getWhitePlayer());
-    vm.put("activeColor", game.getActiveColor());
-    vm.put("board", new BoardView(game, currPlayer));
-    vm.put("message", new Message("This is a triumph", MESSAGE_TYPE.info));
-
-    return templateEngine.render(new ModelAndView(vm, "game.ftl"));
+    response.redirect(WebServer.GAME_URL);
+    halt();
+    return "nothing";
   }
 }
