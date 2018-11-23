@@ -64,7 +64,7 @@ public class PostResignGameRoute extends AjaxRoute {
     Player currPlayer = playerLobby.getPlayer(currPlayerName);
 
     if(currPlayer != null){
-      if(gameCenter.resignAll(currPlayer) > 0){
+      if(gameCenter.resignAll(currPlayer)){
         return new Message("", MESSAGE_TYPE.info);
       }
       else{

@@ -4,7 +4,6 @@ import com.webcheckers.model.GameState.GameContext;
 import com.webcheckers.model.Player;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 /**
  *  {@code GameCenter}
@@ -23,16 +22,13 @@ public class GameCenter {
   //
   // Attributes
   //
-//  private ArrayList<Game> gameList;
   private ArrayList<GameContext> gameList;
-  private ArrayList<GameContext> archivedGames;
 
   /**
    * The default constructor for the GameCenter class.
    */
   public GameCenter() {
     gameList = new ArrayList<>();
-    archivedGames = new ArrayList<>();
   }
 
   /**
@@ -55,16 +51,16 @@ public class GameCenter {
    * @param player  the player to resign
    * @return        the number of games the player resigned from
    */
-  public int resignAll(Player player){
-    int resignCount = 0;
+  public boolean resignAll(Player player){
+    boolean toReturn = false;
     List<GameContext> games = getGames(player);
 
     for (GameContext eachGame: games) {
-      if(resign(eachGame, player)){
-          resignCount++;
-      }
+      resign(eachGame, player);
+      toReturn = true;
     }
-    return resignCount;
+
+    return toReturn;
   }
 
   /**
@@ -111,18 +107,6 @@ public class GameCenter {
       if (eachGame.getRedPlayer().equals(player) || eachGame.getWhitePlayer().equals(player)){
         toReturn = eachGame;
       }
-    }
-
-    return toReturn;
-  }
-
-  public boolean archiveGame(GameContext gameContext){
-    boolean toReturn = false;
-
-    if(gameList.contains(gameContext) && gameContext.isGameOver()){
-      gameList.remove(gameContext);
-      archivedGames.add(gameContext);
-      toReturn = true;
     }
 
     return toReturn;

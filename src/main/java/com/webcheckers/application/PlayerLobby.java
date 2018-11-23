@@ -66,7 +66,12 @@ public class PlayerLobby {
    * @return  true  if the player exists and was successfully removed
    */
   public boolean signout(String name) {
-    return playerList.remove(name) == null;
+    boolean toReturn = false;
+    if(playerList.containsKey(name)){
+      playerList.remove(name);
+      toReturn = true;
+    }
+    return toReturn;
   }
 
   /**

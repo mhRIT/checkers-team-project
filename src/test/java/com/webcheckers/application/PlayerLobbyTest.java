@@ -28,7 +28,7 @@ public class PlayerLobbyTest {
 
     @BeforeEach
     public void testSetup(){
-        gameCenter = mock(GameCenter.class);
+        gameCenter = new GameCenter();
         CuT = new PlayerLobby(gameCenter);
     }
 
@@ -36,7 +36,7 @@ public class PlayerLobbyTest {
      * Test that you can construct a new Player Lobby.
      */
     @Test
-    public void test_create_player_lobby() {
+    public void testCreate() {
         new PlayerLobby(gameCenter);
     }
 
@@ -44,7 +44,7 @@ public class PlayerLobbyTest {
      * Test the initial state of Player Lobby.
      */
     @Test
-    void init_state(){
+    void testInit(){
         assertEquals(INIT_NUM_PLAYERS, CuT.getNumPlayers());
     }
 
@@ -52,34 +52,70 @@ public class PlayerLobbyTest {
      * Test the creation of a new Player aka Player Sign-in.
      */
     @Test
-    public void test_signin(){
-        final Player player = CuT.signin(VALID_NAME);
+    public void testSignInSuccess(){
+        Player player = CuT.signin(VALID_NAME);
         assertNotNull(player);
         assertEquals(player, CuT.getPlayer(VALID_NAME));
         assertEquals(CuT.getNumPlayers(), INIT_NUM_PLAYERS+1);
         assertEquals(CuT.playerNames(VALID_NAME).length, 0);
     }
 
+  /**
+   * Test the creation of a new Player aka Player Sign-in.
+   */
+  @Test
+  public void testSignInFail(){
+    Player player = CuT.signin(INVALID_NAME);
+    assertNull(player);
+  }
+
+  /**
+   * Test the creation of a new Player aka Player Sign-in.
+   */
+  @Test
+  public void testSignOut(){
+    CuT.signin(VALID_NAME);
+    boolean successSignout = CuT.signout(VALID_NAME);
+    assertTrue(successSignout);
+
+    successSignout = CuT.signout(VALID_NAME);
+    assertFalse(successSignout);
+  }
+
     /**
      * Test the creation of many new Players.
      */
     @Test
-    public void test_many_signin(){
+    public void testMultiSigning(){
         int rand = (int)(Math.random()*15 + 1);
 
         for(int i= 0; i < rand; i++){
-            final Player player = CuT.signin(VALID_NAME + i);
+            Player player = CuT.signin(VALID_NAME + i);
             assertNotNull(player);
         }
         assertEquals(CuT.getNumPlayers(), INIT_NUM_PLAYERS + rand);
     }
+
+    @Test
+    public void testContainsSuccess(){
+      Player player1 = CuT.signin(VALID_NAME);
+      boolean containsPlayer = CuT.containsPlayers(player1);
+      assertTrue(containsPlayer);
+    }
+
+  @Test
+  public void testContainsFail(){
+    Player player1 = new Player(VALID_NAME);
+    boolean containsPlayer = CuT.containsPlayers(player1);
+    assertFalse(containsPlayer);
+  }
 
     /**
      * Test that the player's name isn't already taken.
      * Test that the player's name is legal.
      */
     @Test
-    public void test_validateName(){
+    public void testValidateName(){
         assertTrue(CuT.validateName(VALID_NAME));
         CuT.signin(VALID_NAME);
         assertFalse(CuT.validateName(VALID_NAME));
@@ -87,5 +123,4 @@ public class PlayerLobbyTest {
         assertFalse(CuT.validateName(INVALID_NAME));
         assertFalse(CuT.validateName(EMPTY_NAME));
     }
-
 }

@@ -153,8 +153,10 @@ public class GameContext {
   public boolean resignPlayer(Player player){
     if(player.equals(redPlayer)){
       activeColor = COLOR.RED;
-    } else {
+    } else if(player.equals(whitePlayer)) {
       activeColor = COLOR.WHITE;
+    } else {
+      return false;
     }
     gameState = new GameOverState();
     gameState.setMessage(String.format("Player \'%s\' resigned.", player.getName()));
