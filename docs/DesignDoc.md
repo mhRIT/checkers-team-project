@@ -60,8 +60,8 @@ In order to implement the basic features described in the section above, the fol
   - [x] Single-jump move
   - [ ] Multi-jump move
 - Resignation
-  - [ ] User Resigns
-  - [ ] Opponent Resigns
+  - [x] User Resigns
+  - [x] Opponent Resigns
 - Rank Elevation
   - [ ] Piece Promotion
   - [ ] Reverse Movement
@@ -180,8 +180,8 @@ Starting a game against another player brings both players to the game page. On 
 | Simple move         | 2/2    | None |
 | Single jump move    | ?/3    | None |
 | Multi-jump move     | Not started | N/A |
-| User Resigns        | ?/6         | An issue arises when a player is able to be in multiple game at the same time against the same opponent. This is due to not being able to differentiate between two distinct games, as it is expected that the combination of the two players forms a superkey which is able to uniquely identify a game. Thus, a restriction was put in place which limits how many games a player is allowed to be playing at once. |
-| Opponent Resigns    | ?/2         | See above |
+| User Resigns        | 6/6         | An issue arises when a player is able to be in multiple game at the same time against the same opponent. This is due to not being able to differentiate between two distinct games, as it is expected that the combination of the two players forms a superkey which is able to uniquely identify a game. Thus, a restriction was put in place which limits how many games a player is allowed to be playing at once. |
+| Opponent Resigns    | 2/2         | See above |
 | Piece Promotion     | Not started | N/A |
 | Reverse Movement    | Not started | N/A |
 | All Pieces Captured | Not started | N/A |
