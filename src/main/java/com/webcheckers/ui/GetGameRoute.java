@@ -87,8 +87,6 @@ public class GetGameRoute implements Route {
     Player player = session.attribute(PLAYER);
     LOG.finer("GetGameRoute is invoked (" + count++ + "): " + player.getName());
 
-//    Game[] gameList = gameCenter.getGames(player);
-//    Game game;
     List<GameContext> gameList = gameCenter.getGames(player);
     GameContext game;
 
@@ -102,23 +100,30 @@ public class GetGameRoute implements Route {
 
     //
     Map<String, Object> vm = new HashMap<>();
-
-    //If the game is over, go to the home page
-//    if(game.checkEnd()){
-//      game.endGame();
-//      response.redirect(WebServer.HOME_URL);
-//      halt();
-//      return "nothing";
-//    }
-
-    vm.put("title", "GameState!");
-    vm.put("currentPlayer", player);
+    vm.put("message", new Message("GetGameRoute", MESSAGE_TYPE.info));
     vm.put("viewMode", VIEW_MODE.PLAY);
+    if(game.hasResigned(player)){
+      response.redirect(WebServer.HOME_URL);
+      halt();
+      return "nothing";
+    }
+    else if (game.hasResigned(game.getOpponent(player))){
+      vm.put("message", new Message("You opponent has resigned!", MESSAGE_TYPE.info));
+    }
+    //If the game is over, go to the home page
+    else if(game.checkEnd()){
+        game.endGame();
+        response.redirect(WebServer.HOME_URL);
+        halt();
+        return "nothing";
+    }
+
+    vm.put("title", "Game!");
+    vm.put("currentPlayer", player);
     vm.put("redPlayer", game.getRedPlayer());
     vm.put("whitePlayer", game.getWhitePlayer());
     vm.put("activeColor", game.getActiveColor());
     vm.put("board", new BoardView(game, player));
-    vm.put("message", new Message("GetGameRoute", MESSAGE_TYPE.info));
 
     return templateEngine.render(new ModelAndView(vm, VIEW_NAME));
   }

@@ -15,6 +15,7 @@ import spark.Session;
  * Check if the opponent has submitted their turn.
  *
  *  @author <a href='mailto:sjk7867@rit.edu'>Simon Kirwkwood</a>
+ *  @author <a href='mailto:mlh1964@rit.edu'>Meaghan Hoitt</a>
  */
 public class PostCheckTurnRoute extends AjaxRoute {
 
@@ -29,7 +30,9 @@ public class PostCheckTurnRoute extends AjaxRoute {
     Player player = session.attribute("player");
     GameContext game = gameCenter.getGames(player).get(0);
 
-    if(player.equals(game.getActivePlayer())){
+    //If the game has ended OR
+    //If it is the active player's turn
+    if(game.checkEnd() || player.equals(game.getActivePlayer())){
       LOG.finer("CheckTurn is true for player: " + player.getName());
       return new Message("true", MESSAGE_TYPE.info);
     }

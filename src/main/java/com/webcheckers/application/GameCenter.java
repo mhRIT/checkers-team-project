@@ -62,6 +62,24 @@ public class GameCenter {
   }
 
   /**
+   * Resigns the specified player from any games they may be playing in.
+   *
+   * @param player  the player to resign
+   * @return        the number of games the player resigned from
+   */
+  public int resignAll(Player player){
+    int resignCount = 0;
+    List<GameContext> games = getGames(player);
+
+    for (GameContext eachGame: games) {
+      if(eachGame.resignPlayer(player)){
+          resignCount++;
+      }
+    }
+    return resignCount;
+  }
+
+  /**
    * Retrieves a list of games currently being played by the
    * specified player.
    *
@@ -79,5 +97,13 @@ public class GameCenter {
     }
 
     return playerGameList;
+  }
+
+  public boolean removeGame(GameContext game) {
+    if(gameList.contains(game)){
+      gameList.remove(game);
+      return true;
+    }
+    return false;
   }
 }

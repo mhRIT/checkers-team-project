@@ -27,13 +27,12 @@
     <slf4j.version>1.7.25</slf4j.version>
     
     <!-- Test build dependency versions -->
-    <maven.surefire.version>2.22.0</maven.surefire.version>
+    <maven.surefire.version>2.22.1</maven.surefire.version>
     <jacoco.version>0.8.2</jacoco.version>
     
     <!-- Test dependency versions -->
     <junit.jupiter.version>5.3.0</junit.jupiter.version>
     <apiguardian.version>1.0.0</apiguardian.version>
-    <junit.version>5.0</junit.version>
     <mockito.version>2.21.0</mockito.version>
     
   </properties>
@@ -93,12 +92,6 @@
       <artifactId>mockito-core</artifactId>
       <version>${mockito.version}</version>
       <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.jetbrains</groupId>
-      <artifactId>annotations</artifactId>
-      <version>16.0.2</version>
-      <scope>compile</scope>
     </dependency>
     <!-- END: Unit testing libraries -->
 
@@ -211,20 +204,20 @@
           <execution>
             <id>ui</id>
             <configuration>
-               <groups>UI-tier</groups>
-             </configuration>
+              <groups>UI-tier</groups>
+            </configuration>
           </execution>
           <execution>
             <id>appl</id>
             <configuration>
-               <groups>Application-tier</groups>
-        	</configuration>
+              <groups>Application-tier</groups>
+            </configuration>
           </execution>
           <execution>
             <id>model</id>
             <configuration>
-               <groups>Model-tier</groups>
-        	</configuration>
+              <groups>Model-tier</groups>
+            </configuration>
           </execution>
         </executions>
       </plugin>
