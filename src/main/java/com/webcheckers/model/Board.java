@@ -499,7 +499,7 @@ public class Board implements Cloneable {
     if(validateSimpleMove(testMove_bl)){
       moveList.add(testMove_bl);
     }
-    
+
     return moveList;
   }
 
