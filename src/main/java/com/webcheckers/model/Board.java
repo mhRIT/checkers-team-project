@@ -1,5 +1,6 @@
 package com.webcheckers.model;
 
+import com.webcheckers.model.Move.MOVE_TYPE;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -129,7 +130,7 @@ public class Board implements Cloneable {
       if(isRed()){
         return COLOR.RED;
       } else if(isWhite()){
-        return COLOR.RED;
+        return COLOR.WHITE;
       } else {
         return COLOR.NONE;
       }
@@ -176,13 +177,13 @@ public class Board implements Cloneable {
    *
    */
   public void initStart() {
-      pieceLocations = 0b1111_1111_1111_0000_0000_1111_1111_1111;
-      pieceColors = 0b0000_0000_0000_0000_0000_1111_1111_1111;
-      pieceTypes = 0b0000_0000_0000_0000_0000_0000_0000_0000;
+//      pieceLocations = 0b1111_1111_1111_0000_0000_1111_1111_1111;
+//      pieceColors = 0b0000_0000_0000_0000_0000_1111_1111_1111;
+//      pieceTypes = 0b0000_0000_0000_0000_0000_0000_0000_0000;
 
-//    pieceLocations =  0b0000_1111_0001_0000_0000_0001_1111_0000;
-//    pieceColors =     0b0000_1101_0001_0000_0000_0000_0001_0000;
-//    pieceTypes =      0b0000_0000_0000_0000_0000_0000_0000_0000;
+    pieceLocations =  0b0000_1111_0001_0000_0000_0001_1111_0000;
+    pieceColors =     0b0000_1101_0001_0000_0000_0000_0001_0000;
+    pieceTypes =      0b0000_0000_0000_0000_0000_0000_0000_0000;
   }
 
   /**
@@ -245,7 +246,7 @@ public class Board implements Cloneable {
 
   /**
    * Checks if the locations specified by the (x,y) coordinate pair
-   * is a location on which a piece could be place, ie. if the location
+   * is a location on which a piece could be placed, ie. if the location
    * is a black square. This is due to the fact that as the board is setup,
    * all pieces must reside only on black spaces.
    *
@@ -456,7 +457,8 @@ public class Board implements Cloneable {
   public List<Move> getAllSimpleMoves(COLOR color){
     List<Move> moveList = new ArrayList<>();
     for(int i = 0; i < 32; i++){
-      if(getPieceAtLocation(getBitX(i), getBitY(i)).isColor(color)){
+      SPACE_TYPE eachPiece = getPieceAtLocation(getBitX(i), getBitY(i));
+      if(eachPiece.isColor(color)){
         moveList.addAll(getPieceSimpleMoves(getBitX(i), getBitY(i)));
       }
     }
@@ -474,19 +476,30 @@ public class Board implements Cloneable {
     List<Move> moveList = new ArrayList<>();
     Position startPos = new Position(getBitX(bitIdx), getBitY(bitIdx));
 
-    SPACE_TYPE startPiece = getPieceAtLocation(x, y);
-    int colorParity = startPiece.getValue()/Math.abs(startPiece.getValue());
-    int rowParity = colorParity > 0 ? getBitY(bitIdx)%2 : (getBitY(bitIdx)+1)%2;
-    int totalParity = colorParity*rowParity;
+    // check each position of the four corners
+    Position endPos_tr = new Position(x+1, y+1);
+    Position endPos_tl = new Position(x-1, y+1);
+    Position endPos_br = new Position(x+1, y-1);
+    Position endPos_bl = new Position(x-1, y-1);
 
-    for(int eachSimpleShiftAmt : SIMPLE_SHIFT_AMTS){
-      int endBitIdx = bitIdx + eachSimpleShiftAmt*colorParity + totalParity;
-      Position endPos = new Position(getBitX(endBitIdx), getBitY(endBitIdx));
-      Move testMove = new Move(startPos, endPos);
-      if(validateSimpleMove(testMove)){
-        moveList.add(testMove);
-      }
+    Move testMove_tr = new Move(startPos, endPos_tr);
+    Move testMove_tl = new Move(startPos, endPos_tl);
+    Move testMove_br = new Move(startPos, endPos_br);
+    Move testMove_bl = new Move(startPos, endPos_bl);
+
+    if(validateSimpleMove(testMove_tr)){
+      moveList.add(testMove_tr);
     }
+    if(validateSimpleMove(testMove_tl)){
+      moveList.add(testMove_tl);
+    }
+    if(validateSimpleMove(testMove_br)){
+      moveList.add(testMove_br);
+    }
+    if(validateSimpleMove(testMove_bl)){
+      moveList.add(testMove_bl);
+    }
+    
     return moveList;
   }
 
@@ -496,38 +509,25 @@ public class Board implements Cloneable {
    * @return
    */
   private boolean validateSimpleMove(Move move){
+    if(!move.getType().equals(MOVE_TYPE.SIMPLE)){
+      return false;
+    }
+
     Position pos0 = move.getStart();
     Position pos1 = move.getEnd();
-    int idx0 = cartesianToIndex(pos0.getCell(), pos0.getRow());
-    int idx1 = cartesianToIndex(pos1.getCell(), pos1.getRow());
+
+    if(!isValidLocation(pos0) || !isValidLocation(pos1)){
+      return false;
+    }
 
     SPACE_TYPE idx0Piece = getPieceAtLocation(pos0.getCell(), pos0.getRow());
     SPACE_TYPE idx1Piece = getPieceAtLocation(pos1.getCell(), pos1.getRow());
 
     boolean validStartIdx = !idx0Piece.isEmpty();
     boolean validEndIdx = idx1Piece.isEmpty();
+    boolean validDirection = isValidDirection(pos0, pos1, idx0Piece);
 
-    int idxDiff = Math.abs(idx1 - idx0);
-    boolean idx0RightEdge = (idx0 & 0x7) == 7;
-    boolean idx0LeftEdge = (idx0 & 0x7) == 0;
-
-    boolean validIdxDiff = false;
-
-    if(idx0Piece.isRed()){
-      int adjIdxDiff = idxDiff - getBitY(idx0)%2;
-      boolean rightPieceWrap = idx0RightEdge && idxDiff == 5;
-      boolean leftPieceWrap = idx0LeftEdge && idxDiff == 3;
-
-      validIdxDiff = !rightPieceWrap && !leftPieceWrap && SIMPLE_SHIFT_AMTS.contains(adjIdxDiff);
-    } else if(idx0Piece.isWhite()){
-      int adjIdxDiff = idxDiff - (getBitY(idx0)+1)%2;
-      boolean rightPieceWrap = idx0RightEdge && idxDiff == 3;
-      boolean leftPieceWrap = idx0LeftEdge && idxDiff == 5;
-
-      validIdxDiff = !rightPieceWrap && !leftPieceWrap && SIMPLE_SHIFT_AMTS.contains(adjIdxDiff);
-    }
-
-    return validStartIdx && validEndIdx && validIdxDiff;
+    return validStartIdx && validEndIdx && validDirection;
   }
 
   /**
@@ -538,7 +538,8 @@ public class Board implements Cloneable {
   public List<Move> getAllJumpMoves(COLOR color){
     List<Move> moveList = new ArrayList<>();
     for(int i = 0; i < 32; i++){
-      if(getPieceAtLocation(getBitX(i), getBitY(i)).isColor(color)){
+      SPACE_TYPE eachPiece = getPieceAtLocation(getBitX(i), getBitY(i));
+      if(eachPiece.isColor(color)){
         moveList.addAll(getPieceJumpMoves(getBitX(i), getBitY(i)));
       }
     }
@@ -555,18 +556,31 @@ public class Board implements Cloneable {
     int bitIdx = cartesianToIndex(x, y);
     List<Move> moveList = new ArrayList<>();
     Position startPos = new Position(getBitX(bitIdx), getBitY(bitIdx));
+    int offset = 2;
 
-    SPACE_TYPE startPiece = getPieceAtLocation(x, y);
-    int colorParity = startPiece.getValue()/Math.abs(startPiece.getValue());
+    Position endPos_tr = new Position(x+offset, y+offset);
+    Position endPos_tl = new Position(x-offset, y+offset);
+    Position endPos_br = new Position(x+offset, y-offset);
+    Position endPos_bl = new Position(x-offset, y-offset);
 
-    for(int eachJumpShiftAmt : JUMP_SHIFT_AMTS){
-      int endBitIdx = bitIdx + eachJumpShiftAmt*colorParity;
-      Position endPos = new Position(getBitX(endBitIdx), getBitY(endBitIdx));
-      Move testMove = new Move(startPos, endPos);
-      if(validateJumpMove(testMove)){
-        moveList.add(testMove);
-      }
+    Move testMove_tr = new Move(startPos, endPos_tr);
+    Move testMove_tl = new Move(startPos, endPos_tl);
+    Move testMove_br = new Move(startPos, endPos_br);
+    Move testMove_bl = new Move(startPos, endPos_bl);
+
+    if(validateJumpMove(testMove_tr)){
+      moveList.add(testMove_tr);
     }
+    if(validateJumpMove(testMove_tl)){
+      moveList.add(testMove_tl);
+    }
+    if(validateJumpMove(testMove_br)){
+      moveList.add(testMove_br);
+    }
+    if(validateJumpMove(testMove_bl)){
+      moveList.add(testMove_bl);
+    }
+
     return moveList;
   }
 
@@ -576,8 +590,17 @@ public class Board implements Cloneable {
    * @return
    */
   private boolean validateJumpMove(Move move){
+    if(!move.getType().equals(MOVE_TYPE.JUMP)){
+      return false;
+    }
+
     Position pos0 = move.getStart();
     Position pos1 = move.getEnd();
+
+    if(!isValidLocation(pos0) || !isValidLocation(pos1)){
+      return false;
+    }
+
     int idx0 = cartesianToIndex(pos0.getCell(), pos0.getRow());
     int idx1 = cartesianToIndex(pos1.getCell(), pos1.getRow());
 
@@ -592,27 +615,22 @@ public class Board implements Cloneable {
 
     boolean validStartIdx = !idx0Piece.isEmpty();
     boolean validEndIdx = idx1Piece.equals(SPACE_TYPE.EMPTY);
-    boolean validMidIdx = !middlePiece.isEmpty() && idx0Piece.compareColor(middlePiece);
+    boolean validMidIdx = !middlePiece.isEmpty() && !idx0Piece.compareColor(middlePiece);
+    boolean validDirection = isValidDirection(pos0, pos1, idx0Piece);
 
-    int idxDiff = Math.abs(idx1 - idx0);
-    boolean idx0RightEdge = (idx0 & 0x3) == 3;
-    boolean idx0LeftEdge = (idx0 & 0x3) == 0;
+    return validStartIdx && validEndIdx && validMidIdx && validDirection;
+  }
 
-    boolean validIdxDiff = false;
-
-    if(idx0Piece.isRed()){
-      boolean rightPieceWrap = idx0RightEdge && idxDiff == 9;
-      boolean leftPieceWrap = idx0LeftEdge && idxDiff == 7;
-
-      validIdxDiff = !rightPieceWrap && !leftPieceWrap && JUMP_SHIFT_AMTS.contains(idxDiff);
+  private boolean isValidDirection(Position pos0, Position pos1, SPACE_TYPE idx0Piece) {
+    boolean validDirection = false;
+    if(idx0Piece.isKing()){
+      validDirection = true;
+    } else if(idx0Piece.isRed()){
+      validDirection = pos0.getRow() < pos1.getRow();
     } else if(idx0Piece.isWhite()){
-      boolean rightPieceWrap = idx0RightEdge && idxDiff == 7;
-      boolean leftPieceWrap = idx0LeftEdge && idxDiff == 9;
-
-      validIdxDiff = !rightPieceWrap && !leftPieceWrap && JUMP_SHIFT_AMTS.contains(idxDiff);
+      validDirection = pos0.getRow() > pos1.getRow();
     }
-
-    return validStartIdx && validEndIdx && validMidIdx && validIdxDiff;
+    return validDirection;
   }
 
   /**
