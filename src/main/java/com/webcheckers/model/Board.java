@@ -27,11 +27,6 @@ public class Board implements Cloneable {
   public enum COLOR {RED, WHITE, NONE}
 
   /**
-   * RANK
-   */
-  public enum RANK {SINGLE, KING}
-
-  /**
    * SPACE_TYPE
    */
   public enum SPACE_TYPE {EMPTY(0), SINGLE_RED(1), SINGLE_WHITE(-1), KING_RED(2), KING_WHITE(-2);
@@ -49,28 +44,11 @@ public class Board implements Cloneable {
 
     /**
      * TODO
-     * @return
-     */
-    int getValue() {
-      return value;
-    }
-
-    /**
-     * TODO
      * @param toCompare
      * @return
      */
     boolean compareColor(SPACE_TYPE toCompare){
       return (this.isWhite() && toCompare.isWhite()) || (this.isRed() && toCompare.isRed());
-    }
-
-    /**
-     * TODO
-     * @param toCompare
-     * @return
-     */
-    boolean compareRank(SPACE_TYPE toCompare){
-      return (this.isKing() && toCompare.isKing()) || (this.isSingle() && toCompare.isSingle());
     }
 
     /**
@@ -141,8 +119,6 @@ public class Board implements Cloneable {
   // Constants
   //
   public static int BOARD_SIZE = 8;
-  private static List<Integer> SIMPLE_SHIFT_AMTS = Arrays.asList(3,4);
-  private static List<Integer> JUMP_SHIFT_AMTS = Arrays.asList(7,9);
 
   /**
    * Tracks whether a current position on the board is occupied.

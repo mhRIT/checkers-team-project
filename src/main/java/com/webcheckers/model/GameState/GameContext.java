@@ -23,8 +23,8 @@ public class GameContext {
   public GameContext(Player rPlayer, Player wPlayer) {
     this.redPlayer = rPlayer;
     this.whitePlayer = wPlayer;
-    long startTime = new Date().getTime();
-    id = String.format("%s:%s:%d", rPlayer.getName(), wPlayer.getName(), startTime);
+    double randVal = Math.random()*10000;
+    id = String.format("%s:%s:%.2f", rPlayer.getName(), wPlayer.getName(), randVal);
 
     this.boardStack = new Stack<>();
     activeColor = COLOR.RED;
@@ -101,9 +101,6 @@ public class GameContext {
   }
 
   public void addNextBoard(Board board) {
-    if(boardStack == null){
-      boardStack = new Stack<>();
-    }
     boardStack.push(board);
   }
 
