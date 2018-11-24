@@ -30,6 +30,7 @@ public class PostCheckTurnRouteTest {
   private GameContext game;
   private Player player1;
   private Player player2;
+  int playerNonce = 0;
   private Request request;
   private Response response;
   private Session session;
@@ -41,8 +42,8 @@ public class PostCheckTurnRouteTest {
     gameCenter = new GameCenter();
     playerLobby = new PlayerLobby(gameCenter);
     gson = new Gson();
-    player1 = new Player("Test1");
-    player2 = new Player("Test2");
+    player1 = new Player("Test1", playerNonce++);
+    player2 = new Player("Test2", playerNonce++);
     game = gameCenter.createGame(player1, player2);
 
     session = mock(Session.class);

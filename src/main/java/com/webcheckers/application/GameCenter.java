@@ -23,12 +23,21 @@ public class GameCenter {
   // Attributes
   //
   private ArrayList<GameContext> gameList;
+  private int gameNonce = 0;
 
   /**
    * The default constructor for the GameCenter class.
    */
   public GameCenter() {
     gameList = new ArrayList<>();
+  }
+
+  /**
+   *
+   * @return
+   */
+  private int getGameNonce(){
+    return gameNonce++;
   }
 
   /**
@@ -40,7 +49,7 @@ public class GameCenter {
    * @return          the newly created GameState
    */
   public GameContext createGame(Player player1, Player player2) {
-    GameContext game = new GameContext(player1, player2);
+    GameContext game = new GameContext(player1, player2, getGameNonce());
     gameList.add(game);
     return game;
   }
@@ -81,6 +90,8 @@ public class GameCenter {
   }
 
   /**
+   * TODO use player ids to get games rather than names
+   *
    * Retrieves a list of games currently being played by the
    * specified player.
    *
