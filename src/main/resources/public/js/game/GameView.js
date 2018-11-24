@@ -1,7 +1,7 @@
 /**
  * This module exports the GameView class constructor.
  * 
- * This component manages the Client-side behavior of the Game view.
+ * This component manages the Client-side behavior of the GameState view.
  */
 define(function(require){
   'use strict';

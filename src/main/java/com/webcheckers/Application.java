@@ -2,7 +2,7 @@ package com.webcheckers;
 
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
-import com.webcheckers.model.Game;
+import com.webcheckers.model.GameState.GameContext;
 import com.webcheckers.model.Player;
 import java.io.InputStream;
 import java.util.Objects;
@@ -102,8 +102,9 @@ public final class Application {
         Player player1 = playerLobby.getPlayer("Player1");
         Player player2 = playerLobby.getPlayer("Player2");
 
-        Game newGame = gameCenter.createGame(player1, player2);
-        newGame.initializeStart();
+//        Game newGame = gameCenter.createGame(player1, player2);
+        GameContext newGame = gameCenter.createGame(player1, player2);
+//        newGame.initializeStart();
       case MID:
         break;
       case END:

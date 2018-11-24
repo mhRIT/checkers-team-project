@@ -2,7 +2,7 @@
  * This module exports the PlayModeStartState class constructor.
  * 
  * This component is an concrete implementation of a state
- * for the Game view; this state represents the Play mode starting state.
+ * for the GameState view; this state represents the Play mode starting state.
  * Its job is to initialize the Play game controls and then decide the
  * next state based upon whether the it's the current player's turn or not.
  */
@@ -18,7 +18,7 @@ define(function(require){
    * @param {PlayController} controller
    *    The Play mode controller object.
    * @param {GameView} view
-   *    The Game view object.
+   *    The GameState view object.
    * @param {GameState} gameState
    *    The state of the game.
    */

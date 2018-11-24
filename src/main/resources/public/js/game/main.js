@@ -1,13 +1,13 @@
 /**
- * This file contains the launch code for the Game view.
+ * This file contains the launch code for the GameState view.
  */
 (function () {
-  // not strict to get the Game state object from the HTML response
+  // not strict to get the GameState state object from the HTML response
   //'use strict';
 
   // This 'this' variable here holds the browser's window object
   // and this is where the 'game.ftl' (FreeMarker) template holds
-  // some global Game state data such as the names and piece colors
+  // some global GameState state data such as the names and piece colors
   // for both players.
   var gameState = this.gameState;
 
@@ -26,11 +26,11 @@
         console.log(error);
       });
 
-      // create and startup the Game View component
+      // create and startup the GameState View component
       var view = new GameView(gameState);
       // create a globally-accessible variable for debugging purposes
       window._gameView = view;
-      // the Game View startup uses the viewMode to determine the View's behavior state model
+      // the GameState View startup uses the viewMode to determine the View's behavior state model
       view.startup();
 
     });

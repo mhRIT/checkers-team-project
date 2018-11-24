@@ -2,7 +2,7 @@
  * This module exports the CheckMyTurnState class constructor.
  * 
  * This component is an concrete implementation of a state
- * for the Game view; this state represents the state in which
+ * for the GameState view; this state represents the state in which
  * the view makes the Ajax call to the server to check whether
  * it's the current player's turn.
  */
@@ -55,7 +55,7 @@ define(function (require) {
   function handleResponse(message) {
     if (message.type === 'info') {
       if (message.text === 'true') {
-        // tell the browser to redisplay the Game View to get the updated board
+        // tell the browser to redisplay the GameState View to get the updated board
         window.location = '/game';
       } else {
         this._controller.setState(PlayModeConstants.WAIT_FOR_MY_TURN);

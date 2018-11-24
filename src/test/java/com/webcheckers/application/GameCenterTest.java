@@ -4,10 +4,10 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import com.webcheckers.application.GameCenter;
-import com.webcheckers.model.Game;
+import com.webcheckers.model.GameState.GameContext;
 import com.webcheckers.model.Player;
 
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -23,12 +23,15 @@ public class GameCenterTest {
 
   private Player player1;
   private Player player2;
+  private Player player3;
+
   private GameCenter CuT;
 
   @BeforeEach
   public void testSetup(){
     player1 = new Player("p1");
     player2 = new Player("p2");
+    player3 = new Player("p3");
     CuT = new GameCenter();
   }
 
@@ -36,17 +39,11 @@ public class GameCenterTest {
    * Test that you can construct a new Game Center.
    */
   @Test
-  public void testCreateGameCenter() {
-    new GameCenter();
-  }
+  public void testCreateGame() {
+    final GameCenter CuT = new GameCenter();
+    final GameContext game = CuT.createGame(player1, player2);
 
-  /**
-   * Test that you can construct a new Game.
-   */
-  @Test
-  public void testCreateGame(){
-    final Game game = CuT.createGame(player1, player2);
-    // Check that the game is real
+    assertNotNull(CuT);
     assertNotNull(game);
   }
 
@@ -55,40 +52,41 @@ public class GameCenterTest {
    */
   @Test
   public void testGetGames(){
-    final Game game = CuT.createGame(player1, player1);
-    final Game[] games = CuT.getGames(player1);
+    GameContext game = CuT.createGame(player1, player2);
+    List<GameContext> games = CuT.getGames(player1);
 
-    //Check the game is real
     assertNotNull(games);
-    //Check there is 1 game
-    assertEquals(1, games.length);
-    //Check the game is the first in the list of games
-    assertEquals(game, games[0]);
+    assertEquals(1, games.size());
+    assertEquals(game, games.get(0));
+
+    games = CuT.getGames(player2);
+
+    assertNotNull(games);
+    assertEquals(1, games.size());
+    assertEquals(game, games.get(0));
   }
 
   /**
    * Tests the retrieval of a game that does no exist
    */
   @Test
-  public void testGetNOGames(){
-    final Player player3 = new Player("p3");
+  public void testGetNoGames(){
     CuT.createGame(player2, player3);
-    final Game[] games = CuT.getGames(player1);
-
-    //Check the game does not exist
+    final List<GameContext> games = CuT.getGames(player1);
     assertNotNull(games);
-    //Check there is 0 games
-    assertEquals(0, games.length);
+    assertEquals(0, games.size());
   }
 
   /**
    * Tests if a player is in a Game
    */
   @Test
-  public void testIsPlayerInGame(){
-    CuT.createGame(player1, player1);
-    final boolean isInGame = CuT.isPlayerInGame(player1);
+  public void testPlayerInGame(){
+    CuT.createGame(player1, player2);
+    boolean isInGame = CuT.getGame(player1) != null;
+    assertTrue(isInGame);
 
+    isInGame = CuT.getGame(player2) != null;
     assertTrue(isInGame);
   }
 
@@ -97,9 +95,9 @@ public class GameCenterTest {
    */
   @Test
   public void testIsPlayerNotInGame(){
-    final Player player3 = new Player("p3");
-    final boolean isInGame = CuT.isPlayerInGame(player3);
-
+    GameContext game = CuT.createGame(player1, player2);
+    boolean isInGame = CuT.getGame(player3) != null;
+    assertNotNull(game);
     assertFalse(isInGame);
   }
 
@@ -107,10 +105,23 @@ public class GameCenterTest {
    * Tests the resignation of a player from all games they are in
    */
   @Test
-  public void testResignAll(){
+  public void testResignAllSuccess(){
     CuT.createGame(player1, player2);
-    int resignCount = CuT.resignAll(player1);
-    assertEquals(1, resignCount);
+    boolean success = CuT.resignAll(player1);
+    assertTrue(success);
+
+    success= CuT.resignAll(player3);
+    assertFalse(success);
+  }
+
+  /**
+   * Tests the resignation of a player from all games they are in
+   */
+  @Test
+  public void testResignAllFail(){
+    CuT.createGame(player1, player2);
+    boolean success = CuT.resignAll(player3);
+    assertFalse(success);
   }
 
   /**
@@ -118,29 +129,8 @@ public class GameCenterTest {
    */
   @Test
   public void testResignNone(){
-    CuT.createGame(player1, player2);
-    CuT.resignAll(player1);
-    int resignPlayer2 = CuT.resignAll(player2);
-    assertEquals(0, resignPlayer2);
-  }
-
-  /**
-   * Tests removing a game from a the list of games in GameCenter
-   */
-  @Test
-  public void testRemoveGame(){
-    final Game game = CuT.createGame(player1, player2);
-    final boolean removeGame = CuT.removeGame(game);
-    assertTrue(removeGame);
-  }
-
-  /**
-   * Tests removing a game that does not exist
-   */
-  @Test
-  public void testRemoveNoGame(){
-    final Game game = new Game(player1, player2);
-    final boolean removeGame = CuT.removeGame(game);
-    assertFalse(removeGame);
+    GameContext game = CuT.createGame(player1, player2);
+    boolean success = CuT.resign(game, player3);
+    assertFalse(success);
   }
 }

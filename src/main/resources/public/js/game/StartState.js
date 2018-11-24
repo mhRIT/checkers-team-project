@@ -2,7 +2,7 @@
  * This module exports the StartState class constructor.
  * 
  * This component is an concrete implementation of a state
- * for the Game view; this state represents the starting state.
+ * for the GameState view; this state represents the starting state.
  * Its job is to decide the next state based upon whether the
  * it's the current player's turn or not.
  */
@@ -16,7 +16,7 @@ define(function(require){
    * Constructor function.
    * 
    * @param {GameView} view
-   *    The Game view object.
+   *    The GameState view object.
    */
   function StartState(view) {
 

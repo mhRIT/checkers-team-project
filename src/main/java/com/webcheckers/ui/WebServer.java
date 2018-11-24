@@ -5,13 +5,22 @@ import static spark.Spark.ipAddress;
 import static spark.Spark.port;
 import static spark.Spark.post;
 import static spark.Spark.redirect;
-import static spark.Spark.staticFileLocation;
 import static spark.Spark.staticFiles;
 
 import com.google.gson.Gson;
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
-import com.webcheckers.model.Player;
+import com.webcheckers.ui.AjaxRoutes.PostBackupMoveRoute;
+import com.webcheckers.ui.AjaxRoutes.PostCheckTurnRoute;
+import com.webcheckers.ui.AjaxRoutes.PostResignGameRoute;
+import com.webcheckers.ui.AjaxRoutes.PostSubmitTurnRoute;
+import com.webcheckers.ui.AjaxRoutes.PostValidateMoveRoute;
+import com.webcheckers.ui.HtmlRoutes.GetGameRoute;
+import com.webcheckers.ui.HtmlRoutes.GetHomeRoute;
+import com.webcheckers.ui.HtmlRoutes.GetSigninRoute;
+import com.webcheckers.ui.HtmlRoutes.GetSignoutRoute;
+import com.webcheckers.ui.HtmlRoutes.PostSelectOpponentRoute;
+import com.webcheckers.ui.HtmlRoutes.PostSigninRoute;
 import java.util.Objects;
 import java.util.logging.Logger;
 import spark.TemplateEngine;
@@ -150,32 +159,32 @@ public class WebServer {
     post(SELECT_OPPONENT_URL,
         new PostSelectOpponentRoute(gameCenter, playerLobby, templateEngine));
 
-    // Displays the Game page
+    // Displays the GameState page
     get(GAME_URL,
-        new GetGameRoute(gameCenter, templateEngine));
+        new GetGameRoute(gameCenter, playerLobby, templateEngine));
 
     post(VALIDATE_MOVE_URL,
-        new PostValidateMoveRoute(gameCenter, gson),
+        new PostValidateMoveRoute(gameCenter, playerLobby, gson),
         gson::toJson);
 
     post(BACKUP_MOVE_URL,
-        new PostBackupMoveRoute(gameCenter),
+        new PostBackupMoveRoute(gameCenter, playerLobby, gson),
+        gson::toJson);
+
+    post(RESIGN_URL,
+            new PostResignGameRoute(gameCenter, playerLobby, gson),
+            gson::toJson);
+
+    post(SUBMIT_TURN_URL,
+        new PostSubmitTurnRoute(gameCenter, playerLobby, gson),
+        gson::toJson);
+
+    post(CHECK_TURN_URL,
+        new PostCheckTurnRoute(gameCenter, playerLobby, gson),
         gson::toJson);
 
     get("*",
         new GetHomeRoute(gameCenter, playerLobby, templateEngine));
-
-    post(RESIGN_URL,
-            new PostResignGameRoute(gameCenter,templateEngine),
-            gson::toJson);
-
-    post(SUBMIT_TURN_URL,
-        new PostSubmitTurnRoute(gameCenter),
-        gson::toJson);
-
-    post(CHECK_TURN_URL,
-        new PostCheckTurnRoute(gameCenter),
-        gson::toJson);
 
     LOG.config("WebServer is initialized.");
   }

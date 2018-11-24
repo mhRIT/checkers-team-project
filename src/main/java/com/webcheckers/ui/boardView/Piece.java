@@ -36,8 +36,9 @@ public class Piece {
    * @param row   the y-coordinate of the piece on the board
    * @param col   the x-coordinate of the piece on the board
    */
-  public Piece(COLOR color, int row, int col) {
+  public Piece(COLOR color, TYPE type, int row, int col) {
     this.color = color;
+    this.type = type;
     this.row = row;
     this.col = col;
   }

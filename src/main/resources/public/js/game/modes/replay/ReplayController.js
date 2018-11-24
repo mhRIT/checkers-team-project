@@ -1,7 +1,7 @@
 /**
  * This module exports the ReplayController class constructor.
  *
- * This component controls the user experience of the Replay Game view.
+ * This component controls the user experience of the Replay GameState view.
  * There's a simple State model that largely toggles between waiting for
  * a user action (such as clicking the 'Next' button) to the state that
  * actually performs the action on the server, via an Ajax call.
@@ -26,7 +26,7 @@ define(function(require){
    */
   function ReplayController(view, gameState) {
 
-    // expose read-only Game data
+    // expose read-only GameState data
     this.getGameID = function getGameID() {
       return gameState.getGameID();
     };
@@ -65,7 +65,7 @@ define(function(require){
     };
 
     /**
-     * Display a message to the Game View.
+     * Display a message to the GameState View.
      */
     this.displayMessage = function displayMessage(message) {
       // delegate to the GameView component.

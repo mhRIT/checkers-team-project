@@ -2,7 +2,7 @@
  * This module exports the CheckMyTurnState class constructor.
  * 
  * This component is an concrete implementation of a state
- * for the Game view; this state represents the state in which
+ * for the GameState view; this state represents the state in which
  * the view makes the Ajax call to the server to check whether
  * it's the current player's turn.
  */
@@ -16,7 +16,7 @@ define(function(require){
    * Constructor function.
    * 
    * @param {GameView} view
-   *    The Game view object.
+   *    The GameState view object.
    */
   function CheckMyTurnState(view) {
     // public (internal) methods

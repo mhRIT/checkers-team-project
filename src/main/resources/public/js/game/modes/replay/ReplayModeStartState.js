@@ -2,7 +2,7 @@
  * This module exports the ReplayModeStartState class constructor.
  * 
  * This component is an concrete implementation of a state
- * for the Game view; this state represents the starting state
+ * for the GameState view; this state represents the starting state
  * of the Replay mode.
  * 
  * This is an exercise for the student.

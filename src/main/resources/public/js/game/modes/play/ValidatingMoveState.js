@@ -2,7 +2,7 @@
  * This module exports the ValidatingMoveState class constructor.
  * 
  * This component is an concrete implementation of a state
- * for the Game view; this state represents the view state
+ * for the GameState view; this state represents the view state
  * in which the player has requested a move and is waiting
  * for server validation.
  */

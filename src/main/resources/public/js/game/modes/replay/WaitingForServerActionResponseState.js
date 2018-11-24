@@ -2,7 +2,7 @@
  * This module exports the WaitingForServerActionResponseState class constructor.
  * 
  * This component is an concrete implementation of a state
- * for the Game view; this state represents the state in which
+ * for the GameState view; this state represents the state in which
  * the view makes the Ajax call to the server to perform an action
  * on the TurnIterator for the game being "replayed".
  */
@@ -45,7 +45,7 @@ define(function(require){
     const actionURL = args[0];
     // query the server if the next turn has been played
     AjaxUtils.callServer(
-        // the action takes the Game ID as the message body
+        // the action takes the GameState ID as the message body
         actionURL, this._controller.getGameID(),
         // the handler method should be run in the context of 'this' State object
         handleResponse, this);
@@ -60,7 +60,7 @@ define(function(require){
     if (message.type === 'info') {
       // check for special case messages
       if (message.text === 'true') {
-        // tell the browser to redisplay the Game View to get the updated board
+        // tell the browser to redisplay the GameState View to get the updated board
         window.location = window.location + '&splat=' + new Date().getTime();
       }
       // otherwise, check to see if there is a message to display

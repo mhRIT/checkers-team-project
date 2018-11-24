@@ -2,7 +2,7 @@
  * This module exports the RequestingBackupMove class constructor.
  * 
  * This component is an concrete implementation of a state
- * for the Game view; this state represents the view state
+ * for the GameState view; this state represents the view state
  * in which the player has created a non-empty Turn.  From
  * this state the user may request another move or to submit
  * the current set of moves as a single turn.

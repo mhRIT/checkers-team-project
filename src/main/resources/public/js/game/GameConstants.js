@@ -1,5 +1,5 @@
 /**
- * This module exports a map of constants used in the Game view code.
+ * This module exports a map of constants used in the GameState view code.
  */
 define(function(){
     'use strict';

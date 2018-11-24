@@ -1,7 +1,7 @@
 /**
  * This module exports the BoardController class constructor.
  * 
- * This component controls the Checkers board in the Game View.
+ * This component controls the Checkers board in the GameState View.
  * It provides an API to enable/disable Pieces and register for
  * Piece movement events.
  */
