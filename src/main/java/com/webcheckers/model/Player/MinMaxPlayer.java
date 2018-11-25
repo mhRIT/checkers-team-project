@@ -3,7 +3,6 @@ package com.webcheckers.model.Player;
 import com.webcheckers.model.GameState.GameContext;
 import com.webcheckers.model.Move;
 import java.beans.PropertyChangeEvent;
-import java.util.Observable;
 
 public class MinMaxPlayer extends AiPlayer {
 

@@ -65,7 +65,7 @@ public class Player implements PropertyChangeListener {
    * @param game
    * @param move
    */
-  public void addNextMove(GameContext game, Move move){
+  public void putNextMove(GameContext game, Move move){
     pendingMoveMap.put(game, move);
   }
 
@@ -116,7 +116,6 @@ public class Player implements PropertyChangeListener {
 
   @Override
   public void propertyChange(PropertyChangeEvent evt) {
-    // TODO do nothing
-    System.out.printf("Property changed event raised: %s\n", this.getName());
+    // do nothing
   }
 }

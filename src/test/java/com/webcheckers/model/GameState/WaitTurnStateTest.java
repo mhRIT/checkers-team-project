@@ -31,7 +31,7 @@ class WaitTurnStateTest extends GameStateTest {
 
   private void testExecuteJumpFailure() {
     Move illegalMove = new Move(new Position(0,2), new Position(2,4));
-    player1.addNextMove(gameContext, illegalMove);
+    player1.putNextMove(gameContext, illegalMove);
 
     assertEquals(STATE.WAIT_TURN, cut.getState());
     assertFalse(cut.execute(gameContext));
@@ -46,7 +46,7 @@ class WaitTurnStateTest extends GameStateTest {
     Move wMove1 = new Move(new Position(2,4), new Position(1,3));
 
     Move legalMove = new Move(new Position(0,2), new Position(2,4));
-    player1.addNextMove(gameContext, legalMove);
+    player1.putNextMove(gameContext, legalMove);
 
     Board currentBoard = gameContext.getCurrentBoard();
     currentBoard.movePiece(wMove0);
@@ -63,7 +63,7 @@ class WaitTurnStateTest extends GameStateTest {
 
   private void testExecuteSimpleFailure() {
     Move illegalMove = new Move(new Position(0,2), new Position(1,4));
-    player1.addNextMove(gameContext, illegalMove);
+    player1.putNextMove(gameContext, illegalMove);
 
     assertEquals(STATE.WAIT_TURN, cut.getState());
     assertFalse(cut.execute(gameContext));
@@ -75,7 +75,7 @@ class WaitTurnStateTest extends GameStateTest {
 
   private void testExecuteSimpleSuccess() {
     Move playerMove = new Move(new Position(0,2), new Position(1,3));
-    player1.addNextMove(gameContext, playerMove);
+    player1.putNextMove(gameContext, playerMove);
 
     assertEquals(STATE.WAIT_TURN, cut.getState());
     assertTrue(cut.execute(gameContext));

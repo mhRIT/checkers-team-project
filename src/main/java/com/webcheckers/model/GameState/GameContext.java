@@ -4,9 +4,7 @@ import com.webcheckers.model.Board;
 import com.webcheckers.model.Board.COLOR;
 import com.webcheckers.model.GameState.GameState.STATE;
 import com.webcheckers.model.Player.Player;
-import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.Observable;
 import java.util.Stack;
 
 public class GameContext {
@@ -126,13 +124,14 @@ public class GameContext {
    */
   public void switchTurn(){
     if(isTurnOver()) {
+      Player opponent = getActivePlayer();
       if (activeColor.equals(COLOR.RED)) {
         activeColor = COLOR.WHITE;
       } else {
         activeColor = COLOR.RED;
       }
       gameState = new WaitTurnState();
-      stateChangedSupport.firePropertyChange("turn switched", this.gameState, activeColor);
+      stateChangedSupport.firePropertyChange("turn switched", opponent, getActivePlayer());
     }
   }
 

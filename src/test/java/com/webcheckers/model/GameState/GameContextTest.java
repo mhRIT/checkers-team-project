@@ -56,7 +56,7 @@ public class GameContextTest {
   @Test
   public void testProceed(){
     Move illegalMove = new Move(new Position(0,1), new Position(0,2));
-    player1.addNextMove(cut, illegalMove);
+    player1.putNextMove(cut, illegalMove);
     GameState startState = cut.getState();
     boolean success = cut.proceed();
     GameState nextState = cut.getState();

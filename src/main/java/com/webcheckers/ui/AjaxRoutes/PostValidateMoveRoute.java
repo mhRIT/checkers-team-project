@@ -62,7 +62,7 @@ public class PostValidateMoveRoute extends AjaxRoute {
     if(currPlayer.equals(game.getWhitePlayer())){
       requestMove = Board.invertMove(requestMove);
     }
-    currPlayer.addNextMove(game, requestMove);
+    currPlayer.putNextMove(game, requestMove);
 
     if(!game.isTurnOver() && game.proceed()){
       return new Message("Valid move", MESSAGE_TYPE.info);
