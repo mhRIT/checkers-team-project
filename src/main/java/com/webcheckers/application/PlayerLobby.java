@@ -10,10 +10,8 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- *  {@code PlayerLobby}
- *  <p>
- *    Represents the lobby in which all players inhabit and from which they log in and out of.
- *  </p>
+ * {@code PlayerLobby}
+ *  Represents the lobby in which all players inhabit and from which they log in and out of.
  *
  *  @author <a href='mailto:mlh1964@rit.edu'>Meaghan Hoitt</a>
  *  @author <a href='mailto:sjk7867@rit.edu'>Simon Kirwkwood</a>
@@ -126,7 +124,6 @@ public class PlayerLobby {
   }
 
   /**
-   * TODO retrieve based on id, not on name
    * Retrieves a player given the username.
    *
    * @param   name  the username of the current player

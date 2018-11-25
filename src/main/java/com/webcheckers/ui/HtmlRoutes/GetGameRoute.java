@@ -50,9 +50,10 @@ public class GetGameRoute implements Route {
   private static final Logger LOG = Logger.getLogger(GetGameRoute.class.getName());
 
   /**
-   * Create the Spark Route (UI controller) for the {@code GET /game} HTTP request.
+   * Create the Spark Route (UI controller) for the {@code POST /signin} HTTP request.
    *
    * @param gameCenter  the {@link GameCenter} for tracking all ongoing games
+   * @param playerLobby the {@link PlayerLobby} for tracking all signed in players
    * @param templateEngine the {@link TemplateEngine} used for rendering page HTML.
    * @throws NullPointerException when the {@code gameCenter}, {@code playerLobby}, or {@code
    * templateEngine} parameter is null

@@ -25,33 +25,18 @@ import spark.TemplateEngine;
  *  @author <a href='mailto:axf5592@rit.edu'>Andrew Festa</a>
  */
 public class PostResignGameRoute extends AjaxRoute {
-  //
-  // Attributes
-  //
-
-//  private final GameCenter gameCenter;
-//  private final PlayerLobby playerLobby;
-  private static final Logger LOG = Logger.getLogger(PostSigninRoute.class.getName());
 
   /**
    * Create the Spark Route (UI controller) for the {@code POST /resignGame} HTTP request.
-   *
-   * @param gameCenter  the {@link GameCenter} for tracking all ongoing games
-   * @param templateEngine the {@link TemplateEngine} used for rendering page HTML.
-   * @throws NullPointerException when the {@code gameCenter}, {@code playerLobby}, or {@code
-   * templateEngine} parameter is null
+   * {@inheritDoc}
    */
   public PostResignGameRoute(GameCenter gameCenter, PlayerLobby playerLobby, Gson gson) {
     super(gameCenter, playerLobby, gson);
   }
 
   /**
-   * {@inheritDoc}
    * Redirects to the WebCheckers Home page.
-   *
-   * @param request the HTTP request
-   * @param response the HTTP response
-   * @return the rendered HTML for the game page
+   * {@inheritDoc}
    */
   @Override
   public Object handle(Request request, Response response) {

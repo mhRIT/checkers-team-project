@@ -91,7 +91,7 @@ public class Player implements PropertyChangeListener {
 
   /**
    * Compares if other object is a player
-   * and has the same name as this player.
+   * and has the same id as this player.
    *
    * @return true if the object is a player with the same player name
    */
@@ -107,13 +107,16 @@ public class Player implements PropertyChangeListener {
    * Generates a hashCode for the player, based on the string
    * representation of this player.
    *
-   * @return  the hashCode
+   * @return  an int value representing this player
    */
   @Override
   public int hashCode() {
     return toString().hashCode();
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void propertyChange(PropertyChangeEvent evt) {
     // do nothing
