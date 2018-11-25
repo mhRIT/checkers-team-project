@@ -1,7 +1,6 @@
 package com.webcheckers.model;
 
-import static org.junit.jupiter.api.Assertions.*;
-
+import com.webcheckers.model.Player.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 

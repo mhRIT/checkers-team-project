@@ -7,7 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-import com.webcheckers.model.Player;
+import com.webcheckers.model.Player.Player;
 
 
 /**
@@ -29,7 +29,7 @@ public class PlayerLobbyTest {
     @BeforeEach
     public void testSetup(){
         gameCenter = new GameCenter();
-        CuT = new PlayerLobby(gameCenter);
+        CuT = new PlayerLobby();
     }
 
     /**
@@ -37,7 +37,7 @@ public class PlayerLobbyTest {
      */
     @Test
     public void testCreate() {
-        new PlayerLobby(gameCenter);
+        new PlayerLobby();
     }
 
     /**
@@ -57,7 +57,7 @@ public class PlayerLobbyTest {
         assertNotNull(player);
         assertEquals(player, CuT.getPlayer(VALID_NAME));
         assertEquals(CuT.getNumPlayers(), INIT_NUM_PLAYERS+1);
-        assertEquals(CuT.playerNames(VALID_NAME).length, 0);
+        assertEquals(CuT.playerNames(VALID_NAME).size(), 0);
     }
 
   /**

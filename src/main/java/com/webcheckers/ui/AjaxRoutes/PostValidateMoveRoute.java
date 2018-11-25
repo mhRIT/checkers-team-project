@@ -8,7 +8,7 @@ import com.webcheckers.application.PlayerLobby;
 import com.webcheckers.model.Board;
 import com.webcheckers.model.GameState.GameContext;
 import com.webcheckers.model.Move;
-import com.webcheckers.model.Player;
+import com.webcheckers.model.Player.Player;
 import com.webcheckers.ui.boardView.Message;
 import com.webcheckers.ui.boardView.Message.MESSAGE_TYPE;
 import java.util.logging.Logger;

@@ -1,11 +1,13 @@
 package com.webcheckers.application;
 
-import com.webcheckers.model.Player;
+import com.webcheckers.model.Player.AiPlayer;
+import com.webcheckers.model.Player.MinMaxPlayer;
+import com.webcheckers.model.Player.Player;
+import com.webcheckers.model.Player.RandomMovementPlayer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 
 /**
  *  {@code PlayerLobby}
@@ -25,16 +27,23 @@ public class PlayerLobby {
   // Attributes
   //
   private HashMap<String, Player> playerList;
+  private HashMap<String, Player> AiList;
   private int playerNonce = 0;
 
   /**
    * Constructs a new PlayerLobby to store signed-in players.
-   *
-   * @param gameCenter  instance of GameCenter to associate with
-   *                    this PlayerLobby
    */
-  public PlayerLobby(GameCenter gameCenter) {
+  public PlayerLobby() {
     playerList = new HashMap<>();
+    AiList = new HashMap<>();
+
+    AiPlayer randomPlayer = new RandomMovementPlayer("Easy AI", getPlayerNonce());
+    AiPlayer medMinMaxPlayer = new MinMaxPlayer("Medium AI", getPlayerNonce());
+    AiPlayer hardMinMaxPlayer = new MinMaxPlayer("Hard AI", getPlayerNonce());
+
+    AiList.put(randomPlayer.getName(), randomPlayer);
+    AiList.put(medMinMaxPlayer.getName(), medMinMaxPlayer);
+    AiList.put(hardMinMaxPlayer.getName(), hardMinMaxPlayer);
   }
 
   /**
@@ -124,7 +133,11 @@ public class PlayerLobby {
    * @return        the player of the specified 'name'
    */
   public Player getPlayer(String name) {
-    return playerList.getOrDefault(name, null);
+    Player toReturn = playerList.getOrDefault(name, null);
+    if(toReturn == null){
+      toReturn = AiList.getOrDefault(name, null);
+    }
+    return toReturn;
   }
 
 
@@ -148,7 +161,6 @@ public class PlayerLobby {
     return playerList.size();
   }
 
-
   /**
    * Generates a list of all the names of players who are signed-in.
    *
@@ -156,11 +168,21 @@ public class PlayerLobby {
    * @return          a list of all player's names who are signed-in, excluding the
    *                  specified 'exclude' name
    */
-  public String[] playerNames(String exclude) {
+  public List<String> playerNames(String exclude) {
     List<String> players = new ArrayList<String>(playerList.keySet());
     players.remove(exclude);
     Collections.sort(players);
 
-    return players.toArray(new String[0]);
+    return players;
+  }
+
+  /**
+   * Generates a list of all the names of players who are signed-in.
+   *
+   * @return          a list of all player's names who are signed-in, excluding the
+   *                  specified 'exclude' name
+   */
+  public List<String> aiNames() {
+    return new ArrayList<String>(AiList.keySet());
   }
 }

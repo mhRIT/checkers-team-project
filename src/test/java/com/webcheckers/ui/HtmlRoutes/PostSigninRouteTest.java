@@ -40,7 +40,7 @@ public class PostSigninRouteTest {
     session = mock(Session.class);
     response = mock(Response.class);
     engine = mock(TemplateEngine.class);
-    testLobby = new PlayerLobby(mock(GameCenter.class));
+    testLobby = new PlayerLobby();
     playerLobby = mock(PlayerLobby.class);
 
     when(request.queryParams("username")).thenReturn("test");

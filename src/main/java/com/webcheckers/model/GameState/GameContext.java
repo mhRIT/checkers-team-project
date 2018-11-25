@@ -3,7 +3,10 @@ package com.webcheckers.model.GameState;
 import com.webcheckers.model.Board;
 import com.webcheckers.model.Board.COLOR;
 import com.webcheckers.model.GameState.GameState.STATE;
-import com.webcheckers.model.Player;
+import com.webcheckers.model.Player.Player;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+import java.util.Observable;
 import java.util.Stack;
 
 public class GameContext {
@@ -18,11 +21,16 @@ public class GameContext {
   private COLOR activeColor;
   private Stack<Board> boardStack;
   private int id;
+  private PropertyChangeSupport stateChangedSupport;
 
   public GameContext(Player rPlayer, Player wPlayer, int idNum) {
     this.redPlayer = rPlayer;
     this.whitePlayer = wPlayer;
-    id = idNum;
+    this.id = idNum;
+
+    stateChangedSupport = new PropertyChangeSupport(this);
+    stateChangedSupport.addPropertyChangeListener(rPlayer);
+    stateChangedSupport.addPropertyChangeListener(wPlayer);
 
     this.boardStack = new Stack<>();
     activeColor = COLOR.RED;
@@ -124,6 +132,7 @@ public class GameContext {
         activeColor = COLOR.RED;
       }
       gameState = new WaitTurnState();
+      stateChangedSupport.firePropertyChange("turn switched", this.gameState, activeColor);
     }
   }
 

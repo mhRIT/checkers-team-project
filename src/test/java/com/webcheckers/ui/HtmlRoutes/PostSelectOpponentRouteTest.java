@@ -8,7 +8,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import com.webcheckers.model.GameState.GameContext;
-import com.webcheckers.model.Player;
+import com.webcheckers.model.Player.Player;
 import com.webcheckers.ui.HtmlRoutes.PostSelectOpponentRoute.VIEW_MODE;
 import com.webcheckers.ui.RouteTest;
 import com.webcheckers.ui.TemplateEngineTester;

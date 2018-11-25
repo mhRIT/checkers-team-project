@@ -1,6 +1,6 @@
 package com.webcheckers.model.GameState;
 
-import com.webcheckers.model.Player;
+import com.webcheckers.model.Player.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;

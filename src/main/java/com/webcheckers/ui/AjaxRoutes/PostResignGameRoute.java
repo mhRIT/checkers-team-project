@@ -6,18 +6,14 @@ import static spark.Spark.halt;
 import com.google.gson.Gson;
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
-import com.webcheckers.model.GameState.GameContext;
 import com.webcheckers.ui.HtmlRoutes.PostSigninRoute;
 import com.webcheckers.ui.boardView.Message;
 import com.webcheckers.ui.boardView.Message.MESSAGE_TYPE;
-import com.webcheckers.model.Player;
+import com.webcheckers.model.Player.Player;
 
-import java.util.Objects;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import spark.Request;
 import spark.Response;
-import spark.Route;
 import spark.Session;
 import spark.TemplateEngine;
 

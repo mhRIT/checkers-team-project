@@ -9,8 +9,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import com.webcheckers.application.GameCenter;
-import com.webcheckers.model.Player;
-import com.webcheckers.ui.HtmlRoutes.GetHomeRoute;
+import com.webcheckers.model.Player.Player;
 import com.webcheckers.ui.RouteTest;
 import com.webcheckers.ui.TemplateEngineTester;
 import org.junit.jupiter.api.BeforeEach;

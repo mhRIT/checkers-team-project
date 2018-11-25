@@ -3,7 +3,7 @@ package com.webcheckers;
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
 import com.webcheckers.model.GameState.GameContext;
-import com.webcheckers.model.Player;
+import com.webcheckers.model.Player.Player;
 import java.io.InputStream;
 import java.util.Objects;
 import java.util.logging.LogManager;
@@ -92,7 +92,7 @@ public final class Application {
     final GameCenter gameCenter = new GameCenter();
 
     // create the one and only PlayerLobby
-    final PlayerLobby playerLobby = new PlayerLobby(gameCenter);
+    final PlayerLobby playerLobby = new PlayerLobby();
 
     switch (demoState){
       case START:

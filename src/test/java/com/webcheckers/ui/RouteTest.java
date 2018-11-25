@@ -8,7 +8,7 @@ import static org.mockito.Mockito.when;
 import com.google.gson.Gson;
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
-import com.webcheckers.model.Player;
+import com.webcheckers.model.Player.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -62,7 +62,7 @@ public abstract class RouteTest {
 
     gameCenter = new GameCenter();
     gson = new Gson();
-    playerLobby = new PlayerLobby(gameCenter);
+    playerLobby = new PlayerLobby();
     engine = mock(TemplateEngine.class);
   }
 

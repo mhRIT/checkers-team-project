@@ -2,10 +2,9 @@ package com.webcheckers.application;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import com.webcheckers.model.GameState.GameContext;
-import com.webcheckers.model.Player;
+import com.webcheckers.model.Player.Player;
 
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;

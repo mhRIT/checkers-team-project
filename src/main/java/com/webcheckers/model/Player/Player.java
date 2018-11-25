@@ -1,6 +1,9 @@
-package com.webcheckers.model;
+package com.webcheckers.model.Player;
 
 import com.webcheckers.model.GameState.GameContext;
+import com.webcheckers.model.Move;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -17,7 +20,7 @@ import java.util.Objects;
  *  @author <a href='mailto:axf5592@rit.edu'>Andrew Festa</a>
  *
  */
-public class Player {
+public class Player implements PropertyChangeListener {
 
   //
   // Attributes
@@ -109,5 +112,11 @@ public class Player {
   @Override
   public int hashCode() {
     return toString().hashCode();
+  }
+
+  @Override
+  public void propertyChange(PropertyChangeEvent evt) {
+    // TODO do nothing
+    System.out.printf("Property changed event raised: %s\n", this.getName());
   }
 }

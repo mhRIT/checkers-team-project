@@ -5,7 +5,7 @@ import static com.webcheckers.model.Board.BOARD_SIZE;
 import com.webcheckers.model.Board;
 import com.webcheckers.model.Board.SPACE_TYPE;
 import com.webcheckers.model.GameState.GameContext;
-import com.webcheckers.model.Player;
+import com.webcheckers.model.Player.Player;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;

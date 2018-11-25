@@ -7,8 +7,7 @@ import static org.mockito.Mockito.when;
 
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
-import com.webcheckers.model.Player;
-import com.webcheckers.ui.HtmlRoutes.GetSignoutRoute;
+import com.webcheckers.model.Player.Player;
 import com.webcheckers.ui.TemplateEngineTester;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -46,7 +45,7 @@ class GetSignoutRouteTest {
 
     templateEngine = mock(TemplateEngine.class);
     gameCenter = new GameCenter();
-    playerLobby = new PlayerLobby(gameCenter);
+    playerLobby = new PlayerLobby();
 
     cut = new GetSignoutRoute(playerLobby, gameCenter, templateEngine);
   }

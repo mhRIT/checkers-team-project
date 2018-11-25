@@ -8,8 +8,7 @@ import com.google.gson.Gson;
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
 import com.webcheckers.model.GameState.GameContext;
-import com.webcheckers.model.Player;
-import com.webcheckers.ui.AjaxRoutes.PostSubmitTurnRoute;
+import com.webcheckers.model.Player.Player;
 import com.webcheckers.ui.boardView.Message;
 import com.webcheckers.ui.boardView.Message.MESSAGE_TYPE;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,7 +38,7 @@ public class PostSubmitTurnRouteTest {
     @BeforeEach
     public void setup(){
       gameCenter = new GameCenter();
-      playerLobby = new PlayerLobby(gameCenter);
+      playerLobby = new PlayerLobby();
       gson = new Gson();
       player1 = new Player("Test1", playerNonce++);
       player2 = new Player("Test2", playerNonce++);

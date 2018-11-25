@@ -3,11 +3,9 @@ package com.webcheckers.ui.AjaxRoutes;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.withSettings;
 
 import com.webcheckers.model.GameState.GameContext;
-import com.webcheckers.model.Player;
-import com.webcheckers.ui.AjaxRoutes.PostResignGameRoute;
+import com.webcheckers.model.Player.Player;
 import com.webcheckers.ui.RouteTest;
 import com.webcheckers.ui.TemplateEngineTester;
 import com.webcheckers.ui.boardView.Message;

@@ -3,7 +3,7 @@ package com.webcheckers.model.GameState;
 import com.webcheckers.model.Board;
 import com.webcheckers.model.Board.COLOR;
 import com.webcheckers.model.Move;
-import com.webcheckers.model.Player;
+import com.webcheckers.model.Player.Player;
 import com.webcheckers.model.Position;
 import java.util.List;
 

@@ -52,17 +52,29 @@
       </div>
       </#if>
 
+      <#if aiPlayers??>
+        <p> AI opponents:</p>
+          <br>
+          <div class="vertical-menu">
+            <form action="/selectOpponent" method="POST">
+              <#list aiPlayers as eachPlayerName>
+                <button class="active" type="submit" name="opponent" value="${eachPlayerName}">${eachPlayerName}</button>
+              </#list>
+            </form>
+          </div>
+      </#if>
+
       <#if allPlayers??>
         <#if allPlayers?size gt 0>
           <p> Other players currently signed in:</p>
           <br>
-        <div class="vertical-menu">
-          <form action="/selectOpponent" method="POST">
-            <#list allPlayers as eachPlayerName>
-                <button class="active" type="submit" name="opponent" value="${eachPlayerName}">${eachPlayerName}</button>
-            </#list>
-          </form>
-        </div>
+          <div class="vertical-menu">
+            <form action="/selectOpponent" method="POST">
+              <#list allPlayers as eachPlayerName>
+                  <button class="active" type="submit" name="opponent" value="${eachPlayerName}">${eachPlayerName}</button>
+              </#list>
+            </form>
+          </div>
         <#else>
           <p style="color: red"> No other players are currently signed in</p>
         </#if>

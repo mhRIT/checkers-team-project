@@ -7,7 +7,7 @@ import static spark.Spark.halt;
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
 import com.webcheckers.model.GameState.GameContext;
-import com.webcheckers.model.Player;
+import com.webcheckers.model.Player.Player;
 import com.webcheckers.ui.WebServer;
 import java.util.HashMap;
 import java.util.Map;

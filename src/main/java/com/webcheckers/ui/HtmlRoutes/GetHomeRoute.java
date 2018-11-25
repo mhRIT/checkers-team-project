@@ -5,7 +5,7 @@ import static spark.Spark.halt;
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
 import com.webcheckers.model.GameState.GameContext;
-import com.webcheckers.model.Player;
+import com.webcheckers.model.Player.Player;
 import com.webcheckers.ui.WebServer;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,6 +37,7 @@ public class GetHomeRoute implements Route {
   public static final String TITLE = "Welcome!";
   public static final String VIEW_NAME = "home.ftl";
   public static final String PLAYER = "player";
+  public static final String AI_PLAYER_NAMES = "aiPlayers";
   public static final String ALL_PLAYER_NAMES = "allPlayers";
   public static final String NUM_PLAYERS = "numPlayers";
   public static final String MESSAGE = "message";
@@ -101,6 +102,7 @@ public class GetHomeRoute implements Route {
       LOG.finer("GetHomeRoute is invoked: no player attached to the current session");
       vm.put(NUM_PLAYERS, playerLobby.getNumPlayers());
     } else {
+      vm.put(AI_PLAYER_NAMES, playerLobby.aiNames());
       vm.put(ALL_PLAYER_NAMES, playerLobby.playerNames(currPlayer.getName()));
       vm.put(PLAYER, currPlayer);
 

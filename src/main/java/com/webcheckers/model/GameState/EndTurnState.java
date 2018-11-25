@@ -2,7 +2,7 @@ package com.webcheckers.model.GameState;
 
 import com.webcheckers.model.Board;
 import com.webcheckers.model.Move;
-import com.webcheckers.model.Player;
+import com.webcheckers.model.Player.Player;
 import java.util.List;
 
 public class EndTurnState extends GameState {

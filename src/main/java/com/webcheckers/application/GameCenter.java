@@ -1,7 +1,7 @@
 package com.webcheckers.application;
 
 import com.webcheckers.model.GameState.GameContext;
-import com.webcheckers.model.Player;
+import com.webcheckers.model.Player.Player;
 import java.util.ArrayList;
 import java.util.List;
 
