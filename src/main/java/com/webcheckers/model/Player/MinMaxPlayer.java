@@ -11,12 +11,8 @@ import com.webcheckers.model.Player.Heuristic.KingCountHeuristic;
 import com.webcheckers.model.Player.Heuristic.OffenseHeuristic;
 import com.webcheckers.model.Player.Heuristic.PieceCountHeuristic;
 import com.webcheckers.model.Player.Heuristic.PositionHeuristic;
-import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 public class MinMaxPlayer extends AiPlayer {
 
@@ -24,14 +20,14 @@ public class MinMaxPlayer extends AiPlayer {
   // Attributes
   //
   private List<Heuristic> heuristicList;
-  private int difficulty = 1;
+  private int difficulty;
 
   /**
    * The default constructor for the Player class.
    *
    * @param name the name of this player
    */
-  public MinMaxPlayer(String name, int idNum) {
+  public MinMaxPlayer(String name, int idNum, int difficultyLevel) {
     super(name, idNum);
     heuristicList = new ArrayList<>();
 
@@ -42,11 +38,10 @@ public class MinMaxPlayer extends AiPlayer {
     heuristicList.add(new OffenseHeuristic());
     heuristicList.add(new PieceCountHeuristic());
     heuristicList.add(new PositionHeuristic());
+
+    difficulty = difficultyLevel;
   }
 
-  public void setDifficulty(int difficultyLevel){
-    this.difficulty = difficultyLevel;
-  }
   public int evaluateBoard(GameContext gameContext, Player player) {
     int toReturn = 0;
     for (Heuristic eachHeuristic: heuristicList) {

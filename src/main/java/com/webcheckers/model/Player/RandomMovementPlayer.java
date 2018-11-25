@@ -4,7 +4,6 @@ import com.webcheckers.model.Board;
 import com.webcheckers.model.GameState.GameContext;
 import com.webcheckers.model.Move;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class RandomMovementPlayer extends AiPlayer {

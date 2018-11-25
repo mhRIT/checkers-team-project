@@ -52,6 +52,15 @@ public class Player implements PropertyChangeListener {
   }
 
   /**
+   * Returns if this player is an AI program.
+   *
+   * @return false if this player is a real player
+   */
+  public boolean isAi(){
+    return false;
+  }
+
+  /**
    * Retrieves the id number for the current player.
    *
    * @return  the id of the player

@@ -75,7 +75,7 @@ public class PostSelectOpponentRoute extends HtmlRoute {
 
     LOG.finer("PostSelectOpponentRoute is invoked: " + currPlayer.getName());
     GameContext game = gameCenter.getGame(opponent);
-    if (game != null && !game.isGameOver()) {
+    if (game != null && !opponent.isAi() && !game.isGameOver()) {
       String message = String.format("The selected opponent, %s, is already in a game",
           opponent.getName());
       LOG.finer(message);
