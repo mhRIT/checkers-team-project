@@ -2,9 +2,18 @@ package com.webcheckers.model.Player;
 
 import com.webcheckers.model.GameState.GameContext;
 import com.webcheckers.model.Move;
+import com.webcheckers.model.Player.Heuristic.Heuristic;
 import java.beans.PropertyChangeEvent;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MinMaxPlayer extends AiPlayer {
+
+  //
+  // Attributes
+  //
+  private Map<Heuristic, Integer> heuristicCostMap;
+  private int difficulty = 1;
 
   /**
    * The default constructor for the Player class.
@@ -13,8 +22,12 @@ public class MinMaxPlayer extends AiPlayer {
    */
   public MinMaxPlayer(String name, int idNum) {
     super(name, idNum);
+    heuristicCostMap = new HashMap<>();
   }
 
+  public void setDifficulty(int difficultyLevel){
+    this.difficulty = difficultyLevel;
+  }
   public int evaluateBoard(GameContext gameContext) {
     return 0;
   }
