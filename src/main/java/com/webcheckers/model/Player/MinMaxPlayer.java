@@ -19,6 +19,14 @@ public class MinMaxPlayer extends AiPlayer {
     return 0;
   }
 
+  private int minimizeCost(){
+    return -1;
+  }
+
+  private int maximizeCost(){
+    return 1;
+  }
+
   @Override
   public Move getNextMove(GameContext game) {
     return null;
