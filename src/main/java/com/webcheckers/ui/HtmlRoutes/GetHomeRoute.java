@@ -9,13 +9,9 @@ import com.webcheckers.model.Player.Player;
 import com.webcheckers.ui.WebServer;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
-import spark.Route;
 import spark.Session;
 import spark.TemplateEngine;
 
@@ -28,7 +24,7 @@ import spark.TemplateEngine;
  *  @author <a href='mailto:mvm7902@rit.edu'>Matthew Milone</a>
  *  @author <a href='mailto:axf5592@rit.edu'>Andrew Festa</a>
  */
-public class GetHomeRoute implements Route {
+public class GetHomeRoute extends HtmlRoute {
   //
   //Constants
   //
@@ -43,51 +39,21 @@ public class GetHomeRoute implements Route {
   public static final String MESSAGE = "message";
 
   //
-  // Attributes
-  //
-
-  private final GameCenter gameCenter;
-  private final PlayerLobby playerLobby;
-  private final TemplateEngine templateEngine;
-  private static final Logger LOG = Logger.getLogger(GetHomeRoute.class.getName());
-
-  //
   // Constructor
   //
-
   /**
    * Create the Spark Route (UI controller) for the {@code GET /signin} HTTP request.
-   *
-   * @param gameCenter  the {@link GameCenter} for tracking all ongoing games
-   * @param playerLobby the {@link PlayerLobby} for tracking all signed in players
-   * @param templateEngine the {@link TemplateEngine} used for rendering page HTML.
-   * @throws NullPointerException when the {@code gameCenter}, {@code playerLobby}, or {@code
-   * templateEngine} parameter is null
+   * {@inheritDoc}
    */
-  public GetHomeRoute(final GameCenter gameCenter,
-                      final PlayerLobby playerLobby,
-                      final TemplateEngine templateEngine) {
-    LOG.setLevel(Level.ALL);
-    Objects.requireNonNull(gameCenter, "gameCenter must not be null");
-    Objects.requireNonNull(playerLobby, "playerLobby must not be null");
-    Objects.requireNonNull(templateEngine, "templateEngine must not be null");
-
-    //
-    this.gameCenter = gameCenter;
-    this.playerLobby = playerLobby;
-    this.templateEngine = templateEngine;
-    //
-    LOG.config("GetHomeRoute is initialized.");
+  public GetHomeRoute(final GameCenter gameCenter, final PlayerLobby playerLobby, final TemplateEngine templateEngine) {
+    super(gameCenter, playerLobby, templateEngine);
   }
 
   /**
-   * {@inheritDoc}
    * Render the WebCheckers Home page or the GameState page, depending on whether the current
    * player is in a game or not.
+   * {@inheritDoc}
    *
-   * @param request the HTTP request
-   * @param response the HTTP response
-   * @return the rendered HTML for the Home page
    */
   @Override
   public Object handle(Request request, Response response) {

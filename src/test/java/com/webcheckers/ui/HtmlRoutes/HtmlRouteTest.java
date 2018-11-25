@@ -1,4 +1,4 @@
-package com.webcheckers.ui;
+package com.webcheckers.ui.HtmlRoutes;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
 import com.webcheckers.model.Player.Player;
+import com.webcheckers.ui.TemplateEngineTester;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -25,7 +26,7 @@ import spark.TemplateEngine;
  * @author <a href='mailto:axf5592@rit.edu'>Andrew Festa</a>
  */
 @Tag("UI-tier")
-public abstract class RouteTest {
+public abstract class HtmlRouteTest {
   /**
    * The component-under-test (CuT).
    */

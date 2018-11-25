@@ -15,14 +15,12 @@ public class Piece {
   //
   // Enums
   //
-
   public enum COLOR {RED, WHITE}
   public enum TYPE {SINGLE, KING}
 
   //
   // Attributes
   //
-
   private int row;
   private int col;
   private COLOR color = COLOR.RED;

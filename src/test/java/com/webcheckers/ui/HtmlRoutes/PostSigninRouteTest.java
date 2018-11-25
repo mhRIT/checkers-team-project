@@ -11,6 +11,7 @@ import static org.mockito.Mockito.when;
 
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
+import com.webcheckers.model.GameState.GameContext;
 import com.webcheckers.ui.HtmlRoutes.GetSigninRoute;
 import com.webcheckers.ui.HtmlRoutes.PostSigninRoute;
 
@@ -31,6 +32,7 @@ public class PostSigninRouteTest {
   private Response response;
   private TemplateEngine engine;
 
+  private GameCenter gameCenter;
   private PlayerLobby playerLobby;
   private PlayerLobby testLobby;
 
@@ -39,15 +41,14 @@ public class PostSigninRouteTest {
     request = mock(Request.class);
     session = mock(Session.class);
     response = mock(Response.class);
-    engine = mock(TemplateEngine.class);
     testLobby = new PlayerLobby();
-    playerLobby = mock(PlayerLobby.class);
+    gameCenter = new GameCenter();
+    playerLobby = new PlayerLobby();
 
     when(request.queryParams("username")).thenReturn("test");
-    when(playerLobby.signin(anyString())).thenReturn(testLobby.signin("test"));
     when(request.session()).thenReturn(session);
 
-    CuT = new PostSigninRoute(playerLobby, engine);
+    CuT = new PostSigninRoute(gameCenter, playerLobby, engine);
   }
 
   @Test

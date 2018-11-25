@@ -10,9 +10,7 @@ import java.util.List;
 
 /**
  *  {@code Row}
- *  <p>
  *  Represents a single Row on the view of the board.
- *  </p>
  *
  *  @author <a href='mailto:mlh1964@rit.edu'>Meaghan Hoitt</a>
  *  @author <a href='mailto:sjk7867@rit.edu'>Simon Kirwkwood</a>
@@ -23,7 +21,6 @@ public class Row implements Iterable {
   //
   // Attributes
   //
-
   private final int index;
   private List<Space> spaces;
 

@@ -10,7 +10,6 @@ import static org.mockito.Mockito.when;
 import com.webcheckers.model.GameState.GameContext;
 import com.webcheckers.model.Player.Player;
 import com.webcheckers.ui.HtmlRoutes.PostSelectOpponentRoute.VIEW_MODE;
-import com.webcheckers.ui.RouteTest;
 import com.webcheckers.ui.TemplateEngineTester;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -23,7 +22,7 @@ import spark.ModelAndView;
  * @author <a href='mailto:axf5592@rit.edu'>Andrew Festa</a>
  */
 @Tag("UI-tier")
-class PostSelectOpponentRouteTest extends RouteTest {
+class PostSelectOpponentRouteTest extends HtmlRouteTest {
 
   /**
    * Setup new mock objects for each test.

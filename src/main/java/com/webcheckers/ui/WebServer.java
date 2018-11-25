@@ -60,7 +60,6 @@ public class WebServer {
   //
   // Constants
   //
-
   public static final String HOME_URL = "/";
   public static final String INDEX_URL = "/index";
   public static final String SIGNIN_URL = "/signin";
@@ -84,7 +83,6 @@ public class WebServer {
   //
   // Constructors
   //
-
   /**
    * The constructor for the Web Server.
    *
@@ -98,13 +96,12 @@ public class WebServer {
                   final Gson gson,
                   final GameCenter gameCenter,
                   final PlayerLobby playerLobby) {
-    // validation
+
     Objects.requireNonNull(gameCenter, "gameCenter must not be null");
     Objects.requireNonNull(gson, "gson must not be null");
     Objects.requireNonNull(templateEngine, "templateEngine must not be null");
     Objects.requireNonNull(playerLobby, "playerLobby must not be null");
 
-    //
     this.templateEngine = templateEngine;
     this.gson = gson;
     this.gameCenter = gameCenter;
@@ -114,7 +111,6 @@ public class WebServer {
   //
   // Public methods
   //
-
   /**
    * Initialize all of the HTTP routes that make up this web application.
    *
@@ -136,51 +132,55 @@ public class WebServer {
     port(4567);
     ipAddress("0.0.0.0");
 
-    // Shows the Checkers game Home page.
-    get(HOME_URL,
-        new GetHomeRoute(gameCenter, playerLobby, templateEngine));
-    redirect.get(INDEX_URL, HOME_URL);
+    {
+      // Shows the Checkers game Home page.
+      get(HOME_URL,
+          new GetHomeRoute(gameCenter, playerLobby, templateEngine));
+      redirect.get(INDEX_URL, HOME_URL);
 
-    // Shows the sign-in page
-    get(SIGNIN_URL,
-        new GetSigninRoute(templateEngine));
+      // Shows the sign-in page
+      get(SIGNIN_URL,
+          new GetSigninRoute(gameCenter, playerLobby, templateEngine));
 
-    // Signs out the current player and shows the Home page.
-    get(SIGNOUT_URL,
-        new GetSignoutRoute(playerLobby, gameCenter, templateEngine));
+      // Signs out the current player and shows the Home page.
+      get(SIGNOUT_URL,
+          new GetSignoutRoute(gameCenter, playerLobby, templateEngine));
 
-    // Input username
-    post(SIGNIN_URL,
-        new PostSigninRoute(playerLobby, templateEngine));
+      // Input username
+      post(SIGNIN_URL,
+          new PostSigninRoute(gameCenter, playerLobby, templateEngine));
 
-    // Starts a game against the selected opponent if the player is not in a game and shows
-    // the game page
-    post(SELECT_OPPONENT_URL,
-        new PostSelectOpponentRoute(gameCenter, playerLobby, templateEngine));
+      // Starts a game against the selected opponent if the player is not in a game and shows
+      // the game page
+      post(SELECT_OPPONENT_URL,
+          new PostSelectOpponentRoute(gameCenter, playerLobby, templateEngine));
 
-    // Displays the GameState page
-    get(GAME_URL,
-        new GetGameRoute(gameCenter, playerLobby, templateEngine));
+      // Displays the GameState page
+      get(GAME_URL,
+          new GetGameRoute(gameCenter, playerLobby, templateEngine));
+    }
 
-    post(VALIDATE_MOVE_URL,
-        new PostValidateMoveRoute(gameCenter, playerLobby, gson),
-        gson::toJson);
+    {
+      post(VALIDATE_MOVE_URL,
+          new PostValidateMoveRoute(gameCenter, playerLobby, gson),
+          gson::toJson);
 
-    post(BACKUP_MOVE_URL,
-        new PostBackupMoveRoute(gameCenter, playerLobby, gson),
-        gson::toJson);
+      post(BACKUP_MOVE_URL,
+          new PostBackupMoveRoute(gameCenter, playerLobby, gson),
+          gson::toJson);
 
-    post(RESIGN_URL,
-            new PostResignGameRoute(gameCenter, playerLobby, gson),
-            gson::toJson);
+      post(RESIGN_URL,
+          new PostResignGameRoute(gameCenter, playerLobby, gson),
+          gson::toJson);
 
-    post(SUBMIT_TURN_URL,
-        new PostSubmitTurnRoute(gameCenter, playerLobby, gson),
-        gson::toJson);
+      post(SUBMIT_TURN_URL,
+          new PostSubmitTurnRoute(gameCenter, playerLobby, gson),
+          gson::toJson);
 
-    post(CHECK_TURN_URL,
-        new PostCheckTurnRoute(gameCenter, playerLobby, gson),
-        gson::toJson);
+      post(CHECK_TURN_URL,
+          new PostCheckTurnRoute(gameCenter, playerLobby, gson),
+          gson::toJson);
+    }
 
     get("*",
         new GetHomeRoute(gameCenter, playerLobby, templateEngine));

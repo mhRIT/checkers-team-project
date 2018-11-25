@@ -3,7 +3,7 @@ package com.webcheckers.ui.AjaxRoutes;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 
-import com.webcheckers.ui.RouteTest;
+import com.webcheckers.ui.HtmlRoutes.HtmlRouteTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 
@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Tag;
  * @author <a href='mailto:axf5592@rit.edu'>Andrew Festa</a>
  */
 @Tag("UI-tier")
-class PostValidateMoveRouteTest extends RouteTest {
+class PostValidateMoveRouteTest extends HtmlRouteTest {
   @BeforeEach
   protected void setUp() {
     super.setUp();

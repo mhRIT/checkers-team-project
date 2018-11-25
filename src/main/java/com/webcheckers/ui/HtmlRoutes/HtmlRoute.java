@@ -1,40 +1,46 @@
-package com.webcheckers.ui.AjaxRoutes;
+package com.webcheckers.ui.HtmlRoutes;
 
-import com.google.gson.Gson;
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
 import java.util.Objects;
+import java.util.logging.Logger;
 import spark.Request;
 import spark.Response;
 import spark.Route;
+import spark.TemplateEngine;
 
 /**
- * Abstract class for AjaxRoutes.
+ * Abstract class for HtmlRoutes.
  *
- *  @author <a href='mailto:sjk7867@rit.edu'>Simon Kirkwood</a>
+ *  @author <a href='mailto:axf5592@rit.edu'>Andrew Festa</a>
  */
-public abstract class AjaxRoute implements Route {
+public abstract class HtmlRoute implements Route {
+  //
+  // Attributes
+  //
   final GameCenter gameCenter;
   final PlayerLobby playerLobby;
-  final Gson gson;
+  final TemplateEngine templateEngine;
+  final Logger LOG = Logger.getLogger(this.getClass().getName());
 
   /**
-   * Create the Spark Route (UI controller) for the AJAX request.
+   * Create the Spark Route (UI controller) for the HTTP request.
    *
    * @param gameCenter  the {@link GameCenter} for tracking all ongoing games
    * @param playerLobby the default {@link PlayerLobby} for tracking all players
-   * @param gson The default {@link Gson} parser for handling Ajax responses
+   * @param templateEngine the {@link TemplateEngine} used for rendering page HTML.
    * @throws NullPointerException when the {@code gameCenter}, {@code playerLobby}, or {@code
    * templateEngine} parameter is null
    */
-  public AjaxRoute(GameCenter gameCenter, PlayerLobby playerLobby, Gson gson) throws NullPointerException {
-    Objects.requireNonNull(gameCenter, "gameCenter must not be null");
+  public HtmlRoute(GameCenter gameCenter, PlayerLobby playerLobby, final TemplateEngine templateEngine)
+      throws NullPointerException {
     Objects.requireNonNull(playerLobby, "playerLobby must not be null");
-    Objects.requireNonNull(gson, "gson must not be null");
+    Objects.requireNonNull(gameCenter, "gameCenter must not be null");
+    Objects.requireNonNull(templateEngine, "templateEngine must not be null");
 
     this.playerLobby = playerLobby;
     this.gameCenter = gameCenter;
-    this.gson = gson;
+    this.templateEngine = templateEngine;
   }
 
   /**

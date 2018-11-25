@@ -11,9 +11,6 @@ import com.webcheckers.model.Player.Player;
 import com.webcheckers.ui.WebServer;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
@@ -30,12 +27,10 @@ import spark.TemplateEngine;
  *  @author <a href='mailto:mvm7902@rit.edu'>Matthew Milone</a>
  *  @author <a href='mailto:axf5592@rit.edu'>Andrew Festa</a>
  */
-public class PostSelectOpponentRoute implements Route {
-
+public class PostSelectOpponentRoute extends HtmlRoute {
   //
   //Constants
   //
-
   public static final String TITLE_ATTR = "title";
   public static final String TITLE = "GameState!";
   public static final String OPP_PLAYER_NAME = "opponent";
@@ -44,52 +39,20 @@ public class PostSelectOpponentRoute implements Route {
   //
   // Enums
   //
-
-  public enum VIEW_MODE {PLAY, SPECTATOR, REPLAY;}
-
-  //
-  // Attributes
-  //
-
-  private final GameCenter gameCenter;
-  private final PlayerLobby playerLobby;
-  private final TemplateEngine templateEngine;
-  private static final Logger LOG = Logger.getLogger(PostSelectOpponentRoute.class.getName());
+  public enum VIEW_MODE {PLAY, SPECTATOR, REPLAY}
 
   /**
    * Create the Spark Route (UI controller) for the {@code POST /selectOpponent} HTTP request.
-   *
-   * @param gameCenter  the {@link GameCenter} for tracking all ongoing games
-   * @param playerLobby the {@link PlayerLobby} for tracking all signed in players
-   * @param templateEngine the {@link TemplateEngine} used for rendering page HTML.
-   * @throws NullPointerException when the {@code gameCenter}, {@code playerLobby}, or {@code
-   * templateEngine} parameter is null
+   * {@inheritDoc}
    */
-  public PostSelectOpponentRoute(final GameCenter gameCenter, final PlayerLobby playerLobby,
-      final TemplateEngine templateEngine) {
-    LOG.setLevel(Level.ALL);
-    // validation
-    Objects.requireNonNull(playerLobby, "playerLobby must not be null");
-    Objects.requireNonNull(gameCenter, "gameCenter must not be null");
-    Objects.requireNonNull(templateEngine, "templateEngine must not be null");
-
-    //
-    this.playerLobby = playerLobby;
-    this.gameCenter = gameCenter;
-    this.templateEngine = templateEngine;
-
-    //
-    LOG.config("PostSelectOpponentRoute is initialized.");
+  public PostSelectOpponentRoute(final GameCenter gameCenter, final PlayerLobby playerLobby, final TemplateEngine templateEngine) {
+    super(gameCenter, playerLobby, templateEngine);
   }
 
   /**
-   * {@inheritDoc}
    * Render the WebCheckers GameState page or the Home page, depending on whether
    * the selected opponent is already in a game or not.
-   *
-   * @param request the HTTP request
-   * @param response the HTTP response
-   * @return the rendered HTML for the game page
+   * {@inheritDoc}
    */
   @Override
   public Object handle(Request request, Response response) {
