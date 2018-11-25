@@ -38,9 +38,13 @@ public class PostSubmitTurnRoute extends AjaxRoute {
     GameContext game = gameCenter.getGame(currPlayer);
 
     if(game.isTurnOver() && game.proceed()){
-      return new Message("true", MESSAGE_TYPE.info);
+      return new Message("Your move has been submitted", MESSAGE_TYPE.info);
     } else {
-      return new Message("Your turn is not yet complete", MESSAGE_TYPE.error);
+      if (game.isGameOver()){
+        return new Message("Your opponent has resigned", MESSAGE_TYPE.info);
+      } else {
+        return new Message("Your turn is not yet complete", MESSAGE_TYPE.error);
+      }
     }
   }
 }
