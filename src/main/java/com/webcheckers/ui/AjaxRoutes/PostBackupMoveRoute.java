@@ -35,7 +35,11 @@ public class PostBackupMoveRoute extends AjaxRoute {
     if(game.revert()){
       return new Message("Move undone", MESSAGE_TYPE.info);
     } else {
-      return new Message("Could not undo move", MESSAGE_TYPE.error);
+      if (game.isGameOver()){
+        return new Message("Your opponent has resigned", MESSAGE_TYPE.info);
+      } else {
+        return new Message("Could not undo move", MESSAGE_TYPE.error);
+      }
     }
   }
 }

@@ -131,7 +131,7 @@ public class GameContext {
    * TODO
    */
   public boolean revert() {
-    if(!boardStack.empty()){
+    if(!boardStack.empty() && !isGameOver()){
       boardStack.pop();
       gameState = new WaitTurnState();
       return true;
