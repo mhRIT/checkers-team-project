@@ -1,18 +1,29 @@
 package com.webcheckers.model.Player;
 
+import com.webcheckers.model.Board;
 import com.webcheckers.model.GameState.GameContext;
 import com.webcheckers.model.Move;
+import com.webcheckers.model.Player.Heuristic.DefenseAgainstKingsHeuristic;
+import com.webcheckers.model.Player.Heuristic.DefenseHeuristic;
+import com.webcheckers.model.Player.Heuristic.DefenseOnSidesHeuristic;
 import com.webcheckers.model.Player.Heuristic.Heuristic;
+import com.webcheckers.model.Player.Heuristic.KingCountHeuristic;
+import com.webcheckers.model.Player.Heuristic.OffenseHeuristic;
+import com.webcheckers.model.Player.Heuristic.PieceCountHeuristic;
+import com.webcheckers.model.Player.Heuristic.PositionHeuristic;
 import java.beans.PropertyChangeEvent;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 public class MinMaxPlayer extends AiPlayer {
 
   //
   // Attributes
   //
-  private Map<Heuristic, Integer> heuristicCostMap;
+  private List<Heuristic> heuristicList;
   private int difficulty = 1;
 
   /**
@@ -22,23 +33,42 @@ public class MinMaxPlayer extends AiPlayer {
    */
   public MinMaxPlayer(String name, int idNum) {
     super(name, idNum);
-    heuristicCostMap = new HashMap<>();
+    heuristicList = new ArrayList<>();
+
+    heuristicList.add(new DefenseHeuristic());
+    heuristicList.add(new DefenseAgainstKingsHeuristic());
+    heuristicList.add(new DefenseOnSidesHeuristic());
+    heuristicList.add(new KingCountHeuristic());
+    heuristicList.add(new OffenseHeuristic());
+    heuristicList.add(new PieceCountHeuristic());
+    heuristicList.add(new PositionHeuristic());
   }
 
   public void setDifficulty(int difficultyLevel){
     this.difficulty = difficultyLevel;
   }
-  public int evaluateBoard(GameContext gameContext) {
-    return 0;
+  public int evaluateBoard(GameContext gameContext, Player player) {
+    int toReturn = 0;
+    for (Heuristic eachHeuristic: heuristicList) {
+      toReturn += eachHeuristic.calculate(gameContext, player);
+    }
+    return toReturn;
   }
 
   @Override
   public Move getNextMove(GameContext game) {
-    return null;
-  }
+    Board currentBoard = game.getCurrentBoard();
 
-  @Override
-  public void propertyChange(PropertyChangeEvent evt) {
-    System.out.printf("Property changed event raised: %s\n", this.getName());
+    List<Move> validJumpList = currentBoard.getAllJumpMoves(game.getActiveColor());
+    List<Move> validSimpleList = currentBoard.getAllSimpleMoves(game.getActiveColor());
+
+    Move nextMove;
+    if(!validJumpList.isEmpty()){
+      nextMove = validJumpList.get(0);
+    } else {
+      nextMove = validSimpleList.get(0);
+    }
+
+    return nextMove;
   }
 }

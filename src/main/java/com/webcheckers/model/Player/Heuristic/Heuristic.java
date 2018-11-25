@@ -6,10 +6,15 @@ import com.webcheckers.model.Player.Player;
 public abstract class Heuristic {
 
   private String name;
-  private double weight = 1;
+  private double weight;
 
-  public Heuristic(String id){
-    this.name = id;
+  public Heuristic(double weight){
+    this.name = this.getClass().getName();
+    this.weight = weight;
+  }
+
+  public Heuristic(){
+    this(1);
   }
 
   public String getName(){
@@ -20,7 +25,7 @@ public abstract class Heuristic {
     return weight;
   }
 
-  public abstract int calculate(GameContext game);
+  public abstract int calculate(GameContext game, Player player);
 
   /**
    * Builds a user-friendly string representation
