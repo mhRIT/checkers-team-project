@@ -1,12 +1,12 @@
 package com.webcheckers.model.Player.Heuristic;
 
-import com.webcheckers.model.GameState.GameContext;
-import com.webcheckers.model.Player.Player;
+import com.webcheckers.model.Board;
+import com.webcheckers.model.Board.COLOR;
 
 public abstract class Heuristic {
 
-  private String name;
-  private double weight;
+  String name;
+  double weight;
 
   public Heuristic(double weight){
     this.name = this.getClass().getName();
@@ -25,7 +25,7 @@ public abstract class Heuristic {
     return weight;
   }
 
-  public abstract int calculate(GameContext game, Player player);
+  public abstract double calculate(Board board, COLOR color);
 
   /**
    * Builds a user-friendly string representation

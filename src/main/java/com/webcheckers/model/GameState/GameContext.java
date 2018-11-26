@@ -40,14 +40,26 @@ public class GameContext {
     gameState.execute(this);
   }
 
+  /**
+   *
+   * @return
+   */
   public boolean proceed(){
     return gameState.execute(this);
   }
 
-  GameState getState(){
+  /**
+   *
+   * @return
+   */
+  GameState getState() {
     return gameState;
   }
 
+  /**
+   *
+   * @param state
+   */
   void setState(GameState state){
     gameState = state;
     stateChangedSupport.firePropertyChange(gameState.getState().toString(), getNonActivePlayer(), getActivePlayer());
@@ -71,6 +83,10 @@ public class GameContext {
     return whitePlayer;
   }
 
+  /**
+   *
+   * @return
+   */
   public Player getActivePlayer(){
     Player activePlayer = redPlayer;
     if(activeColor.equals(COLOR.WHITE)){
@@ -79,6 +95,10 @@ public class GameContext {
     return activePlayer;
   }
 
+  /**
+   *
+   * @return
+   */
   public Player getNonActivePlayer(){
     Player nonActivePlayer = redPlayer;
     if(activeColor.equals(COLOR.RED)){
@@ -87,6 +107,19 @@ public class GameContext {
     return nonActivePlayer;
   }
 
+  /**
+   *
+   * @return
+   */
+  public COLOR getPlayerColor(Player player){
+    COLOR toReturn = null;
+    if(player.equals(redPlayer)){
+      toReturn = COLOR.RED;
+    } else if(player.equals(whitePlayer)) {
+      toReturn = COLOR.WHITE;
+    }
+    return toReturn;
+  }
   /**
    * Retrieves the color of the player who is currently
    * making a move.
@@ -97,6 +130,10 @@ public class GameContext {
     return activeColor;
   }
 
+  /**
+   *
+   * @return
+   */
   public COLOR getNonActiveColor() {
     COLOR nonActiveColor = COLOR.RED;
     if(activeColor.equals(COLOR.RED)){
@@ -104,6 +141,7 @@ public class GameContext {
     }
     return nonActiveColor;
   }
+
 
   /**
    *

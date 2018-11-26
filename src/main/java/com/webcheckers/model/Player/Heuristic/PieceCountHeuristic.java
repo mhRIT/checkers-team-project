@@ -1,7 +1,7 @@
 package com.webcheckers.model.Player.Heuristic;
 
-import com.webcheckers.model.GameState.GameContext;
-import com.webcheckers.model.Player.Player;
+import com.webcheckers.model.Board;
+import com.webcheckers.model.Board.COLOR;
 
 public class PieceCountHeuristic extends Heuristic {
 
@@ -10,7 +10,9 @@ public class PieceCountHeuristic extends Heuristic {
   }
 
   @Override
-  public int calculate(GameContext game, Player player) {
-    return 0;
+  public double calculate(Board board, COLOR color) {
+    int numPlusPieces = board.getNumSinglePieces(color);
+    int numNegPieces = board.getNumSinglePieces() - board.getNumSinglePieces(color);
+    return (numPlusPieces-numNegPieces)*weight;
   }
 }
