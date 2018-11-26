@@ -6,7 +6,7 @@ import static org.mockito.Mockito.when;
 
 import com.webcheckers.model.GameState.GameContext;
 import com.webcheckers.model.Player.Player;
-import com.webcheckers.ui.RouteTest;
+import com.webcheckers.ui.HtmlRoutes.HtmlRouteTest;
 import com.webcheckers.ui.TemplateEngineTester;
 import com.webcheckers.ui.boardView.Message;
 import com.webcheckers.ui.boardView.Message.MESSAGE_TYPE;
@@ -21,7 +21,7 @@ import spark.ModelAndView;
  * @author <a href='mailto:mlh1964@rit.edu'>Meaghan Hoitt</a>
  */
 @Tag("UI-tier")
-class PostResignGameRouteTest extends RouteTest {
+class PostResignGameRouteTest extends HtmlRouteTest {
 
     /**
      * Setup new mock objects for each test.

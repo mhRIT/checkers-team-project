@@ -2,7 +2,6 @@ package com.webcheckers.model;
 
 import com.webcheckers.model.Move.MOVE_TYPE;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -42,6 +41,9 @@ public class Board implements Cloneable {
       this.value = i;
     }
 
+    public int getValue(){
+      return value;
+    }
     /**
      * TODO
      * @param toCompare
@@ -79,7 +81,7 @@ public class Board implements Cloneable {
      * TODO
      * @return
      */
-    boolean isRed(){
+    public boolean isRed(){
       return value > 0;
     }
 
@@ -87,7 +89,7 @@ public class Board implements Cloneable {
      * TODO
      * @return
      */
-    boolean isWhite(){
+    public boolean isWhite(){
       return value < 0;
     }
 
@@ -153,11 +155,11 @@ public class Board implements Cloneable {
    *
    */
   public void initStart() {
-    pieceLocations = 0b1111_1111_1111_0000_0000_1111_1111_1111;
-    pieceColors = 0b0000_0000_0000_0000_0000_1111_1111_1111;
-    pieceTypes = 0b0000_0000_0000_0000_0000_0000_0000_0000;
-//    pieceLocations =  0b0000_0101_1100_0100_0010_1001_0010_0000;
-//    pieceColors =     0b0000_0000_0000_0000_0010_1001_0010_0000;
+    pieceLocations =  0b1111_1111_1111_0000_0000_1111_1111_1111;
+    pieceColors =     0b0000_0000_0000_0000_0000_1111_1111_1111;
+    pieceTypes =      0b0000_0000_0000_0000_0000_0000_0000_0000;
+//    pieceLocations =  0b0000_0100_0000_0110_0010_0100_0000_0000;
+//    pieceColors =     0b0000_0000_0000_0000_0010_0100_0000_0000;
 //    pieceTypes =      0b0000_0000_0000_0000_0000_0000_0000_0000;
   }
 
@@ -371,14 +373,18 @@ public class Board implements Cloneable {
    *
    * @param   x x coordinate on the cartesian board
    * @param   y y coordinate on the cartesian board
-   * @return    the piece that was removed
+   * @return  true if a piece was successfully removed
    */
-  public SPACE_TYPE removePiece(int x, int y){
+  public boolean removePiece(int x, int y){
     SPACE_TYPE remPiece = getPieceAtLocation(x, y);
     int bitIdx = cartesianToIndex(x, y);
-    int bitMask = 1 << bitIdx;
-    pieceLocations &= ~bitMask;
-    return remPiece;
+    if(bitIdx != -1){
+      int bitMask = 1 << bitIdx;
+      pieceLocations &= ~bitMask;
+      return true;
+    } else {
+      return false;
+    }
   }
 
   /**
@@ -398,13 +404,20 @@ public class Board implements Cloneable {
    * @param move
    * @return
    */
-  public boolean movePiece(Move move){
+  public boolean makeMove(Move move){
     Position start = move.getStart();
     Position end = move.getEnd();
+    Position mid = new Position((start.getCell() + end.getCell()) / 2, (start.getRow() + end.getRow()) / 2);
 
     SPACE_TYPE pieceAtStart = getPieceAtLocation(start.getCell(), start.getRow());
-    return placePiece(end.getCell(), end.getRow(), pieceAtStart)
-        && removePiece(start.getCell(), start.getRow()) == pieceAtStart;
+    boolean piecePlaced = placePiece(end.getCell(), end.getRow(), pieceAtStart);
+    boolean pieceRemoved = removePiece(start.getCell(), start.getRow());
+    boolean jumped = true;
+    if(move.isJump()){
+      jumped = removePiece(mid.getCell(), mid.getRow());
+    }
+
+    return piecePlaced && pieceRemoved && jumped;
   }
 
   /**
@@ -484,7 +497,7 @@ public class Board implements Cloneable {
    * @return
    */
   private boolean validateSimpleMove(Move move){
-    if(!move.getType().equals(MOVE_TYPE.SIMPLE)){
+    if(move.isJump()){
       return false;
     }
 
@@ -565,7 +578,7 @@ public class Board implements Cloneable {
    * @return
    */
   private boolean validateJumpMove(Move move){
-    if(!move.getType().equals(MOVE_TYPE.JUMP)){
+    if(!move.isJump()){
       return false;
     }
 
@@ -614,11 +627,54 @@ public class Board implements Cloneable {
    * @return
    */
   public int getNumPieces(COLOR color){
-    int toReturn = getNumRedPieces();
+    return getNumSinglePieces(color) + getNumKingPieces(color);
+  }
+
+  /**
+   *
+   * @return
+   */
+  public int getNumPieces(){
+    return Integer.bitCount(pieceLocations & ~pieceTypes);
+  }
+
+  /**
+   *
+   * @param color
+   * @return
+   */
+  public int getNumSinglePieces(COLOR color){
+    int toReturn = getNumSingleRedPieces();
     if(color.equals(COLOR.WHITE)){
-      toReturn = getNumWhitePieces();
+      toReturn = getNumSingleWhitePieces();
     }
     return toReturn;
+  }
+
+  /**
+   * Retrieves the total number of pieces currently on the board.
+   *
+   * @return  the number of pieces on the board
+   */
+  public int getNumSinglePieces(){
+    return Integer.bitCount(pieceLocations & ~pieceTypes);
+  }
+
+  public int getNumKingPieces(COLOR color){
+    int toReturn = getNumKingRedPieces();
+    if(color.equals(COLOR.WHITE)){
+      toReturn = getNumKingWhitePieces();
+    }
+    return toReturn;
+  }
+
+  /**
+   * Retrieves the total number of king currently on the board.
+   *
+   * @return  the number of pieces on the board
+   */
+  public int getNumKings(){
+    return Integer.bitCount(pieceLocations & pieceTypes);
   }
 
   /**
@@ -631,13 +687,21 @@ public class Board implements Cloneable {
   }
 
   /**
-   * Retrieves the number of red pieces currently on the board.
+   * Retrieves the number of single red pieces currently on the board.
    *
    * @return  the number of red pieces on the board
    */
-  int getNumRedPieces(){
-    int redLocs = getRedLocations();
-    return Integer.bitCount(redLocs);
+  int getNumSingleRedPieces(){
+    return Integer.bitCount(getRedLocations() & ~pieceTypes);
+  }
+
+  /**
+   * Retrieves the number of single red pieces currently on the board.
+   *
+   * @return  the number of red pieces on the board
+   */
+  int getNumKingRedPieces(){
+    return Integer.bitCount(getRedLocations() & pieceTypes);
   }
 
   /**
@@ -654,19 +718,18 @@ public class Board implements Cloneable {
    *
    * @return  the number of white pieces on the board
    */
-  int getNumWhitePieces(){
-    return Integer.bitCount(getWhiteLocations());
+  int getNumSingleWhitePieces(){
+    return Integer.bitCount(getWhiteLocations() & ~pieceTypes);
   }
 
-//  /**
-//   * Retrieves the total number of pieces currently placed
-//   * on the board.
-//   *
-//   * @return  the number of pieces on the board
-//   */
-//  int getNumPieces(){
-//    return Integer.bitCount(pieceLocations);
-//  }
+  /**
+   * Retrieves the number of single red pieces currently on the board.
+   *
+   * @return  the number of red pieces on the board
+   */
+  int getNumKingWhitePieces(){
+    return Integer.bitCount(getWhiteLocations() & pieceTypes);
+  }
 
   /**
    * TODO

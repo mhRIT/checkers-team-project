@@ -24,12 +24,18 @@ import spark.Session;
  */
 public class PostSubmitTurnRoute extends AjaxRoute {
 
-  private static final Logger LOG = Logger.getLogger(PostSubmitTurnRoute.class.getName());
-
+  /**
+   * Create the Spark Route (UI controller) for the {@code POST /submitTurn} HTTP request.
+   * {@inheritDoc}
+   */
   public PostSubmitTurnRoute(GameCenter gameCenter, PlayerLobby playerLobby, Gson gson) {
     super(gameCenter, playerLobby, gson);
   }
 
+  /**
+   * Render the WebCheckers Game page.
+   * {@inheritDoc}
+   */
   public Object handle(Request request, Response response) {
     final Session session = request.session();
     String currPlayerName = session.attribute(PLAYER);

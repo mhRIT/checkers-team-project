@@ -39,9 +39,13 @@ public class Move {
     }
   }
 
-  public MOVE_TYPE getType(){
-    return type;
+  public boolean isJump(){
+    return type.equals(MOVE_TYPE.JUMP);
   }
+
+//  public MOVE_TYPE getType(){
+//    return type;
+//  }
 
   @Override
   public String toString() {

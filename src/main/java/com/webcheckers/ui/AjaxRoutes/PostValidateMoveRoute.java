@@ -25,30 +25,18 @@ import spark.Session;
  *  @author <a href='mailto:axf5592@rit.edu'>Andrew Festa</a>
  */
 public class PostValidateMoveRoute extends AjaxRoute {
-  //
-  // Attributes
-  //
-  private static final Logger LOG = Logger.getLogger(PostValidateMoveRoute.class.getName());
 
   /**
    * Create the Spark Route (UI controller) for the {@code POST /validateMove} HTTP request.
-   *
-   * @param gameCenter  the {@link GameCenter} for tracking all ongoing games
-   * @param playerLobby
-   * @throws NullPointerException when the {@code gameCenter}, {@code playerLobby}, or {@code
-   * templateEngine} parameter is null
+   * {@inheritDoc}
    */
   public PostValidateMoveRoute(GameCenter gameCenter, PlayerLobby playerLobby, Gson gson) {
     super(gameCenter, playerLobby, gson);
   }
 
   /**
+   * Render the WebCheckers Game page.
    * {@inheritDoc}
-   * Render the WebCheckers GameState page.
-   *
-   * @param request the HTTP request
-   * @param response the HTTP response
-   * @return JSON response of whether the move is valid
    */
   @Override
   public Object handle(Request request, Response response) {

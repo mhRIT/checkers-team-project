@@ -12,13 +12,9 @@ import com.webcheckers.ui.WebServer;
 import com.webcheckers.ui.boardView.BoardView;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
-import spark.Route;
 import spark.Session;
 import spark.TemplateEngine;
 
@@ -32,52 +28,26 @@ import spark.TemplateEngine;
  *  @author <a href='mailto:mvm7902@rit.edu'>Matthew Milone</a>
  *  @author <a href='mailto:axf5592@rit.edu'>Andrew Festa</a>
  */
-public class GetGameRoute implements Route {
+public class GetGameRoute extends HtmlRoute {
   //
   // Constants
   //
   public static final String TITLE_ATTR = "title";
   public static final String TITLE = "GameState!";
   public static final String VIEW_NAME = "game.ftl";
-  public static final String GAME_ID = "gameId";
-
-  //
-  // Attributes
-  //
-  private final GameCenter gameCenter;
-  private final PlayerLobby playerLobby;
-  private final TemplateEngine templateEngine;
-  private static final Logger LOG = Logger.getLogger(GetGameRoute.class.getName());
 
   /**
-   * Create the Spark Route (UI controller) for the {@code GET /game} HTTP request.
-   *
-   * @param gameCenter  the {@link GameCenter} for tracking all ongoing games
-   * @param templateEngine the {@link TemplateEngine} used for rendering page HTML.
-   * @throws NullPointerException when the {@code gameCenter}, {@code playerLobby}, or {@code
-   * templateEngine} parameter is null
+   * Create the Spark Route (UI controller) for the {@code POST /signin} HTTP request.
+   * {@inheritDoc}
    */
-  public GetGameRoute(final GameCenter gameCenter,
-      final PlayerLobby playerLobby,
-      final TemplateEngine templateEngine) {
-    LOG.setLevel(Level.ALL);
-    // validation
-    Objects.requireNonNull(gameCenter, "gameCenter must not be null");
-    Objects.requireNonNull(playerLobby, "playerLobby must not be null");
-    Objects.requireNonNull(templateEngine, "templateEngine must not be null");
-
-    this.gameCenter = gameCenter;
-    this.playerLobby = playerLobby;
-    this.templateEngine = templateEngine;
+  public GetGameRoute(final GameCenter gameCenter, final PlayerLobby playerLobby, final TemplateEngine templateEngine) {
+    super(gameCenter, playerLobby, templateEngine);
   }
 
   /**
-   * {@inheritDoc}
    * Render the WebCheckers GameState page.
+   * {@inheritDoc}
    *
-   * @param request the HTTP request
-   * @param response the HTTP response
-   * @return the rendered HTML for the GameState page
    */
   @Override
   public Object handle(Request request, Response response) {
@@ -91,10 +61,6 @@ public class GetGameRoute implements Route {
       halt();
       return "nothing";
     }
-
-    LOG.finer(String.format("GetGameRoute is invoked: %s -> %s",
-        currPlayer.getName(),
-        game.toString()));
 
     if(game.isGameOver()){
       response.redirect(WebServer.HOME_URL);

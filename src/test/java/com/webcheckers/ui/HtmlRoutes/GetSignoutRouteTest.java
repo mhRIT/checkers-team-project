@@ -21,7 +21,7 @@ import spark.*;
  * @author <a href='mailto:axf5592@rit.edu'>Andrew Festa</a>
  */
 @Tag("UI-tier")
-class GetSignoutRouteTest {
+class GetSignoutRouteTest extends HtmlRouteTest {
 
   private static final String PLAYER_NAME = "testName";
 
@@ -37,7 +37,7 @@ class GetSignoutRouteTest {
   private GetSignoutRoute cut;
 
   @BeforeEach
-  void setUp() {
+  protected void setUp() {
     session = mock(Session.class);
     request = mock(Request.class);
     when(request.session()).thenReturn(session);
@@ -47,7 +47,7 @@ class GetSignoutRouteTest {
     gameCenter = new GameCenter();
     playerLobby = new PlayerLobby();
 
-    cut = new GetSignoutRoute(playerLobby, gameCenter, templateEngine);
+    cut = new GetSignoutRoute(gameCenter, playerLobby, templateEngine);
   }
 
   /**

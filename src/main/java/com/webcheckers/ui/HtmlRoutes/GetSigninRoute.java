@@ -1,5 +1,7 @@
 package com.webcheckers.ui.HtmlRoutes;
 
+import com.webcheckers.application.GameCenter;
+import com.webcheckers.application.PlayerLobby;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -20,7 +22,7 @@ import spark.TemplateEngine;
  *  @author <a href='mailto:mvm7902@rit.edu'>Matthew Milone</a>
  *  @author <a href='mailto:axf5592@rit.edu'>Andrew Festa</a>
  */
-public class GetSigninRoute implements Route {
+public class GetSigninRoute extends HtmlRoute {
   //
   // Constants
   //
@@ -28,27 +30,13 @@ public class GetSigninRoute implements Route {
   static final String TITLE = "Sign-in";
   static final String VIEW_NAME = "signin.ftl";
 
-  //
-  // Attributes
-  //
-  private final TemplateEngine templateEngine;
-  private static final Logger LOG = Logger.getLogger(GetSigninRoute.class.getName());
-
   /**
    * Create the Spark Route (UI controller) for the {@code GET /signin} HTTP request.
+   * {@inheritDoc}
    *
-   * @param templateEngine the {@link TemplateEngine} used for rendering page HTML.
-   * @throws NullPointerException when the {@code gameCenter}, {@code playerLobby}, or {@code
-   * templateEngine} parameter is null
    */
-  public GetSigninRoute(final TemplateEngine templateEngine) {
-    LOG.setLevel(Level.ALL);
-    // validation
-    Objects.requireNonNull(templateEngine, "templateEngine must not be null");
-    //
-    this.templateEngine = templateEngine;
-    //
-    LOG.config("GetSigninRoute is initialized.");
+  public GetSigninRoute(final GameCenter gameCenter, final PlayerLobby playerLobby, final TemplateEngine templateEngine) {
+    super(gameCenter, playerLobby, templateEngine);
   }
 
   /**
@@ -61,9 +49,6 @@ public class GetSigninRoute implements Route {
    */
   @Override
   public Object handle(Request request, Response response) {
-    LOG.finer("GetSigninRoute is invoked");
-
-    //start building the View-model
     final Map<String, Object> vm = new HashMap<>();
     vm.put(TITLE_ATTR, TITLE);
 

@@ -7,10 +7,8 @@ import java.util.List;
 
 /**
  *  {@code GameCenter}
- *  <p>
  *  Stores a collection of Games across all current sessions and provides various
  *  methods for interacting with the current Games.
- *  </p>
  *
  *  @author <a href='mailto:mlh1964@rit.edu'>Meaghan Hoitt</a>
  *  @author <a href='mailto:sjk7867@rit.edu'>Simon Kirwkwood</a>
@@ -90,8 +88,6 @@ public class GameCenter {
   }
 
   /**
-   * TODO use player ids to get games rather than names
-   *
    * Retrieves a list of games currently being played by the
    * specified player.
    *
@@ -111,6 +107,11 @@ public class GameCenter {
     return playerGameList;
   }
 
+  /**
+   *
+   * @param player
+   * @return
+   */
   public GameContext getGame(Player player){
     GameContext toReturn = null;
 

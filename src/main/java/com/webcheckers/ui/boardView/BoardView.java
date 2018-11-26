@@ -13,10 +13,8 @@ import java.util.List;
 
 /**
  *  {@code BoardView}
- *  <p>
  *  Represents the view of the board, as expected by the game.ftl
  *  Freemarker template.
- *  </p>
  *
  *  @author <a href='mailto:mlh1964@rit.edu'>Meaghan Hoitt</a>
  *  @author <a href='mailto:sjk7867@rit.edu'>Simon Kirwkwood</a>
@@ -27,7 +25,6 @@ public class BoardView implements Iterable {
   //
   // Attributes
   //
-
   private List<Row> rows;
 
   /**

@@ -20,31 +20,29 @@ import spark.template.freemarker.FreeMarkerEngine;
  * The entry point for the WebCheckers web application.
  *
  * @author <a href='mailto:bdbvse@rit.edu'>Bryan Basham</a>
- * @author <a href='mailto:axf5592@rit.edu'>Andrew Festa</a>
  */
 public final class Application {
-  public enum DEMO_STATE { START, MID, END, DEBUG, PRODUCTION;
-    /**
-     * TODO
-     *
-     * @param stateString
-     */
-    public static DEMO_STATE getState(String stateString) {
-      switch (stateString.toLowerCase()){
-        case "start":
-          return DEMO_STATE.START;
-        case "mid":
-          return DEMO_STATE.MID;
-        case "end":
-          return DEMO_STATE.END;
-        case "debug":
-          return DEMO_STATE.DEBUG;
-        case "production":
-        default:
-          return DEMO_STATE.PRODUCTION;
-      }
-    }
-  }
+//  public enum DEMO_STATE { START, MID, END, DEBUG, PRODUCTION;
+//    /**
+//     *
+//     * @param stateString
+//     */
+//    public static DEMO_STATE getState(String stateString) {
+//      switch (stateString.toLowerCase()){
+//        case "start":
+//          return DEMO_STATE.START;
+//        case "mid":
+//          return DEMO_STATE.MID;
+//        case "end":
+//          return DEMO_STATE.END;
+//        case "debug":
+//          return DEMO_STATE.DEBUG;
+//        case "production":
+//        default:
+//          return DEMO_STATE.PRODUCTION;
+//      }
+//    }
+//  }
 
   private static final Logger LOG = Logger.getLogger(Application.class.getName());
 
@@ -64,9 +62,9 @@ public final class Application {
    *    Command line arguments; none expected.
    */
   public static void main(String[] args) {
-    String demoStateString = System.getProperty("demoState", "false");
+//    String demoStateString = System.getProperty("demoState", "false");
 //    System.out.printf("Demo state: %s\n", demoStateString);
-    DEMO_STATE demoState = DEMO_STATE.getState(demoStateString);
+//    DEMO_STATE demoState = DEMO_STATE.getState(demoStateString);
 
     // initialize Logging
     try {
@@ -94,26 +92,26 @@ public final class Application {
     // create the one and only PlayerLobby
     final PlayerLobby playerLobby = new PlayerLobby();
 
-    switch (demoState){
-      case START:
-        playerLobby.signin("Player1");
-        playerLobby.signin("Player2");
-
-        Player player1 = playerLobby.getPlayer("Player1");
-        Player player2 = playerLobby.getPlayer("Player2");
-
-//        Game newGame = gameCenter.createGame(player1, player2);
-        GameContext newGame = gameCenter.createGame(player1, player2);
-//        newGame.initializeStart();
-      case MID:
-        break;
-      case END:
-        break;
-      case DEBUG:
-        break;
-      case PRODUCTION:
-        break;
-    }
+//    switch (demoState){
+//      case START:
+//        playerLobby.signin("Player1");
+//        playerLobby.signin("Player2");
+//
+//        Player player1 = playerLobby.getPlayer("Player1");
+//        Player player2 = playerLobby.getPlayer("Player2");
+//
+////        Game newGame = gameCenter.createGame(player1, player2);
+//        GameContext newGame = gameCenter.createGame(player1, player2);
+////        newGame.initializeStart();
+//      case MID:
+//        break;
+//      case END:
+//        break;
+//      case DEBUG:
+//        break;
+//      case PRODUCTION:
+//        break;
+//    }
 
     // inject the game center and freemarker engine into web server
     final WebServer webServer = new WebServer(templateEngine, gson, gameCenter, playerLobby);

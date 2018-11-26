@@ -26,7 +26,7 @@ import spark.TemplateEngine;
  *  @author <a href='mailto:mvm7902@rit.edu'>Matthew Milone</a>
  *  @author <a href='mailto:axf5592@rit.edu'>Andrew Festa</a>
  */
-public class GetSignoutRoute implements Route {
+public class GetSignoutRoute extends HtmlRoute {
   //
   // Constants
   //
@@ -34,44 +34,18 @@ public class GetSignoutRoute implements Route {
   static final String TITLE = "Home";
   static final String VIEW_NAME = "home.ftl";
 
-  //
-  // Attributes
-  //
-  private final TemplateEngine templateEngine;
-  private final PlayerLobby playerLobby;
-  private final GameCenter gameCenter;
-  private static final Logger LOG = Logger.getLogger(GetSignoutRoute.class.getName());
-
   /**
    * Create the Spark Route (UI controller) for the {@code GET /signout} HTTP request.
-   *
-   * @param playerLobby the {@link PlayerLobby} for tracking all signed in players
-   * @param gameCenter the {@link GameCenter} for tracking all ongoing games
-   * @param templateEngine the {@link TemplateEngine} used for rendering page HTML.
-   * @throws NullPointerException when the {@code gameCenter}, {@code playerLobby}, or {@code
-   * templateEngine} parameter is null
+   * {@inheritDoc}
    */
-  public GetSignoutRoute(final PlayerLobby playerLobby, final GameCenter gameCenter, final TemplateEngine templateEngine) {
-    LOG.setLevel(Level.ALL);
-    // validation
-    Objects.requireNonNull(playerLobby, "playerLobby must not be null");
-    Objects.requireNonNull(gameCenter, "gameCenter must not be null");
-    Objects.requireNonNull(templateEngine, "templateEngine must not be null");
-    //
-    this.playerLobby = playerLobby;
-    this.gameCenter = gameCenter;
-    this.templateEngine = templateEngine;
-    //
-    LOG.config("GetSignoutRoute is initialized.");
+  public GetSignoutRoute(final GameCenter gameCenter, final PlayerLobby playerLobby, final TemplateEngine templateEngine) {
+    super(gameCenter, playerLobby, templateEngine);
   }
 
   /**
-   * {@inheritDoc}
    * Render the WebCheckers Sign-out page.
+   * {@inheritDoc}
    *
-   * @param request the HTTP request
-   * @param response the HTTP response
-   * @return the rendered HTML for the Sign-in page
    */
   @Override
   public Object handle(Request request, Response response) {
@@ -80,13 +54,10 @@ public class GetSignoutRoute implements Route {
     Player currPlayer = playerLobby.getPlayer(currPlayerName);
 
     if(currPlayer == null){
-      LOG.finer("GetSignoutRoute is invoked with no stored player");
       response.redirect(WebServer.HOME_URL);
       halt();
       return "nothing";
     }
-
-    LOG.finer("GetSignoutRoute is invoked: " + currPlayer.getName());
 
     if (playerLobby.containsPlayers(currPlayer)) {
       gameCenter.resignAll(currPlayer);

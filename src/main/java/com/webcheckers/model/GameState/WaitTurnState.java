@@ -18,9 +18,9 @@ public class WaitTurnState extends GameState {
 
     Position startPos = playerMove.getStart();
     Position endPos = playerMove.getEnd();
-    Position midPos = new Position(
-        (startPos.getCell() + endPos.getCell()) / 2,
-        (startPos.getRow() + endPos.getRow()) / 2);
+//    Position midPos = new Position(
+//        (startPos.getCell() + endPos.getCell()) / 2,
+//        (startPos.getRow() + endPos.getRow()) / 2);
 
     List<Move> validJumpList = currentBoard.getAllJumpMoves(context.getActiveColor());
     List<Move> validSimpleList = currentBoard.getAllSimpleMoves(context.getActiveColor());
@@ -35,17 +35,13 @@ public class WaitTurnState extends GameState {
       try {
         Board nextBoard = (Board) currentBoard.clone();
         context.addNextBoard(nextBoard);
-
-        if(Math.abs(startPos.getRow() - endPos.getRow()) == 2){
-          nextBoard.removePiece(midPos.getCell(), midPos.getRow());
-        }
-        nextBoard.movePiece(playerMove);
+        nextBoard.makeMove(playerMove);
 
         validJumpList = nextBoard.getPieceJumpMoves(endPos.getCell(), endPos.getRow());
         if(validJumpList.isEmpty()){
           context.setState(new EndTurnState());
         } else {
-          if(Math.abs(startPos.getRow() - endPos.getRow()) == 1){
+          if(!playerMove.isJump()){
             context.setState(new EndTurnState());
           } else {
             context.setState(new WaitTurnState());

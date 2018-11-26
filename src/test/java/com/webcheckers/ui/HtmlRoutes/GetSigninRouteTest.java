@@ -4,7 +4,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import com.webcheckers.ui.HtmlRoutes.GetSigninRoute;
 import com.webcheckers.ui.TemplateEngineTester;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -18,7 +17,7 @@ import spark.*;
  * @author <a href='mailto:mlh1964@rit.edu'>Meaghan Hoitt</a>
  */
 @Tag("UI-tier")
-public class GetSigninRouteTest {
+public class GetSigninRouteTest extends HtmlRouteTest {
 
     /**
      * The component-under-test (CuT).
@@ -42,36 +41,14 @@ public class GetSigninRouteTest {
         engine = mock(TemplateEngine.class);
 
         // create a unique CuT for each test
-        CuT = new GetSigninRoute(engine);
-    }
-
-    /**
-     *  Test that you can construct a new Signin Route.
-     */
-    @Test
-    public void new_signin_route(){
-        new GetSigninRoute(engine);
-    }
-
-    /**
-     *  Test that the model exists in GetSigninRoute
-     */
-    @Test
-    public void test_view_model(){
-        final TemplateEngineTester testHelper = new TemplateEngineTester();
-        when(engine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
-
-        CuT.handle(request,response);
-
-        testHelper.assertViewModelExists();
-        testHelper.assertViewModelIsaMap();
+        CuT = new GetSigninRoute(gameCenter, playerLobby, engine);
     }
 
     /**
      *  Test that the model attributes exists in GetSigninRoute
      */
     @Test
-    public void test_view_attributes(){
+    public void testViewAttributes(){
         final TemplateEngineTester testHelper = new TemplateEngineTester();
         when(engine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
 
