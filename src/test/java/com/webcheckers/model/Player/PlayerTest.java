@@ -4,8 +4,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.webcheckers.model.GameState.GameContext;
+import com.webcheckers.model.Move;
+import com.webcheckers.model.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -20,13 +25,17 @@ class PlayerTest {
   //
   // Constants
   //
-  static final String TEST_NAME = "testName";
+  static final String PLAYER1_NAME = "testName";
+  static final String PLAYER2_NAME = "testName";
   private static final String NOT_TEST_NAME = "notTestName";
+  int PLAYER1_NONCE = 0;
+  int PLAYER2_NONCE = 1;
+  int GAME_NONCE = 0;
 
   //
   // Attributes
   //
-  int playerNonce = 0;
+  GameContext game;
 
   //
   // Components under test
@@ -38,7 +47,8 @@ class PlayerTest {
    */
   @BeforeEach
   void setUp() {
-    cut = new Player(TEST_NAME, playerNonce);
+    cut = new Player(PLAYER1_NAME, PLAYER1_NONCE);
+    game = new GameContext(cut, new Player(PLAYER2_NAME, PLAYER2_NONCE), GAME_NONCE);
   }
 
   /**
@@ -70,7 +80,22 @@ class PlayerTest {
    */
   @Test
   void testGetName() {
-    assertEquals(TEST_NAME, cut.getName());
+    assertEquals(PLAYER1_NAME, cut.getName());
+  }
+
+  @Test
+  void testPutNextMove(){
+    Move testMove = new Move(new Position(0,0), new Position(1,1));
+    cut.putNextMove(game, testMove);
+    Move nextMove = cut.getNextMove(game);
+    assertNotNull(nextMove);
+    assertEquals(testMove, nextMove);
+  }
+
+  @Test
+  void testGetNextMove(){
+    Move nextMove = cut.getNextMove(game);
+    assertNull(nextMove);
   }
 
   /**
@@ -78,8 +103,14 @@ class PlayerTest {
    */
   @Test
   void testEquals() {
-    assertEquals(new Player(TEST_NAME, playerNonce), cut);
-    assertNotEquals(NOT_TEST_NAME, cut);
+    boolean playersEqual = cut.equals(new Player(PLAYER1_NAME, PLAYER1_NONCE));
+    assertTrue(playersEqual);
+
+    playersEqual = cut.equals(new Player(PLAYER2_NAME, PLAYER2_NONCE));
+    assertFalse(playersEqual);
+
+    playersEqual = cut.equals(new Object());
+    assertFalse(playersEqual);
   }
 
   /**
@@ -87,7 +118,7 @@ class PlayerTest {
    */
   @Test
   void testHashCode() {
-    assertEquals(new Player(TEST_NAME, playerNonce).hashCode(), cut.hashCode());
+    assertEquals(new Player(PLAYER1_NAME, PLAYER1_NONCE).hashCode(), cut.hashCode());
     assertNotEquals(NOT_TEST_NAME.hashCode(), cut.hashCode());
   }
 }

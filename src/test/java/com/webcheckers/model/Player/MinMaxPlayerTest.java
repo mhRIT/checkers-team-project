@@ -1,13 +1,8 @@
 package com.webcheckers.model.Player;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import com.webcheckers.model.Board;
 import com.webcheckers.model.Board.COLOR;
-import com.webcheckers.model.GameState.GameOverState;
-import com.webcheckers.model.GameState.GameState.STATE;
-import com.webcheckers.model.GameState.WaitTurnState;
 import com.webcheckers.model.Move;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -19,45 +14,12 @@ class MinMaxPlayerTest extends AiPlayerTest{
   // Attributes
   //
   int diffLevel = 0;
-  Board board;
 
   @Override
   @BeforeEach
   void setUp(){
     super.setUp();
-    cut = new MinMaxPlayer(TEST_NAME, playerNonce, diffLevel);
-    board = new Board();
-    board.initStart();
-
-    when(evt.getPropertyName()).thenReturn(STATE.WAIT_TURN.toString());
-  }
-
-  @Override
-  void testCurrentPlayer() {
-  }
-
-  @Override
-  void testNotCurrentPlayer() {
-  }
-
-  @Override
-  void testWaitTurn() {
-    when(evt.getPropertyName()).thenReturn(STATE.WAIT_TURN.toString());
-  }
-
-  @Override
-  void testNotWaitTurn() {
-    when(evt.getPropertyName()).thenReturn(STATE.END_TURN.toString());
-  }
-
-  @Override
-  void testGameOver() {
-    gameSource.setState(new GameOverState());
-  }
-
-  @Override
-  void testGameNotOver() {
-    gameSource.setState(new WaitTurnState());
+    cut = new MinMaxPlayer(PLAYER2_NAME, PLAYER2_NONCE, diffLevel);
   }
 
   @Test
@@ -81,5 +43,12 @@ class MinMaxPlayerTest extends AiPlayerTest{
     } catch (CloneNotSupportedException e) {
       e.printStackTrace();
     }
+  }
+
+  @Override
+  @Test
+  void testGetNextMove(){
+    Move nextMove = cut.getNextMove(game);
+    assertNotNull(nextMove);
   }
 }

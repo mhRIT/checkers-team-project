@@ -16,7 +16,7 @@ public class WaitTurnState extends GameState {
     Move playerMove = currentPlayer.getNextMove(context);
     Board currentBoard = context.getCurrentBoard();
 
-    Position startPos = playerMove.getStart();
+//    Position startPos = playerMove.getStart();
     Position endPos = playerMove.getEnd();
 //    Position midPos = new Position(
 //        (startPos.getCell() + endPos.getCell()) / 2,
