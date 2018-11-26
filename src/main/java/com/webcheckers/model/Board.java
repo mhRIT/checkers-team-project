@@ -26,6 +26,10 @@ public class Board implements Cloneable {
    */
   public enum COLOR {RED, WHITE, NONE;
 
+    /**
+     *
+     * @return
+     */
     public COLOR opposite() {
       if(this.equals(COLOR.RED)){
         return WHITE;
@@ -623,6 +627,13 @@ public class Board implements Cloneable {
     return validStartIdx && validEndIdx && validMidIdx && validDirection;
   }
 
+  /**
+   *
+   * @param pos0
+   * @param pos1
+   * @param idx0Piece
+   * @return
+   */
   private boolean isValidDirection(Position pos0, Position pos1, SPACE_TYPE idx0Piece) {
     boolean validDirection = false;
     if(idx0Piece.isKing()){
@@ -717,6 +728,11 @@ public class Board implements Cloneable {
     return Integer.bitCount(pieceLocations & ~pieceTypes);
   }
 
+  /**
+   *
+   * @param color
+   * @return
+   */
   public int getNumKingPieces(COLOR color){
     int toReturn = getNumKingRedPieces();
     if(color.equals(COLOR.WHITE)){
@@ -795,7 +811,12 @@ public class Board implements Cloneable {
    * @throws CloneNotSupportedException
    */
   @Override
-  public Object clone() throws CloneNotSupportedException {
-    return super.clone();
+  public Object clone() {
+    try {
+      return super.clone();
+    } catch (CloneNotSupportedException e) {
+      e.printStackTrace();
+      return null;
+    }
   }
 }

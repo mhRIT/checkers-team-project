@@ -6,7 +6,6 @@ import com.webcheckers.model.Player.Player;
 import com.webcheckers.model.Player.RandomMovementPlayer;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -35,12 +34,14 @@ public class PlayerLobby {
     aiList = new ArrayList<>();
 
     AiPlayer randomPlayer = new RandomMovementPlayer("Easy AI", getPlayerNonce());
-    AiPlayer medMinMaxPlayer = new MinMaxPlayer("Medium AI", getPlayerNonce(), 1);
+    AiPlayer medMinMaxPlayer = new MinMaxPlayer("Medium AI", getPlayerNonce(), 0);
     AiPlayer hardMinMaxPlayer = new MinMaxPlayer("Hard AI", getPlayerNonce(), 3);
+    AiPlayer extMinMaxPlayer = new MinMaxPlayer("Extreme AI", getPlayerNonce(), 6);
 
     aiList.add(randomPlayer);
     aiList.add(medMinMaxPlayer);
     aiList.add(hardMinMaxPlayer);
+    aiList.add(extMinMaxPlayer);
   }
 
   /**

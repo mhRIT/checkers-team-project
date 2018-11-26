@@ -63,13 +63,7 @@ public class MinMaxPlayer extends AiPlayer {
   public Move getNextMove(GameContext game) {
     Board currentBoard = game.getCurrentBoard();
     Move nextMove;
-    try{
-      nextMove = maxCostMove(currentBoard,
-          game.getActiveColor(),
-          difficulty);
-    } catch (CloneNotSupportedException e) {
-      nextMove = null;
-    }
+    nextMove = maxCostMove(currentBoard, game.getActiveColor(), difficulty);
     return nextMove;
   }
 
@@ -80,22 +74,28 @@ public class MinMaxPlayer extends AiPlayer {
    * @param depth
    * @return
    */
-  Move minCostMove(Board board, COLOR color, int depth)
-      throws CloneNotSupportedException {
-    Move toReturn = new Move(new Position(0,0), new Position(1,1));
+  Move minCostMove(Board board, COLOR color, int depth) {
+    if(depth > 0 && !isTerminal(board)){
+      return maxCostMove(board, color.opposite(), depth-1);
+    }
 
-    if(depth > 0){
-      List<Move> validJumpList = board.getAllJumpMoves(color.opposite());
-      List<Move> validSimpleList = board.getAllSimpleMoves(color.opposite());
-      double minCost  = evaluateBoard(board, color.opposite());
+    List<Move> validJumpList = board.getAllJumpMoves(color);
+    List<Move> validSimpleList = board.getAllSimpleMoves(color);
 
-      if(!validJumpList.isEmpty()){
-        toReturn = validJumpList.get(0);
-      } else {
-        toReturn = validSimpleList.get(0);
+    List<Move> testMoves = validJumpList.isEmpty() ? validSimpleList : validJumpList;
+    Move toReturn = validJumpList.isEmpty() ? validSimpleList.get(0) : validJumpList.get(0);
+
+    Board currentBoard = (Board) board.clone();
+    currentBoard.makeMove(toReturn);
+    double minCost = evaluateBoard(currentBoard, color);
+
+    for (Move eachMove : testMoves) {
+      currentBoard.makeMove(eachMove);
+      double testCost = evaluateBoard(currentBoard, color);
+      if(testCost < minCost){
+        toReturn = eachMove;
+        minCost = testCost;
       }
-    } else {
-      return toReturn;
     }
     return toReturn;
   }
@@ -108,21 +108,24 @@ public class MinMaxPlayer extends AiPlayer {
    * @return
    * @throws CloneNotSupportedException
    */
-  Move maxCostMove(Board board, COLOR color, int depth)
-      throws CloneNotSupportedException {
+  Move maxCostMove(Board board, COLOR color, int depth) {
+    if(depth > 0 && !isTerminal(board)){
+      return minCostMove(board, color.opposite(), depth);
+    }
+
     List<Move> validJumpList = board.getAllJumpMoves(color);
     List<Move> validSimpleList = board.getAllSimpleMoves(color);
 
     List<Move> testMoves = validJumpList.isEmpty() ? validSimpleList : validJumpList;
     Move toReturn = validJumpList.isEmpty() ? validSimpleList.get(0) : validJumpList.get(0);
 
-    Board testBoard = (Board)board.clone();
-    testBoard.makeMove(toReturn);
-    double maxCost = evaluateBoard(testBoard, color);
+    Board currentBoard = (Board) board.clone();
+    currentBoard.makeMove(toReturn);
+    double maxCost = evaluateBoard(currentBoard, color);
 
     for (Move eachMove : testMoves) {
-      testBoard.makeMove(eachMove);
-      double testCost = evaluateBoard(testBoard, color);
+      currentBoard.makeMove(eachMove);
+      double testCost = evaluateBoard(currentBoard, color);
       if(testCost > maxCost){
         toReturn = eachMove;
         maxCost = testCost;
@@ -130,4 +133,37 @@ public class MinMaxPlayer extends AiPlayer {
     }
     return toReturn;
   }
+
+  private boolean isTerminal(Board board){
+    return isTerminal(board, COLOR.WHITE) && isTerminal(board, COLOR.RED);
+  }
+
+  private boolean isTerminal(Board board, COLOR color){
+    boolean toReturn = false;
+
+    List<Move> jumpList = board.getAllJumpMoves(color);
+    List<Move> simpleList = board.getAllSimpleMoves(color);
+    int numPieces = board.getNumPieces(color);
+    if(jumpList.isEmpty() && simpleList.isEmpty() && numPieces == 0){
+      toReturn = true;
+    }
+
+    return toReturn;
+  }
 }
+//
+//  function minimax(node, depth, maximizingPlayer) is
+//    if depth = 0 or node is a terminal node then
+//        return the heuristic value of node
+//        if maximizingPlayer then
+//        value := −∞
+//        for each child of node do
+//        value := max(value, minimax(child, depth − 1, FALSE))
+//        return value
+//        else (* minimizing player *)
+//        value := +∞
+//        for each child of node do
+//        value := min(value, minimax(child, depth − 1, TRUE))
+//        return value
+//        (* Initial call *)
+//        minimax(origin, depth, TRUE)

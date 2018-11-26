@@ -32,31 +32,25 @@ public class WaitTurnState extends GameState {
     }
 
     if(toReturn){
-      try {
-        Board nextBoard = (Board) currentBoard.clone();
-        context.addNextBoard(nextBoard);
-        nextBoard.makeMove(playerMove);
+      Board nextBoard = (Board) currentBoard.clone();
+      context.addNextBoard(nextBoard);
+      nextBoard.makeMove(playerMove);
 
-        validJumpList = nextBoard.getPieceJumpMoves(endPos.getCell(), endPos.getRow());
-        if(validJumpList.isEmpty()){
+      validJumpList = nextBoard.getPieceJumpMoves(endPos.getCell(), endPos.getRow());
+      if(validJumpList.isEmpty()){
+        context.setState(new EndTurnState());
+      } else {
+        if(!playerMove.isJump()){
           context.setState(new EndTurnState());
         } else {
-          if(!playerMove.isJump()){
-            context.setState(new EndTurnState());
-          } else {
-            context.setState(new WaitTurnState());
-          }
+          context.setState(new WaitTurnState());
         }
+      }
 
-        if(context.getActiveColor().equals(COLOR.RED) && endPos.getRow() == Board.BOARD_SIZE - 1){
-          nextBoard.promotePiece(endPos.getCell(), endPos.getRow());
-        } else if(context.getActiveColor().equals(COLOR.WHITE) && endPos.getRow() == 0) {
-          nextBoard.promotePiece(endPos.getCell(), endPos.getRow());
-        }
-
-      } catch (CloneNotSupportedException cnse) {
-        cnse.printStackTrace();
-        context.setState(new WaitTurnState());
+      if(context.getActiveColor().equals(COLOR.RED) && endPos.getRow() == Board.BOARD_SIZE - 1){
+        nextBoard.promotePiece(endPos.getCell(), endPos.getRow());
+      } else if(context.getActiveColor().equals(COLOR.WHITE) && endPos.getRow() == 0) {
+        nextBoard.promotePiece(endPos.getCell(), endPos.getRow());
       }
     } else {
       context.setState(new WaitTurnState());

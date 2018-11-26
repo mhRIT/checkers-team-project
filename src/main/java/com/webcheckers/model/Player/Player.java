@@ -83,7 +83,7 @@ public class Player implements PropertyChangeListener {
    * @param game
    * @return
    */
-  public Move getNextMove(GameContext game){
+  public Move getNextMove(GameContext game) {
     return pendingMoveMap.getOrDefault(game, null);
   }
 
