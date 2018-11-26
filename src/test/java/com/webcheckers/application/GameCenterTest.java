@@ -24,14 +24,15 @@ public class GameCenterTest {
   private Player player1;
   private Player player2;
   private Player player3;
+  int playerNonce = 0;
 
   private GameCenter CuT;
 
   @BeforeEach
   public void testSetup(){
-    player1 = new Player("p1");
-    player2 = new Player("p2");
-    player3 = new Player("p3");
+    player1 = new Player("p1", playerNonce++);
+    player2 = new Player("p2", playerNonce++);
+    player3 = new Player("p3", playerNonce++);
     CuT = new GameCenter();
   }
 

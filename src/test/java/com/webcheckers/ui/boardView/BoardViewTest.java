@@ -27,17 +27,19 @@ class BoardViewTest {
   private BoardView whiteCut;
 
   private GameContext game;
-  private Player redPlayer;
   private Player whitePlayer;
+  private Player redPlayer;
+  int gameNonce = 0;
+  int playerNonce = 0;
 
   /**
    * Setup new mock objects for each test.
    */
   @BeforeEach
   void setUp() {
-    redPlayer = new Player(TEST_RED_NAME);
-    whitePlayer = new Player(TEST_WHITE_NAME);
-    game = new GameContext(redPlayer, whitePlayer);
+    redPlayer = new Player(TEST_RED_NAME, playerNonce++);
+    whitePlayer = new Player(TEST_WHITE_NAME, playerNonce++);
+    game = new GameContext(redPlayer, whitePlayer, gameNonce++);
 
     redCut = new BoardView(game, redPlayer);
     whiteCut = new BoardView(game, whitePlayer);

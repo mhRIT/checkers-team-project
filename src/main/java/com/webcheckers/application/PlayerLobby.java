@@ -25,8 +25,7 @@ public class PlayerLobby {
   // Attributes
   //
   private HashMap<String, Player> playerList;
-  private HashMap<Player, Boolean> checkedOut;
-  private GameCenter gameCenter;
+  private int playerNonce = 0;
 
   /**
    * Constructs a new PlayerLobby to store signed-in players.
@@ -36,9 +35,14 @@ public class PlayerLobby {
    */
   public PlayerLobby(GameCenter gameCenter) {
     playerList = new HashMap<>();
-    checkedOut = new HashMap<>();
+  }
 
-    this.gameCenter = gameCenter;
+  /**
+   *
+   * @return
+   */
+  private int getPlayerNonce(){
+    return playerNonce++;
   }
 
   /**
@@ -51,7 +55,7 @@ public class PlayerLobby {
   public Player signin(String name) {
     name = name.trim();
     if (validateName(name)) {
-      Player newPlayer = new Player(name);
+      Player newPlayer = new Player(name, getPlayerNonce());
       playerList.put(name, newPlayer);
       return newPlayer;
     }
@@ -113,6 +117,7 @@ public class PlayerLobby {
   }
 
   /**
+   * TODO retrieve based on id, not on name
    * Retrieves a player given the username.
    *
    * @param   name  the username of the current player

@@ -13,12 +13,16 @@ import org.junit.jupiter.api.Test;
  */
 @Tag("Model-tier")
 class PlayerTest {
-
   //
   // Constants
   //
   private static final String TEST_NAME = "testName";
   private static final String NOT_TEST_NAME = "notTestName";
+
+  //
+  // Attributes
+  //
+  int playerNonce = 0;
 
   //
   // Components under test
@@ -30,7 +34,7 @@ class PlayerTest {
    */
   @BeforeEach
   void setUp() {
-    cut = new Player(TEST_NAME);
+    cut = new Player(TEST_NAME, playerNonce++);
   }
 
   /**
@@ -46,7 +50,7 @@ class PlayerTest {
    */
   @Test
   void testNullName() {
-    assertThrows(NullPointerException.class, () -> new Player(null));
+    assertThrows(NullPointerException.class, () -> new Player(null, 0));
   }
 
   /**
@@ -63,7 +67,7 @@ class PlayerTest {
    */
   @Test
   void testEquals() {
-    assertEquals(cut, new Player(TEST_NAME));
+    assertEquals(cut, new Player(TEST_NAME, playerNonce));
     assertNotEquals(cut, NOT_TEST_NAME);
   }
 
@@ -72,7 +76,7 @@ class PlayerTest {
    */
   @Test
   void testHashCode() {
-    assertEquals(cut.hashCode(), new Player(TEST_NAME).hashCode());
+    assertEquals(cut.hashCode(), new Player(TEST_NAME, playerNonce).hashCode());
     assertNotEquals(cut.hashCode(), NOT_TEST_NAME.hashCode());
   }
 }

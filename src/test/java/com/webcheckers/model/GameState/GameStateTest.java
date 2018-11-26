@@ -25,6 +25,8 @@ abstract class GameStateTest {
   GameContext gameContext;
   Player player1;
   Player player2;
+  int gameNonce = 0;
+  int playerNonce = 0;
 
   //
   // Components under test
@@ -33,9 +35,9 @@ abstract class GameStateTest {
 
   @BeforeEach
   void setUp() {
-    player1 = new Player(PLAYER1_NAME);
-    player2 = new Player(PLAYER2_NAME);
-    gameContext = new GameContext(player1, player2);
+    player1 = new Player(PLAYER1_NAME, playerNonce++);
+    player2 = new Player(PLAYER2_NAME, playerNonce++);
+    gameContext = new GameContext(player1, player2, gameNonce++);
   }
 
   @Test

@@ -4,7 +4,6 @@ import com.webcheckers.model.Board;
 import com.webcheckers.model.Board.COLOR;
 import com.webcheckers.model.GameState.GameState.STATE;
 import com.webcheckers.model.Player;
-import java.util.Date;
 import java.util.Stack;
 
 public class GameContext {
@@ -18,13 +17,12 @@ public class GameContext {
   private Player redPlayer;
   private COLOR activeColor;
   private Stack<Board> boardStack;
-  private String id;
+  private int id;
 
-  public GameContext(Player rPlayer, Player wPlayer) {
+  public GameContext(Player rPlayer, Player wPlayer, int idNum) {
     this.redPlayer = rPlayer;
     this.whitePlayer = wPlayer;
-    double randVal = Math.random()*10000;
-    id = String.format("%s:%s:%.2f", rPlayer.getName(), wPlayer.getName(), randVal);
+    id = idNum;
 
     this.boardStack = new Stack<>();
     activeColor = COLOR.RED;
@@ -133,7 +131,7 @@ public class GameContext {
    * TODO
    */
   public boolean revert() {
-    if(!boardStack.empty()){
+    if(!boardStack.empty() && !isGameOver()){
       boardStack.pop();
       gameState = new WaitTurnState();
       return true;
@@ -170,13 +168,20 @@ public class GameContext {
     return toReturn;
   }
 
-  public String getId(){
+  public int getId(){
     return id;
   }
 
+  /**
+   * Builds a user-friendly string representation
+   * for this game.
+   *
+   * @return  the string representation for this game
+   */
   @Override
   public String toString(){
-    return String.format("Red player: %s | White player: %s",
+    return String.format("%d | Red player: %s | White player: %s",
+        id,
         redPlayer.getName(),
         whitePlayer.getName());
   }
@@ -192,16 +197,17 @@ public class GameContext {
     if (obj == this) return true;
     if (! (obj instanceof GameContext)) return false;
     final GameContext that = (GameContext) obj;
-    return this.id.equals(that.getId());
+    return this.id == that.getId();
   }
 
   /**
-   * Generates a hashCode for the game, based on the id.
+   * Generates a hashCode for the game, based on the string
+   * representation for this game.
    *
    * @return  the hashCode
    */
   @Override
   public int hashCode() {
-    return id.hashCode();
+    return toString().hashCode();
   }
 }

@@ -105,7 +105,7 @@ public class PlayerLobbyTest {
 
   @Test
   public void testContainsFail(){
-    Player player1 = new Player(VALID_NAME);
+    Player player1 = new Player(VALID_NAME, 0);
     boolean containsPlayer = CuT.containsPlayers(player1);
     assertFalse(containsPlayer);
   }

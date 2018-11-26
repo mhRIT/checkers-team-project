@@ -35,6 +35,8 @@ public class GameContextTest {
   //
   private Player player1;
   private Player player2;
+  int playerNonce = 0;
+  int gameNonce = 0;
 
   //
   // Components under test
@@ -46,9 +48,9 @@ public class GameContextTest {
    */
   @BeforeEach
   public void setup(){
-    player1 = new Player(PLAYER1_NAME);
-    player2 = new Player(PLAYER2_NAME);
-    cut = new GameContext(player1, player2);
+    player1 = new Player(PLAYER1_NAME, playerNonce++);
+    player2 = new Player(PLAYER2_NAME, playerNonce++);
+    cut = new GameContext(player1, player2, gameNonce++);
   }
 
   @Test
@@ -161,7 +163,7 @@ public class GameContextTest {
 
   @Test
   public void testResignFail(){
-    Player notPlayer = new Player("notInGame");
+    Player notPlayer = new Player("notInGame", 0);
     boolean success = cut.resignPlayer(notPlayer);
     assertFalse(success);
   }
@@ -177,7 +179,7 @@ public class GameContextTest {
 
   @Test
   void testEquals(){
-    GameContext game2 = new GameContext(player1, player2);
+    GameContext game2 = new GameContext(player1, player2, 0);
     boolean posEqual = cut.equals(game2);
     assertFalse(posEqual);
 
@@ -190,8 +192,8 @@ public class GameContextTest {
 
   @Test
   void testHash(){
-    GameContext game2 = new GameContext(player1, player2);
-    GameContext game3 = new GameContext(player1, new Player("p3"));
+    GameContext game2 = new GameContext(player1, player2, playerNonce);
+    GameContext game3 = new GameContext(player1, new Player("p3", playerNonce), gameNonce);
 
     int hash0 = cut.hashCode();
     int hash2 = game2.hashCode();

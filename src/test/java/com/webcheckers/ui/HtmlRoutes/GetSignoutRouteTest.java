@@ -33,6 +33,7 @@ class GetSignoutRouteTest {
   private TemplateEngine templateEngine;
   private PlayerLobby playerLobby;
   private GameCenter gameCenter;
+  int playerNonce = 0;
 
   private GetSignoutRoute cut;
 
@@ -44,7 +45,7 @@ class GetSignoutRouteTest {
     response = mock(Response.class);
 
     templateEngine = mock(TemplateEngine.class);
-    gameCenter = mock(GameCenter.class);
+    gameCenter = new GameCenter();
     playerLobby = new PlayerLobby(gameCenter);
 
     cut = new GetSignoutRoute(playerLobby, gameCenter, templateEngine);
@@ -99,7 +100,7 @@ class GetSignoutRouteTest {
     when(templateEngine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
 
     // player is stored in session but not in playerLobby
-    when(session.attribute("player")).thenReturn(new Player(PLAYER_NAME));
+    when(session.attribute("player")).thenReturn(new Player(PLAYER_NAME, playerNonce++));
     assertThrows(HaltException.class,  () -> {
       cut.handle(request,response);
     });

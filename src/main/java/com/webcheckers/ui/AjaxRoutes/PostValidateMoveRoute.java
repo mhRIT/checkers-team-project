@@ -67,7 +67,11 @@ public class PostValidateMoveRoute extends AjaxRoute {
     if(!game.isTurnOver() && game.proceed()){
       return new Message("Valid move", MESSAGE_TYPE.info);
     } else {
-      return new Message("Invalid move", MESSAGE_TYPE.error);
+      if (game.isGameOver()){
+        return new Message("Your opponent has resigned", MESSAGE_TYPE.info);
+      } else {
+        return new Message("You are not allowed to make that move", MESSAGE_TYPE.error);
+      }
     }
   }
 }

@@ -51,6 +51,7 @@ public abstract class RouteTest {
   protected Gson gson;
   protected GameCenter gameCenter;
   protected TemplateEngine engine;
+  int playerNonce = 0;
 
   @BeforeEach
   protected void setUp() {
@@ -102,7 +103,7 @@ public abstract class RouteTest {
     final TemplateEngineTester testHelper = new TemplateEngineTester();
     when(engine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
 
-    when(session.attribute("player")).thenReturn(new Player(TEST_PLAYER_NAME));
+    when(session.attribute("player")).thenReturn(new Player(TEST_PLAYER_NAME, playerNonce++));
 
     CuT.handle(request,response);
 

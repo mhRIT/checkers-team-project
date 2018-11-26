@@ -1,9 +1,7 @@
 package com.webcheckers.model;
 
 import com.webcheckers.model.GameState.GameContext;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -20,11 +18,12 @@ import java.util.Objects;
  *
  */
 public class Player {
+
   //
   // Attributes
   //
-
   private String name;
+  private int id;
   private Map<GameContext, Move> pendingMoveMap;
 
   /**
@@ -32,10 +31,11 @@ public class Player {
    *
    * @param name  the name of this player
    */
-  public Player(String name) {
+  public Player(String name, int idNum) {
     Objects.requireNonNull(name, "name must not be null");
 
     this.name = name;
+    this.id = idNum;
     this.pendingMoveMap = new HashMap<>();
   }
 
@@ -48,12 +48,42 @@ public class Player {
     return name;
   }
 
+  /**
+   * Retrieves the id number for the current player.
+   *
+   * @return  the id of the player
+   */
+  public int getId() {
+    return id;
+  }
+
+  /**
+   * TODO
+   * @param game
+   * @param move
+   */
   public void addNextMove(GameContext game, Move move){
     pendingMoveMap.put(game, move);
   }
 
+  /**
+   * TODO
+   * @param game
+   * @return
+   */
   public Move getNextMove(GameContext game){
     return pendingMoveMap.getOrDefault(game, null);
+  }
+
+  /**
+   * Builds a user-friendly string representation
+   * for this player.
+   *
+   * @return  the string representation for this player
+   */
+  @Override
+  public String toString() {
+    return String.format("%d: %s", id, name);
   }
 
   /**
@@ -67,16 +97,17 @@ public class Player {
     if (obj == this) return true;
     if (! (obj instanceof Player)) return false;
     final Player that = (Player) obj;
-    return this.name.equals(that.name);
+    return this.id == that.getId();
   }
 
   /**
-   * Generates a hashCode for the player, based on the name.
+   * Generates a hashCode for the player, based on the string
+   * representation of this player.
    *
    * @return  the hashCode
    */
   @Override
   public int hashCode() {
-    return name.hashCode();
+    return toString().hashCode();
   }
 }
