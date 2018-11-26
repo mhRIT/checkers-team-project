@@ -377,14 +377,18 @@ public class Board implements Cloneable {
    */
   public boolean removePiece(int x, int y){
     SPACE_TYPE remPiece = getPieceAtLocation(x, y);
-    int bitIdx = cartesianToIndex(x, y);
-    if(bitIdx != -1){
-      int bitMask = 1 << bitIdx;
-      pieceLocations &= ~bitMask;
-      return true;
-    } else {
+    if(remPiece.isEmpty()){
       return false;
     }
+
+    int bitIdx = cartesianToIndex(x, y);
+    if(bitIdx == -1){
+      return false;
+    }
+
+    int bitMask = 1 << bitIdx;
+    pieceLocations &= ~bitMask;
+    return true;
   }
 
   /**

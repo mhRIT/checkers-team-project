@@ -154,10 +154,14 @@ class BoardTest {
       for(int xCoord = 0; xCoord < Board.BOARD_SIZE; xCoord++){
         SPACE_TYPE pieceAtLoc = cut.getPieceAtLocation(xCoord, yCoord);
         boolean pieceRemoved = cut.removePiece(xCoord, yCoord);
-        assertTrue(pieceRemoved);
+        if(pieceAtLoc.isEmpty()){
+          assertFalse(pieceRemoved, String.format("(%d, %d)", xCoord, yCoord));
+        } else {
+          assertTrue(pieceRemoved, String.format("(%d, %d)", xCoord, yCoord));
+        }
 
         pieceAtLoc = cut.getPieceAtLocation(xCoord, yCoord);
-        assertEquals(pieceAtLoc, SPACE_TYPE.EMPTY);
+        assertEquals(SPACE_TYPE.EMPTY, pieceAtLoc);
       }
     }
   }
