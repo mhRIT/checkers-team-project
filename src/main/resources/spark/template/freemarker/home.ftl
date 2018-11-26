@@ -4,6 +4,7 @@
     <meta http-equiv="refresh" content="10">
     <title>${title} | Web Checkers</title>
     <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/css/test.css">
 
     <style>
       .vertical-menu {
@@ -43,7 +44,32 @@
       </#if>
     </div>
 
+<#------------------------------------------------------------------------------------------------->
+    <button class="accordion" id="accSlider">Section 1</button>
+    <div class="panel">
+      <p>Set the number of starting pieces for each player:</p>
+      <div class="slidecontainer">
+        <input type="range" min="1" max="12" value="6" class="slider" id="redPieceSlider">
+        <p>Number of red pieces: </p>
+        <output id="redPieceOutput" ></output>
+        <br>
+        <br>
+        <input type="range" min="1" max="12" value="6" class="slider" id="whitePieceSlider">
+        <p>Number of white pieces: </p>
+        <output id="whitePieceOutput" ></output>
+      </div>
+    </div>
 
+    <button class="accordion" id="accCustom">Section 2</button>
+    <div class="panel">
+      <p>Lorem ipsum...</p>
+    </div>
+
+    <button class="accordion" id="accTable">Section 3</button>
+    <div class="panel">
+      <p>Lorem ipsum...</p>
+    </div>
+<#------------------------------------------------------------------------------------------------->
 
     <div class="body">
       <#if message??>
@@ -86,7 +112,9 @@
         </#if>
       </#if>
     </div>
-
   </div>
+
+  <script data-main="/js/game/index" src="/js/test.js"></script>
+
 </body>
 </html>
