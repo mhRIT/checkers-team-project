@@ -1,8 +1,11 @@
-package com.webcheckers.model;
+package com.webcheckers.model.Player;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import com.webcheckers.model.Player.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -17,7 +20,7 @@ class PlayerTest {
   //
   // Constants
   //
-  private static final String TEST_NAME = "testName";
+  static final String TEST_NAME = "testName";
   private static final String NOT_TEST_NAME = "notTestName";
 
   //
@@ -35,7 +38,7 @@ class PlayerTest {
    */
   @BeforeEach
   void setUp() {
-    cut = new Player(TEST_NAME, playerNonce++);
+    cut = new Player(TEST_NAME, playerNonce);
   }
 
   /**
@@ -55,12 +58,19 @@ class PlayerTest {
   }
 
   /**
+   * Tests if the current Player is an AI.
+   */
+  @Test
+  void testIsAi() {
+    assertFalse(cut.isAi());
+  }
+
+  /**
    * Tests the the name of the player is the one specified at construction.
    */
   @Test
   void testGetName() {
     assertEquals(TEST_NAME, cut.getName());
-    assertNotEquals(TEST_NAME, NOT_TEST_NAME);
   }
 
   /**
@@ -68,8 +78,8 @@ class PlayerTest {
    */
   @Test
   void testEquals() {
-    assertEquals(cut, new Player(TEST_NAME, playerNonce));
-    assertNotEquals(cut, NOT_TEST_NAME);
+    assertEquals(new Player(TEST_NAME, playerNonce), cut);
+    assertNotEquals(NOT_TEST_NAME, cut);
   }
 
   /**
@@ -77,7 +87,7 @@ class PlayerTest {
    */
   @Test
   void testHashCode() {
-    assertEquals(cut.hashCode(), new Player(TEST_NAME, playerNonce).hashCode());
-    assertNotEquals(cut.hashCode(), NOT_TEST_NAME.hashCode());
+    assertEquals(new Player(TEST_NAME, playerNonce).hashCode(), cut.hashCode());
+    assertNotEquals(NOT_TEST_NAME.hashCode(), cut.hashCode());
   }
 }

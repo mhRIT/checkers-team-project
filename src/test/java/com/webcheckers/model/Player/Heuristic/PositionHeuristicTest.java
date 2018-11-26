@@ -4,7 +4,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import com.webcheckers.model.Board.COLOR;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 
+@Tag("Model-tier")
 class PositionHeuristicTest extends HeuristicTest {
 
   @Override

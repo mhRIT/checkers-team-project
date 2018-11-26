@@ -49,8 +49,8 @@ class WaitTurnStateTest extends GameStateTest {
     player1.putNextMove(gameContext, legalMove);
 
     Board currentBoard = gameContext.getCurrentBoard();
-    currentBoard.movePiece(wMove0);
-    currentBoard.movePiece(wMove1);
+    currentBoard.makeMove(wMove0);
+    currentBoard.makeMove(wMove1);
     gameContext.addNextBoard(currentBoard);
 
     assertEquals(STATE.WAIT_TURN, cut.getState());

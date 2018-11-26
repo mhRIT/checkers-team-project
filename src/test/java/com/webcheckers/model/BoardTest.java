@@ -153,13 +153,11 @@ class BoardTest {
     for(int yCoord = 0; yCoord < Board.BOARD_SIZE; yCoord++){
       for(int xCoord = 0; xCoord < Board.BOARD_SIZE; xCoord++){
         SPACE_TYPE pieceAtLoc = cut.getPieceAtLocation(xCoord, yCoord);
-        SPACE_TYPE remPiece = cut.removePiece(xCoord, yCoord);
-        assertEquals(pieceAtLoc, remPiece,
-            String.format("(%d, %d): exp: %s, act: %s", xCoord, yCoord, pieceAtLoc, remPiece));
+        boolean pieceRemoved = cut.removePiece(xCoord, yCoord);
+        assertTrue(pieceRemoved);
 
         pieceAtLoc = cut.getPieceAtLocation(xCoord, yCoord);
-        assertEquals(pieceAtLoc, SPACE_TYPE.EMPTY,
-            String.format("(%d, %d): exp: %s, act: %s", xCoord, yCoord, pieceAtLoc, remPiece));
+        assertEquals(pieceAtLoc, SPACE_TYPE.EMPTY);
       }
     }
   }
@@ -202,7 +200,7 @@ class BoardTest {
     testMoves.add(new Move(new Position(6,2), new Position(7,3)));
 
     for(Move eachMove : testMoves){
-      boolean success = cut.movePiece(eachMove);
+      boolean success = cut.makeMove(eachMove);
       assertTrue(success);
     }
 
@@ -216,7 +214,7 @@ class BoardTest {
     testMoves.add(new Move(new Position(7,5), new Position(6,4)));
 
     for(Move eachMove : testMoves){
-      boolean success = cut.movePiece(eachMove);
+      boolean success = cut.makeMove(eachMove);
       assertTrue(success);
     }
 
@@ -262,7 +260,7 @@ class BoardTest {
     testMoves.add(new Move(new Position(7,5), new Position(6,4)));
 
     for(Move eachMove : testMoves){
-      boolean success = cut.movePiece(eachMove);
+      boolean success = cut.makeMove(eachMove);
       assertTrue(success);
     }
 
@@ -306,7 +304,7 @@ class BoardTest {
     testMoves.add(new Move(new Position(6,2), new Position(7,3)));
 
     for(Move eachMove : testMoves){
-      boolean success = cut.movePiece(eachMove);
+      boolean success = cut.makeMove(eachMove);
       assertTrue(success);
     }
   }

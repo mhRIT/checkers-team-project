@@ -39,19 +39,13 @@ public abstract class AiPlayer extends Player {
     String propName = evt.getPropertyName();
 
     if(currentPlayer.equals(this) && propName.equals(STATE.WAIT_TURN.toString()) && !gameSource.isGameOver()){
-//      System.out.printf("Start of my turn: %s\n", this.getName());
-//      System.out.printf("\tGame: %d\n", gameSource.getId());
 
       while(!gameSource.isTurnOver()){
         this.putNextMove(gameSource, getNextMove(gameSource));
-//        System.out.printf("\tMove: %s\n", this.getNextMove(gameSource));
         gameSource.proceed();
       }
       gameSource.proceed();
-//      System.out.printf("Finished my turn: %s\n", this.getName());
 
-    } else {
-//      System.out.printf("Not my turn: %s\n", this.getName());
     }
   }
 }

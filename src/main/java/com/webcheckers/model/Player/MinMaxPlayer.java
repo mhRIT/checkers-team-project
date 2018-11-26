@@ -53,8 +53,10 @@ public class MinMaxPlayer extends AiPlayer {
     int toReturn = 0;
 
     for (Heuristic eachHeuristic: heuristicList) {
-      toReturn += eachHeuristic.calculate(board, activeColor);
+      double eachCost = eachHeuristic.calculate(board, activeColor);
+      toReturn += eachCost;
     }
+
     return toReturn;
   }
 
@@ -86,7 +88,8 @@ public class MinMaxPlayer extends AiPlayer {
    * @param depth
    * @return
    */
-  private Move minCostMove(Board board, COLOR activeColor, COLOR opposingColor, int depth){
+  Move minCostMove(Board board, COLOR activeColor, COLOR opposingColor, int depth)
+      throws CloneNotSupportedException {
     Move toReturn = new Move(new Position(0,0), new Position(1,1));
 
     if(depth > 0){
@@ -105,7 +108,6 @@ public class MinMaxPlayer extends AiPlayer {
     return toReturn;
   }
 
-
   /**
    *
    * @param board
@@ -115,17 +117,21 @@ public class MinMaxPlayer extends AiPlayer {
    * @return
    * @throws CloneNotSupportedException
    */
-  private Move maxCostMove(Board board, COLOR color,  COLOR opposingColor, int depth)
+  Move maxCostMove(Board board, COLOR color,  COLOR opposingColor, int depth)
       throws CloneNotSupportedException {
-    Move toReturn = new Move(new Position(0,0), new Position(1,1));
-
     List<Move> validJumpList = board.getAllJumpMoves(color);
     List<Move> validSimpleList = board.getAllSimpleMoves(color);
-    double maxCost = 0;
-    for (Move eachMove : validJumpList.isEmpty() ? validSimpleList : validJumpList) {
-      double testCost = evaluateBoard(board, color);
-      Board testBoard = (Board)board.clone();
-      testBoard.movePiece(eachMove);
+
+    List<Move> testMoves = validJumpList.isEmpty() ? validSimpleList : validJumpList;
+    Move toReturn = validJumpList.isEmpty() ? validSimpleList.get(0) : validJumpList.get(0);
+
+    Board testBoard = (Board)board.clone();
+    testBoard.makeMove(toReturn);
+    double maxCost = evaluateBoard(testBoard, color);
+
+    for (Move eachMove : testMoves) {
+      testBoard.makeMove(eachMove);
+      double testCost = evaluateBoard(testBoard, color);
       if(testCost > maxCost){
         toReturn = eachMove;
         maxCost = testCost;

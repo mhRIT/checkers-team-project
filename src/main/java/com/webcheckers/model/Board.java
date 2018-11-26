@@ -155,11 +155,11 @@ public class Board implements Cloneable {
    *
    */
   public void initStart() {
-    pieceLocations = 0b1111_1111_1111_0000_0000_1111_1111_1111;
-    pieceColors = 0b0000_0000_0000_0000_0000_1111_1111_1111;
-    pieceTypes = 0b0000_0000_0000_0000_0000_0000_0000_0000;
-//    pieceLocations =  0b0000_0000_0000_0000_0000_0001_0000_0001;
-//    pieceColors =     0b0000_0000_0000_0000_0000_0000_0000_0001;
+    pieceLocations =  0b1111_1111_1111_0000_0000_1111_1111_1111;
+    pieceColors =     0b0000_0000_0000_0000_0000_1111_1111_1111;
+    pieceTypes =      0b0000_0000_0000_0000_0000_0000_0000_0000;
+//    pieceLocations =  0b0000_0100_0000_0110_0010_0100_0000_0000;
+//    pieceColors =     0b0000_0000_0000_0000_0010_0100_0000_0000;
 //    pieceTypes =      0b0000_0000_0000_0000_0000_0000_0000_0000;
   }
 
@@ -373,14 +373,18 @@ public class Board implements Cloneable {
    *
    * @param   x x coordinate on the cartesian board
    * @param   y y coordinate on the cartesian board
-   * @return    the piece that was removed
+   * @return  true if a piece was successfully removed
    */
-  public SPACE_TYPE removePiece(int x, int y){
+  public boolean removePiece(int x, int y){
     SPACE_TYPE remPiece = getPieceAtLocation(x, y);
     int bitIdx = cartesianToIndex(x, y);
-    int bitMask = 1 << bitIdx;
-    pieceLocations &= ~bitMask;
-    return remPiece;
+    if(bitIdx != -1){
+      int bitMask = 1 << bitIdx;
+      pieceLocations &= ~bitMask;
+      return true;
+    } else {
+      return false;
+    }
   }
 
   /**
@@ -400,13 +404,20 @@ public class Board implements Cloneable {
    * @param move
    * @return
    */
-  public boolean movePiece(Move move){
+  public boolean makeMove(Move move){
     Position start = move.getStart();
     Position end = move.getEnd();
+    Position mid = new Position((start.getCell() + end.getCell()) / 2, (start.getRow() + end.getRow()) / 2);
 
     SPACE_TYPE pieceAtStart = getPieceAtLocation(start.getCell(), start.getRow());
-    return placePiece(end.getCell(), end.getRow(), pieceAtStart)
-        && removePiece(start.getCell(), start.getRow()) == pieceAtStart;
+    boolean piecePlaced = placePiece(end.getCell(), end.getRow(), pieceAtStart);
+    boolean pieceRemoved = removePiece(start.getCell(), start.getRow());
+    boolean jumped = true;
+    if(move.isJump()){
+      jumped = removePiece(mid.getCell(), mid.getRow());
+    }
+
+    return piecePlaced && pieceRemoved && jumped;
   }
 
   /**
@@ -486,7 +497,7 @@ public class Board implements Cloneable {
    * @return
    */
   private boolean validateSimpleMove(Move move){
-    if(!move.getType().equals(MOVE_TYPE.SIMPLE)){
+    if(move.isJump()){
       return false;
     }
 
@@ -567,7 +578,7 @@ public class Board implements Cloneable {
    * @return
    */
   private boolean validateJumpMove(Move move){
-    if(!move.getType().equals(MOVE_TYPE.JUMP)){
+    if(!move.isJump()){
       return false;
     }
 

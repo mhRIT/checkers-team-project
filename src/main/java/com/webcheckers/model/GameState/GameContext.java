@@ -60,7 +60,7 @@ public class GameContext {
    *
    * @param state
    */
-  void setState(GameState state){
+  public void setState(GameState state){
     gameState = state;
     stateChangedSupport.firePropertyChange(gameState.getState().toString(), getNonActivePlayer(), getActivePlayer());
   }
