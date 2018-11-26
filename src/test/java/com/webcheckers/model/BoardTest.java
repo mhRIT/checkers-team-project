@@ -22,11 +22,6 @@ import org.junit.jupiter.api.Test;
  */
 @Tag("Model-tier")
 class BoardTest {
-
-  //
-  // Constants
-  //
-
   //
   // Components under test
   //
@@ -75,6 +70,34 @@ class BoardTest {
       }
       modVal ^= 1;
     }
+  }
+
+  /**
+   * TODO
+   */
+  @Test
+  void testPiecesAlongBase(){
+    cut.initStart();
+
+    int count = cut.getNumPiecesAlongBase(COLOR.RED);
+    assertEquals(4, count);
+
+    count = cut.getNumPiecesAlongBase(COLOR.WHITE);
+    assertEquals(4, count);
+  }
+
+  /**
+   * TODO
+   */
+  @Test
+  void testPiecesAlongEdge(){
+    cut.initStart();
+
+    int count = cut.getNumPiecesAlongSide(COLOR.RED);
+    assertEquals(3, count);
+
+    count = cut.getNumPiecesAlongSide(COLOR.WHITE);
+    assertEquals(3, count);
   }
 
   /**

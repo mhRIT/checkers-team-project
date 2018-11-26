@@ -3,14 +3,14 @@ package com.webcheckers.model.Player.Heuristic;
 import com.webcheckers.model.Board;
 import com.webcheckers.model.Board.COLOR;
 
-public class DefenseOnSidesHeuristic extends Heuristic {
+public class BasePiecesHeuristic extends Heuristic {
 
-  public DefenseOnSidesHeuristic() {
+  public BasePiecesHeuristic() {
     super();
   }
 
   @Override
   public double calculate(Board board, COLOR color) {
-    return 0;
+    return board.getNumPiecesAlongBase(color);
   }
 }

@@ -1,5 +1,6 @@
 package com.webcheckers.model;
 
+import com.sun.org.apache.regexp.internal.RE;
 import com.webcheckers.model.Move.MOVE_TYPE;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +24,16 @@ public class Board implements Cloneable {
   /**
    * COLOR
    */
-  public enum COLOR {RED, WHITE, NONE}
+  public enum COLOR {RED, WHITE, NONE;
+
+    public COLOR opposite() {
+      if(this.equals(COLOR.RED)){
+        return WHITE;
+      } else {
+        return RED;
+      }
+    }
+  }
 
   /**
    * SPACE_TYPE
@@ -57,7 +67,7 @@ public class Board implements Cloneable {
      * TODO
      * @return
      */
-    boolean isKing(){
+    public boolean isKing(){
       return Math.abs(value) == 2;
     }
 
@@ -73,7 +83,7 @@ public class Board implements Cloneable {
      * TODO
      * @return
      */
-    boolean isEmpty(){
+    public boolean isEmpty(){
       return value == 0;
     }
 
@@ -625,6 +635,49 @@ public class Board implements Cloneable {
     return validDirection;
   }
 
+  /**
+   *
+   * @param color
+   * @return
+   */
+  public int getNumPiecesAlongBase(COLOR color){
+    int[] redBasePositions = {0, 1, 2, 3};
+    int[] whiteBasePositions = {28, 29, 30, 31};
+
+    int[] basePositions = color.equals(COLOR.WHITE) ? whiteBasePositions : redBasePositions;
+    int colorLocs = color.equals(COLOR.WHITE) ? getWhiteLocations() : getRedLocations();
+
+    return compareLocationColor(basePositions, colorLocs);
+  }
+
+  /**
+   *
+   * @param color
+   * @return
+   */
+  public int getNumPiecesAlongSide(COLOR color){
+    int[] edgePositions = {0, 8, 16, 24, 7, 15, 23, 31};
+    int colorLocs = color.equals(COLOR.WHITE) ? getWhiteLocations() : getRedLocations();
+    return compareLocationColor(edgePositions, colorLocs);
+  }
+
+  /**
+   *
+   * @param basePositions
+   * @param colorLocs
+   * @return
+   */
+  private int compareLocationColor(int[] basePositions, int colorLocs) {
+    int toReturn = 0;
+    for(int eachPos : basePositions){
+      int shiftVal = (1 << eachPos);
+      int baseVal = colorLocs & shiftVal;
+      if(baseVal != 0){
+        toReturn++;
+      }
+    }
+    return toReturn;
+  }
   /**
    *
    * @param color

@@ -4,14 +4,7 @@ import com.webcheckers.model.Board;
 import com.webcheckers.model.Board.COLOR;
 import com.webcheckers.model.GameState.GameContext;
 import com.webcheckers.model.Move;
-import com.webcheckers.model.Player.Heuristic.DefenseAgainstKingsHeuristic;
-import com.webcheckers.model.Player.Heuristic.DefenseHeuristic;
-import com.webcheckers.model.Player.Heuristic.DefenseOnSidesHeuristic;
-import com.webcheckers.model.Player.Heuristic.Heuristic;
-import com.webcheckers.model.Player.Heuristic.KingCountHeuristic;
-import com.webcheckers.model.Player.Heuristic.OffenseHeuristic;
-import com.webcheckers.model.Player.Heuristic.PieceCountHeuristic;
-import com.webcheckers.model.Player.Heuristic.PositionHeuristic;
+import com.webcheckers.model.Player.Heuristic.*;
 import com.webcheckers.model.Position;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,13 +25,14 @@ public class MinMaxPlayer extends AiPlayer {
     super(name, idNum);
     heuristicList = new ArrayList<>();
 
-    heuristicList.add(new DefenseHeuristic());
-    heuristicList.add(new DefenseAgainstKingsHeuristic());
-    heuristicList.add(new DefenseOnSidesHeuristic());
+    heuristicList.add(new ForwardDefenseHeuristic());
+    heuristicList.add(new BackwardsDefenseHeuristic());
+    heuristicList.add(new PiecesOnSideHeuristic());
     heuristicList.add(new KingCountHeuristic());
     heuristicList.add(new OffenseHeuristic());
     heuristicList.add(new PieceCountHeuristic());
     heuristicList.add(new PositionHeuristic());
+    heuristicList.add(new BasePiecesHeuristic());
 
     difficulty = difficultyLevel;
   }
@@ -72,7 +66,6 @@ public class MinMaxPlayer extends AiPlayer {
     try{
       nextMove = maxCostMove(currentBoard,
           game.getActiveColor(),
-          game.getNonActiveColor(),
           difficulty);
     } catch (CloneNotSupportedException e) {
       nextMove = null;
@@ -83,19 +76,18 @@ public class MinMaxPlayer extends AiPlayer {
   /**
    *
    * @param board
-   * @param activeColor
-   * @param opposingColor
+   * @param color
    * @param depth
    * @return
    */
-  Move minCostMove(Board board, COLOR activeColor, COLOR opposingColor, int depth)
+  Move minCostMove(Board board, COLOR color, int depth)
       throws CloneNotSupportedException {
     Move toReturn = new Move(new Position(0,0), new Position(1,1));
 
     if(depth > 0){
-      List<Move> validJumpList = board.getAllJumpMoves(opposingColor);
-      List<Move> validSimpleList = board.getAllSimpleMoves(opposingColor);
-      double minCost  = evaluateBoard(board, opposingColor);
+      List<Move> validJumpList = board.getAllJumpMoves(color.opposite());
+      List<Move> validSimpleList = board.getAllSimpleMoves(color.opposite());
+      double minCost  = evaluateBoard(board, color.opposite());
 
       if(!validJumpList.isEmpty()){
         toReturn = validJumpList.get(0);
@@ -112,12 +104,11 @@ public class MinMaxPlayer extends AiPlayer {
    *
    * @param board
    * @param color
-   * @param opposingColor
    * @param depth
    * @return
    * @throws CloneNotSupportedException
    */
-  Move maxCostMove(Board board, COLOR color,  COLOR opposingColor, int depth)
+  Move maxCostMove(Board board, COLOR color, int depth)
       throws CloneNotSupportedException {
     List<Move> validJumpList = board.getAllJumpMoves(color);
     List<Move> validSimpleList = board.getAllSimpleMoves(color);

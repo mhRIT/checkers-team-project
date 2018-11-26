@@ -30,7 +30,7 @@ class MinMaxPlayerTest extends AiPlayerTest{
   @Test
   void testMinCost(){
     try {
-      Move minMove = ((MinMaxPlayer) cut).minCostMove(board, COLOR.WHITE, COLOR.RED, 0);
+      Move minMove = ((MinMaxPlayer) cut).minCostMove(board, COLOR.WHITE, 0);
     } catch (CloneNotSupportedException e) {
       e.printStackTrace();
     }
@@ -39,7 +39,7 @@ class MinMaxPlayerTest extends AiPlayerTest{
   @Test
   void testMaxCost(){
     try {
-      Move maxMove = ((MinMaxPlayer) cut).maxCostMove(board, COLOR.WHITE, COLOR.RED, 0);
+      Move maxMove = ((MinMaxPlayer) cut).maxCostMove(board, COLOR.WHITE, 0);
     } catch (CloneNotSupportedException e) {
       e.printStackTrace();
     }

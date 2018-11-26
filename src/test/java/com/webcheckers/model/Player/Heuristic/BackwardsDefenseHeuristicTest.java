@@ -1,19 +1,19 @@
 package com.webcheckers.model.Player.Heuristic;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.webcheckers.model.Board.COLOR;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 
 @Tag("Model-tier")
-class DefenseHeuristicTest extends HeuristicTest {
+class BackwardsDefenseHeuristicTest extends HeuristicTest{
 
   @Override
   @BeforeEach
   void setUp() {
     super.setUp();
-    cut = new DefenseHeuristic();
+    cut = new BackwardsDefenseHeuristic();
   }
 
   @Override

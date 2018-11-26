@@ -7,13 +7,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 
 @Tag("Model-tier")
-class DefenseOnSidesHeuristicTest extends HeuristicTest {
+class DefenseAgainstSingleHeuristicTest extends HeuristicTest {
 
   @Override
   @BeforeEach
   void setUp() {
     super.setUp();
-    cut = new DefenseOnSidesHeuristic();
+    cut = new ForwardDefenseHeuristic();
   }
 
   @Override
