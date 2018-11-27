@@ -18,6 +18,12 @@ var presetStartCheckbox = document.getElementById("presetStartCheckbox");
 var presetMidCheckbox = document.getElementById("presetMidCheckbox");
 var presetEndCheckbox = document.getElementById("presetEndCheckbox");
 
+presetStartCheckbox.checked = true;
+
+presetStartCheckbox.onchange = checkPresetStart;
+presetMidCheckbox.onchange = checkPresetMid;
+presetEndCheckbox.onchange = checkPresetEnd;
+
 redPieceOutput.innerHTML = redSlider.value; // Display the default slider value
 whitePieceOutput.innerHTML = whiteSlider.value; // Display the default slider value
 
@@ -69,7 +75,16 @@ function handleFormSubmit(oppName) {
             "numRedPieces":redPieceOutput.innerHTML,
             "numWhitePieces":whitePieceOutput.innerHTML};
   } else if(presetPanel.style.display === "block") {
-    alert('presetPanel');
+    if(presetStartCheckbox.checked){
+      data = {"opponent":oppName,
+              "boardIdx":1};
+    } else if(presetMidCheckbox.checked){
+      data = {"opponent":oppName,
+              "boardIdx":2};
+    } else if(presetEndCheckbox.checked){
+      data = {"opponent":oppName,
+              "boardIdx":3};
+    }
   } else if(customPanel.style.display === "block") {
     alert('customPanel');
   }
@@ -97,4 +112,19 @@ function collapse(){
   sliderPanel.style.display = "none";
   presetPanel.style.display = "none";
   customPanel.style.display = "none";
+}
+
+function checkPresetStart() {
+  presetMidCheckbox.checked = false;
+  presetEndCheckbox.checked = false;
+}
+
+function checkPresetMid() {
+  presetStartCheckbox.checked = false;
+  presetEndCheckbox.checked = false;
+}
+
+function checkPresetEnd() {
+  presetStartCheckbox.checked = false;
+  presetMidCheckbox.checked = false;
 }

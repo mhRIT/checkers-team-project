@@ -79,21 +79,19 @@
           </div>
         </div>
 
-        <button class="accordion" id="accCustom">Section 2</button>
+        <button class="accordion" id="accPreset">Preset boards</button>
         <div class="panel">
-          <fieldset>
-            <label for="ResponseSaidCBY">Start</label>
-            <input type="checkbox" id="presetStartCheckbox" />
+          <label for="presetStartCheckbox">Start</label>
+          <input type="checkbox" id="presetStartCheckbox" />
 
-            <label for="ResponseSaidCBN">Mid</label>
-            <input type="checkbox" id="presetMidCheckbox" />
+          <label for="presetMidCheckbox">Mid</label>
+          <input type="checkbox" id="presetMidCheckbox" />
 
-            <label for="ResponseSaidCBN">End</label>
-            <input type="checkbox" id="presetEndCheckbox" />
-          </fieldset>
+          <label for="presetEndCheckbox">End</label>
+          <input type="checkbox" id="presetEndCheckbox" />
         </div>
 
-        <button class="accordion" id="accTable">Section 3</button>
+        <button class="accordion" id="accCustom">Custom board</button>
         <div class="panel">
           <p>Lorem ipsum...</p>
         </div>
