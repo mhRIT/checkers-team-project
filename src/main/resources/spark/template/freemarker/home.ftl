@@ -81,7 +81,16 @@
 
         <button class="accordion" id="accCustom">Section 2</button>
         <div class="panel">
-          <p>Lorem ipsum...</p>
+          <fieldset>
+            <label for="ResponseSaidCBY">Start</label>
+            <input type="checkbox" id="presetStartCheckbox" />
+
+            <label for="ResponseSaidCBN">Mid</label>
+            <input type="checkbox" id="presetMidCheckbox" />
+
+            <label for="ResponseSaidCBN">End</label>
+            <input type="checkbox" id="presetEndCheckbox" />
+          </fieldset>
         </div>
 
         <button class="accordion" id="accTable">Section 3</button>

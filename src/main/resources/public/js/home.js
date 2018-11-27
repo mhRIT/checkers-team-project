@@ -2,8 +2,8 @@ var acc = document.getElementsByClassName("accordion");
 
 var accNormal = document.getElementById("accNormal");
 var accSlider = document.getElementById("accSlider");
+var accPreset = document.getElementById("accPreset");
 var accCustom = document.getElementById("accCustom");
-var accTable = document.getElementById("accTable");
 
 var normalPanel = accNormal.nextElementSibling;
 normalPanel.style.display = "block";
@@ -13,6 +13,10 @@ var whiteSlider = document.getElementById("whitePieceSlider");
 
 var redPieceOutput = document.getElementById("redPieceOutput");
 var whitePieceOutput = document.getElementById("whitePieceOutput");
+
+var presetStartCheckbox = document.getElementById("presetStartCheckbox");
+var presetMidCheckbox = document.getElementById("presetMidCheckbox");
+var presetEndCheckbox = document.getElementById("presetEndCheckbox");
 
 redPieceOutput.innerHTML = redSlider.value; // Display the default slider value
 whitePieceOutput.innerHTML = whiteSlider.value; // Display the default slider value
@@ -54,8 +58,8 @@ for (i = 0; i < acc.length; i++) {
 function handleFormSubmit(oppName) {
   var normalPanel = accNormal.nextElementSibling;
   var sliderPanel = accSlider.nextElementSibling;
+  var presetPanel = accPreset.nextElementSibling;
   var customPanel = accCustom.nextElementSibling;
-  var tablePanel = accTable.nextElementSibling;
   var data;
 
   if(normalPanel.style.display === "block"){
@@ -64,10 +68,10 @@ function handleFormSubmit(oppName) {
     data = {"opponent":oppName,
             "numRedPieces":redPieceOutput.innerHTML,
             "numWhitePieces":whitePieceOutput.innerHTML};
+  } else if(presetPanel.style.display === "block") {
+    alert('presetPanel');
   } else if(customPanel.style.display === "block") {
     alert('customPanel');
-  } else if(tablePanel.style.display === "block") {
-    alert('tablePanel');
   }
 
   // var data = {"opponent":oppName};
@@ -86,11 +90,11 @@ function handleFormSubmit(oppName) {
 function collapse(){
   var normalPanel = accNormal.nextElementSibling;
   var sliderPanel = accSlider.nextElementSibling;
+  var presetPanel = accPreset.nextElementSibling;
   var customPanel = accCustom.nextElementSibling;
-  var tablePanel = accTable.nextElementSibling;
 
   normalPanel.style.display = "none";
   sliderPanel.style.display = "none";
+  presetPanel.style.display = "none";
   customPanel.style.display = "none";
-  tablePanel.style.display = "none";
 }
