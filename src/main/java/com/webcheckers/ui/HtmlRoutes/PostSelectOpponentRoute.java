@@ -1,27 +1,19 @@
 package com.webcheckers.ui.HtmlRoutes;
 
-import static com.webcheckers.ui.HtmlRoutes.GetHomeRoute.AI_PLAYER_NAMES;
-import static com.webcheckers.ui.HtmlRoutes.GetHomeRoute.ALL_PLAYER_NAMES;
 import static com.webcheckers.ui.HtmlRoutes.GetHomeRoute.OPP_MESSAGE;
 import static com.webcheckers.ui.HtmlRoutes.GetHomeRoute.PLAYER;
+import static com.webcheckers.ui.HtmlRoutes.PostBuildConfig.INIT_CONFIG;
 import static spark.Spark.halt;
 
-import com.google.gson.Gson;
-import com.google.gson.internal.LinkedTreeMap;
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
 import com.webcheckers.model.Board.InitConfig;
+import com.webcheckers.model.Board.InitConfig.START_TYPE;
 import com.webcheckers.model.GameState.GameContext;
 import com.webcheckers.model.Player.Player;
 import com.webcheckers.ui.WebServer;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
-import spark.Route;
 import spark.Session;
 import spark.TemplateEngine;
 
@@ -66,24 +58,16 @@ public class PostSelectOpponentRoute extends HtmlRoute {
     String currPlayerName = session.attribute(PLAYER);
     Player currPlayer = playerLobby.getPlayer(currPlayerName);
 
-    Gson gson = new Gson();
-    InitConfig gameConfig = gson.fromJson(request.body(), InitConfig.class);
-    Player opponent = playerLobby.getPlayer(gameConfig.getOpponent());
-    Map<String, Object> vm = new HashMap<>();
-
-
-    if(currPlayer == null || playerLobby.getPlayer(currPlayer.getName()) == null) {
-      String message = "PostSelectOpponentRoute is invoked with no player stored in the current " +
-          "session or the player is not signed in.";
-      LOG.finer(message);
-
+    if(!checkValidPlayerName(currPlayerName)){
       response.redirect(WebServer.HOME_URL);
       halt();
       return "nothing";
     }
 
-    LOG.finer("PostSelectOpponentRoute is invoked: " + currPlayer.getName());
+    String oppPlayerName = request.queryParams(OPP_PLAYER_NAME);
+    Player opponent = playerLobby.getPlayer(oppPlayerName);
     GameContext game = gameCenter.getGame(opponent);
+
     if (game != null && !opponent.isAi() && !game.isGameOver()) {
       String message = String.format("The selected opponent, '%s', is already in a game",
           opponent.getName());
@@ -94,6 +78,7 @@ public class PostSelectOpponentRoute extends HtmlRoute {
       return "nothing";
     }
 
+    InitConfig gameConfig = session.attribute(INIT_CONFIG);
     gameCenter.createGame(currPlayer, opponent, gameConfig);
     response.redirect(WebServer.GAME_URL);
     halt();

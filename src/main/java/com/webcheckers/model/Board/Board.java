@@ -1,5 +1,6 @@
 package com.webcheckers.model.Board;
 
+import com.webcheckers.model.Board.InitConfig.PRE_SET_BOARD;
 import com.webcheckers.model.Board.InitConfig.START_TYPE;
 import java.util.ArrayList;
 import java.util.List;
@@ -175,8 +176,9 @@ public class Board implements Cloneable {
       case RANDOM:
         initRandom(config.getNumRedPieces(), config.getNumWhitePieces());
         break;
-      case PRE_SET:
-        switch (config.getPreSetBoard()){
+      case PRESET:
+        PRE_SET_BOARD presetBoard = config.getPreSetBoard();
+        switch (presetBoard){
           case START:
             initStart();
             break;

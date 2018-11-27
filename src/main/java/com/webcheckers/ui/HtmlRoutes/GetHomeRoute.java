@@ -79,7 +79,6 @@ public class GetHomeRoute extends HtmlRoute {
       GameContext game = gameCenter.getGame(currPlayer);
       if(game != null) {
         if(game.isGameOver()){
-//          session.attribute(GAME_MESSAGE, game.endMessage());
           vm.put(GAME_MESSAGE, game.endMessage());
           LOG.finer("GetHomeRoute game is ended");
         } else {

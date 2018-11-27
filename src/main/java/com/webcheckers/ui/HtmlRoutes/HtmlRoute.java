@@ -1,7 +1,11 @@
 package com.webcheckers.ui.HtmlRoutes;
 
+import static spark.Spark.halt;
+
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
+import com.webcheckers.model.Player.Player;
+import com.webcheckers.ui.WebServer;
 import java.util.Objects;
 import java.util.logging.Logger;
 import spark.Request;
@@ -51,4 +55,12 @@ public abstract class HtmlRoute implements Route {
    * @return a message indicating whether the request was successful
    */
   public abstract Object handle(Request request, Response response);
+
+  boolean checkValidPlayerName(String playerName){
+    boolean playerStored = playerName != null;
+    Player currPlayer = playerLobby.getPlayer(playerName);
+    boolean playerExits = currPlayer != null;
+
+    return  playerStored && playerExits;
+  }
 }

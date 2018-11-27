@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>
-    <meta http-equiv="refresh" content="10">
+    <#--<meta http-equiv="refresh" content="10">-->
     <title>${title} | Web Checkers</title>
     <link rel="stylesheet" type="text/css" href="/css/style.css">
     <link rel="stylesheet" type="text/css" href="/css/home.css">
@@ -34,40 +34,40 @@
       </#if>
 
       <#if aiPlayers??>
-        <button class="accordion" id="accNormal">Normal start</button>
+<#--Accordion button list-------------------------------------------------------------------------->
+        <button class="accordion" name="normal" id="accNormal">Normal start</button>
         <div class="panel">
           <p>Start a normal game</p>
         </div>
 
-        <button class="accordion" id="accSlider">Random placement</button>
+        <button class="accordion" name="random" id="accSlider">Random placement</button>
         <div class="panel">
           <p>Set the number of starting pieces for each player:</p>
           <div class="slidecontainer">
             <input type="range" min="1" max="12" value="6" class="slider" id="redPieceSlider">
             <p>Number of red pieces: </p>
-            <output id="redPieceOutput" ></output>
+            <output id="redPieceOutput"></output>
             <br>
             <br>
             <input type="range" min="1" max="12" value="6" class="slider" id="whitePieceSlider">
             <p>Number of white pieces: </p>
-            <output id="whitePieceOutput" ></output>
+            <output id="whitePieceOutput"></output>
           </div>
         </div>
 
-<#--Accordion button list-------------------------------------------------------------------------->
-        <button class="accordion" id="accPreset">Preset boards</button>
+        <button class="accordion" name="preset" id="accPreset">Preset boards</button>
         <div class="panel">
           <label for="presetStartCheckbox">Start</label>
-          <input type="checkbox" id="presetStartCheckbox" />
+          <input type="checkbox" id="presetStartCheckbox"/>
 
           <label for="presetMidCheckbox">Mid</label>
-          <input type="checkbox" id="presetMidCheckbox" />
+          <input type="checkbox" id="presetMidCheckbox"/>
 
           <label for="presetEndCheckbox">End</label>
-          <input type="checkbox" id="presetEndCheckbox" />
+          <input type="checkbox" id="presetEndCheckbox"/>
         </div>
 
-        <button class="accordion" id="accCustom">Custom board</button>
+        <button class="accordion" name="custom" id="accCustom">Custom board</button>
         <div class="panel">
 <#--Custom board table----------------------------------------------------------------------------->
           <table id="game-board">
@@ -118,9 +118,8 @@
             <p> AI opponents:</p>
             <br>
             <#list aiPlayers as eachPlayerName>
-              <button class="active" type="button"
-                      name="opponent" value="${eachPlayerName}"
-                      onclick="handleFormSubmit(this.value)">
+              <button class="active" type="submit"
+                      name="opponent" value="${eachPlayerName}">
                 ${eachPlayerName}
               </button>
             </#list>
@@ -135,9 +134,8 @@
               <p> Other players currently signed in:</p>
               <br>
               <#list allPlayers as eachPlayerName>
-                <button class="active" type="button"
-                        name="opponent" value="${eachPlayerName}"
-                        onclick="handleFormSubmit(this.value)">
+                <button class="active" type="submit"
+                        name="opponent" value="${eachPlayerName}">
                   ${eachPlayerName}
                 </button>
               </#list>

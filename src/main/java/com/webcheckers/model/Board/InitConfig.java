@@ -8,23 +8,24 @@ public class InitConfig {
   public enum START_TYPE {
     NORMAL,
     RANDOM,
-    PRE_SET,
+    PRESET,
     CUSTOM
   }
 
-  public enum PRE_SET_BOARDS{
+  public enum PRE_SET_BOARD {
     START,
     MIDDLE,
     END,
     NONE
   }
 
+  private String type;
   private String opponent;
 
   private int numRedPieces = 0;
   private int numWhitePieces = 0;
 
-  private int boardIdx = 0;
+  private String preset;
 
   private List<Position> custom = new ArrayList<>();
 
@@ -34,9 +35,9 @@ public class InitConfig {
     this.numWhitePieces = whitePieces;
   }
 
-  public InitConfig(String opponentName, int boardIdx){
+  public InitConfig(String opponentName, String presetSelected){
     this.opponent = opponentName;
-    this.boardIdx = boardIdx;
+    this.preset = presetSelected;
   }
 
   public InitConfig(String opponentName, List<Position> positions){
@@ -49,14 +50,17 @@ public class InitConfig {
   }
 
   public START_TYPE getStartType(){
-    if(numRedPieces != 0 && numWhitePieces != 0){
-      return START_TYPE.RANDOM;
-    } else if(boardIdx != 0){
-      return START_TYPE.PRE_SET;
-    } else if(custom != null && custom.size() != 0){
-      return START_TYPE.CUSTOM;
+    START_TYPE toReturn;
+    try{
+      toReturn = START_TYPE.valueOf(type);
+    } catch (IllegalArgumentException iae){
+      try{
+        toReturn = START_TYPE.valueOf(type.toUpperCase());
+      } catch (IllegalArgumentException iae_nested){
+        toReturn = START_TYPE.NORMAL;
+      }
     }
-    return START_TYPE.NORMAL;
+    return toReturn;
   }
 
   public String getOpponent(){
@@ -71,17 +75,18 @@ public class InitConfig {
     return numWhitePieces;
   }
 
-  public PRE_SET_BOARDS getPreSetBoard(){
-    switch (boardIdx){
-      case 1:
-        return PRE_SET_BOARDS.START;
-      case 2:
-        return PRE_SET_BOARDS.MIDDLE;
-      case 3:
-        return PRE_SET_BOARDS.END;
-      default:
-        return PRE_SET_BOARDS.NONE;
+  public PRE_SET_BOARD getPreSetBoard(){
+    PRE_SET_BOARD toReturn;
+    try{
+      toReturn = PRE_SET_BOARD.valueOf(preset);
+    } catch (IllegalArgumentException iae){
+      try{
+        toReturn = PRE_SET_BOARD.valueOf(preset.toUpperCase());
+      } catch (IllegalArgumentException iae_nested){
+        toReturn = PRE_SET_BOARD.START;
+      }
     }
+    return toReturn;
   }
 
   public List<Position> getCustom(){
@@ -95,11 +100,11 @@ public class InitConfig {
    */
   @Override
   public String toString() {
-    return String.format("%s | Red pieces: %d, white pieces: %d, pre-set: %d",
+    return String.format("%s | Red pieces: %d, white pieces: %d, pre-set: %s",
         opponent,
         numRedPieces,
         numWhitePieces,
-        boardIdx);
+        preset);
   }
 
   /**
