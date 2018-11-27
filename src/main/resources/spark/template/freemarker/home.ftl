@@ -100,35 +100,6 @@
             <input type="checkbox" id="presetEndCheckbox"/>
           </div>
         </#if>
-
-        <button class="accordion" name="custom" id="accCustom">Custom board</button>
-        <div class="panel" style="display:none" id="customPanel">
-<#--Custom board table----------------------------------------------------------------------------->
-          <table id="game-board">
-            <tbody>
-              <#--<#list board.iterator() as row>-->
-              <#--<tr data-row="${row.index}">-->
-              <#--<#list row.iterator() as space>-->
-                <#--<td data-cell="${space.cellIdx}"-->
-                    <#--<#if space.isValid() >-->
-                    <#--class="Space"-->
-                    <#--</#if>-->
-                <#-->-->
-                <#--<#if space.piece??>-->
-                  <#--<div class="Piece"-->
-                       <#--id="piece-${row.index}-${space.cellIdx}"-->
-                       <#--data-type="${space.piece.type}"-->
-                       <#--data-color="${space.piece.color}">-->
-                  <#--</div>-->
-                <#--</#if>-->
-                <#--</td>-->
-              <#--</#list>-->
-              <#--</tr>-->
-              <#--</#list>-->
-            </tbody>
-          </table>
-<#--Custom board table----------------------------------------------------------------------------->
-        </div>
       </#if>
 <#--Accordion button list-------------------------------------------------------------------------->
 
