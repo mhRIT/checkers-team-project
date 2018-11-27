@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.google.gson.Gson;
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
+import com.webcheckers.model.Board.InitConfig;
 import com.webcheckers.model.GameState.GameContext;
 import com.webcheckers.model.Player.Player;
 import com.webcheckers.ui.boardView.Message;
@@ -32,6 +33,7 @@ public class PostCheckTurnRouteTest {
   private Request request;
   private Response response;
   private Session session;
+  private InitConfig initConfig;
 
   private PostCheckTurnRoute CuT;
 
@@ -42,7 +44,8 @@ public class PostCheckTurnRouteTest {
     gson = new Gson();
     player1 = new Player("Test1", playerNonce++);
     player2 = new Player("Test2", playerNonce++);
-    game = gameCenter.createGame(player1, player2);
+    initConfig = new InitConfig(player2.getName());
+    game = gameCenter.createGame(player1, player2, initConfig);
 
     session = mock(Session.class);
     request = mock(Request.class);

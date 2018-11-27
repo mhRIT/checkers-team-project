@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.webcheckers.model.Board.Board;
+import com.webcheckers.model.Board.InitConfig;
 import com.webcheckers.model.Board.Move;
 import com.webcheckers.model.Player.Player;
 import com.webcheckers.model.Board.Position;
@@ -52,7 +53,7 @@ public class GameContextTest {
   public void setup(){
     player1 = new Player(PLAYER1_NAME, RED_PLAYER_NONCE);
     player2 = new Player(PLAYER2_NAME, WHITE_PLAYER_NONCE);
-    cut = new GameContext(player1, player2, gameNonce++);
+    cut = new GameContext(player1, player2, new InitConfig(PLAYER2_NAME), gameNonce++);
   }
 
   @Test
@@ -182,7 +183,7 @@ public class GameContextTest {
 
   @Test
   void testEquals(){
-    GameContext game2 = new GameContext(player1, player2, 0);
+    GameContext game2 = new GameContext(player1, player2, new InitConfig(PLAYER2_NAME), 0);
     boolean posEqual = cut.equals(game2);
     assertTrue(posEqual);
 
@@ -195,8 +196,8 @@ public class GameContextTest {
 
   @Test
   void testHash(){
-    GameContext game2 = new GameContext(player1, player2, gameNonce);
-    GameContext game3 = new GameContext(player1, new Player("p3", INVALID_PLAYER_NONCE), gameNonce);
+    GameContext game2 = new GameContext(player1, player2, new InitConfig(PLAYER2_NAME), gameNonce);
+    GameContext game3 = new GameContext(player1, new Player("p3", INVALID_PLAYER_NONCE), new InitConfig(PLAYER2_NAME), gameNonce);
 
     int hash0 = cut.hashCode();
     int hash2 = game2.hashCode();

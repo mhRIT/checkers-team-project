@@ -44,33 +44,6 @@
       </#if>
     </div>
 
-<#------------------------------------------------------------------------------------------------->
-    <button class="accordion" id="accSlider">Section 1</button>
-    <div class="panel">
-      <p>Set the number of starting pieces for each player:</p>
-      <div class="slidecontainer">
-        <input type="range" min="1" max="12" value="6" class="slider" id="redPieceSlider">
-        <p>Number of red pieces: </p>
-        <output id="redPieceOutput" ></output>
-        <br>
-        <br>
-        <input type="range" min="1" max="12" value="6" class="slider" id="whitePieceSlider">
-        <p>Number of white pieces: </p>
-        <output id="whitePieceOutput" ></output>
-      </div>
-    </div>
-
-    <button class="accordion" id="accCustom">Section 2</button>
-    <div class="panel">
-      <p>Lorem ipsum...</p>
-    </div>
-
-    <button class="accordion" id="accTable">Section 3</button>
-    <div class="panel">
-      <p>Lorem ipsum...</p>
-    </div>
-<#------------------------------------------------------------------------------------------------->
-
     <div class="body">
       <#if message??>
       <div>
@@ -78,17 +51,55 @@
       </div>
       </#if>
 
-      <button id="sendButton" type="button" value="opponent" onclick="handleFormSubmit(this.value)">Click Me!</button>
+<#------------------------------------------------------------------------------------------------->
+      <#if aiPlayers??>
+        <button class="accordion" id="accNormal">Normal start</button>
+        <div class="panel">
+          <p>Start a normal game</p>
+        </div>
+
+        <button class="accordion" id="accSlider">Random placement</button>
+        <div class="panel">
+          <p>Set the number of starting pieces for each player:</p>
+          <div class="slidecontainer">
+            <input type="range" min="1" max="12" value="6" class="slider" id="redPieceSlider">
+            <p>Number of red pieces: </p>
+            <output id="redPieceOutput" ></output>
+            <br>
+            <br>
+            <input type="range" min="1" max="12" value="6" class="slider" id="whitePieceSlider">
+            <p>Number of white pieces: </p>
+            <output id="whitePieceOutput" ></output>
+          </div>
+        </div>
+
+        <button class="accordion" id="accCustom">Section 2</button>
+        <div class="panel">
+          <p>Lorem ipsum...</p>
+        </div>
+
+        <button class="accordion" id="accTable">Section 3</button>
+        <div class="panel">
+          <p>Lorem ipsum...</p>
+        </div>
+      </#if>
+<#------------------------------------------------------------------------------------------------->
 
       <form action="/selectOpponent" method="POST">
         <div class="vertical-menu">
 
           <#--Start AI display---->
+          <#--If this list exists, then the player is signed in-->
           <#if aiPlayers??>
             <p> AI opponents:</p>
             <br>
             <#list aiPlayers as eachPlayerName>
-                <button class="active" type="submit" name="opponent" value="${eachPlayerName}">${eachPlayerName}</button>
+                <#--<button class="active" type="submit" name="opponent" value="${eachPlayerName}">${eachPlayerName}</button>-->
+              <button class="active" type="button"
+                      name="opponent" value="${eachPlayerName}"
+                      onclick="handleFormSubmit(this.value)">
+                ${eachPlayerName}
+              </button>
             </#list>
             <br>
             <br>

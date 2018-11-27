@@ -2,6 +2,7 @@ package com.webcheckers.model.GameState;
 
 import com.webcheckers.model.Board.Board;
 import com.webcheckers.model.Board.Board.COLOR;
+import com.webcheckers.model.Board.InitConfig;
 import com.webcheckers.model.GameState.GameState.STATE;
 import com.webcheckers.model.Player.Player;
 import java.beans.PropertyChangeSupport;
@@ -19,12 +20,14 @@ public class GameContext {
   private COLOR activeColor;
   private Stack<Board> boardStack;
   private int id;
+  private InitConfig initConfig;
   private PropertyChangeSupport stateChangedSupport;
 
-  public GameContext(Player rPlayer, Player wPlayer, int idNum) {
+  public GameContext(Player rPlayer, Player wPlayer, InitConfig config, int idNum) {
     this.redPlayer = rPlayer;
     this.whitePlayer = wPlayer;
     this.id = idNum;
+    this.initConfig = config;
 
     stateChangedSupport = new PropertyChangeSupport(this);
     stateChangedSupport.addPropertyChangeListener(rPlayer);
@@ -46,6 +49,14 @@ public class GameContext {
    */
   public boolean proceed(){
     return gameState.execute(this);
+  }
+
+  /**
+   *
+   * @return
+   */
+  public InitConfig getInitConfig(){
+    return initConfig;
   }
 
   /**

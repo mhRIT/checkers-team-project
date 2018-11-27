@@ -1,8 +1,12 @@
 var acc = document.getElementsByClassName("accordion");
 
+var accNormal = document.getElementById("accNormal");
 var accSlider = document.getElementById("accSlider");
 var accCustom = document.getElementById("accCustom");
 var accTable = document.getElementById("accTable");
+
+var normalPanel = accNormal.nextElementSibling;
+normalPanel.style.display = "block";
 
 var redSlider = document.getElementById("redPieceSlider");
 var whiteSlider = document.getElementById("whitePieceSlider");
@@ -48,12 +52,15 @@ for (i = 0; i < acc.length; i++) {
  * @return {void}
  */
 function handleFormSubmit(oppName) {
+  var normalPanel = accNormal.nextElementSibling;
   var sliderPanel = accSlider.nextElementSibling;
   var customPanel = accCustom.nextElementSibling;
   var tablePanel = accTable.nextElementSibling;
   var data;
 
-  if (sliderPanel.style.display === "block") {
+  if(normalPanel.style.display === "block"){
+    data = {"opponent":oppName};
+  } else if (sliderPanel.style.display === "block") {
     data = {"opponent":oppName,
             "numRedPieces":redPieceOutput.innerHTML,
             "numWhitePieces":whitePieceOutput.innerHTML};
@@ -71,13 +78,18 @@ function handleFormSubmit(oppName) {
   // http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
   http.setRequestHeader('Content-type', 'application/json');
   http.send(dataStr);
+  // document.location.reload(true)
+  setTimeout("location.reload(true);",500);
 }
 
+
 function collapse(){
+  var normalPanel = accNormal.nextElementSibling;
   var sliderPanel = accSlider.nextElementSibling;
   var customPanel = accCustom.nextElementSibling;
   var tablePanel = accTable.nextElementSibling;
 
+  normalPanel.style.display = "none";
   sliderPanel.style.display = "none";
   customPanel.style.display = "none";
   tablePanel.style.display = "none";

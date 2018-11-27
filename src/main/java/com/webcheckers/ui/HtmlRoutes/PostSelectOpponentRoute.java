@@ -65,10 +65,11 @@ public class PostSelectOpponentRoute extends HtmlRoute {
     String currPlayerName = session.attribute(PLAYER);
     Player currPlayer = playerLobby.getPlayer(currPlayerName);
 
-    String oppPlayerName = request.queryParams(OPP_PLAYER_NAME);
+    String requestBody = request.body();
+//    String oppPlayerName = request.queryParams(OPP_PLAYER_NAME);
     Gson gson = new Gson();
     InitConfig gameConfig = gson.fromJson(request.body(), InitConfig.class);
-    Player opponent = playerLobby.getPlayer(oppPlayerName);
+    Player opponent = playerLobby.getPlayer(gameConfig.getOpponent());
     Map<String, Object> vm = new HashMap<>();
 
 
@@ -96,7 +97,7 @@ public class PostSelectOpponentRoute extends HtmlRoute {
       return templateEngine.render(new ModelAndView(vm, "home.ftl"));
     }
 
-    gameCenter.createGame(currPlayer, opponent);
+    gameCenter.createGame(currPlayer, opponent, gameConfig);
     response.redirect(WebServer.GAME_URL);
     halt();
     return "nothing";

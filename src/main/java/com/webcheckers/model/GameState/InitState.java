@@ -7,7 +7,7 @@ public class InitState extends GameState {
   @Override
   public boolean execute(GameContext context) {
     Board currentBoard = context.getCurrentBoard();
-    currentBoard.initStart();
+    currentBoard.init(context.getInitConfig());
 
     context.setState(new WaitTurnState());
     return true;

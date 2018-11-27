@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.google.gson.Gson;
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
+import com.webcheckers.model.Board.InitConfig;
 import com.webcheckers.model.GameState.GameContext;
 import com.webcheckers.model.Player.Player;
 import com.webcheckers.ui.boardView.Message;
@@ -40,7 +41,7 @@ public class PostBackupMoveRouteTest {
     gson = new Gson();
     player1 = new Player("Test1", playerNonce++);
     player2 = new Player("Test2", playerNonce++);
-    game = gameCenter.createGame(player1, player2);
+    game = gameCenter.createGame(player1, player2, new InitConfig(player2.getName()));
 
     session = mock(Session.class);
     request = mock(Request.class);

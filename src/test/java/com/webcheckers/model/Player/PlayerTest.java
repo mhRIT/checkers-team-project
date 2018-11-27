@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.webcheckers.model.Board.InitConfig;
 import com.webcheckers.model.GameState.GameContext;
 import com.webcheckers.model.Board.Move;
 import com.webcheckers.model.Board.Position;
@@ -35,6 +36,7 @@ class PlayerTest {
   //
   // Attributes
   //
+  InitConfig initConfig;
   GameContext game;
 
   //
@@ -48,7 +50,8 @@ class PlayerTest {
   @BeforeEach
   void setUp() {
     cut = new Player(PLAYER1_NAME, PLAYER1_NONCE);
-    game = new GameContext(cut, new Player(PLAYER2_NAME, PLAYER2_NONCE), GAME_NONCE);
+    initConfig = new InitConfig(PLAYER2_NAME);
+    game = new GameContext(cut, new Player(PLAYER2_NAME, PLAYER2_NONCE), initConfig, GAME_NONCE);
   }
 
   /**

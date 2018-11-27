@@ -6,8 +6,10 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import com.google.gson.Gson;
+import com.sun.org.apache.xml.internal.security.Init;
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
+import com.webcheckers.model.Board.InitConfig;
 import com.webcheckers.model.Player.Player;
 import com.webcheckers.ui.TemplateEngineTester;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,7 +38,7 @@ public abstract class HtmlRouteTest {
   // Constants
   //
   protected static final String TEST_PLAYER_NAME = "testName";
-  protected static final String TEST_OPP_NAME = "oppName";
+  public static final String TEST_OPP_NAME = "oppName";
 
   //
   // Required HTTP objects
@@ -53,6 +55,7 @@ public abstract class HtmlRouteTest {
   protected GameCenter gameCenter;
   protected TemplateEngine engine;
   int playerNonce = 0;
+  protected InitConfig initConfig;
 
   @BeforeEach
   protected void setUp() {
@@ -64,6 +67,7 @@ public abstract class HtmlRouteTest {
     gameCenter = new GameCenter();
     gson = new Gson();
     playerLobby = new PlayerLobby();
+    initConfig = new InitConfig("testName");
     engine = mock(TemplateEngine.class);
   }
 

@@ -1,7 +1,9 @@
 package com.webcheckers.model.Board;
 
+import com.webcheckers.model.Board.InitConfig.START_TYPE;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  *  {@code Board}
@@ -161,6 +163,39 @@ public class Board implements Cloneable {
   private int pieceTypes = 0b0000_0000_0000_0000_0000_0000_0000_0000;
 
   /**
+   *
+   * @param config
+   */
+  public void init(InitConfig config){
+    START_TYPE configType = config.getStartType();
+    switch (configType){
+      case NORMAL:
+        initStart();
+        break;
+      case RANDOM:
+        initRandom(config.getNumRedPieces(), config.getNumWhitePieces());
+        break;
+      case PRE_SET:
+        switch (config.getPreSetBoard()){
+          case START:
+            initStart();
+            break;
+          case MIDDLE:
+            initMid();
+            break;
+          case END:
+            initEnd();
+            break;
+          case NONE:
+            initStart();
+            break;
+        }
+        break;
+      case CUSTOM:
+    }
+  }
+
+  /**
    * Initializes the state of the board and places red and white pieces
    * in the correct positions, as would be expected when the game
    * first starts.
@@ -199,6 +234,41 @@ public class Board implements Cloneable {
     pieceLocations = 0b0000_0000_0100_0100_0000_0000_0000_0000;
     pieceColors = 0b0000_0000_0000_0100_0000_0000_0000_0000;
     pieceTypes = 0b0000_0000_0000_0000_0000_0000_0000_0000;
+  }
+
+  public void initRandom(int numRedPieces, int numWhitePieces){
+    for(int i = 0; i < numRedPieces; i++){
+      Position nextPosition = getRandomPosition();
+      if(nextPosition.getRow() == BOARD_SIZE-1){
+        placePiece(nextPosition.getCell(), nextPosition.getRow(), SPACE_TYPE.KING_RED);
+      } else {
+        placePiece(nextPosition.getCell(), nextPosition.getRow(), SPACE_TYPE.SINGLE_RED);
+      }
+    }
+
+    for(int i = 0; i < numWhitePieces; i++){
+      Position nextPosition = getRandomPosition();
+      if(nextPosition.getRow() == 0){
+        placePiece(nextPosition.getCell(), nextPosition.getRow(), SPACE_TYPE.KING_WHITE);
+      } else {
+        placePiece(nextPosition.getCell(), nextPosition.getRow(), SPACE_TYPE.SINGLE_WHITE);
+      }
+    }
+  }
+
+  private Position getRandomPosition(){
+    Random rand = new Random();
+    int randIntCol = rand.nextInt(BOARD_SIZE);
+    int randIntRow = rand.nextInt(BOARD_SIZE);
+    Position toReturn = new Position(randIntCol, randIntRow);
+    SPACE_TYPE pieceAtLoc = getPieceAtLocation(toReturn.getCell(), toReturn.getRow());
+    while(!isValidLocation(toReturn) || !pieceAtLoc.isEmpty()){
+      randIntCol = rand.nextInt(BOARD_SIZE);
+      randIntRow = rand.nextInt(BOARD_SIZE);
+      toReturn = new Position(randIntCol, randIntRow);
+      pieceAtLoc = getPieceAtLocation(randIntCol, randIntRow);
+    }
+    return toReturn;
   }
 
   /**

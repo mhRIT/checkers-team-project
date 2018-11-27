@@ -46,7 +46,7 @@ class PostResignGameRouteTest extends HtmlRouteTest {
 
         Player testOpponent = playerLobby.signin(TEST_OPP_NAME);
 
-        GameContext game = gameCenter.createGame(testPlayer, testOpponent);
+        GameContext game = gameCenter.createGame(testPlayer, testOpponent, initConfig);
 
         Message message = (Message) CuT.handle(request,response);
 
