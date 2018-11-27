@@ -62,3 +62,81 @@
   background: #4CAF50; /* Green background */
   cursor: pointer; /* Cursor on hover */
 }
+
+.vertical-menu {
+  width: 250px;
+  /*height: 250px;*/
+  overflow-y: auto;
+}
+
+.vertical-menu button{
+  width: 250px;
+  padding:  10px 0;
+  border: 1px white;
+  font-size: 16px;
+  background-color: #F0FAFF;
+  color:  black;
+  display:  inline-block;
+  text-align: center;
+  text-decoration: none;
+}
+
+.vertical-menu button:hover {
+  background-color: #888888;
+  color: white;
+}
+
+/*
+* GameState board styles
+*/
+div.game-board {
+  clear: both;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
+table#game-board {
+  width: 350px;
+  height: 350px;
+  /*width: 100%;*/
+  /*height: 100%;*/
+  border-collapse: collapse;
+  background-image: url("../img/chess_board.svg");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+table#game-board > tbody {
+  width: 340px;
+  height: 340px;
+  display: block;
+  padding: 5px;
+}
+table#game-board tr {
+  /*height: 85px;*/
+  height: 10px;
+}
+table#game-board td {
+  /*width: 85px;*/
+  width: 10px;
+}
+table#game-board td > div {
+  /*width: 80px;*/
+  /*height: 75px;*/
+  width: 40px;
+  height: 40px;
+  background-repeat: no-repeat;
+  background-size: 40px 40px;
+}
+
+table#game-board td > div[data-type="SINGLE"][data-color="RED"] {
+  background-image: url("../img/single-piece-red.svg");
+}
+table#game-board td > div[data-type="KING"][data-color="RED"] {
+  background-image: url("../img/king-piece-red.svg");
+}
+table#game-board td > div[data-type="SINGLE"][data-color="WHITE"] {
+  background-image: url("../img/single-piece-white.svg");
+}
+table#game-board td > div[data-type="KING"][data-color="WHITE"] {
+  background-image: url("../img/king-piece-white.svg");
+}

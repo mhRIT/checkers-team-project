@@ -6,30 +6,6 @@
     <link rel="stylesheet" type="text/css" href="/css/style.css">
     <link rel="stylesheet" type="text/css" href="/css/home.css">
 
-    <style>
-      .vertical-menu {
-        width: 250px;
-        /*height: 250px;*/
-        overflow-y: auto;
-      }
-
-      .vertical-menu button{
-        width: 250px;
-        padding:  10px 0;
-        border: 1px white;
-        font-size: 16px;
-        background-color: #F0FAFF;
-        color:  black;
-        display:  inline-block;
-        text-align: center;
-        text-decoration: none;
-      }
-
-      .vertical-menu button:hover {
-        background-color: #888888;
-        color: white;
-      }
-    </style>
 </head>
 <body>
   <div class="page">
@@ -58,19 +34,38 @@
       </#if>
 
   <#------------------------------------------------------------------------------------------------->
-      <table id="users">
-        <thead>
-        <tr>
-          <th>Firstname</th><th>Last Name</th>
-        </tr>
-        </thead>
+      <table id="game-board">
         <tbody>
-        <tr id="name_01">
-          <td class="firstname">Jill</td><td class="lastname">Smith</td>
-        </tr>
-        <tr id="name_02">
-          <td class="firstname">Eve</td><td class="lastname">Jackson</td>
-        </tr>
+          <tr data-row="0">
+            <td data-cell="0" class="Space">
+              <div class="Piece"
+                   id="piece-0-0"
+                   data-type="SINGLE"
+                   data-color="RED">
+              </div>
+            </td>
+            <td data-cell="1" class="Space">
+              <div class="Piece"
+                   id="piece-0-0"
+                   data-type="SINGLE"
+                   data-color="RED">
+              </div>
+            </td>
+            <td data-cell="2" class="Space">
+              <div class="Piece"
+                   id="piece-0-0"
+                   data-type="SINGLE"
+                   data-color="RED">
+              </div>
+            </td>
+            <td data-cell="3" class="Space">
+              <div class="Piece"
+                   id="piece-0-0"
+                   data-type="SINGLE"
+                   data-color="RED">
+              </div>
+            </td>
+          </tr>
         </tbody>
       </table>
 <#------------------------------------------------------------------------------------------------->
