@@ -28,7 +28,6 @@ public class GetHomeRoute extends HtmlRoute {
   //
   //Constants
   //
-
   public static final String TITLE_ATTR = "title";
   public static final String TITLE = "Welcome!";
   public static final String VIEW_NAME = "home.ftl";
@@ -36,7 +35,8 @@ public class GetHomeRoute extends HtmlRoute {
   public static final String AI_PLAYER_NAMES = "aiPlayers";
   public static final String ALL_PLAYER_NAMES = "allPlayers";
   public static final String NUM_PLAYERS = "numPlayers";
-  public static final String MESSAGE = "message";
+  public static final String OPP_MESSAGE = "oppMessage";
+  public static final String GAME_MESSAGE = "gameMessage";
 
   //
   // Constructor
@@ -60,9 +60,13 @@ public class GetHomeRoute extends HtmlRoute {
     final Session session = request.session();
     String currPlayerName = session.attribute(PLAYER);
     Player currPlayer = playerLobby.getPlayer(currPlayerName);
+    String oppMessage = session.attribute(OPP_MESSAGE);
 
     Map<String, Object> vm = new HashMap<>();
     vm.put("title", "Welcome!");
+    if(oppMessage != null){
+      vm.put(OPP_MESSAGE, oppMessage);
+    }
 
     if(currPlayer == null){
       LOG.finer("GetHomeRoute is invoked: no player attached to the current session");
@@ -75,9 +79,9 @@ public class GetHomeRoute extends HtmlRoute {
       GameContext game = gameCenter.getGame(currPlayer);
       if(game != null) {
         if(game.isGameOver()){
-          vm.put(MESSAGE, game.endMessage());
+//          session.attribute(GAME_MESSAGE, game.endMessage());
+          vm.put(GAME_MESSAGE, game.endMessage());
           LOG.finer("GetHomeRoute game is ended");
-          vm.put(MESSAGE, game.endMessage());
         } else {
           response.redirect(WebServer.GAME_URL);
           halt();

@@ -1,6 +1,8 @@
 package com.webcheckers.ui.HtmlRoutes;
 
+import static com.webcheckers.ui.HtmlRoutes.GetHomeRoute.AI_PLAYER_NAMES;
 import static com.webcheckers.ui.HtmlRoutes.GetHomeRoute.ALL_PLAYER_NAMES;
+import static com.webcheckers.ui.HtmlRoutes.GetHomeRoute.OPP_MESSAGE;
 import static com.webcheckers.ui.HtmlRoutes.GetHomeRoute.PLAYER;
 import static spark.Spark.halt;
 
@@ -39,7 +41,6 @@ public class PostSelectOpponentRoute extends HtmlRoute {
   public static final String TITLE_ATTR = "title";
   public static final String TITLE = "GameState!";
   public static final String OPP_PLAYER_NAME = "opponent";
-  public static final String MESSAGE = "message";
 
   //
   // Enums
@@ -65,8 +66,6 @@ public class PostSelectOpponentRoute extends HtmlRoute {
     String currPlayerName = session.attribute(PLAYER);
     Player currPlayer = playerLobby.getPlayer(currPlayerName);
 
-    String requestBody = request.body();
-//    String oppPlayerName = request.queryParams(OPP_PLAYER_NAME);
     Gson gson = new Gson();
     InitConfig gameConfig = gson.fromJson(request.body(), InitConfig.class);
     Player opponent = playerLobby.getPlayer(gameConfig.getOpponent());
@@ -86,15 +85,13 @@ public class PostSelectOpponentRoute extends HtmlRoute {
     LOG.finer("PostSelectOpponentRoute is invoked: " + currPlayer.getName());
     GameContext game = gameCenter.getGame(opponent);
     if (game != null && !opponent.isAi() && !game.isGameOver()) {
-      String message = String.format("The selected opponent, %s, is already in a game",
+      String message = String.format("The selected opponent, '%s', is already in a game",
           opponent.getName());
       LOG.finer(message);
-      vm.put(GetHomeRoute.TITLE_ATTR, GetHomeRoute.TITLE);
-      vm.put(ALL_PLAYER_NAMES, playerLobby.playerNames(currPlayer.getName()));
-      vm.put(PLAYER, currPlayer);
-      vm.put(MESSAGE, message);
-
-      return templateEngine.render(new ModelAndView(vm, "home.ftl"));
+      session.attribute(OPP_MESSAGE, message);
+      response.redirect(WebServer.HOME_URL);
+      halt();
+      return "nothing";
     }
 
     gameCenter.createGame(currPlayer, opponent, gameConfig);

@@ -4,7 +4,7 @@
     <meta http-equiv="refresh" content="10">
     <title>${title} | Web Checkers</title>
     <link rel="stylesheet" type="text/css" href="/css/style.css">
-    <link rel="stylesheet" type="text/css" href="/css/test.css">
+    <link rel="stylesheet" type="text/css" href="/css/home.css">
 
     <style>
       .vertical-menu {
@@ -45,10 +45,16 @@
     </div>
 
     <div class="body">
-      <#if message??>
-      <div>
-        <p style="color: red">${message}</p>
-      </div>
+      <#if oppMessage??>
+        <div>
+          <p style="color: red">${oppMessage}</p>
+        </div>
+      </#if>
+
+      <#if gameMessage??>
+        <div>
+          <p style="color: red">${gameMessage}</p>
+        </div>
       </#if>
 
 <#------------------------------------------------------------------------------------------------->
@@ -112,7 +118,11 @@
               <p> Other players currently signed in:</p>
               <br>
               <#list allPlayers as eachPlayerName>
-                <button class="active" type="submit" name="opponent" value="${eachPlayerName}">${eachPlayerName}</button>
+                <button class="active" type="button"
+                        name="opponent" value="${eachPlayerName}"
+                        onclick="handleFormSubmit(this.value)">
+                  ${eachPlayerName}
+                </button>
               </#list>
             <#else>
               <p style="color: red"> No other players are currently signed in</p>
@@ -131,7 +141,7 @@
     </div>
   </div>
 
-  <script data-main="/js/game/index" src="/js/test.js"></script>
+  <script data-main="/js/game/index" src="/js/home.js"></script>
 
 </body>
 </html>

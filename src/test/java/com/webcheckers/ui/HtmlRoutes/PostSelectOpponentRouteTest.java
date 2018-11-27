@@ -1,8 +1,8 @@
 package com.webcheckers.ui.HtmlRoutes;
 
 import static com.webcheckers.model.Board.Board.COLOR.RED;
+import static com.webcheckers.ui.HtmlRoutes.GetHomeRoute.OPP_MESSAGE;
 import static com.webcheckers.ui.HtmlRoutes.GetHomeRoute.PLAYER;
-import static com.webcheckers.ui.HtmlRoutes.PostSelectOpponentRoute.MESSAGE;
 import static com.webcheckers.ui.HtmlRoutes.PostSelectOpponentRoute.OPP_PLAYER_NAME;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -91,7 +91,7 @@ class PostSelectOpponentRouteTest extends HtmlRouteTest {
 
     testHelper.assertViewModelAttribute(GetHomeRoute.TITLE_ATTR, GetHomeRoute.TITLE);
     testHelper.assertViewModelAttribute(PLAYER, testPlayer);
-    testHelper.assertViewModelAttribute(MESSAGE, message);
+    testHelper.assertViewModelAttribute(OPP_MESSAGE, message);
     testHelper.assertViewModelExists();
     testHelper.assertViewModelIsaMap();
     testHelper.assertViewName(GetHomeRoute.VIEW_NAME);
