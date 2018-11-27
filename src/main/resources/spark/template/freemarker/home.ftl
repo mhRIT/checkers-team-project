@@ -57,6 +57,22 @@
         </div>
       </#if>
 
+  <#------------------------------------------------------------------------------------------------->
+      <table id="users">
+        <thead>
+        <tr>
+          <th>Firstname</th><th>Last Name</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr id="name_01">
+          <td class="firstname">Jill</td><td class="lastname">Smith</td>
+        </tr>
+        <tr id="name_02">
+          <td class="firstname">Eve</td><td class="lastname">Jackson</td>
+        </tr>
+        </tbody>
+      </table>
 <#------------------------------------------------------------------------------------------------->
       <#if aiPlayers??>
         <button class="accordion" id="accNormal">Normal start</button>

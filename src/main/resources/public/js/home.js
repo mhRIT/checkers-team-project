@@ -37,7 +37,6 @@ whiteSlider.oninput = function() {
 };
 
 var i;
-
 for (i = 0; i < acc.length; i++) {
   acc[i].addEventListener("click", function() {
     collapse();
