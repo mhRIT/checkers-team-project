@@ -1,6 +1,5 @@
 package com.webcheckers.model.GameState;
 
-import com.sun.org.apache.xml.internal.security.Init;
 import com.webcheckers.model.Board.Board;
 import com.webcheckers.model.Board.InitConfig;
 

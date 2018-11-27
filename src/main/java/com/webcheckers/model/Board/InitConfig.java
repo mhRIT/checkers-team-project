@@ -49,6 +49,10 @@ public class InitConfig {
     this.opponent = opponentName;
   }
 
+  public InitConfig(){
+    type = "normal";
+  }
+
   public START_TYPE getStartType(){
     START_TYPE toReturn;
     try{
@@ -61,6 +65,10 @@ public class InitConfig {
       }
     }
     return toReturn;
+  }
+
+  public String getType(){
+    return type;
   }
 
   public String getOpponent(){
@@ -87,6 +95,14 @@ public class InitConfig {
       }
     }
     return toReturn;
+  }
+
+  public String getPreset(){
+    return preset;
+  }
+
+  public void setPreset(String setVal){
+    preset = setVal;
   }
 
   public List<Position> getCustom(){

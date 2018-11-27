@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>
-    <#--<meta http-equiv="refresh" content="10">-->
-    <title>${title} | Web Checkers</title>
-    <link rel="stylesheet" type="text/css" href="/css/style.css">
-    <link rel="stylesheet" type="text/css" href="/css/home.css">
-
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>
+  <#--<meta http-equiv="refresh" content="10">-->
+  <title>${title} | Web Checkers</title>
+  <link rel="stylesheet" type="text/css" href="/css/style.css">
+  <link rel="stylesheet" type="text/css" href="/css/home.css">
 </head>
 <body>
   <div class="page">
@@ -36,72 +35,96 @@
       <#if aiPlayers??>
 <#--Accordion button list-------------------------------------------------------------------------->
         <button class="accordion" name="normal" id="accNormal">Normal start</button>
-        <div class="panel">
-          <p>Start a normal game</p>
-        </div>
+        <#if configType = "normal">
+          <div class="panel" style="display:block" id="normalPanel">
+            <p>Start a normal game</p>
+          </div>
+        <#else>
+          <div class="panel" style="display:none" id="normalPanel">
+            <p>Start a normal game</p>
+          </div>
+        </#if>
 
         <button class="accordion" name="random" id="accSlider">Random placement</button>
-        <div class="panel">
-          <p>Set the number of starting pieces for each player:</p>
-          <div class="slidecontainer">
-            <input type="range" min="1" max="12" value="6" class="slider" id="redPieceSlider">
-            <p>Number of red pieces: </p>
-            <output id="redPieceOutput"></output>
-            <br>
-            <br>
-            <input type="range" min="1" max="12" value="6" class="slider" id="whitePieceSlider">
-            <p>Number of white pieces: </p>
-            <output id="whitePieceOutput"></output>
+        <#if configType="random">
+          <div class="panel" style="display:block" id="sliderPanel">
+            <p>Set the number of starting pieces for each player:</p>
+            <div class="slidecontainer">
+              <input type="range" min="1" max="12" value="${configNumRed}" class="slider" id="redPieceSlider">
+              <p>Number of red pieces: </p>
+              <output id="redPieceOutput">${configNumRed}</output>
+              <br>
+              <br>
+              <input type="range" min="1" max="12" value="${configNumWhite}" class="slider" id="whitePieceSlider">
+              <p>Number of white pieces: </p>
+              <output id="whitePieceOutput">${configNumWhite}</output>
+            </div>
           </div>
-        </div>
+        <#else>
+          <div class="panel" style="display:none" id="sliderPanel">
+            <p>Set the number of starting pieces for each player:</p>
+            <div class="slidecontainer">
+              <input type="range" min="1" max="12" value="6" class="slider" id="redPieceSlider">
+              <p>Number of red pieces: </p>
+              <output id="redPieceOutput"></output>
+              <br>
+              <br>
+              <input type="range" min="1" max="12" value="6" class="slider" id="whitePieceSlider">
+              <p>Number of white pieces: </p>
+              <output id="whitePieceOutput"></output>
+            </div>
+          </div>
+        </#if>
 
         <button class="accordion" name="preset" id="accPreset">Preset boards</button>
-        <div class="panel">
-          <label for="presetStartCheckbox">Start</label>
-          <input type="checkbox" id="presetStartCheckbox"/>
+        <#if configType="preset">
+          <div class="panel" style="display:block" id="presetPanel">
+            <label for="presetStartCheckbox">Start</label>
+            <input type="checkbox" id="presetStartCheckbox" <#if configPreset?? && configPreset="start">checked</#if>/>
 
-          <label for="presetMidCheckbox">Mid</label>
-          <input type="checkbox" id="presetMidCheckbox"/>
+            <label for="presetMidCheckbox">Mid</label>
+            <input type="checkbox" id="presetMidCheckbox" <#if configPreset?? && configPreset="middle">checked</#if>/>
 
-          <label for="presetEndCheckbox">End</label>
-          <input type="checkbox" id="presetEndCheckbox"/>
-        </div>
+            <label for="presetEndCheckbox">End</label>
+            <input type="checkbox" id="presetEndCheckbox" <#if configPreset?? && configPreset="end">checked</#if>/>
+          </div>
+        <#else>
+          <div class="panel" style="display:none" id="presetPanel">
+            <label for="presetStartCheckbox">Start</label>
+            <input type="checkbox" id="presetStartCheckbox"/>
+
+            <label for="presetMidCheckbox">Mid</label>
+            <input type="checkbox" id="presetMidCheckbox"/>
+
+            <label for="presetEndCheckbox">End</label>
+            <input type="checkbox" id="presetEndCheckbox"/>
+          </div>
+        </#if>
 
         <button class="accordion" name="custom" id="accCustom">Custom board</button>
-        <div class="panel">
+        <div class="panel" style="display:none" id="customPanel">
 <#--Custom board table----------------------------------------------------------------------------->
           <table id="game-board">
             <tbody>
-            <tr data-row="0">
-              <td data-cell="0" class="Space">
-                <div class="Piece"
-                     id="piece-0-0"
-                     data-type="SINGLE"
-                     data-color="RED">
-                </div>
-              </td>
-              <td data-cell="1" class="Space">
-                <div class="Piece"
-                     id="piece-0-0"
-                     data-type="SINGLE"
-                     data-color="RED">
-                </div>
-              </td>
-              <td data-cell="2" class="Space">
-                <div class="Piece"
-                     id="piece-0-0"
-                     data-type="SINGLE"
-                     data-color="RED">
-                </div>
-              </td>
-              <td data-cell="3" class="Space">
-                <div class="Piece"
-                     id="piece-0-0"
-                     data-type="SINGLE"
-                     data-color="RED">
-                </div>
-              </td>
-            </tr>
+              <#--<#list board.iterator() as row>-->
+              <#--<tr data-row="${row.index}">-->
+              <#--<#list row.iterator() as space>-->
+                <#--<td data-cell="${space.cellIdx}"-->
+                    <#--<#if space.isValid() >-->
+                    <#--class="Space"-->
+                    <#--</#if>-->
+                <#-->-->
+                <#--<#if space.piece??>-->
+                  <#--<div class="Piece"-->
+                       <#--id="piece-${row.index}-${space.cellIdx}"-->
+                       <#--data-type="${space.piece.type}"-->
+                       <#--data-color="${space.piece.color}">-->
+                  <#--</div>-->
+                <#--</#if>-->
+                <#--</td>-->
+              <#--</#list>-->
+              <#--</tr>-->
+              <#--</#list>-->
             </tbody>
           </table>
 <#--Custom board table----------------------------------------------------------------------------->

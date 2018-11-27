@@ -1,17 +1,56 @@
-var acc = document.getElementsByClassName("accordion");
-
 var accNormal = document.getElementById("accNormal");
 var accSlider = document.getElementById("accSlider");
 var accPreset = document.getElementById("accPreset");
 var accCustom = document.getElementById("accCustom");
 
-var normalPanel = accNormal.nextElementSibling;
-var sliderPanel = accSlider.nextElementSibling;
-var presetPanel = accPreset.nextElementSibling;
-var customPanel = accCustom.nextElementSibling;
+var normalPanel = document.getElementById("normalPanel");
+var sliderPanel = document.getElementById("sliderPanel");
+var presetPanel = document.getElementById("presetPanel");
+var customPanel = document.getElementById("customPanel");
 
-normalPanel.style.display = "block";
-handleSetConfig();
+accNormal.addEventListener("click", function() {
+  collapse();
+  var panel = normalPanel;
+  if(panel.style.display === "block"){
+    panel.style.display = "none";
+  } else {
+    panel.style.display = "block";
+  }
+  handleSetConfig();
+});
+
+accSlider.addEventListener("click", function() {
+  collapse();
+  var panel = sliderPanel;
+  if(panel.style.display === "block"){
+    panel.style.display = "none";
+  } else {
+    panel.style.display = "block";
+  }
+  handleSetConfig();
+});
+
+accPreset.addEventListener("click", function() {
+  collapse();
+  var panel = presetPanel;
+  if(panel.style.display === "block"){
+    panel.style.display = "none";
+  } else {
+    panel.style.display = "block";
+  }
+  handleSetConfig();
+});
+
+accCustom.addEventListener("click", function() {
+  collapse();
+  var panel = customPanel;
+  if(panel.style.display === "block"){
+    panel.style.display = "none";
+  } else {
+    panel.style.display = "block";
+  }
+  handleSetConfig();
+});
 
 var redSlider = document.getElementById("redPieceSlider");
 var whiteSlider = document.getElementById("whitePieceSlider");
@@ -23,13 +62,13 @@ var presetStartCheckbox = document.getElementById("presetStartCheckbox");
 var presetMidCheckbox = document.getElementById("presetMidCheckbox");
 var presetEndCheckbox = document.getElementById("presetEndCheckbox");
 
-presetStartCheckbox.checked = true;
+var presetSelected;
+
+var customBoardTable = document.getElementById("game-board");
 
 presetStartCheckbox.onchange = checkPresetStart;
 presetMidCheckbox.onchange = checkPresetMid;
 presetEndCheckbox.onchange = checkPresetEnd;
-
-var presetSelected = "start";
 
 redPieceOutput.innerHTML = redSlider.value; // Display the default slider value
 whitePieceOutput.innerHTML = whiteSlider.value; // Display the default slider value
@@ -45,15 +84,27 @@ whiteSlider.oninput = function() {
   setConfigSlider();
 };
 
-var i;
-for (i = 0; i < acc.length; i++) {
-  acc[i].addEventListener("click", function() {
-    collapse();
-    var panel = this.nextElementSibling;
-    panel.style.display = "block";
-    handleSetConfig();
-  });
+if(presetMidCheckbox.checked === true){
+  presetSelected = "middle";
+} else if(presetEndCheckbox.checked === true){
+  presetSelected = "end";
+} else {
+  presetStartCheckbox.checked = true;
+  presetSelected = "start";
 }
+handleSetConfig();
+
+// for (i = 0, row; row = customBoardTable.rows[i]; i++) {
+//   //iterate through rows
+//   //rows would be accessed using the "row" variable assigned in the for loop
+//   for (var j = 0, col; col = row.cells[j]; j++) {
+//     //iterate through columns
+//     //columns would be accessed using the "col" variable assigned in the for loop
+//     col.addEventListener("click", function() {
+//       tableCellClicked(this);
+//     });
+//   }
+// }
 
 function handleSetConfig() {
   if(normalPanel.style.display === "block"){
@@ -97,38 +148,6 @@ function setConfigCustom(){
   }
 }
 
-/**
- * A handler function to prevent default submission and run our custom script.
- * @param  {Event} oppName  the name of the selected opponent
- * @return {void}
- */
-function handleFormSubmit(oppName) {
-  var data;
-
-  if(normalPanel.style.display === "block"){
-    data = {"opponent":oppName};
-  } else if (sliderPanel.style.display === "block") {
-    data = {"opponent":oppName,
-            "numRedPieces":redPieceOutput.innerHTML,
-            "numWhitePieces":whitePieceOutput.innerHTML};
-  } else if(presetPanel.style.display === "block") {
-    if(presetStartCheckbox.checked){
-      data = {"opponent":oppName,
-              "boardIdx":1};
-    } else if(presetMidCheckbox.checked){
-      data = {"opponent":oppName,
-              "boardIdx":2};
-    } else if(presetEndCheckbox.checked){
-      data = {"opponent":oppName,
-              "boardIdx":3};
-    }
-  } else if(customPanel.style.display === "block") {
-    alert('customPanel');
-  }
-
-  sendData("/selectOpponent", data);
-}
-
 function sendData(url, data){
   var dataStr = JSON.stringify(data);
   var http = new XMLHttpRequest();
@@ -151,7 +170,6 @@ function checkPresetStart() {
   presetSelected = "start";
   presetMidCheckbox.checked = false;
   presetEndCheckbox.checked = false;
-
   setConfigPreset();
 }
 
@@ -159,7 +177,6 @@ function checkPresetMid() {
   presetSelected = "middle";
   presetStartCheckbox.checked = false;
   presetEndCheckbox.checked = false;
-
   setConfigPreset();
 }
 
@@ -167,6 +184,9 @@ function checkPresetEnd() {
   presetSelected = "end";
   presetStartCheckbox.checked = false;
   presetMidCheckbox.checked = false;
-
   setConfigPreset();
+}
+
+function tableCellClicked(tableCell){
+  alert(tableCell.id);
 }
