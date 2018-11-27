@@ -1,6 +1,6 @@
 package com.webcheckers.model.GameState;
 
-import com.webcheckers.model.Board;
+import com.webcheckers.model.Board.Board;
 
 public class InitState extends GameState {
 

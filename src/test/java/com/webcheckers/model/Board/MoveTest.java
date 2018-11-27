@@ -1,4 +1,4 @@
-package com.webcheckers.model;
+package com.webcheckers.model.Board;
 
 import com.webcheckers.model.Player.Player;
 import org.junit.jupiter.api.BeforeEach;

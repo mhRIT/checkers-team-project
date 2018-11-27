@@ -2,10 +2,10 @@ package com.webcheckers.model.GameState;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.webcheckers.model.Board;
+import com.webcheckers.model.Board.Board;
 import com.webcheckers.model.GameState.GameState.STATE;
-import com.webcheckers.model.Move;
-import com.webcheckers.model.Position;
+import com.webcheckers.model.Board.Move;
+import com.webcheckers.model.Board.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -1,12 +1,15 @@
-package com.webcheckers.model;
+package com.webcheckers.model.Board;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.webcheckers.model.Board.COLOR;
-import com.webcheckers.model.Board.SPACE_TYPE;
+import com.webcheckers.model.Board.Board;
+import com.webcheckers.model.Board.Board.COLOR;
+import com.webcheckers.model.Board.Board.SPACE_TYPE;
+import com.webcheckers.model.Board.Move;
+import com.webcheckers.model.Board.Position;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;

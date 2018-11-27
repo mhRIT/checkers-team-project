@@ -9,12 +9,12 @@
     <style>
       .vertical-menu {
         width: 250px;
-        height: 200px;
+        /*height: 250px;*/
         overflow-y: auto;
       }
 
       .vertical-menu button{
-        width: 240px;
+        width: 250px;
         padding:  10px 0;
         border: 1px white;
         font-size: 16px;
@@ -78,39 +78,45 @@
       </div>
       </#if>
 
-      <#if aiPlayers??>
-        <p> AI opponents:</p>
-          <br>
-          <div class="vertical-menu">
-            <form action="/selectOpponent" method="POST">
-              <#list aiPlayers as eachPlayerName>
+      <button id="sendButton" type="button" value="opponent" onclick="handleFormSubmit(this.value)">Click Me!</button>
+
+      <form action="/selectOpponent" method="POST">
+        <div class="vertical-menu">
+
+          <#--Start AI display---->
+          <#if aiPlayers??>
+            <p> AI opponents:</p>
+            <br>
+            <#list aiPlayers as eachPlayerName>
+                <button class="active" type="submit" name="opponent" value="${eachPlayerName}">${eachPlayerName}</button>
+            </#list>
+            <br>
+            <br>
+          </#if>
+          <#--End AI display---->
+
+          <#--Start player display-->
+          <#if allPlayers??>
+            <#if allPlayers?size gt 0>
+              <p> Other players currently signed in:</p>
+              <br>
+              <#list allPlayers as eachPlayerName>
                 <button class="active" type="submit" name="opponent" value="${eachPlayerName}">${eachPlayerName}</button>
               </#list>
-            </form>
-          </div>
-      </#if>
+            <#else>
+              <p style="color: red"> No other players are currently signed in</p>
+            </#if>
+          <#else>
+            <#if numPlayers??>
+              <p> Number of players: ${numPlayers}</p>
+            <#else>
+              <p style="color: red"> Unknown number of players</p>
+            </#if>
+          </#if>
+          <#--End player display-->
 
-      <#if allPlayers??>
-        <#if allPlayers?size gt 0>
-          <p> Other players currently signed in:</p>
-          <br>
-          <div class="vertical-menu">
-            <form action="/selectOpponent" method="POST">
-              <#list allPlayers as eachPlayerName>
-                  <button class="active" type="submit" name="opponent" value="${eachPlayerName}">${eachPlayerName}</button>
-              </#list>
-            </form>
-          </div>
-        <#else>
-          <p style="color: red"> No other players are currently signed in</p>
-        </#if>
-      <#else>
-        <#if numPlayers??>
-          <p> Number of players: ${numPlayers}</p>
-        <#else>
-          <p style="color: red"> Unknown number of players</p>
-        </#if>
-      </#if>
+        </div>
+      </form>
     </div>
   </div>
 

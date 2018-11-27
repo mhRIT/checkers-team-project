@@ -1,7 +1,7 @@
 package com.webcheckers.ui.boardView;
 
-import com.webcheckers.model.Board;
-import com.webcheckers.model.Board.SPACE_TYPE;
+import com.webcheckers.model.Board.Board;
+import com.webcheckers.model.Board.Board.SPACE_TYPE;
 import com.webcheckers.ui.boardView.Piece.COLOR;
 import com.webcheckers.ui.boardView.Piece.TYPE;
 import java.util.ArrayList;

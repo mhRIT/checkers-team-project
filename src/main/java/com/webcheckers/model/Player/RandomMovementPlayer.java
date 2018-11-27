@@ -1,8 +1,8 @@
 package com.webcheckers.model.Player;
 
-import com.webcheckers.model.Board;
+import com.webcheckers.model.Board.Board;
 import com.webcheckers.model.GameState.GameContext;
-import com.webcheckers.model.Move;
+import com.webcheckers.model.Board.Move;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 

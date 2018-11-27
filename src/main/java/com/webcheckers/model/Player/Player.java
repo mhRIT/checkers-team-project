@@ -1,7 +1,7 @@
 package com.webcheckers.model.Player;
 
 import com.webcheckers.model.GameState.GameContext;
-import com.webcheckers.model.Move;
+import com.webcheckers.model.Board.Move;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.HashMap;

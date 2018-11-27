@@ -1,7 +1,7 @@
 package com.webcheckers.model.GameState;
 
-import com.webcheckers.model.Board;
-import com.webcheckers.model.Board.COLOR;
+import com.webcheckers.model.Board.Board;
+import com.webcheckers.model.Board.Board.COLOR;
 import com.webcheckers.model.GameState.GameState.STATE;
 import com.webcheckers.model.Player.Player;
 import java.beans.PropertyChangeSupport;

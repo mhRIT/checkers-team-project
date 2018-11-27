@@ -4,13 +4,18 @@ import static com.webcheckers.ui.HtmlRoutes.GetHomeRoute.ALL_PLAYER_NAMES;
 import static com.webcheckers.ui.HtmlRoutes.GetHomeRoute.PLAYER;
 import static spark.Spark.halt;
 
+import com.google.gson.Gson;
+import com.google.gson.internal.LinkedTreeMap;
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
+import com.webcheckers.model.Board.InitConfig;
 import com.webcheckers.model.GameState.GameContext;
 import com.webcheckers.model.Player.Player;
 import com.webcheckers.ui.WebServer;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
@@ -60,8 +65,12 @@ public class PostSelectOpponentRoute extends HtmlRoute {
     String currPlayerName = session.attribute(PLAYER);
     Player currPlayer = playerLobby.getPlayer(currPlayerName);
 
-    Player opponent = playerLobby.getPlayer(request.queryParams(OPP_PLAYER_NAME));
+    String oppPlayerName = request.queryParams(OPP_PLAYER_NAME);
+    Gson gson = new Gson();
+    InitConfig gameConfig = gson.fromJson(request.body(), InitConfig.class);
+    Player opponent = playerLobby.getPlayer(oppPlayerName);
     Map<String, Object> vm = new HashMap<>();
+
 
     if(currPlayer == null || playerLobby.getPlayer(currPlayer.getName()) == null) {
       String message = "PostSelectOpponentRoute is invoked with no player stored in the current " +

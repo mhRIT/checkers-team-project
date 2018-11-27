@@ -1,4 +1,4 @@
-package com.webcheckers.model;
+package com.webcheckers.model.Board;
 
 public class Position {
   //

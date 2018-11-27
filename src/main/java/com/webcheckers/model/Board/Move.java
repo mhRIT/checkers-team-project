@@ -1,4 +1,4 @@
-package com.webcheckers.model;
+package com.webcheckers.model.Board;
 
 public class Move {
   //
@@ -43,10 +43,11 @@ public class Move {
     return type.equals(MOVE_TYPE.JUMP);
   }
 
-//  public MOVE_TYPE getType(){
-//    return type;
-//  }
-
+  /**
+   * Builds a human-readable string representation of this Move.
+   *
+   * @return  human-readable representation of this Move
+   */
   @Override
   public String toString() {
     return String.format("%s -> %s: %s", start, end, type);

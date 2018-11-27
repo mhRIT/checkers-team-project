@@ -1,7 +1,7 @@
 package com.webcheckers.model.GameState;
 
-import com.webcheckers.model.Board;
-import com.webcheckers.model.Move;
+import com.webcheckers.model.Board.Board;
+import com.webcheckers.model.Board.Move;
 import com.webcheckers.model.Player.Player;
 import java.util.List;
 

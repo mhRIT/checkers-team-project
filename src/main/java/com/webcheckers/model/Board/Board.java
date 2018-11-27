@@ -1,7 +1,5 @@
-package com.webcheckers.model;
+package com.webcheckers.model.Board;
 
-import com.sun.org.apache.regexp.internal.RE;
-import com.webcheckers.model.Move.MOVE_TYPE;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -308,7 +306,7 @@ public class Board implements Cloneable {
    * @param   y y coordinate on the cartesian board
    * @return    the piece located at the specified location
    */
-  SPACE_TYPE getPieceAtLocation(int x, int y) {
+  public SPACE_TYPE getPieceAtLocation(int x, int y) {
     int bitIdx = cartesianToIndex(x, y);
     if(bitIdx == -1){
       return SPACE_TYPE.EMPTY;

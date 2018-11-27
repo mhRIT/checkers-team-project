@@ -1,7 +1,8 @@
-package com.webcheckers.model;
+package com.webcheckers.model.Board;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import com.webcheckers.model.Board.Position;
 import com.webcheckers.model.Player.Player;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;

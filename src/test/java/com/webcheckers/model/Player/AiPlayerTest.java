@@ -6,12 +6,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import com.webcheckers.model.Board;
-import com.webcheckers.model.Board.COLOR;
+import com.webcheckers.model.Board.Board;
+import com.webcheckers.model.Board.Board.COLOR;
 import com.webcheckers.model.GameState.GameContext;
 import com.webcheckers.model.GameState.GameState.STATE;
-import com.webcheckers.model.Move;
-import com.webcheckers.model.Position;
 import java.beans.PropertyChangeEvent;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;

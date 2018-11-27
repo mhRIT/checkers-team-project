@@ -7,10 +7,10 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.webcheckers.model.Board;
-import com.webcheckers.model.Move;
+import com.webcheckers.model.Board.Board;
+import com.webcheckers.model.Board.Move;
 import com.webcheckers.model.Player.Player;
-import com.webcheckers.model.Position;
+import com.webcheckers.model.Board.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;

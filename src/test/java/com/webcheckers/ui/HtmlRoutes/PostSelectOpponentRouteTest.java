@@ -1,6 +1,6 @@
 package com.webcheckers.ui.HtmlRoutes;
 
-import static com.webcheckers.model.Board.COLOR.RED;
+import static com.webcheckers.model.Board.Board.COLOR.RED;
 import static com.webcheckers.ui.HtmlRoutes.GetHomeRoute.PLAYER;
 import static com.webcheckers.ui.HtmlRoutes.PostSelectOpponentRoute.MESSAGE;
 import static com.webcheckers.ui.HtmlRoutes.PostSelectOpponentRoute.OPP_PLAYER_NAME;

@@ -1,10 +1,10 @@
 package com.webcheckers.model.GameState;
 
-import com.webcheckers.model.Board;
-import com.webcheckers.model.Board.COLOR;
-import com.webcheckers.model.Move;
+import com.webcheckers.model.Board.Board;
+import com.webcheckers.model.Board.Board.COLOR;
+import com.webcheckers.model.Board.Move;
 import com.webcheckers.model.Player.Player;
-import com.webcheckers.model.Position;
+import com.webcheckers.model.Board.Position;
 import java.util.List;
 
 public class WaitTurnState extends GameState {

@@ -9,8 +9,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.webcheckers.model.GameState.GameContext;
-import com.webcheckers.model.Move;
-import com.webcheckers.model.Position;
+import com.webcheckers.model.Board.Move;
+import com.webcheckers.model.Board.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;

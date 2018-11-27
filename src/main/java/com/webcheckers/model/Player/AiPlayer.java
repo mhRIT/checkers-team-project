@@ -2,7 +2,7 @@ package com.webcheckers.model.Player;
 
 import com.webcheckers.model.GameState.GameContext;
 import com.webcheckers.model.GameState.GameState.STATE;
-import com.webcheckers.model.Move;
+import com.webcheckers.model.Board.Move;
 import java.beans.PropertyChangeEvent;
 
 public abstract class AiPlayer extends Player {
