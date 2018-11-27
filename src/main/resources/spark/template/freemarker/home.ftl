@@ -33,42 +33,6 @@
         </div>
       </#if>
 
-  <#------------------------------------------------------------------------------------------------->
-      <table id="game-board">
-        <tbody>
-          <tr data-row="0">
-            <td data-cell="0" class="Space">
-              <div class="Piece"
-                   id="piece-0-0"
-                   data-type="SINGLE"
-                   data-color="RED">
-              </div>
-            </td>
-            <td data-cell="1" class="Space">
-              <div class="Piece"
-                   id="piece-0-0"
-                   data-type="SINGLE"
-                   data-color="RED">
-              </div>
-            </td>
-            <td data-cell="2" class="Space">
-              <div class="Piece"
-                   id="piece-0-0"
-                   data-type="SINGLE"
-                   data-color="RED">
-              </div>
-            </td>
-            <td data-cell="3" class="Space">
-              <div class="Piece"
-                   id="piece-0-0"
-                   data-type="SINGLE"
-                   data-color="RED">
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-<#------------------------------------------------------------------------------------------------->
       <#if aiPlayers??>
         <button class="accordion" id="accNormal">Normal start</button>
         <div class="panel">
@@ -90,6 +54,7 @@
           </div>
         </div>
 
+<#--Accordion button list-------------------------------------------------------------------------->
         <button class="accordion" id="accPreset">Preset boards</button>
         <div class="panel">
           <label for="presetStartCheckbox">Start</label>
@@ -104,21 +69,55 @@
 
         <button class="accordion" id="accCustom">Custom board</button>
         <div class="panel">
-          <p>Lorem ipsum...</p>
+<#--Custom board table----------------------------------------------------------------------------->
+          <table id="game-board">
+            <tbody>
+            <tr data-row="0">
+              <td data-cell="0" class="Space">
+                <div class="Piece"
+                     id="piece-0-0"
+                     data-type="SINGLE"
+                     data-color="RED">
+                </div>
+              </td>
+              <td data-cell="1" class="Space">
+                <div class="Piece"
+                     id="piece-0-0"
+                     data-type="SINGLE"
+                     data-color="RED">
+                </div>
+              </td>
+              <td data-cell="2" class="Space">
+                <div class="Piece"
+                     id="piece-0-0"
+                     data-type="SINGLE"
+                     data-color="RED">
+                </div>
+              </td>
+              <td data-cell="3" class="Space">
+                <div class="Piece"
+                     id="piece-0-0"
+                     data-type="SINGLE"
+                     data-color="RED">
+                </div>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+<#--Custom board table----------------------------------------------------------------------------->
         </div>
       </#if>
-<#------------------------------------------------------------------------------------------------->
+<#--Accordion button list-------------------------------------------------------------------------->
 
       <form action="/selectOpponent" method="POST">
         <div class="vertical-menu">
 
-          <#--Start AI display---->
+<#--Start AI display------------------------------------------------------------------------------->
           <#--If this list exists, then the player is signed in-->
           <#if aiPlayers??>
             <p> AI opponents:</p>
             <br>
             <#list aiPlayers as eachPlayerName>
-                <#--<button class="active" type="submit" name="opponent" value="${eachPlayerName}">${eachPlayerName}</button>-->
               <button class="active" type="button"
                       name="opponent" value="${eachPlayerName}"
                       onclick="handleFormSubmit(this.value)">
@@ -128,9 +127,9 @@
             <br>
             <br>
           </#if>
-          <#--End AI display---->
+<#--End AI display--------------------------------------------------------------------------------->
 
-          <#--Start player display-->
+<#--Start player display--------------------------------------------------------------------------->
           <#if allPlayers??>
             <#if allPlayers?size gt 0>
               <p> Other players currently signed in:</p>
@@ -152,7 +151,7 @@
               <p style="color: red"> Unknown number of players</p>
             </#if>
           </#if>
-          <#--End player display-->
+<#--End player display----------------------------------------------------------------------------->
 
         </div>
       </form>
