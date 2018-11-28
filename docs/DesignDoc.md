@@ -28,17 +28,17 @@ WebCheckers is a web based application that allows multiple users to play agains
 |------|-------------------------|
 | Piece | A regular piece that is only capable of normal move operations |
 | King | A piece with elevated rank and move capabilities |
-| AI   | Artificial Intelligence |
+| Artificial Intelligence (AI) | A compuer-based agent that is capable of making rational decisions |
+| Heuristic | A calculation aimed towards estimating some end-goal. In this context, it is used interchangeable to describe the features used to evaluate a board state for a particular player. |
 
 ## Requirements
 
 This section describes the features of the application.
 
-> _In this section you do not need to be exhaustive and list every
-> story.  Focus on top-level features from the Vision document and
-> maybe Epics and critical Stories._
-
 Upon first landing on the home page, a user is only able to see a count of the number of players currently signed in. However, users are able to sign in using a preferred username, and upon signing in, they are able to see a list of the names of all signed in players. From this list, they are able to select an opponent to play against. Once selecting an opponent to play against, the two players are brought into the game, and thus begins the battle of wits.
+At the conclusion of a game, each player is notified of who the winner was and why the game ended. From there, they are free to play against any other player.
+This is enhanced by the ability to specify starting conditions beyond a typical game of checkers. These starting configurations are explained in further details in the section covering the roadmap of enhancements.
+Another enhancement is the ability to play against various levels of AI. A game is started in the same manner as against a real player with the exception that multiple people may play against the same AI at the same time.
 
 ### Definition of MVP
 
@@ -50,32 +50,118 @@ In order to implement the basic features described in the section above, the fol
 
 - Start of Game
   - [x] Player sign-in
+    
+    _As a Player I want to sign-in so that I can play a game of checkers._
+    
   - [x] Player sign-out
+    
+    _As a Player I want to sign-out so I can release my identity._
+    
   - [x] Game initialization
+    
+    _As a Player I want to start a game so that I can play checkers with an opponent._
+    
 - Procession
   - [x] Backup move
-  - [ ] Turn Tracking
+    
+    _As a player I want to be able to backup a move before submitting it so that I can recover from my numerous mistakes in life._
+    
+  - [x] Turn Tracking
+    
+    _As a Player I want to know when it is my turn so I may go forth and slay my enemy._
+    
 - Piece Movement
   - [x] Simple move
+    
+    _As a Player I want to be able to move diagonally forward one space so that I can advance across the board._
+    
   - [x] Single-jump move
-  - [ ] Multi-jump move
+    
+    _As a Player I want to be able to jump over and capture enemy pieces so I may remove them from the board and advance my way towards victory._
+    
+  - [x] Multi-jump move
+    
+    _As a Player I want to chain jumps together when possible so that my superior positioning and planning can be rewarded._
+    
 - Resignation
   - [x] User Resigns
+    
+    _As a Player I want to resign at any point in time from a game so that I may surrender with what is left of my dignity._
+    
   - [x] Opponent Resigns
+    
+    _As a Player I want to know when my opponent has resigned so I may go defeat another champion._
+    
 - Rank Elevation
-  - [ ] Piece Promotion
-  - [ ] Reverse Movement
+  - [x] Piece Promotion
+    
+    _As a Player when my piece reaches the far side of the board I want it to be promoted by my opponent to a King piece so that I can obtain a wider range of movement._
+    
+  - [x] Reverse Movement
+    
+    _As a Player I want my king piece to have the option to move diagonally backwards (as well as forwards) so that I can flaunt my superior social status._
+    
 - End-of-game Detection
-  - [ ] All Pieces Captured
-  - [ ] Unable to Move
-
+  - [x] All Pieces Captured
+    
+    _As a player, I want to know when all of a player's pieces are captured so that I know when the game is over._
+    
+  - [x] Unable to Move
+    
+    _As a player, I want to know when a player is unable to move so that I know when the game is over._
+    
 ### Roadmap of Enhancements
 - AI
-  - [X] Random AI
-  - [ ] Intelligent AI
+  - [x] Heuristics
+    
+    _As an AI, I will be able to compute a quality of the current state of the board in order to know how likely I am to win._
+    
+  - [x] Random AI
+    
+    _As an AI, I want to make random moves in order to show that I can still beat humans without needing to think._
+    
+  - [x] Intelligent AI
+    
+    _As an AI, I will be able to play at the level of a basic human in order to give humanity false hope for the future._
+    
 - Board Setup Customization
-  - [X] Preset Boards
+  - [x] Random Boards
+    
+    _As a player, I want to be able to select to start the game with a set number of pieces randomly placed on each side so that I can practice playing from an unknown start state._
+    
+  - [x] Preset Boards
+    
+    _As a player, I want to be able to select the starting board from a set of boards so that I can practice playing from different game states._
+    
   - [ ] Custom Boards
+    
+    _As a player, I want to be able to customize the starting board so that I can fully customize the starting state of the board._
+    
+    
+***
+
+When selecting to play against an AI component, the user is presented with 4 choices:
+
+  - Easy AI
+  - Medium AI
+  - Hard AI
+  - Extreme AI
+  
+The difference between these choices is in how they decide to make a move.
+The Easy AI has no rational decision making process. It simply makes a random move based on the moves it is legally allowed to make.
+The other AIs are all implemented using the MiniMax algorithm with the difference being how far ahead they will look in order to evaluate the state of the board. The Medium AI only looks at the next move. The Hard AI looks 3 moves ahead, and the Extreme AI looks an obscene 25 moves ahead, because why not.
+
+***
+
+A user is able to customize the starting conditions of the game. By default, the game will start as a boring, run of the mill game of checkers. However, if the user selects the _Random placement_ button, they are able to specify the number of starting red and white pieces. Upon selecting an opponent, each player then enters the game with that number of pieces randomly distributed on the board.
+
+The third configuration option is to select from one of three preset boards, as depicted below.
+  
+  ![start configuration](startConfig.png)
+  
+  ![mid configuration](midConfig.png)
+  
+  ![end configuration](endConfig.png)
 
 ***
 
