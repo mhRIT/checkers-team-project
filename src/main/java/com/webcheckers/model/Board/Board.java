@@ -221,7 +221,7 @@ public class Board implements Cloneable {
   void initMid() {
     // TODO
     pieceLocations =  0b0101_0011_1111_1111_1100_1111_1111_0010;
-    pieceColors =     0b0001_0001_1110_1110_0100_0001_0000_0000;
+    pieceColors =     0b0101_0011_1111_1100_0100_0001_0000_0000;
     pieceTypes =      0b0000_0000_0000_0000_0000_0000_0000_0000;
   }
 
