@@ -35,8 +35,8 @@ public class PlayerLobby {
 
     AiPlayer randomPlayer = new RandomMovementPlayer("Easy AI", getPlayerNonce());
     AiPlayer medMinMaxPlayer = new MinMaxPlayer("Medium AI", getPlayerNonce(), 0);
-    AiPlayer hardMinMaxPlayer = new MinMaxPlayer("Hard AI", getPlayerNonce(), 3);
-    AiPlayer extMinMaxPlayer = new MinMaxPlayer("Extreme AI", getPlayerNonce(), 25);
+    AiPlayer hardMinMaxPlayer = new MinMaxPlayer("Hard AI", getPlayerNonce(), 2);
+    AiPlayer extMinMaxPlayer = new MinMaxPlayer("Extreme AI", getPlayerNonce(), 3);
 
     aiList.add(randomPlayer);
     aiList.add(medMinMaxPlayer);
