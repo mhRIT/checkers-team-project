@@ -47,7 +47,7 @@ class BoardTest {
   }
 
   /**
-   * TODO
+   * Tests that the board can initialize from a starting state, with 12 pieces on each side opposite each other
    */
   @Test
   void TestInitStart() {
@@ -76,7 +76,7 @@ class BoardTest {
   }
 
   /**
-   * TODO
+   * Tests that the board recognizes pieces along its front and back
    */
   @Test
   void testPiecesAlongBase(){
@@ -90,7 +90,7 @@ class BoardTest {
   }
 
   /**
-   * TODO
+   * Tests that the board recognizes pieces along its sides
    */
   @Test
   void testPiecesAlongEdge(){
@@ -104,7 +104,7 @@ class BoardTest {
   }
 
   /**
-   * TODO
+   * Tests that the board's indices are correctly mapped to positions based on row and column
    */
   @Test
   void testCartesianToIndex() {
@@ -129,7 +129,7 @@ class BoardTest {
   }
 
   /**
-   *
+   * Tests that different types of pieces can be placed on the board
    */
   @Test
   void testPlacePiece() {
@@ -140,7 +140,7 @@ class BoardTest {
   }
 
   /**
-   * TODO
+   * Tests that a piece of a specific type can be placed on an empty square
    *
    * @param pieceToPlace
    */
@@ -170,7 +170,7 @@ class BoardTest {
   }
 
   /**
-   * TODO
+   * Tests that a piece can be removed from the board
    */
   @Test
   void testRemovePiece() {
@@ -193,7 +193,7 @@ class BoardTest {
   }
 
   /**
-   * TODO
+   * Tests that squares will be correctly deemed valid/invalid as positions on the board
    */
   @Test
   void testIsValidLocation(){
@@ -215,7 +215,7 @@ class BoardTest {
   }
 
   /**
-   * TODO
+   * Tests that a list of all possible simple moves can be obtained given a board state
    */
   @Test
   void testGetAllSimpleMoves(){
@@ -252,7 +252,7 @@ class BoardTest {
   }
 
   /**
-   * TODO
+   * Tests that a list of the red player's possible simple moves can be obtained
    */
   private void testRedSimpleMoves(int numMoves){
     List<Move> allRedMoves = cut.getAllSimpleMoves(COLOR.RED);
@@ -261,7 +261,7 @@ class BoardTest {
   }
 
   /**
-   * TODO
+   * Tests that a list of the white player's possible simple moves can be obtained
    */
   private void testWhiteSimpleMoves(int numMoves){
     List<Move> allWhiteMoves = cut.getAllSimpleMoves(COLOR.WHITE);
@@ -270,7 +270,7 @@ class BoardTest {
   }
 
   /**
-   * TODO
+   * Tests that a list of all possible jump moves can be correctly obtained
    */
   @Test
   void testGetAllJumpMoves(){
@@ -299,7 +299,7 @@ class BoardTest {
   }
 
   /**
-   * TODO
+   * Tests that a list of all red's possible jump moves can be obtained
    *
    * @param numMoves
    */
@@ -310,7 +310,7 @@ class BoardTest {
   }
 
   /**
-   * TODO
+   * Tests that a list of all white's possible jump moves can be obtained
    *
    * @param numMoves
    */
@@ -321,7 +321,7 @@ class BoardTest {
   }
 
   /**
-   * TODO
+   * Tests that a piece can be correctly moved from one position to another
    */
   @Test
   void testMovePiece(){
@@ -340,7 +340,7 @@ class BoardTest {
   }
 
   /**
-   * TODO
+   * Tests that the initial board configuration is correct from the perspective of the opposing player
    */
   @Test
   void testGetRowReverse(){
@@ -378,6 +378,7 @@ class BoardTest {
   }
 
   /**
+   * Tests that a row has the correct starting configuration for the opposite player
    *
    * @param idx
    * @param expectedRow
@@ -394,7 +395,7 @@ class BoardTest {
   }
 
   /**
-   * TODO
+   * Tests that the board configuration is correct from the perspective of the primary player
    */
   @Test
   void testGetRow() {
@@ -433,6 +434,7 @@ class BoardTest {
   }
 
   /**
+   * Tests that a row is correctly configured for the primary player
    *
    * @param idx
    * @param expectedRow
@@ -448,7 +450,7 @@ class BoardTest {
   }
 
   /**
-   * TODO
+   * Tests that a piece can be correctly returned based on a location
    */
   @Test
   void testGetPieceAtLocation() {
@@ -458,7 +460,7 @@ class BoardTest {
   }
 
   /**
-   * TODO
+   * Tests that a list of all positions of red pieces can be correctly obtained
    */
   @Test
   void testGetRedLocations() {
@@ -469,7 +471,7 @@ class BoardTest {
   }
 
   /**
-   * TODO
+   * Tests that the number of red pieces can be obtained
    */
   @Test
   void testGetNumRedPieces() {
@@ -479,7 +481,7 @@ class BoardTest {
   }
 
   /**
-   * TODO
+   * Tests that a list of all positions of white pieces can be correctly obtained
    */
   @Test
   void testGetWhiteLocations() {
@@ -490,7 +492,7 @@ class BoardTest {
   }
 
   /**
-   * TODO
+   * Tests that the number of white pieces can be obtained
    */
   @Test
   void testGetNumWhitePieces() {
@@ -500,7 +502,7 @@ class BoardTest {
   }
 
   /**
-   * TODO
+   * Tests that the number of pieces can be obtained
    */
   @Test
   void testGetNumPieces() {
