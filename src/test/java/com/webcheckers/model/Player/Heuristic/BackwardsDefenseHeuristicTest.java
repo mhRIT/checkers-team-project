@@ -17,12 +17,30 @@ class BackwardsDefenseHeuristicTest extends HeuristicTest{
   }
 
   @Override
+  void testName() {
+    String name = cut.getName();
+    assertEquals("BackwardsDefenseHeuristic", name);
+  }
+
+  @Override
+  void testWeight() {
+    double weight = cut.getWeight();
+    assertEquals(1, weight);
+  }
+
+  @Override
   void testCalculateRed() {
-    assertEquals(0, cut.calculate(board, COLOR.RED));
+    double cost = cut.calculate(board, COLOR.RED);
+    System.out.println(board);
+    System.out.printf("%s: %f\n", cut.getName(), cost);
+    assertEquals(0, cost);
   }
 
   @Override
   void testCalculateWhite() {
-    assertEquals(0, cut.calculate(board, COLOR.WHITE));
+    double cost = cut.calculate(board, COLOR.WHITE);
+    System.out.println(board);
+    System.out.printf("%s: %f\n", cut.getName(), cost);
+    assertEquals(0, cost);
   }
 }

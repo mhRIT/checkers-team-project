@@ -9,7 +9,9 @@ public abstract class Heuristic {
   double weight;
 
   public Heuristic(double weight){
-    this.name = this.getClass().getName();
+    String className = getClass().getName();
+    int subStrIdx = className.lastIndexOf(".");
+    this.name = className.substring(subStrIdx + 1);
     this.weight = weight;
   }
 

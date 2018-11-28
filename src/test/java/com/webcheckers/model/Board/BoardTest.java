@@ -47,10 +47,32 @@ class BoardTest {
   }
 
   /**
-   * Tests that the board can initialize from a starting state, with 12 pieces on each side opposite each other
+   * Tests the string representation of the board.
    */
   @Test
-  void TestInitStart() {
+  void testToString(){
+    String correctStartView =
+        "-----------------\n" +
+        "| |w| |w| |w| |w|\n" +
+        "|w| |w| |w| |w| |\n" +
+        "| |w| |w| |w| |w|\n" +
+        "| | | | | | | | |\n" +
+        "| | | | | | | | |\n" +
+        "|r| |r| |r| |r| |\n" +
+        "| |r| |r| |r| |r|\n" +
+        "|r| |r| |r| |r| |\n" +
+        "-----------------";
+    cut.initStart();
+    String cutString = cut.toString();
+    System.out.println(cutString);
+    assertEquals(correctStartView, cutString);
+  }
+
+  /**
+   * TODO
+   */
+  @Test
+  void testInitStart() {
     cut.initStart();
 
     int modVal = 0;
@@ -122,7 +144,7 @@ class BoardTest {
 
     for(int i = 0; i < Board.BOARD_SIZE; i++){
       for(int j = 0; j < Board.BOARD_SIZE; j++){
-        assertEquals(indices[counter++], cut.cartesianToIndex(j,i),
+        assertEquals(indices[counter++], Board.cartesianToIndex(j,i),
             String.format("(%d, %d), %d", j, i, counter));
       }
     }
@@ -154,7 +176,7 @@ class BoardTest {
         piecePlaced = cut.placePiece(xCoord, yCoord, pieceToPlace);
 
         if(pieceAtLoc.equals(SPACE_TYPE.EMPTY)
-            && cut.isValidLocation(new Position(xCoord, yCoord))
+            && Board.isValidLocation(new Position(xCoord, yCoord))
             && !pieceToPlace.equals(SPACE_TYPE.EMPTY)){
           assertTrue(piecePlaced,
               String.format("(%d, %d): %s", xCoord, yCoord, piecePlaced));
@@ -202,7 +224,7 @@ class BoardTest {
 
     for(int yCoord = 0; yCoord < Board.BOARD_SIZE; yCoord++){
       for(int xCoord = 0; xCoord < Board.BOARD_SIZE; xCoord++){
-        boolean isValid = cut.isValidLocation(new Position(xCoord, yCoord));
+        boolean isValid = Board.isValidLocation(new Position(xCoord, yCoord));
         if(modVal % 2 == 0){
           assertTrue(isValid, String.format("(%d, %d)", xCoord, yCoord));
         } else {

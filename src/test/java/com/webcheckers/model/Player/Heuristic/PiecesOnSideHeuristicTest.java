@@ -17,12 +17,30 @@ class PiecesOnSideHeuristicTest extends HeuristicTest {
   }
 
   @Override
+  void testName() {
+    String name = cut.getName();
+    assertEquals("PiecesOnSideHeuristic", name);
+  }
+
+  @Override
+  void testWeight() {
+    double weight = cut.getWeight();
+    assertEquals(1, weight);
+  }
+
+  @Override
   void testCalculateRed() {
-    assertEquals(3, cut.calculate(board, COLOR.RED));
+    double cost = cut.calculate(board, COLOR.RED);
+    System.out.println(board);
+    System.out.printf("%s: %f\n", cut.getName(), cost);
+    assertEquals(3, cost);
   }
 
   @Override
   void testCalculateWhite() {
-    assertEquals(3, cut.calculate(board, COLOR.WHITE));
+    double cost = cut.calculate(board, COLOR.WHITE);
+    System.out.println(board);
+    System.out.printf("%s: %f\n", cut.getName(), cost);
+    assertEquals(3, cost);
   }
 }

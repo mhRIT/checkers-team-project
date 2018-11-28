@@ -8,7 +8,7 @@ import com.webcheckers.model.Player.Player;
 import java.beans.PropertyChangeSupport;
 import java.util.Stack;
 
-public class GameContext {
+public class GameContext implements Runnable {
 
   private GameState gameState;
 
@@ -52,6 +52,13 @@ public class GameContext {
   }
 
   /**
+   * 
+   */
+  public void run(){
+    stateChangedSupport.firePropertyChange(gameState.getState().toString(), getNonActivePlayer(), getActivePlayer());
+  }
+
+  /**
    *
    * @return
    */
@@ -73,7 +80,6 @@ public class GameContext {
    */
   public void setState(GameState state){
     gameState = state;
-    stateChangedSupport.firePropertyChange(gameState.getState().toString(), getNonActivePlayer(), getActivePlayer());
   }
 
   /**
@@ -185,16 +191,14 @@ public class GameContext {
   }
 
   /**
-   * Toggles the player who turn it currently is.
+   * Toggles the player whose turn it currently is.
    *
    */
   public void switchTurn(){
-    if(isTurnOver()) {
-      if (activeColor.equals(COLOR.RED)) {
-        activeColor = COLOR.WHITE;
-      } else {
-        activeColor = COLOR.RED;
-      }
+    if (activeColor.equals(COLOR.RED)) {
+      activeColor = COLOR.WHITE;
+    } else {
+      activeColor = COLOR.RED;
     }
   }
 

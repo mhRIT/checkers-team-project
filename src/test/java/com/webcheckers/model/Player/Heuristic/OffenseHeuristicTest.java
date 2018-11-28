@@ -17,12 +17,30 @@ class OffenseHeuristicTest extends HeuristicTest {
   }
 
   @Override
+  void testName() {
+    String name = cut.getName();
+    assertEquals("OffenseHeuristic", name);
+  }
+
+  @Override
+  void testWeight() {
+    double weight = cut.getWeight();
+    assertEquals(0.25, weight);
+  }
+
+  @Override
   void testCalculateRed() {
-    assertEquals(0, cut.calculate(board, COLOR.RED));
+    double cost = cut.calculate(board, COLOR.RED);
+    System.out.println(board);
+    System.out.printf("%s: %f\n", cut.getName(), cost);
+    assertEquals(0.25, cost);
   }
 
   @Override
   void testCalculateWhite() {
-    assertEquals(0, cut.calculate(board, COLOR.WHITE));
+    double cost = cut.calculate(board, COLOR.WHITE);
+    System.out.println(board);
+    System.out.printf("%s: %f\n", cut.getName(), cost);
+    assertEquals(0.25, cost);
   }
 }

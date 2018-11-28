@@ -1,5 +1,6 @@
 package com.webcheckers.model.Player;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import com.webcheckers.model.Board.Board.COLOR;
@@ -23,18 +24,35 @@ class MinMaxPlayerTest extends AiPlayerTest{
   }
 
   @Test
+  void testMiniMax3(){
+    cut = new MinMaxPlayer(PLAYER2_NAME, PLAYER2_NONCE, 3);
+    Move bestMove = ((MinMaxPlayer) cut).miniMax(board, COLOR.WHITE);
+    System.out.println(diffLevel + " " + bestMove);
+  }
+
+  @Test
+  void testMiniMax0(){
+    cut = new MinMaxPlayer(PLAYER2_NAME, PLAYER2_NONCE, 0);
+    Move bestMove = ((MinMaxPlayer) cut).miniMax(board, COLOR.WHITE);
+    System.out.println(diffLevel + " " + bestMove);
+  }
+
+  @Test
   void testEvaluation(){
     double cost = ((MinMaxPlayer) cut).evaluateBoard(board, COLOR.WHITE);
+    assertEquals(10, cost);
   }
 
   @Test
   void testMinCost(){
-    Move minMove = ((MinMaxPlayer) cut).minCostMove(board, COLOR.WHITE, 0);
+    double cost = ((MinMaxPlayer) cut).minCostMove(board, COLOR.WHITE, 0);
+    assertEquals(10, cost);
   }
 
   @Test
   void testMaxCost(){
-    Move maxMove = ((MinMaxPlayer) cut).maxCostMove(board, COLOR.WHITE, 0);
+    double cost = ((MinMaxPlayer) cut).maxCostMove(board, COLOR.WHITE, 0);
+    assertEquals(10, cost);
   }
 
   @Override
