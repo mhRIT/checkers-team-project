@@ -9,6 +9,7 @@ public class OffenseHeuristic extends Heuristic {
 
   public OffenseHeuristic() {
     super();
+    setWeight(0.25);
   }
 
   @Override

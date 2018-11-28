@@ -25,6 +25,8 @@ public abstract class Heuristic {
     return weight;
   }
 
+  public void setWeight(double weight) {this.weight = weight; }
+
   public abstract double calculate(Board board, COLOR color);
 
 //  /**

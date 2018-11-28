@@ -7,6 +7,7 @@ public class PieceCountHeuristic extends Heuristic {
 
   public PieceCountHeuristic() {
     super();
+    setWeight(100000);
   }
 
   @Override
@@ -14,5 +15,6 @@ public class PieceCountHeuristic extends Heuristic {
     int numPlusPieces = board.getNumSinglePieces(color);
     int numNegPieces = board.getNumSinglePieces() - board.getNumSinglePieces(color);
     return (numPlusPieces-numNegPieces)*weight;
+//    return (numPlusPieces)*weight;
   }
 }

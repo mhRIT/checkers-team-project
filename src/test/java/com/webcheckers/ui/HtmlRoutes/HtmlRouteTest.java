@@ -6,7 +6,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import com.google.gson.Gson;
-import com.sun.org.apache.xml.internal.security.Init;
+//import com.sun.org.apache.xml.internal.security.Init;
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
 import com.webcheckers.model.Board.InitConfig;
