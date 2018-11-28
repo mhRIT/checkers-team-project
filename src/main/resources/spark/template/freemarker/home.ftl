@@ -81,25 +81,29 @@
           <button class="accordion" name="preset" id="accPreset">Preset boards</button>
           <#if configType="preset">
             <div class="panel" style="display:block" id="presetPanel">
-              <label for="presetStartCheckbox">Start</label>
-              <input type="checkbox" id="presetStartCheckbox" <#if configPreset?? && configPreset="start">checked</#if>/>
-
-              <label for="presetMidCheckbox">Mid</label>
-              <input type="checkbox" id="presetMidCheckbox" <#if configPreset?? && configPreset="middle">checked</#if>/>
-
-              <label for="presetEndCheckbox">End</label>
-              <input type="checkbox" id="presetEndCheckbox" <#if configPreset?? && configPreset="end">checked</#if>/>
+              <div class="vertical-menu">
+                <input type="radio" id="presetStartCheckbox" <#if configPreset?? && configPreset="start">checked</#if>/>
+                <label for="presetStartCheckbox">Start</label>
+                <br>
+                <input type="radio" id="presetMidCheckbox" <#if configPreset?? && configPreset="middle">checked</#if>/>
+                <label for="presetMidCheckbox">Mid</label>
+                <br>
+                <input type="radio" id="presetEndCheckbox" <#if configPreset?? && configPreset="end">checked</#if>/>
+                <label for="presetEndCheckbox">End</label>
+              </div>
             </div>
           <#else>
             <div class="panel" style="display:none" id="presetPanel">
-              <label for="presetStartCheckbox">Start</label>
-              <input type="checkbox" id="presetStartCheckbox"/>
-
-              <label for="presetMidCheckbox">Mid</label>
-              <input type="checkbox" id="presetMidCheckbox"/>
-
-              <label for="presetEndCheckbox">End</label>
-              <input type="checkbox" id="presetEndCheckbox"/>
+              <div class="vertical-menu">
+                <input type="radio" id="presetStartCheckbox"/>
+                <label for="presetStartCheckbox">Start</label>
+                <br>
+                <input type="radio" id="presetMidCheckbox"/>
+                <label for="presetMidCheckbox">Mid</label>
+                <br>
+                <input type="radio" id="presetEndCheckbox"/>
+                <label for="presetEndCheckbox">End</label>
+              </div>
             </div>
           </#if>
 <#--End AI list - implies the user is signed in---------------------------------------------------->
