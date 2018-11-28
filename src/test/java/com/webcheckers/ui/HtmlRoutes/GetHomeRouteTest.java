@@ -21,35 +21,39 @@ import spark.ModelAndView;
  */
 @Tag("UI-tier")
 public class GetHomeRouteTest extends HtmlRouteTest {
+  //
+  // Attributes
+  //
+  private Player player1;
+  private Player player2;
 
-    /**
-     * Setup new mock objects for each test.
-     */
-    @BeforeEach
-    public void setup() {
-      super.setUp();
-      CuT = new GetHomeRoute(gameCenter,playerLobby,engine);
-    }
-
-    @Test
-    public void testBehavior () throws Exception {
-      final TemplateEngineTester testHelper = new TemplateEngineTester();
-      when(engine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
-
-      when(session.attribute("player")).thenReturn(null);
-//      when(playerLobby.getNumPlayers()).thenReturn(0);
-      CuT.handle(request,response);
-
-      testHelper.assertViewModelAttributeIsAbsent(ALL_PLAYER_NAMES);
-      testHelper.assertViewModelAttribute(NUM_PLAYERS,0);
-
-      Player mock = mock(Player.class);
-      Player p1 = mock;
-      Player p2 = mock(Player.class);
-      GameCenter gameCenter = mock(GameCenter.class);
-      String[] names = new String[0];
-      when(session.attribute("player")).thenReturn(mock);
-
-      CuT.handle(request,response);
-    }
+  /**
+   * Setup new mock objects for each test.
+   */
+  @BeforeEach
+  public void setup() {
+    super.setUp();
+    cut = new GetHomeRoute(gameCenter, playerLobby, engine);
+    player1 = new Player(TEST_PLAYER_NAME, 0);
+    player1 = new Player(TEST_OPP_NAME, 1);
   }
+
+  /**
+   *
+   * @throws Exception
+   */
+  @Test
+  public void testBehavior () throws Exception {
+    final TemplateEngineTester testHelper = new TemplateEngineTester();
+    when(engine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
+
+    when(session.attribute("player")).thenReturn(null);
+    cut.handle(request,response);
+
+    testHelper.assertViewModelAttributeIsAbsent(ALL_PLAYER_NAMES);
+    testHelper.assertViewModelAttribute(NUM_PLAYERS,0);
+
+    when(session.attribute("player")).thenReturn(player1.getName());
+    cut.handle(request,response);
+  }
+}

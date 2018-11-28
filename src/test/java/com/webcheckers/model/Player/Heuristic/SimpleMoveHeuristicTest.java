@@ -7,19 +7,19 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 
 @Tag("Model-tier")
-class BasePiecesHeuristicTest extends HeuristicTest {
+class SimpleMoveHeuristicTest extends HeuristicTest {
 
   @Override
   @BeforeEach
   void setUp() {
     super.setUp();
-    cut = new BasePiecesHeuristic();
+    cut = new SimpleMoveHeuristic();
   }
 
   @Override
   void testName() {
     String name = cut.getName();
-    assertEquals("BasePiecesHeuristic", name);
+    assertEquals("SimpleMoveHeuristic", name);
   }
 
   @Override
@@ -31,12 +31,12 @@ class BasePiecesHeuristicTest extends HeuristicTest {
   @Override
   void testCalculateRed() {
     double cost = cut.calculate(board, COLOR.RED);
-    assertEquals(4, cost);
+    assertEquals(7, cost);
   }
 
   @Override
   void testCalculateWhite() {
     double cost = cut.calculate(board, COLOR.WHITE);
-    assertEquals(4, cost);
+    assertEquals(7, cost);
   }
 }

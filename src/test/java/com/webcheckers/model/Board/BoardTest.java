@@ -5,11 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.webcheckers.model.Board.Board;
 import com.webcheckers.model.Board.Board.COLOR;
 import com.webcheckers.model.Board.Board.SPACE_TYPE;
-import com.webcheckers.model.Board.Move;
-import com.webcheckers.model.Board.Position;
+import com.webcheckers.model.Board.InitConfig.START_TYPE;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -69,6 +67,62 @@ class BoardTest {
   }
 
   /**
+   *
+   */
+  @Test
+  void testInitConfig(){
+    testRandomInit();
+    testRandomPreset();
+  }
+
+  /**
+   *
+   */
+  private void testRandomInit(){
+    InitConfig config = new InitConfig("oppName", 5, 5);
+    cut.init(config);
+    assertNotNull(cut);
+    assertEquals(5, cut.getNumPieces(COLOR.RED));
+    assertEquals(5, cut.getNumPieces(COLOR.WHITE));
+
+  }
+
+  /**
+   *
+   */
+  private void testRandomPreset(){
+    InitConfig config = new InitConfig("oppName", "start");
+    cut.init(config);
+    assertNotNull(cut);
+    assertEquals(12, cut.getNumPieces(COLOR.RED));
+    assertEquals(12, cut.getNumPieces(COLOR.WHITE));
+
+    config = new InitConfig("oppName", "middle");
+    cut.init(config);
+    assertNotNull(cut);
+    assertEquals(12, cut.getNumPieces(COLOR.RED));
+    assertEquals(11, cut.getNumPieces(COLOR.WHITE));
+
+    config = new InitConfig("oppName", "end");
+    cut.init(config);
+    assertNotNull(cut);
+    assertEquals(5, cut.getNumPieces(COLOR.RED));
+    assertEquals(6, cut.getNumPieces(COLOR.WHITE));
+
+    config = new InitConfig("oppName", "none");
+    cut.init(config);
+    assertNotNull(cut);
+    assertEquals(12, cut.getNumPieces(COLOR.RED));
+    assertEquals(12, cut.getNumPieces(COLOR.WHITE));
+
+    config = new InitConfig("oppName", "fail");
+    cut.init(config);
+    assertNotNull(cut);
+    assertEquals(12, cut.getNumPieces(COLOR.RED));
+    assertEquals(12, cut.getNumPieces(COLOR.WHITE));
+  }
+
+  /**
    * TODO
    */
   @Test
@@ -95,6 +149,72 @@ class BoardTest {
       }
       modVal ^= 1;
     }
+  }
+
+  /**
+   * TODO
+   */
+  @Test
+  void testInitMid() {
+    cut.initMid();
+    int numRedPieces = cut.getNumPieces(COLOR.RED);
+    int numWhitePieces = cut.getNumPieces(COLOR.WHITE);
+    int numPieces = cut.getNumPieces();
+    int numKings = cut.getNumKings();
+
+    assertEquals(12, numRedPieces);
+    assertEquals(11, numWhitePieces);
+    assertEquals(23, numPieces);
+    assertEquals(0, numKings);
+  }
+
+  /**
+   * TODO
+   */
+  @Test
+  void testInitEnd() {
+    cut.initEnd();
+    int numRedPieces = cut.getNumPieces(COLOR.RED);
+    int numWhitePieces = cut.getNumPieces(COLOR.WHITE);
+    int numPieces = cut.getNumPieces();
+    int numKings = cut.getNumKings();
+
+    assertEquals(5, numRedPieces);
+    assertEquals(6, numWhitePieces);
+    assertEquals(7, numPieces);
+    assertEquals(4, numKings);
+  }
+
+  /**
+   * TODO
+   */
+  @Test
+  void testInitRandom() {
+    cut.initRandom(5,5);
+    int numRedPieces = cut.getNumPieces(COLOR.RED);
+    int numWhitePieces = cut.getNumPieces(COLOR.WHITE);
+    assertEquals(5, numRedPieces);
+    assertEquals(5, numWhitePieces);
+  }
+
+  /**
+   * TODO
+   */
+  @Test
+  void testRandomPosition() {
+    for(int i = 0; i < 12; i++){
+      Position randPos = cut.getRandomPosition();
+      assertNotNull(randPos);
+      assertTrue(Board.isValidLocation(randPos));
+    }
+  }
+
+  @Test
+  void testInvertMove(){
+    Move redMove = new Move(new Position(0,0), new Position(1,1));
+    Move whiteMove = new Move(new Position(7,7), new Position(6,6));
+
+    assertEquals(whiteMove, cut.invertMove(redMove));
   }
 
   /**

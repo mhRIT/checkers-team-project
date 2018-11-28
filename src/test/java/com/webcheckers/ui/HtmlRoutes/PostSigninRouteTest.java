@@ -4,16 +4,12 @@ import static com.webcheckers.ui.HtmlRoutes.PostSigninRoute.ERROR_TYPE;
 import static com.webcheckers.ui.HtmlRoutes.PostSigninRoute.MESSAGE_TYPE_ATTR;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
-import com.webcheckers.model.GameState.GameContext;
-import com.webcheckers.ui.HtmlRoutes.GetSigninRoute;
-import com.webcheckers.ui.HtmlRoutes.PostSigninRoute;
 
 import com.webcheckers.ui.TemplateEngineTester;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,7 +21,7 @@ import spark.*;
 @Tag("UI-tier")
 public class PostSigninRouteTest {
 
-  private PostSigninRoute CuT;
+  private PostSigninRoute cut;
 
   private Request request;
   private Session session;
@@ -41,6 +37,8 @@ public class PostSigninRouteTest {
     request = mock(Request.class);
     session = mock(Session.class);
     response = mock(Response.class);
+    engine = mock(TemplateEngine.class);
+
     testLobby = new PlayerLobby();
     gameCenter = new GameCenter();
     playerLobby = new PlayerLobby();
@@ -48,7 +46,7 @@ public class PostSigninRouteTest {
     when(request.queryParams("username")).thenReturn("test");
     when(request.session()).thenReturn(session);
 
-    CuT = new PostSigninRoute(gameCenter, playerLobby, engine);
+    cut = new PostSigninRoute(gameCenter, playerLobby, engine);
   }
 
   @Test
@@ -58,34 +56,13 @@ public class PostSigninRouteTest {
 
     assertNotNull(playerLobby);
     assertNotNull(engine);
-
-
-  }
-
-  @Test
-  public void testVM() {
-    final TemplateEngineTester testHelper = new TemplateEngineTester();
-    when(engine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
-
-    CuT.handle(request, response);
-
-    testHelper.assertViewModelExists();
-    testHelper.assertViewModelIsaMap();
   }
 
   @Test
   public void testAttributes(){
     final TemplateEngineTester testHelper = new TemplateEngineTester();
     when(engine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
-
-    CuT.handle(request, response);
-
-    testHelper.assertViewModelAttribute(GetSigninRoute.TITLE_ATTR, PostSigninRoute.TITLE);
-    testHelper.assertViewModelAttribute(MESSAGE_TYPE_ATTR,
-        ERROR_TYPE);
-
-    testHelper.assertViewName(GetSigninRoute.VIEW_NAME);
-
+    assertThrows(HaltException.class, () -> {cut.handle(request, response);});
   }
 
   @Test
@@ -94,24 +71,20 @@ public class PostSigninRouteTest {
     when(engine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
 
     when(request.queryParams("username")).thenReturn("test");
-    CuT.handle(request, response);
-
-    assertNotNull(testLobby.getPlayer("test"));
-    assertFalse(testLobby.validateName("test"));
-    testHelper.assertViewModelAttributeIsAbsent(ERROR_TYPE);
+    assertThrows(HaltException.class, () -> {cut.handle(request, response);});
 
     when(session.attribute("player")).thenReturn(testLobby.getPlayer("test"));
-    CuT.handle(request, response);
+    cut.handle(request, response);
 
     when(request.queryParams("username")).thenReturn("");
-    CuT.handle(request, response);
+    cut.handle(request, response);
 
     assertNull(testLobby.getPlayer(""));
     assertFalse(testLobby.validateName(""));
     testHelper.assertViewModelAttribute(MESSAGE_TYPE_ATTR,ERROR_TYPE);
 
     when(session.attribute("player")).thenReturn(null);
-    CuT.handle(request,response);
+    cut.handle(request,response);
 
   }
 }

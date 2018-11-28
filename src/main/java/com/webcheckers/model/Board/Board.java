@@ -186,11 +186,6 @@ public class Board implements Cloneable {
             break;
         }
         break;
-      case CUSTOM:
-        break;
-      default:
-        initStart();
-        break;
     }
   }
 
@@ -231,6 +226,11 @@ public class Board implements Cloneable {
     pieceTypes =      0b0010_0000_0000_0000_0000_0000_0100_0110;
   }
 
+  /**
+   *
+   * @param numRedPieces
+   * @param numWhitePieces
+   */
   public void initRandom(int numRedPieces, int numWhitePieces){
     for(int i = 0; i < numRedPieces; i++){
       Position nextPosition = getRandomPosition();
@@ -241,6 +241,9 @@ public class Board implements Cloneable {
       }
     }
 
+    /**
+     *
+     */
     for(int i = 0; i < numWhitePieces; i++){
       Position nextPosition = getRandomPosition();
       if(nextPosition.getRow() == 0){
@@ -251,7 +254,11 @@ public class Board implements Cloneable {
     }
   }
 
-  private Position getRandomPosition(){
+  /**
+   *
+   * @return
+   */
+  Position getRandomPosition(){
     Random rand = new Random();
     int randIntCol = rand.nextInt(BOARD_SIZE);
     int randIntRow = rand.nextInt(BOARD_SIZE);
@@ -868,12 +875,6 @@ public class Board implements Cloneable {
   }
 
   /**
-<<<<<<< HEAD
-   * Clones the current board state
-   *
-   * @return a clone of the current board state
-   * @throws CloneNotSupportedException
-=======
    * {@inheritDoc}
    */
   @Override
@@ -919,7 +920,6 @@ public class Board implements Cloneable {
    * TODO
    *
    * @return
->>>>>>> master
    */
   @Override
   public Object clone() {

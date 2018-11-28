@@ -21,7 +21,7 @@ import spark.Session;
 
 @Tag("UI-tier")
 public class PostBackupMoveRouteTest {
-  private PostBackupMoveRoute CuT;
+  private PostBackupMoveRoute cut;
 
   private GameCenter gameCenter;
   private PlayerLobby playerLobby;
@@ -36,12 +36,16 @@ public class PostBackupMoveRouteTest {
 
   @BeforeEach
   public void setup(){
-    gameCenter = new GameCenter();
     playerLobby = new PlayerLobby();
+    playerLobby.signin("Test1");
+    playerLobby.signin("Test2");
+    player1 = playerLobby.getPlayer("Test1");
+    player2 = playerLobby.getPlayer("Test2");
+    gameCenter = new GameCenter();
+    game = gameCenter.createGame(player1,
+                                  player2,
+                                  new InitConfig(player2.getName()));
     gson = new Gson();
-    player1 = new Player("Test1", playerNonce++);
-    player2 = new Player("Test2", playerNonce++);
-    game = gameCenter.createGame(player1, player2, new InitConfig(player2.getName()));
 
     session = mock(Session.class);
     request = mock(Request.class);
@@ -49,26 +53,21 @@ public class PostBackupMoveRouteTest {
 
     when(request.session()).thenReturn(session);
 
-    CuT = new PostBackupMoveRoute(gameCenter, playerLobby, gson);
+    cut = new PostBackupMoveRoute(gameCenter, playerLobby, gson);
   }
+
   @Test
   public void testRoute(){
-    when(session.attribute("player")).thenReturn(player1);
+    Message info = new Message("Move undone", MESSAGE_TYPE.info);
+    Message unableError = new Message("Unable to locate game", MESSAGE_TYPE.error);
+    Message nullError = new Message("Unable to locate game", MESSAGE_TYPE.error);
 
-//    when(game.getActiveColor()).thenReturn(RED);
-//    when(game.getRedPlayer()).thenReturn(null);
-//    when(game.hasPlayer(player)).thenReturn(false);
+    when(session.attribute("player")).thenReturn("Test1");
+    Message msg = (Message) cut.handle(request,response);
+    assertEquals(info, msg);
 
-    Message msg = (Message)CuT.handle(request,response);
-    Message info = new Message("Move undone",MESSAGE_TYPE.info);
-    Message error = new Message("Could not undo move",MESSAGE_TYPE.error);
-
-    assertTrue(msg.equals(error));
-
-//    when(game.hasPlayer(player)).thenReturn(true);
-//    when(game.getRedPlayer()).thenReturn(player);
-
-    msg = (Message)CuT.handle(request,response);
-    assertTrue(msg.equals(info));
+    when(session.attribute("player")).thenReturn("empty");
+    msg = (Message) cut.handle(request,response);
+    assertEquals(nullError, msg);
   }
 }

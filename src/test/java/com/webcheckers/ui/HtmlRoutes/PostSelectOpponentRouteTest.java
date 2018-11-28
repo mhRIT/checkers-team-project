@@ -1,20 +1,19 @@
 package com.webcheckers.ui.HtmlRoutes;
 
-import static com.webcheckers.model.Board.Board.COLOR.RED;
-import static com.webcheckers.ui.HtmlRoutes.GetHomeRoute.OPP_MESSAGE;
-import static com.webcheckers.ui.HtmlRoutes.GetHomeRoute.PLAYER;
+import static com.webcheckers.ui.HtmlRoutes.PostBuildConfig.INIT_CONFIG;
 import static com.webcheckers.ui.HtmlRoutes.PostSelectOpponentRoute.OPP_PLAYER_NAME;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import com.webcheckers.model.Board.InitConfig;
 import com.webcheckers.model.GameState.GameContext;
 import com.webcheckers.model.Player.Player;
-import com.webcheckers.ui.HtmlRoutes.PostSelectOpponentRoute.VIEW_MODE;
 import com.webcheckers.ui.TemplateEngineTester;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import spark.HaltException;
 import spark.ModelAndView;
 
 /**
@@ -31,40 +30,8 @@ class PostSelectOpponentRouteTest extends HtmlRouteTest {
   @BeforeEach
   public void setup() {
     super.setUp();
-    // create a unique CuT for each test
-    CuT = new PostSelectOpponentRoute(gameCenter, playerLobby, engine);
-  }
-
-  /**
-   *  Test the presence of the ModelView used for rendering the HTML when no player
-   *  is stored in the current session.
-   */
-  @Test
-  public void testViewModel() throws Exception {
-    final TemplateEngineTester testHelper = new TemplateEngineTester();
-    when(engine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
-
-    Player testPlayer = playerLobby.signin(TEST_PLAYER_NAME);
-    when(session.attribute("player")).thenReturn(testPlayer);
-
-    Player testOppPlayer = playerLobby.signin(TEST_OPP_NAME);
-    when(request.queryParams(OPP_PLAYER_NAME)).thenReturn(TEST_OPP_NAME);
-
-    InitConfig initConfig = new InitConfig(TEST_OPP_NAME);
-    GameContext game = gameCenter.createGame(testPlayer, testOppPlayer, initConfig);
-
-    CuT.handle(request,response);
-
-    testHelper.assertViewModelExists();
-    testHelper.assertViewModelIsaMap();
-
-    testPlayer = playerLobby.signin(TEST_PLAYER_NAME);
-    when(session.attribute("player")).thenReturn(testPlayer);
-
-    CuT.handle(request,response);
-
-    testHelper.assertViewModelExists();
-    testHelper.assertViewModelIsaMap();
+    // create a unique cut for each test
+    cut = new PostSelectOpponentRoute(gameCenter, playerLobby, engine);
   }
 
   /**
@@ -72,12 +39,12 @@ class PostSelectOpponentRouteTest extends HtmlRouteTest {
    *  stored in the current session, signed in, but is not in a game.
    */
   @Test
-  public void testInGame() throws Exception {
+  public void testInGame() {
     final TemplateEngineTester testHelper = new TemplateEngineTester();
     when(engine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
 
     Player testPlayer = playerLobby.signin(TEST_PLAYER_NAME);
-    when(session.attribute("player")).thenReturn(testPlayer);
+    when(session.attribute("player")).thenReturn(testPlayer.getName());
 
     Player testOppPlayer = playerLobby.signin(TEST_OPP_NAME);
     when(request.queryParams(OPP_PLAYER_NAME)).thenReturn(TEST_OPP_NAME);
@@ -87,14 +54,7 @@ class PostSelectOpponentRouteTest extends HtmlRouteTest {
 
     String message = String.format("The selected opponent, %s, is already in a game", TEST_OPP_NAME);
 
-    CuT.handle(request,response);
-
-    testHelper.assertViewModelAttribute(GetHomeRoute.TITLE_ATTR, GetHomeRoute.TITLE);
-    testHelper.assertViewModelAttribute(PLAYER, testPlayer);
-    testHelper.assertViewModelAttribute(OPP_MESSAGE, message);
-    testHelper.assertViewModelExists();
-    testHelper.assertViewModelIsaMap();
-    testHelper.assertViewName(GetHomeRoute.VIEW_NAME);
+    assertThrows(HaltException.class, () -> {cut.handle(request,response);});
   }
 
   /**
@@ -102,26 +62,44 @@ class PostSelectOpponentRouteTest extends HtmlRouteTest {
    *  stored in the current session, signed in, and is in a game.
    */
   @Test
-  public void testNotInGame() throws Exception {
+  public void testNotInGame() {
     final TemplateEngineTester testHelper = new TemplateEngineTester();
     when(engine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
 
     Player testPlayer = playerLobby.signin(TEST_PLAYER_NAME);
-    when(session.attribute("player")).thenReturn(testPlayer);
+    when(session.attribute("player")).thenReturn(testPlayer.getName());
 
     Player testOppPlayer = playerLobby.signin(TEST_OPP_NAME);
     when(request.queryParams(OPP_PLAYER_NAME)).thenReturn(TEST_OPP_NAME);
 
-    CuT.handle(request,response);
+    when(session.attribute(INIT_CONFIG)).thenReturn(new InitConfig(TEST_OPP_NAME));
 
-    testHelper.assertViewModelAttribute(GetGameRoute.TITLE_ATTR, GetGameRoute.TITLE);
-    testHelper.assertViewModelAttribute("currentPlayer", testPlayer);
-    testHelper.assertViewModelAttribute("viewMode", VIEW_MODE.PLAY);
-    testHelper.assertViewModelAttribute("redPlayer", testPlayer);
-    testHelper.assertViewModelAttribute("whitePlayer", testOppPlayer);
-    testHelper.assertViewModelAttribute("activeColor", RED);
-    testHelper.assertViewModelExists();
-    testHelper.assertViewModelIsaMap();
-    testHelper.assertViewName(GetGameRoute.VIEW_NAME);
+    assertThrows(HaltException.class, () -> {cut.handle(request,response);});
+  }
+
+  /**
+   *  Test the attribute values in the ModelView map for correct values when a player is not
+   *  stored in the current session.
+   */
+  @Override
+  @Test
+  public void testNoSessionPlayer() throws Exception {
+    final TemplateEngineTester testHelper = new TemplateEngineTester();
+    when(engine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
+    when(session.attribute("player")).thenReturn(null);
+    assertThrows(HaltException.class,  () -> {cut.handle(request,response);});
+  }
+
+  /**
+   *  Test the attribute values in the ModelView map for correct values when a player is
+   *  stored in the current session and is not signed in.
+   */
+  @Override
+  @Test
+  public void testNotSignedIn() throws Exception {
+    final TemplateEngineTester testHelper = new TemplateEngineTester();
+    when(engine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
+    when(session.attribute("player")).thenReturn(TEST_PLAYER_NAME);
+    assertThrows(HaltException.class,  () -> {cut.handle(request,response);});
   }
 }

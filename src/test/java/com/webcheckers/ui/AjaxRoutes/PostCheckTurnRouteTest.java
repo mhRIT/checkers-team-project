@@ -35,17 +35,20 @@ public class PostCheckTurnRouteTest {
   private Session session;
   private InitConfig initConfig;
 
-  private PostCheckTurnRoute CuT;
+  private PostCheckTurnRoute cut;
 
   @BeforeEach
   public void setup(){
-    gameCenter = new GameCenter();
     playerLobby = new PlayerLobby();
+    playerLobby.signin("Test1");
+    playerLobby.signin("Test2");
+    player1 = playerLobby.getPlayer("Test1");
+    player2 = playerLobby.getPlayer("Test2");
+    gameCenter = new GameCenter();
+    game = gameCenter.createGame(player1,
+        player2,
+        new InitConfig(player2.getName()));
     gson = new Gson();
-    player1 = new Player("Test1", playerNonce++);
-    player2 = new Player("Test2", playerNonce++);
-    initConfig = new InitConfig(player2.getName());
-    game = gameCenter.createGame(player1, player2, initConfig);
 
     session = mock(Session.class);
     request = mock(Request.class);
@@ -53,20 +56,20 @@ public class PostCheckTurnRouteTest {
 
     when(request.session()).thenReturn(session);
 
-    CuT = new PostCheckTurnRoute(gameCenter, playerLobby, gson);
+    cut = new PostCheckTurnRoute(gameCenter, playerLobby, gson);
   }
 
   @Test
   public void testRoute(){
-    when(session.attribute("player")).thenReturn(player1);
+    Message info = new Message("true", MESSAGE_TYPE.info);
+    Message unableError = new Message("false", MESSAGE_TYPE.error);
 
-    Message msg = (Message)CuT.handle(request,response);
-    Message info = new Message("true",MESSAGE_TYPE.info);
-    Message error = new Message("false",MESSAGE_TYPE.error);
-    assertTrue(msg.equals(error));
+    when(session.attribute("player")).thenReturn("Test1");
+    Message msg = (Message) cut.handle(request,response);
+    assertEquals(info, msg);
 
-    when(player1.equals(game.getActivePlayer())).thenReturn(true);
-    msg = (Message)CuT.handle(request,response);
-    assertTrue(msg.equals(info));
+//    when(session.attribute("player")).thenReturn("empty");
+//    msg = (Message) cut.handle(request,response);
+//    assertEquals(unableError, msg);
   }
 }

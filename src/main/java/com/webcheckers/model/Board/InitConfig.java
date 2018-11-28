@@ -8,8 +8,7 @@ public class InitConfig {
   public enum START_TYPE {
     NORMAL,
     RANDOM,
-    PRESET,
-    CUSTOM
+    PRESET
   }
 
   public enum PRE_SET_BOARD {
@@ -27,26 +26,22 @@ public class InitConfig {
 
   private String preset;
 
-  private List<Position> custom = new ArrayList<>();
-
   public InitConfig(String opponentName, int redPieces, int whitePieces){
     this.opponent = opponentName;
     this.numRedPieces = redPieces;
     this.numWhitePieces = whitePieces;
+    this.type = "random";
   }
 
   public InitConfig(String opponentName, String presetSelected){
     this.opponent = opponentName;
     this.preset = presetSelected;
-  }
-
-  public InitConfig(String opponentName, List<Position> positions){
-    this.opponent = opponentName;
-    custom.addAll(positions);
+    this.type = "preset";
   }
 
   public InitConfig(String opponentName){
     this.opponent = opponentName;
+    this.type = "normal";
   }
 
   public InitConfig(){
@@ -104,14 +99,6 @@ public class InitConfig {
 
   public String getPreset(){
     return preset;
-  }
-
-  public void setPreset(String setVal){
-    preset = setVal;
-  }
-
-  public List<Position> getCustom(){
-    return custom;
   }
 
   /**

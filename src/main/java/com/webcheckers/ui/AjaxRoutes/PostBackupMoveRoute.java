@@ -39,6 +39,11 @@ public class PostBackupMoveRoute extends AjaxRoute {
     String currPlayerName = session.attribute(PLAYER);
     Player currPlayer = playerLobby.getPlayer(currPlayerName);
     GameContext game = gameCenter.getGame(currPlayer);
+
+    if(game == null){
+      return new Message("Unable to locate game", MESSAGE_TYPE.error);
+    }
+
     if(game.revert()){
       return new Message("Move undone", MESSAGE_TYPE.info);
     } else {

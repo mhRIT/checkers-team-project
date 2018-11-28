@@ -19,42 +19,43 @@ import spark.*;
 @Tag("UI-tier")
 public class GetSigninRouteTest extends HtmlRouteTest {
 
-    /**
-     * The component-under-test (CuT).
-     */
-    private GetSigninRoute CuT;
 
-    private Request request;
-    private Session session;
-    private Response response;
-    private TemplateEngine engine;
+  /**
+   * The component-under-test (cut).
+   */
+//    private GetSigninRoute CuT;
 
-    /**
-     * Setup new mock objects for each test.
-     */
-    @BeforeEach
-    public void setup() {
-        request = mock(Request.class);
-        session = mock(Session.class);
-        when(request.session()).thenReturn(session);
-        response = mock(Response.class);
-        engine = mock(TemplateEngine.class);
+  private Request request;
+  private Session session;
+  private Response response;
+  private TemplateEngine engine;
 
-        // create a unique CuT for each test
-        CuT = new GetSigninRoute(gameCenter, playerLobby, engine);
-    }
+  /**
+   * Setup new mock objects for each test.
+   */
+  @BeforeEach
+  public void setup() {
+      request = mock(Request.class);
+      session = mock(Session.class);
+      when(request.session()).thenReturn(session);
+      response = mock(Response.class);
+      engine = mock(TemplateEngine.class);
 
-    /**
-     *  Test that the model attributes exists in GetSigninRoute
-     */
-    @Test
-    public void testViewAttributes(){
-        final TemplateEngineTester testHelper = new TemplateEngineTester();
-        when(engine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
+      // create a unique cut for each test
+      cut = new GetSigninRoute(gameCenter, playerLobby, engine);
+  }
 
-        CuT.handle(request,response);
+  /**
+   *  Test that the model attributes exists in GetSigninRoute
+   */
+  @Test
+  public void testViewAttributes() throws Exception {
+    final TemplateEngineTester testHelper = new TemplateEngineTester();
+    when(engine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
 
-        testHelper.assertViewModelAttribute(GetSigninRoute.TITLE_ATTR, GetSigninRoute.TITLE);
-        testHelper.assertViewName(GetSigninRoute.VIEW_NAME);
-    }
+    cut.handle(request,response);
+
+    testHelper.assertViewModelAttribute(GetSigninRoute.TITLE_ATTR, GetSigninRoute.TITLE);
+    testHelper.assertViewName(GetSigninRoute.VIEW_NAME);
+  }
 }
