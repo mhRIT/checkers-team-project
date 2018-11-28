@@ -19,6 +19,7 @@ import com.webcheckers.ui.HtmlRoutes.GetGameRoute;
 import com.webcheckers.ui.HtmlRoutes.GetHomeRoute;
 import com.webcheckers.ui.HtmlRoutes.GetSigninRoute;
 import com.webcheckers.ui.HtmlRoutes.GetSignoutRoute;
+import com.webcheckers.ui.HtmlRoutes.PostBuildConfig;
 import com.webcheckers.ui.HtmlRoutes.PostSelectOpponentRoute;
 import com.webcheckers.ui.HtmlRoutes.PostSigninRoute;
 import java.util.Objects;
@@ -65,6 +66,7 @@ public class WebServer {
   public static final String SIGNIN_URL = "/signin";
   public static final String SIGNOUT_URL = "/signout";
   public static final String SELECT_OPPONENT_URL = "/selectOpponent";
+  public static final String BUILD_CONFIG_URL = "/buildConfig";
   public static final String GAME_URL = "/game";
   public static final String CHECK_TURN_URL = "/checkTurn";
   public static final String VALIDATE_MOVE_URL = "/validateMove";
@@ -155,6 +157,10 @@ public class WebServer {
       post(SELECT_OPPONENT_URL,
           new PostSelectOpponentRoute(gameCenter, playerLobby, templateEngine));
 
+      // Builds the configuration settings currently selected by the player
+      post(BUILD_CONFIG_URL,
+          new PostBuildConfig(gameCenter, playerLobby, templateEngine));
+
       // Displays the GameState page
       get(GAME_URL,
           new GetGameRoute(gameCenter, playerLobby, templateEngine));
@@ -183,6 +189,9 @@ public class WebServer {
     }
 
     get("*",
+        new GetHomeRoute(gameCenter, playerLobby, templateEngine));
+
+    post("*",
         new GetHomeRoute(gameCenter, playerLobby, templateEngine));
 
     LOG.config("WebServer is initialized.");

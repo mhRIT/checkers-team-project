@@ -1,5 +1,6 @@
 package com.webcheckers.model.Board;
 
+import com.webcheckers.model.Board.InitConfig.PRE_SET_BOARD;
 import com.webcheckers.model.Board.InitConfig.START_TYPE;
 import java.util.ArrayList;
 import java.util.List;
@@ -175,8 +176,9 @@ public class Board implements Cloneable {
       case RANDOM:
         initRandom(config.getNumRedPieces(), config.getNumWhitePieces());
         break;
-      case PRE_SET:
-        switch (config.getPreSetBoard()){
+      case PRESET:
+        PRE_SET_BOARD presetBoard = config.getPreSetBoard();
+        switch (presetBoard){
           case START:
             initStart();
             break;
@@ -212,17 +214,13 @@ public class Board implements Cloneable {
 
   /**
    * Initializes the state of the board and places red and white pieces
-   * in random positions, as is approaching the midpoint way
-   * of the game.
+   * in random positions, as is approaching the midpoint of the game.
    *
    */
-  public void initMid(){
-//    pieceLocations =  0b0000_1111_0001_0000_0000_0001_1111_0000;
-//    pieceColors =     0b0000_1110_0001_0000_0000_0000_0001_0000;
-//    pieceTypes =      0b0000_0000_0000_0000_0000_0000_0000_0000;
-    pieceLocations = 0b0000_0101_1100_0100_0010_1001_0010_0000;
-    pieceColors = 0b0000_0000_0000_0000_0010_1001_0010_0000;
-    pieceTypes = 0b0000_0000_0000_0000_0000_0000_0000_0000;
+  void initMid() {
+    pieceLocations =  0b0100_1111_1111_0011_1111_1111_1100_1010;
+    pieceColors =     0b0000_0000_1000_0010_0011_1111_1100_1010;
+    pieceTypes =      0b0000_0000_0000_0000_0000_0000_0000_0000;
   }
 
   /**
@@ -230,10 +228,10 @@ public class Board implements Cloneable {
    * in set positions, as is approaching the endpoint of the game.
    *
    */
-  public void initEnd() {
-    pieceLocations = 0b0000_0000_0100_0100_0000_0000_0000_0000;
-    pieceColors = 0b0000_0000_0000_0100_0000_0000_0000_0000;
-    pieceTypes = 0b0000_0000_0000_0000_0000_0000_0000_0000;
+  void initEnd() {
+    pieceLocations =  0b0110_0001_1010_0001_0010_0001_0100_0110;
+    pieceColors =     0b0010_0000_1010_0000_0010_0001_0000_0000;
+    pieceTypes =      0b0010_0000_0000_0000_0000_0000_0100_0110;
   }
 
   public void initRandom(int numRedPieces, int numWhitePieces){

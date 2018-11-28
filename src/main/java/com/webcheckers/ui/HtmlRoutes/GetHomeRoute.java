@@ -1,9 +1,11 @@
 package com.webcheckers.ui.HtmlRoutes;
 
+import static com.webcheckers.ui.HtmlRoutes.PostBuildConfig.INIT_CONFIG;
 import static spark.Spark.halt;
 
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
+import com.webcheckers.model.Board.InitConfig;
 import com.webcheckers.model.GameState.GameContext;
 import com.webcheckers.model.Player.Player;
 import com.webcheckers.ui.WebServer;
@@ -37,6 +39,10 @@ public class GetHomeRoute extends HtmlRoute {
   public static final String NUM_PLAYERS = "numPlayers";
   public static final String OPP_MESSAGE = "oppMessage";
   public static final String GAME_MESSAGE = "gameMessage";
+  private static final String CONFIG_TYPE = "configType";
+  private static final String CONFIG_NUM_RED = "configNumRed";
+  private static final String CONFIG_NUM_WHITE = "configNumWhite";
+  private static final String CONFIG_PRESET = "configPreset";
 
   //
   // Constructor
@@ -61,6 +67,12 @@ public class GetHomeRoute extends HtmlRoute {
     String currPlayerName = session.attribute(PLAYER);
     Player currPlayer = playerLobby.getPlayer(currPlayerName);
     String oppMessage = session.attribute(OPP_MESSAGE);
+    InitConfig config = session.attribute(INIT_CONFIG);
+
+    if(config == null){
+      config = new InitConfig();
+      session.attribute(INIT_CONFIG, config);
+    }
 
     Map<String, Object> vm = new HashMap<>();
     vm.put("title", "Welcome!");
@@ -71,15 +83,22 @@ public class GetHomeRoute extends HtmlRoute {
     if(currPlayer == null){
       LOG.finer("GetHomeRoute is invoked: no player attached to the current session");
       vm.put(NUM_PLAYERS, playerLobby.getNumPlayers());
+      vm.put("signedIn", false);
     } else {
       vm.put(AI_PLAYER_NAMES, playerLobby.aiNames());
       vm.put(ALL_PLAYER_NAMES, playerLobby.playerNames(currPlayer.getName()));
       vm.put(PLAYER, currPlayer);
+      
+      vm.put(CONFIG_TYPE, config.getType());
+      vm.put(CONFIG_NUM_RED, config.getNumRedPieces());
+      vm.put(CONFIG_NUM_WHITE, config.getNumWhitePieces());
+      vm.put(CONFIG_PRESET, config.getPreset());
+      
+      vm.put("signedIn", true);
 
       GameContext game = gameCenter.getGame(currPlayer);
       if(game != null) {
         if(game.isGameOver()){
-//          session.attribute(GAME_MESSAGE, game.endMessage());
           vm.put(GAME_MESSAGE, game.endMessage());
           LOG.finer("GetHomeRoute game is ended");
         } else {

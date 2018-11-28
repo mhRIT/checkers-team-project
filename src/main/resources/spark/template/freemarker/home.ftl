@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>
-    <meta http-equiv="refresh" content="10">
-    <title>${title} | Web Checkers</title>
-    <link rel="stylesheet" type="text/css" href="/css/style.css">
-    <link rel="stylesheet" type="text/css" href="/css/home.css">
-
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>
+  <#--<meta http-equiv="refresh" content="10">-->
+  <title>${title} | Web Checkers</title>
+  <link rel="stylesheet" type="text/css" href="/css/style.css">
+  <link rel="stylesheet" type="text/css" href="/css/home.css">
 </head>
 <body>
   <div class="page">
@@ -33,112 +32,104 @@
         </div>
       </#if>
 
-  <#------------------------------------------------------------------------------------------------->
-      <table id="game-board">
-        <tbody>
-          <tr data-row="0">
-            <td data-cell="0" class="Space">
-              <div class="Piece"
-                   id="piece-0-0"
-                   data-type="SINGLE"
-                   data-color="RED">
-              </div>
-            </td>
-            <td data-cell="1" class="Space">
-              <div class="Piece"
-                   id="piece-0-0"
-                   data-type="SINGLE"
-                   data-color="RED">
-              </div>
-            </td>
-            <td data-cell="2" class="Space">
-              <div class="Piece"
-                   id="piece-0-0"
-                   data-type="SINGLE"
-                   data-color="RED">
-              </div>
-            </td>
-            <td data-cell="3" class="Space">
-              <div class="Piece"
-                   id="piece-0-0"
-                   data-type="SINGLE"
-                   data-color="RED">
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-<#------------------------------------------------------------------------------------------------->
       <#if aiPlayers??>
-        <button class="accordion" id="accNormal">Normal start</button>
-        <div class="panel">
-          <p>Start a normal game</p>
-        </div>
-
-        <button class="accordion" id="accSlider">Random placement</button>
-        <div class="panel">
-          <p>Set the number of starting pieces for each player:</p>
-          <div class="slidecontainer">
-            <input type="range" min="1" max="12" value="6" class="slider" id="redPieceSlider">
-            <p>Number of red pieces: </p>
-            <output id="redPieceOutput" ></output>
-            <br>
-            <br>
-            <input type="range" min="1" max="12" value="6" class="slider" id="whitePieceSlider">
-            <p>Number of white pieces: </p>
-            <output id="whitePieceOutput" ></output>
+<#--Accordion button list-------------------------------------------------------------------------->
+        <button class="accordion" name="normal" id="accNormal">Normal start</button>
+        <#if configType = "normal">
+          <div class="panel" style="display:block" id="normalPanel">
+            <p>Start a normal game</p>
           </div>
-        </div>
+        <#else>
+          <div class="panel" style="display:none" id="normalPanel">
+            <p>Start a normal game</p>
+          </div>
+        </#if>
 
-        <button class="accordion" id="accPreset">Preset boards</button>
-        <div class="panel">
-          <label for="presetStartCheckbox">Start</label>
-          <input type="checkbox" id="presetStartCheckbox" />
+        <button class="accordion" name="random" id="accSlider">Random placement</button>
+        <#if configType="random">
+          <div class="panel" style="display:block" id="sliderPanel">
+            <p>Set the number of starting pieces for each player:</p>
+            <div class="slidecontainer">
+              <input type="range" min="1" max="12" value="${configNumRed}" class="slider" id="redPieceSlider">
+              <p>Number of red pieces: </p>
+              <output id="redPieceOutput">${configNumRed}</output>
+              <br>
+              <br>
+              <input type="range" min="1" max="12" value="${configNumWhite}" class="slider" id="whitePieceSlider">
+              <p>Number of white pieces: </p>
+              <output id="whitePieceOutput">${configNumWhite}</output>
+            </div>
+          </div>
+        <#else>
+          <div class="panel" style="display:none" id="sliderPanel">
+            <p>Set the number of starting pieces for each player:</p>
+            <div class="slidecontainer">
+              <input type="range" min="1" max="12" value="6" class="slider" id="redPieceSlider">
+              <p>Number of red pieces: </p>
+              <output id="redPieceOutput"></output>
+              <br>
+              <br>
+              <input type="range" min="1" max="12" value="6" class="slider" id="whitePieceSlider">
+              <p>Number of white pieces: </p>
+              <output id="whitePieceOutput"></output>
+            </div>
+          </div>
+        </#if>
 
-          <label for="presetMidCheckbox">Mid</label>
-          <input type="checkbox" id="presetMidCheckbox" />
+        <button class="accordion" name="preset" id="accPreset">Preset boards</button>
+        <#if configType="preset">
+          <div class="panel" style="display:block" id="presetPanel">
+            <label for="presetStartCheckbox">Start</label>
+            <input type="checkbox" id="presetStartCheckbox" <#if configPreset?? && configPreset="start">checked</#if>/>
 
-          <label for="presetEndCheckbox">End</label>
-          <input type="checkbox" id="presetEndCheckbox" />
-        </div>
+            <label for="presetMidCheckbox">Mid</label>
+            <input type="checkbox" id="presetMidCheckbox" <#if configPreset?? && configPreset="middle">checked</#if>/>
 
-        <button class="accordion" id="accCustom">Custom board</button>
-        <div class="panel">
-          <p>Lorem ipsum...</p>
-        </div>
+            <label for="presetEndCheckbox">End</label>
+            <input type="checkbox" id="presetEndCheckbox" <#if configPreset?? && configPreset="end">checked</#if>/>
+          </div>
+        <#else>
+          <div class="panel" style="display:none" id="presetPanel">
+            <label for="presetStartCheckbox">Start</label>
+            <input type="checkbox" id="presetStartCheckbox"/>
+
+            <label for="presetMidCheckbox">Mid</label>
+            <input type="checkbox" id="presetMidCheckbox"/>
+
+            <label for="presetEndCheckbox">End</label>
+            <input type="checkbox" id="presetEndCheckbox"/>
+          </div>
+        </#if>
       </#if>
-<#------------------------------------------------------------------------------------------------->
+<#--Accordion button list-------------------------------------------------------------------------->
 
       <form action="/selectOpponent" method="POST">
         <div class="vertical-menu">
 
-          <#--Start AI display---->
+<#--Start AI display------------------------------------------------------------------------------->
           <#--If this list exists, then the player is signed in-->
           <#if aiPlayers??>
             <p> AI opponents:</p>
             <br>
             <#list aiPlayers as eachPlayerName>
-                <#--<button class="active" type="submit" name="opponent" value="${eachPlayerName}">${eachPlayerName}</button>-->
-              <button class="active" type="button"
-                      name="opponent" value="${eachPlayerName}"
-                      onclick="handleFormSubmit(this.value)">
+              <button class="active" type="submit"
+                      name="opponent" value="${eachPlayerName}">
                 ${eachPlayerName}
               </button>
             </#list>
             <br>
             <br>
           </#if>
-          <#--End AI display---->
+<#--End AI display--------------------------------------------------------------------------------->
 
-          <#--Start player display-->
+<#--Start player display--------------------------------------------------------------------------->
           <#if allPlayers??>
             <#if allPlayers?size gt 0>
               <p> Other players currently signed in:</p>
               <br>
               <#list allPlayers as eachPlayerName>
-                <button class="active" type="button"
-                        name="opponent" value="${eachPlayerName}"
-                        onclick="handleFormSubmit(this.value)">
+                <button class="active" type="submit"
+                        name="opponent" value="${eachPlayerName}">
                   ${eachPlayerName}
                 </button>
               </#list>
@@ -152,7 +143,7 @@
               <p style="color: red"> Unknown number of players</p>
             </#if>
           </#if>
-          <#--End player display-->
+<#--End player display----------------------------------------------------------------------------->
 
         </div>
       </form>

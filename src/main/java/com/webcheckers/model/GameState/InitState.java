@@ -1,13 +1,15 @@
 package com.webcheckers.model.GameState;
 
 import com.webcheckers.model.Board.Board;
+import com.webcheckers.model.Board.InitConfig;
 
 public class InitState extends GameState {
 
   @Override
   public boolean execute(GameContext context) {
     Board currentBoard = context.getCurrentBoard();
-    currentBoard.init(context.getInitConfig());
+    InitConfig config = context.getInitConfig();
+    currentBoard.init(config);
 
     context.setState(new WaitTurnState());
     return true;

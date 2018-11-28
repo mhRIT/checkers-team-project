@@ -90,7 +90,7 @@ public class PostSigninRoute extends HtmlRoute {
     if(playerLobby.getPlayer(username) != null){
       response.redirect(WebServer.HOME_URL);
       halt();
-      return templateEngine.render(new ModelAndView(vm, VIEW_NAME));
+      return "nothing";
     }
     else {
       // the player did not sign in correctly, redirect to sign-in-page
