@@ -163,6 +163,11 @@ The third configuration option is to select from one of three preset boards, as 
   
   ![end configuration](endConfig.png)
 
+
+The final configuration setting allows the user to fully customize the starting condition by clicking on various positions on the board. If a user selects a valid position on the board, it will place the currently selected color at that position.
+
+This setting is not yet implemented and is intended for future releases.
+
 ***
 
 ## Application Domain
@@ -172,10 +177,6 @@ This section describes the application domain.
 The central aspect to the WebCheckers application domain is the game itself. The Game has two players who interact with each other on opposing sides of the game board. Each player owns either twelve red or twelve white checker pieces. Checker pieces can be of the type single or king: an upgraded version of the single piece with more advanced abilities. A player has the ability to move their pieces in one of three ways. They can make a simple move (sliding their piece diagonally to a new vacant space), a jump (whereby they capture an opponent's piece), or a multiple jump (where they capture more than one of their opponent’s pieces).  The board consists of thirty-two spaces on which each piece resides. Each player takes turns moving their pieces across the board until someone loses all of their pieces and a champion emerges. 
 
 ![The WebCheckers Domain Model](domain_model.png)
-
-> _Provide a high-level overview of the domain for this application. You
-> can discuss the more important domain entities and their relationship
-> to each other._
 
 ## Architecture and Design
 
@@ -266,17 +267,17 @@ Starting a game against another player brings both players to the game page. On 
 | Player sign-in      | 9/9    | None |
 | Player sign-out     | 6/6    | None |
 | Game initialization | 8/8    | None |
-| Turn Tracking       | ?/6    | None |
+| Turn Tracking       | 6/6    | None |
 | Backup Move         | 3/3    | None |
 | Simple move         | 2/2    | None |
-| Single jump move    | ?/3    | None |
-| Multi-jump move     | Not started | N/A |
+| Single jump move    | 3/3    | None |
+| Multi-jump move     | 4/4 | N/A |
 | User Resigns        | 6/6         | An issue arises when a player is able to be in multiple game at the same time against the same opponent. This is due to not being able to differentiate between two distinct games, as it is expected that the combination of the two players forms a superkey which is able to uniquely identify a game. Thus, a restriction was put in place which limits how many games a player is allowed to be playing at once. |
 | Opponent Resigns    | 2/2         | See above |
-| Piece Promotion     | Not started | N/A |
-| Reverse Movement    | Not started | N/A |
-| All Pieces Captured | Not started | N/A |
-| Unable to Move      | Not started | N/A |
+| Piece Promotion     | 4/4| Consideration must be made as to which board is altered when changing piece positions or types. |
+| Reverse Movement    | 3/3 | None |
+| All Pieces Captured | 2/2 | None |
+| Unable to Move      | 2/2 | Determining if a player has no more legal moves must occur before the start of their turn. Otherwise, the player will be expected to make a move when they have no valid moves. |
 
 ### Unit Testing and Code Coverage
 > _Discuss your unit testing strategy. Report on the code coverage
