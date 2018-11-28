@@ -77,7 +77,7 @@ public class GameCenterTest {
     GameContext game = CuT.createGame(player1, player2, initConfig);
     final List<GameContext> games = CuT.getGames(player1);
     assertNotNull(games);
-    assertEquals(0, games.size());
+    assertEquals(1, games.size());
   }
 
   /**

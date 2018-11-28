@@ -6,11 +6,9 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import com.google.gson.Gson;
-//import com.sun.org.apache.xml.internal.security.Init;
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
 import com.webcheckers.model.Board.InitConfig;
-import com.webcheckers.model.Player.Player;
 import com.webcheckers.ui.TemplateEngineTester;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -22,6 +20,8 @@ import spark.Route;
 import spark.Session;
 import spark.TemplateEngine;
 
+//import com.sun.org.apache.xml.internal.security.Init;
+
 /**
  * An abstract class to define unit test classes for Routes.
  *
@@ -30,9 +30,9 @@ import spark.TemplateEngine;
 @Tag("UI-tier")
 public abstract class HtmlRouteTest {
   /**
-   * The component-under-test (CuT).
+   * The component-under-test (cut).
    */
-  protected Route CuT;
+  protected Route cut;
 
   //
   // Constants
@@ -76,7 +76,7 @@ public abstract class HtmlRouteTest {
    */
   @Test
   public void testRouteCreation() {
-    assertNotNull(CuT);
+    assertNotNull(cut);
   }
 
   /**
@@ -87,16 +87,8 @@ public abstract class HtmlRouteTest {
   public void testNoSessionPlayer() throws Exception {
     final TemplateEngineTester testHelper = new TemplateEngineTester();
     when(engine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
-
     when(session.attribute("player")).thenReturn(null);
-
-    CuT.handle(request,response);
-
-//    testHelper.assertViewModelExists();
-//    testHelper.assertViewModelIsaMap();
-//    testHelper.assertViewModelAttribute(GetHomeRoute.TITLE_ATTR, GetHomeRoute.TITLE);
-//    testHelper.assertViewModelAttribute(GetHomeRoute.NUM_PLAYERS, playerLobby.getNumPlayers());
-//    testHelper.assertViewName(GetHomeRoute.VIEW_NAME);
+    cut.handle(request,response);
   }
 
     /**
@@ -107,15 +99,7 @@ public abstract class HtmlRouteTest {
   public void testNotSignedIn() throws Exception {
     final TemplateEngineTester testHelper = new TemplateEngineTester();
     when(engine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
-
-    when(session.attribute("player")).thenReturn(new Player(TEST_PLAYER_NAME, playerNonce++));
-
-    CuT.handle(request,response);
-
-//    testHelper.assertViewModelAttribute(GetHomeRoute.TITLE_ATTR, GetHomeRoute.TITLE);
-//    testHelper.assertViewModelAttribute(GetHomeRoute.NUM_PLAYERS, playerLobby.getNumPlayers());
-//    testHelper.assertViewModelExists();
-//    testHelper.assertViewModelIsaMap();
-//    testHelper.assertViewName(GetHomeRoute.VIEW_NAME);
+    when(session.attribute("player")).thenReturn(TEST_PLAYER_NAME);
+    cut.handle(request,response);
   }
 }

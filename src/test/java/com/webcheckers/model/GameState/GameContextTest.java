@@ -47,7 +47,7 @@ public class GameContextTest {
   private GameContext cut;
 
   /**
-   * TODO
+   * Sets up a new GameContext for each test
    */
   @BeforeEach
   public void setup(){

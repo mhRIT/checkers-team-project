@@ -5,10 +5,16 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import com.webcheckers.model.Board.Board.COLOR;
 import com.webcheckers.model.Board.Move;
+import com.webcheckers.model.Board.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
+/**
+ * The unit test suite for the {@link Player} component.
+ *
+ * @author <a href='mailto:axf5592@rit.edu'>Andrew Festa</a>
+ */
 @Tag("Model-tier")
 class MinMaxPlayerTest extends AiPlayerTest{
   //
@@ -26,15 +32,17 @@ class MinMaxPlayerTest extends AiPlayerTest{
   @Test
   void testMiniMax3(){
     cut = new MinMaxPlayer(PLAYER2_NAME, PLAYER2_NONCE, 3);
-    Move bestMove = ((MinMaxPlayer) cut).miniMax(board, COLOR.WHITE);
-    System.out.println(diffLevel + " " + bestMove);
+    Move bestMove = new Move(new Position(1,5), new Position(0,4));
+    Move playerMove = ((MinMaxPlayer) cut).miniMax(board, COLOR.WHITE);
+    assertEquals(bestMove, playerMove);
   }
 
   @Test
   void testMiniMax0(){
     cut = new MinMaxPlayer(PLAYER2_NAME, PLAYER2_NONCE, 0);
-    Move bestMove = ((MinMaxPlayer) cut).miniMax(board, COLOR.WHITE);
-    System.out.println(diffLevel + " " + bestMove);
+    Move bestMove = new Move(new Position(1,5), new Position(0,4));
+    Move playerMove = ((MinMaxPlayer) cut).miniMax(board, COLOR.WHITE);
+    assertEquals(bestMove, playerMove);
   }
 
   @Test

@@ -31,16 +31,12 @@ class OffenseHeuristicTest extends HeuristicTest {
   @Override
   void testCalculateRed() {
     double cost = cut.calculate(board, COLOR.RED);
-    System.out.println(board);
-    System.out.printf("%s: %f\n", cut.getName(), cost);
-    assertEquals(0.25, cost);
+    assertEquals(0.0, cost);
   }
 
   @Override
   void testCalculateWhite() {
     double cost = cut.calculate(board, COLOR.WHITE);
-    System.out.println(board);
-    System.out.printf("%s: %f\n", cut.getName(), cost);
-    assertEquals(0.25, cost);
+    assertEquals(0.0, cost);
   }
 }

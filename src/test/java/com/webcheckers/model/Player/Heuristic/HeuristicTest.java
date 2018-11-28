@@ -1,7 +1,5 @@
 package com.webcheckers.model.Player.Heuristic;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import com.webcheckers.model.Board.Board;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;

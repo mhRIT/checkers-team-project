@@ -5,8 +5,10 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import com.google.gson.Gson;
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
+import com.webcheckers.model.Board.InitConfig;
 import com.webcheckers.model.Player.Player;
 import com.webcheckers.ui.TemplateEngineTester;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,33 +23,50 @@ import spark.*;
  * @author <a href='mailto:axf5592@rit.edu'>Andrew Festa</a>
  */
 @Tag("UI-tier")
-class GetSignoutRouteTest extends HtmlRouteTest {
+class GetSignoutRouteTest {
 
-  private static final String PLAYER_NAME = "testName";
-
-  private Session session;
-  private Request request;
-  private Response response;
-
-  private TemplateEngine templateEngine;
-  private PlayerLobby playerLobby;
-  private GameCenter gameCenter;
-  int playerNonce = 0;
-
+  /**
+   * The component-under-test (cut).
+   */
   private GetSignoutRoute cut;
 
+  //
+  // Constants
+  //
+  protected static final String TEST_PLAYER_NAME = "testName";
+  public static final String TEST_OPP_NAME = "oppName";
+
+  //
+  // Required HTTP objects
+  //
+  protected Request request;
+  protected Session session;
+  protected Response response;
+
+  //
+  // Application specific friendlies
+  //
+  protected PlayerLobby playerLobby;
+  private Gson gson;
+  protected GameCenter gameCenter;
+  private TemplateEngine engine;
+  private int playerNonce = 0;
+  private InitConfig initConfig;
+
   @BeforeEach
-  protected void setUp() {
-    session = mock(Session.class);
+  void setUp() {
     request = mock(Request.class);
+    session = mock(Session.class);
     when(request.session()).thenReturn(session);
     response = mock(Response.class);
 
-    templateEngine = mock(TemplateEngine.class);
     gameCenter = new GameCenter();
+    gson = new Gson();
     playerLobby = new PlayerLobby();
+    initConfig = new InitConfig("testName");
+    engine = mock(TemplateEngine.class);
 
-    cut = new GetSignoutRoute(gameCenter, playerLobby, templateEngine);
+    cut = new GetSignoutRoute(gameCenter, playerLobby, engine);
   }
 
   /**
@@ -64,7 +83,7 @@ class GetSignoutRouteTest extends HtmlRouteTest {
   @Test
   void testViewModel() {
     final TemplateEngineTester testHelper = new TemplateEngineTester();
-    when(templateEngine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
+    when(engine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
 
     assertThrows(HaltException.class,  () -> {
       cut.handle(request,response);
@@ -81,7 +100,7 @@ class GetSignoutRouteTest extends HtmlRouteTest {
   @Test
   public void testSessionEmpty(){
     final TemplateEngineTester testHelper = new TemplateEngineTester();
-    when(templateEngine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
+    when(engine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
 
     // no player is stored in session
     assertThrows(HaltException.class,  () -> {
@@ -96,16 +115,11 @@ class GetSignoutRouteTest extends HtmlRouteTest {
   @Test
   public void testNoPlayer(){
     final TemplateEngineTester testHelper = new TemplateEngineTester();
-    when(templateEngine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
+    when(engine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
 
     // player is stored in session but not in playerLobby
-    when(session.attribute("player")).thenReturn(new Player(PLAYER_NAME, playerNonce++));
-    assertThrows(HaltException.class,  () -> {
-      cut.handle(request,response);
-    });
-
-    assertThrows(AssertionFailedError.class, testHelper::assertViewModelExists);
-    assertThrows(AssertionFailedError.class, testHelper::assertViewModelIsaMap);
+    when(session.attribute("player")).thenReturn(TEST_PLAYER_NAME);
+    assertThrows(HaltException.class,  () -> {cut.handle(request,response);});
   }
 
   /**
@@ -114,14 +128,12 @@ class GetSignoutRouteTest extends HtmlRouteTest {
   @Test
   public void testSuccessfulSignout(){
     final TemplateEngineTester testHelper = new TemplateEngineTester();
-    when(templateEngine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
+    when(engine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
 
     // player is stored in session and is signed in
-    Player testPlayer = playerLobby.signin(PLAYER_NAME);
-    when(session.attribute("player")).thenReturn(testPlayer);
+    Player testPlayer = playerLobby.signin(TEST_PLAYER_NAME);
+    when(session.attribute("player")).thenReturn(testPlayer.getName());
 
-    assertThrows(HaltException.class,  () -> {
-      cut.handle(request,response);
-    });
+    assertThrows(HaltException.class,  () -> {cut.handle(request,response);});
   }
 }

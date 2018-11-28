@@ -29,7 +29,7 @@ public class GameTest {
   private Player rPlayer;
 
   /**
-   * TODO
+   * Set up a new game
    */
   @BeforeEach
   public void setup(){
@@ -39,7 +39,7 @@ public class GameTest {
   }
 
   /**
-   * TODO
+   * Tests that the turn can be successfully switched
    */
   @Test
   public void testSwitchTurn(){
@@ -152,7 +152,7 @@ public class GameTest {
 
 
   /**
-   * TODO
+   * Tests that the players are correctly placed in the game
    */
   @Test
   public void testPlayers(){
@@ -164,7 +164,7 @@ public class GameTest {
   }
 
   /**
-   * TODO
+   * Tests that moves will be validated
    */
   @Test
   public void testMoveValidation(){

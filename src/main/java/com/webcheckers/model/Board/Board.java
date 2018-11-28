@@ -48,7 +48,7 @@ public class Board implements Cloneable {
     private final int value;
 
     /**
-     * TODO
+     * Gets the space type based on its numerical value
      *
      * @param i
      */
@@ -60,66 +60,59 @@ public class Board implements Cloneable {
       return value;
     }
     /**
-     * TODO
+     * Checks if toCompare is equal to the current space type
      * @param toCompare
-     * @return
+     * @return whether they are equal
      */
     boolean compareColor(SPACE_TYPE toCompare){
       return (this.isWhite() && toCompare.isWhite()) || (this.isRed() && toCompare.isRed());
     }
 
     /**
-     * TODO
-     * @return
+     * @return whether a space contains a king
      */
     public boolean isKing(){
       return Math.abs(value) == 2;
     }
 
     /**
-     * TODO
-     * @return
+     * @return whether a space contains a normal piece
      */
     boolean isSingle(){
       return Math.abs(value) == 1;
     }
 
     /**
-     * TODO
-     * @return
+     * @return whether a square is empty
      */
     public boolean isEmpty(){
       return value == 0;
     }
 
     /**
-     * TODO
-     * @return
+     * @return whether a space is occupied by red
      */
     public boolean isRed(){
       return value > 0;
     }
 
     /**
-     * TODO
-     * @return
+     * @return whether a space is occupied by white
      */
     public boolean isWhite(){
       return value < 0;
     }
 
     /**
-     * TODO
      * @param color
-     * @return
+     * @return whether a space is the same color as the parameter
      */
     boolean isColor(COLOR color){
       return this.getColor().equals(color);
     }
 
     /**
-     * TODO
-     * @return
+     * @return the color occupying the space
      */
     COLOR getColor(){
       if(isRed()){
@@ -193,11 +186,6 @@ public class Board implements Cloneable {
             break;
         }
         break;
-      case CUSTOM:
-        break;
-      default:
-        initStart();
-        break;
     }
   }
 
@@ -238,6 +226,11 @@ public class Board implements Cloneable {
     pieceTypes =      0b0010_0000_0000_0000_0000_0000_0100_0110;
   }
 
+  /**
+   *
+   * @param numRedPieces
+   * @param numWhitePieces
+   */
   public void initRandom(int numRedPieces, int numWhitePieces){
     for(int i = 0; i < numRedPieces; i++){
       Position nextPosition = getRandomPosition();
@@ -248,6 +241,9 @@ public class Board implements Cloneable {
       }
     }
 
+    /**
+     *
+     */
     for(int i = 0; i < numWhitePieces; i++){
       Position nextPosition = getRandomPosition();
       if(nextPosition.getRow() == 0){
@@ -258,7 +254,11 @@ public class Board implements Cloneable {
     }
   }
 
-  private Position getRandomPosition(){
+  /**
+   *
+   * @return
+   */
+  Position getRandomPosition(){
     Random rand = new Random();
     int randIntCol = rand.nextInt(BOARD_SIZE);
     int randIntRow = rand.nextInt(BOARD_SIZE);
@@ -294,7 +294,7 @@ public class Board implements Cloneable {
   }
 
   /**
-   * TODO
+   * Checks if a pair of coordinates is within the boundaries of the board
    *
    * @param   x     x coordinate on the cartesian board
    * @param   y     y coordinate on the cartesian board
@@ -357,12 +357,12 @@ public class Board implements Cloneable {
   }
 
   /**
-   * TODO
+   * Gets the space type being jumped over in a jump move
    * @param x0
    * @param y0
    * @param x1
    * @param y1
-   * @return
+   * @return the space type being jumped over
    */
   private SPACE_TYPE getMiddlePiece(int x0, int y0, int x1, int y1){
     return getPieceAtLocation(Math.floorDiv(x0+x1,2), Math.floorDiv(y0+y1,2));
@@ -488,9 +488,10 @@ public class Board implements Cloneable {
   }
 
   /**
-   * TODO
+   * Moves a piece
    * @param move
-   * @return
+   * @return whether the move was successful
+   *
    */
   public boolean makeMove(Move move){
     Position start = move.getStart();
@@ -526,9 +527,9 @@ public class Board implements Cloneable {
   }
 
   /**
-   * TODO
-   * @param color
-   * @return
+   * Get a list of all possible simple moves from a side
+   * @param color the side to get the list from
+   * @return a list of all possible simple moves
    */
   public List<Move> getAllSimpleMoves(COLOR color){
     List<Move> moveList = new ArrayList<>();
@@ -542,10 +543,10 @@ public class Board implements Cloneable {
   }
 
   /**
-   * TODO
-   * @param x
-   * @param y
-   * @return
+   * Get a list of the simple moves a single piece can make
+   * @param x x coordinate of the piece
+   * @param y y coordinate of the piece
+   * @return a list of the simple moves a single piece can make
    */
   private List<Move> getPieceSimpleMoves(int x, int y){
     int bitIdx = cartesianToIndex(x, y);
@@ -580,9 +581,9 @@ public class Board implements Cloneable {
   }
 
   /**
-   * TODO
-   * @param move
-   * @return
+   * Validates that a move can be made
+   * @param move the move to be validated
+   * @return whether the move is valid
    */
   private boolean validateSimpleMove(Move move){
     if(move.isJump()){
@@ -607,9 +608,9 @@ public class Board implements Cloneable {
   }
 
   /**
-   * TODO
-   * @param color
-   * @return
+   * Get a list of all possible jump moves from a side
+   * @param color the side to get the list from
+   * @return the list of all possible jump moves from a side
    */
   public List<Move> getAllJumpMoves(COLOR color){
     List<Move> moveList = new ArrayList<>();
@@ -623,10 +624,10 @@ public class Board implements Cloneable {
   }
 
   /**
-   * TODO
-   * @param x
-   * @param y
-   * @return
+   * Get a list of the simple moves a single piece can make
+   * @param x x coordinate of the piece
+   * @param y y coordinate of the piece
+   * @return the list of the simple moves a single piece can make
    */
   public List<Move> getPieceJumpMoves(int x, int y){
     int bitIdx = cartesianToIndex(x, y);
@@ -661,9 +662,9 @@ public class Board implements Cloneable {
   }
 
   /**
-   * TODO
-   * @param move
-   * @return
+   * Validates a potential jump move
+   * @param move the jump move to be validated
+   * @return whether the move is valid
    */
   private boolean validateJumpMove(Move move){
     if(!move.isJump()){
@@ -698,11 +699,11 @@ public class Board implements Cloneable {
   }
 
   /**
-   *
-   * @param pos0
-   * @param pos1
-   * @param idx0Piece
-   * @return
+   * Determines if a piece is able to move in the direction it is attempting to
+   * @param pos0 the starting position of the piece
+   * @param pos1 the ending position of the piece
+   * @param idx0Piece the type of piece being moved
+   * @return whether it can move forwards/backwards
    */
   private boolean isValidDirection(Position pos0, Position pos1, SPACE_TYPE idx0Piece) {
     boolean validDirection = false;
@@ -717,9 +718,9 @@ public class Board implements Cloneable {
   }
 
   /**
-   *
-   * @param color
-   * @return
+   * Gets the number of pieces at the defending edge of the board
+   * @param color the side to get the list from
+   * @return the number of pieces at the defending edge of the board
    */
   public int getNumPiecesAlongBase(COLOR color){
     int[] redBasePositions = {0, 1, 2, 3};
@@ -732,9 +733,9 @@ public class Board implements Cloneable {
   }
 
   /**
-   *
-   * @param color
-   * @return
+   * Gets the number of pieces along the side of the board
+   * @param color the side to get the list from
+   * @return the number of pieces along the side of the board
    */
   public int getNumPiecesAlongSide(COLOR color){
     int[] edgePositions = {0, 8, 16, 24, 7, 15, 23, 31};
@@ -761,25 +762,24 @@ public class Board implements Cloneable {
   }
   /**
    *
-   * @param color
-   * @return
+   * @param color the side to get the list from
+   * @return the number of pieces a side possesses
    */
   public int getNumPieces(COLOR color){
     return getNumSinglePieces(color) + getNumKingPieces(color);
   }
 
   /**
-   *
-   * @return
+   * @return the total number of pieces on the board
    */
   public int getNumPieces(){
     return Integer.bitCount(pieceLocations & ~pieceTypes);
   }
 
   /**
-   *
-   * @param color
-   * @return
+   * Gets the number of normal pieces a side possesses
+   * @param color the side to get the list from
+   * @return the number of normal pieces a side possesses
    */
   public int getNumSinglePieces(COLOR color){
     int toReturn = getNumSingleRedPieces();
@@ -799,9 +799,9 @@ public class Board implements Cloneable {
   }
 
   /**
-   *
-   * @param color
-   * @return
+   * Gets the number of king pieces a side possesses
+   * @param color the side to get the amount from
+   * @return the number of king pieces a side possesses
    */
   public int getNumKingPieces(COLOR color){
     int toReturn = getNumKingRedPieces();

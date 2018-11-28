@@ -45,6 +45,10 @@ public class PostValidateMoveRoute extends AjaxRoute {
     GameContext game = gameCenter.getGame(currPlayer);
 
     Move requestMove = gson.fromJson(request.body(), Move.class);
+    if(requestMove == null){
+      return new Message("You are not allowed to make that move", MESSAGE_TYPE.error);
+    }
+
     requestMove.setType();
     if(currPlayer.equals(game.getWhitePlayer())){
       requestMove = Board.invertMove(requestMove);

@@ -5,11 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.webcheckers.model.Board.Board;
 import com.webcheckers.model.Board.Board.COLOR;
 import com.webcheckers.model.Board.Board.SPACE_TYPE;
-import com.webcheckers.model.Board.Move;
-import com.webcheckers.model.Board.Position;
+import com.webcheckers.model.Board.InitConfig.START_TYPE;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -69,6 +67,62 @@ class BoardTest {
   }
 
   /**
+   *
+   */
+  @Test
+  void testInitConfig(){
+    testRandomInit();
+    testRandomPreset();
+  }
+
+  /**
+   *
+   */
+  private void testRandomInit(){
+    InitConfig config = new InitConfig("oppName", 5, 5);
+    cut.init(config);
+    assertNotNull(cut);
+    assertEquals(5, cut.getNumPieces(COLOR.RED));
+    assertEquals(5, cut.getNumPieces(COLOR.WHITE));
+
+  }
+
+  /**
+   *
+   */
+  private void testRandomPreset(){
+    InitConfig config = new InitConfig("oppName", "start");
+    cut.init(config);
+    assertNotNull(cut);
+    assertEquals(12, cut.getNumPieces(COLOR.RED));
+    assertEquals(12, cut.getNumPieces(COLOR.WHITE));
+
+    config = new InitConfig("oppName", "middle");
+    cut.init(config);
+    assertNotNull(cut);
+    assertEquals(12, cut.getNumPieces(COLOR.RED));
+    assertEquals(11, cut.getNumPieces(COLOR.WHITE));
+
+    config = new InitConfig("oppName", "end");
+    cut.init(config);
+    assertNotNull(cut);
+    assertEquals(5, cut.getNumPieces(COLOR.RED));
+    assertEquals(6, cut.getNumPieces(COLOR.WHITE));
+
+    config = new InitConfig("oppName", "none");
+    cut.init(config);
+    assertNotNull(cut);
+    assertEquals(12, cut.getNumPieces(COLOR.RED));
+    assertEquals(12, cut.getNumPieces(COLOR.WHITE));
+
+    config = new InitConfig("oppName", "fail");
+    cut.init(config);
+    assertNotNull(cut);
+    assertEquals(12, cut.getNumPieces(COLOR.RED));
+    assertEquals(12, cut.getNumPieces(COLOR.WHITE));
+  }
+
+  /**
    * TODO
    */
   @Test
@@ -101,6 +155,72 @@ class BoardTest {
    * TODO
    */
   @Test
+  void testInitMid() {
+    cut.initMid();
+    int numRedPieces = cut.getNumPieces(COLOR.RED);
+    int numWhitePieces = cut.getNumPieces(COLOR.WHITE);
+    int numPieces = cut.getNumPieces();
+    int numKings = cut.getNumKings();
+
+    assertEquals(12, numRedPieces);
+    assertEquals(11, numWhitePieces);
+    assertEquals(23, numPieces);
+    assertEquals(0, numKings);
+  }
+
+  /**
+   * TODO
+   */
+  @Test
+  void testInitEnd() {
+    cut.initEnd();
+    int numRedPieces = cut.getNumPieces(COLOR.RED);
+    int numWhitePieces = cut.getNumPieces(COLOR.WHITE);
+    int numPieces = cut.getNumPieces();
+    int numKings = cut.getNumKings();
+
+    assertEquals(5, numRedPieces);
+    assertEquals(6, numWhitePieces);
+    assertEquals(7, numPieces);
+    assertEquals(4, numKings);
+  }
+
+  /**
+   * TODO
+   */
+  @Test
+  void testInitRandom() {
+    cut.initRandom(5,5);
+    int numRedPieces = cut.getNumPieces(COLOR.RED);
+    int numWhitePieces = cut.getNumPieces(COLOR.WHITE);
+    assertEquals(5, numRedPieces);
+    assertEquals(5, numWhitePieces);
+  }
+
+  /**
+   * TODO
+   */
+  @Test
+  void testRandomPosition() {
+    for(int i = 0; i < 12; i++){
+      Position randPos = cut.getRandomPosition();
+      assertNotNull(randPos);
+      assertTrue(Board.isValidLocation(randPos));
+    }
+  }
+
+  @Test
+  void testInvertMove(){
+    Move redMove = new Move(new Position(0,0), new Position(1,1));
+    Move whiteMove = new Move(new Position(7,7), new Position(6,6));
+
+    assertEquals(whiteMove, cut.invertMove(redMove));
+  }
+
+  /**
+   * Tests that the board recognizes pieces along its front and back
+   */
+  @Test
   void testPiecesAlongBase(){
     cut.initStart();
 
@@ -112,7 +232,7 @@ class BoardTest {
   }
 
   /**
-   * TODO
+   * Tests that the board recognizes pieces along its sides
    */
   @Test
   void testPiecesAlongEdge(){
@@ -126,7 +246,7 @@ class BoardTest {
   }
 
   /**
-   * TODO
+   * Tests that the board's indices are correctly mapped to positions based on row and column
    */
   @Test
   void testCartesianToIndex() {
@@ -144,14 +264,14 @@ class BoardTest {
 
     for(int i = 0; i < Board.BOARD_SIZE; i++){
       for(int j = 0; j < Board.BOARD_SIZE; j++){
-        assertEquals(indices[counter++], cut.cartesianToIndex(j,i),
+        assertEquals(indices[counter++], Board.cartesianToIndex(j,i),
             String.format("(%d, %d), %d", j, i, counter));
       }
     }
   }
 
   /**
-   *
+   * Tests that different types of pieces can be placed on the board
    */
   @Test
   void testPlacePiece() {
@@ -162,7 +282,7 @@ class BoardTest {
   }
 
   /**
-   * TODO
+   * Tests that a piece of a specific type can be placed on an empty square
    *
    * @param pieceToPlace
    */
@@ -176,7 +296,7 @@ class BoardTest {
         piecePlaced = cut.placePiece(xCoord, yCoord, pieceToPlace);
 
         if(pieceAtLoc.equals(SPACE_TYPE.EMPTY)
-            && cut.isValidLocation(new Position(xCoord, yCoord))
+            && Board.isValidLocation(new Position(xCoord, yCoord))
             && !pieceToPlace.equals(SPACE_TYPE.EMPTY)){
           assertTrue(piecePlaced,
               String.format("(%d, %d): %s", xCoord, yCoord, piecePlaced));
@@ -192,7 +312,7 @@ class BoardTest {
   }
 
   /**
-   * TODO
+   * Tests that a piece can be removed from the board
    */
   @Test
   void testRemovePiece() {
@@ -215,7 +335,7 @@ class BoardTest {
   }
 
   /**
-   * TODO
+   * Tests that squares will be correctly deemed valid/invalid as positions on the board
    */
   @Test
   void testIsValidLocation(){
@@ -224,7 +344,7 @@ class BoardTest {
 
     for(int yCoord = 0; yCoord < Board.BOARD_SIZE; yCoord++){
       for(int xCoord = 0; xCoord < Board.BOARD_SIZE; xCoord++){
-        boolean isValid = cut.isValidLocation(new Position(xCoord, yCoord));
+        boolean isValid = Board.isValidLocation(new Position(xCoord, yCoord));
         if(modVal % 2 == 0){
           assertTrue(isValid, String.format("(%d, %d)", xCoord, yCoord));
         } else {
@@ -237,7 +357,7 @@ class BoardTest {
   }
 
   /**
-   * TODO
+   * Tests that a list of all possible simple moves can be obtained given a board state
    */
   @Test
   void testGetAllSimpleMoves(){
@@ -274,7 +394,7 @@ class BoardTest {
   }
 
   /**
-   * TODO
+   * Tests that a list of the red player's possible simple moves can be obtained
    */
   private void testRedSimpleMoves(int numMoves){
     List<Move> allRedMoves = cut.getAllSimpleMoves(COLOR.RED);
@@ -283,7 +403,7 @@ class BoardTest {
   }
 
   /**
-   * TODO
+   * Tests that a list of the white player's possible simple moves can be obtained
    */
   private void testWhiteSimpleMoves(int numMoves){
     List<Move> allWhiteMoves = cut.getAllSimpleMoves(COLOR.WHITE);
@@ -292,7 +412,7 @@ class BoardTest {
   }
 
   /**
-   * TODO
+   * Tests that a list of all possible jump moves can be correctly obtained
    */
   @Test
   void testGetAllJumpMoves(){
@@ -321,7 +441,7 @@ class BoardTest {
   }
 
   /**
-   * TODO
+   * Tests that a list of all red's possible jump moves can be obtained
    *
    * @param numMoves
    */
@@ -332,7 +452,7 @@ class BoardTest {
   }
 
   /**
-   * TODO
+   * Tests that a list of all white's possible jump moves can be obtained
    *
    * @param numMoves
    */
@@ -343,7 +463,7 @@ class BoardTest {
   }
 
   /**
-   * TODO
+   * Tests that a piece can be correctly moved from one position to another
    */
   @Test
   void testMovePiece(){
@@ -362,7 +482,7 @@ class BoardTest {
   }
 
   /**
-   * TODO
+   * Tests that the initial board configuration is correct from the perspective of the opposing player
    */
   @Test
   void testGetRowReverse(){
@@ -400,6 +520,7 @@ class BoardTest {
   }
 
   /**
+   * Tests that a row has the correct starting configuration for the opposite player
    *
    * @param idx
    * @param expectedRow
@@ -416,7 +537,7 @@ class BoardTest {
   }
 
   /**
-   * TODO
+   * Tests that the board configuration is correct from the perspective of the primary player
    */
   @Test
   void testGetRow() {
@@ -455,6 +576,7 @@ class BoardTest {
   }
 
   /**
+   * Tests that a row is correctly configured for the primary player
    *
    * @param idx
    * @param expectedRow
@@ -470,7 +592,7 @@ class BoardTest {
   }
 
   /**
-   * TODO
+   * Tests that a piece can be correctly returned based on a location
    */
   @Test
   void testGetPieceAtLocation() {
@@ -480,7 +602,7 @@ class BoardTest {
   }
 
   /**
-   * TODO
+   * Tests that a list of all positions of red pieces can be correctly obtained
    */
   @Test
   void testGetRedLocations() {
@@ -491,7 +613,7 @@ class BoardTest {
   }
 
   /**
-   * TODO
+   * Tests that the number of red pieces can be obtained
    */
   @Test
   void testGetNumRedPieces() {
@@ -501,7 +623,7 @@ class BoardTest {
   }
 
   /**
-   * TODO
+   * Tests that a list of all positions of white pieces can be correctly obtained
    */
   @Test
   void testGetWhiteLocations() {
@@ -512,7 +634,7 @@ class BoardTest {
   }
 
   /**
-   * TODO
+   * Tests that the number of white pieces can be obtained
    */
   @Test
   void testGetNumWhitePieces() {
@@ -522,7 +644,7 @@ class BoardTest {
   }
 
   /**
-   * TODO
+   * Tests that the number of pieces can be obtained
    */
   @Test
   void testGetNumPieces() {

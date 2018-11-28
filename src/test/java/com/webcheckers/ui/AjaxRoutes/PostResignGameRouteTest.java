@@ -23,50 +23,47 @@ import spark.ModelAndView;
 @Tag("UI-tier")
 class PostResignGameRouteTest extends HtmlRouteTest {
 
-    /**
-     * Setup new mock objects for each test.
-     */
-    @BeforeEach
-    public void setup() {
-        super.setUp();
-        // create a unique CuT for each test
-        CuT = new PostResignGameRoute(gameCenter, playerLobby, gson);
-    }
+  /**
+   * Setup new mock objects for each test.
+   */
+  @BeforeEach
+  public void setup() {
+      super.setUp();
+      // create a unique cut for each test
+      cut = new PostResignGameRoute(gameCenter, playerLobby, gson);
+  }
 
-    /**
-     * Test the resignation of a player
-     */
-    @Test
-    public void testResignation() throws Exception{
-        final TemplateEngineTester testHelper = new TemplateEngineTester();
-        when(engine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
+  /**
+  * Test the resignation of a player
+  */
+  @Test
+  public void testResignation() throws Exception{
+      final TemplateEngineTester testHelper = new TemplateEngineTester();
+      when(engine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
 
-        Player testPlayer = playerLobby.signin(TEST_PLAYER_NAME);
-        when(session.attribute("player")).thenReturn(testPlayer);
+      Player testPlayer = playerLobby.signin(TEST_PLAYER_NAME);
+      when(session.attribute("player")).thenReturn(testPlayer.getName());
+      Player testOpponent = playerLobby.signin(TEST_OPP_NAME);
 
-        Player testOpponent = playerLobby.signin(TEST_OPP_NAME);
+      GameContext game = gameCenter.createGame(testPlayer, testOpponent, initConfig);
 
-        GameContext game = gameCenter.createGame(testPlayer, testOpponent, initConfig);
+      Message message = (Message) cut.handle(request,response);
+      assertEquals(MESSAGE_TYPE.info, message.getType());
+  }
 
-        Message message = (Message) CuT.handle(request,response);
+  /**
+   * Test the failed resignation of a player
+   */
+  @Test
+  public void testNoResignation() throws Exception{
+      final TemplateEngineTester testHelper = new TemplateEngineTester();
+      when(engine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
 
-        assertEquals(MESSAGE_TYPE.info, message.getType());
-    }
+      Player testPlayer = playerLobby.signin(TEST_PLAYER_NAME);
+      when(session.attribute("player")).thenReturn(testPlayer.getName());
 
-    /**
-     * Test the failed resignation of a player
-     */
-    @Test
-    public void testNoResignation() throws Exception{
-        final TemplateEngineTester testHelper = new TemplateEngineTester();
-        when(engine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
+      Message message = (Message) cut.handle(request,response);
 
-        Player testPlayer = playerLobby.signin(TEST_PLAYER_NAME);
-        when(session.attribute("player")).thenReturn(testPlayer);
-
-        Message message = (Message) CuT.handle(request,response);
-
-        assertEquals(MESSAGE_TYPE.error, message.getType());
-    }
-
+      assertEquals(MESSAGE_TYPE.error, message.getType());
+  }
 }

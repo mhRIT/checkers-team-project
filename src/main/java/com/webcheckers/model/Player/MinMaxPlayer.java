@@ -25,14 +25,14 @@ public class MinMaxPlayer extends AiPlayer {
     super(name, idNum);
     heuristicList = new ArrayList<>();
 
-//    heuristicList.add(new ForwardDefenseHeuristic());
-//    heuristicList.add(new BackwardsDefenseHeuristic());
+    heuristicList.add(new ForwardDefenseHeuristic());
+    heuristicList.add(new BackwardsDefenseHeuristic());
     heuristicList.add(new PiecesOnSideHeuristic());
     heuristicList.add(new KingCountHeuristic());
     heuristicList.add(new OffenseHeuristic());
     heuristicList.add(new PieceCountHeuristic());
 //    heuristicList.add(new PositionHeuristic());
-//    heuristicList.add(new BasePiecesHeuristic());
+    heuristicList.add(new BasePiecesHeuristic());
     heuristicList.add(new SimpleMoveHeuristic());
     heuristicList.add(new JumpMoveHeuristic());
 
