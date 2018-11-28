@@ -2,16 +2,12 @@ package com.webcheckers.ui.HtmlRoutes;
 
 import static com.webcheckers.ui.HtmlRoutes.GetHomeRoute.ALL_PLAYER_NAMES;
 import static com.webcheckers.ui.HtmlRoutes.GetHomeRoute.NUM_PLAYERS;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import com.webcheckers.application.GameCenter;
-import com.webcheckers.model.Player;
-import com.webcheckers.ui.HtmlRoutes.GetHomeRoute;
-import com.webcheckers.ui.RouteTest;
+import com.webcheckers.model.Player.Player;
 import com.webcheckers.ui.TemplateEngineTester;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -24,7 +20,7 @@ import spark.ModelAndView;
  * @author <a href='mailto:sjk7867@rit.edu'>Simon Kirkwood</a>
  */
 @Tag("UI-tier")
-public class GetHomeRouteTest extends RouteTest {
+public class GetHomeRouteTest extends HtmlRouteTest {
 
     /**
      * Setup new mock objects for each test.

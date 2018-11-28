@@ -1,11 +1,11 @@
 package com.webcheckers.ui.boardView;
 
-import static com.webcheckers.model.Board.BOARD_SIZE;
+import static com.webcheckers.model.Board.Board.BOARD_SIZE;
 
-import com.webcheckers.model.Board;
-import com.webcheckers.model.Board.SPACE_TYPE;
+import com.webcheckers.model.Board.Board;
+import com.webcheckers.model.Board.Board.SPACE_TYPE;
 import com.webcheckers.model.GameState.GameContext;
-import com.webcheckers.model.Player;
+import com.webcheckers.model.Player.Player;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -13,10 +13,8 @@ import java.util.List;
 
 /**
  *  {@code BoardView}
- *  <p>
  *  Represents the view of the board, as expected by the game.ftl
  *  Freemarker template.
- *  </p>
  *
  *  @author <a href='mailto:mlh1964@rit.edu'>Meaghan Hoitt</a>
  *  @author <a href='mailto:sjk7867@rit.edu'>Simon Kirwkwood</a>
@@ -27,7 +25,6 @@ public class BoardView implements Iterable {
   //
   // Attributes
   //
-
   private List<Row> rows;
 
   /**

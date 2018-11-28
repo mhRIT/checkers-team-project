@@ -1,7 +1,7 @@
 package com.webcheckers.ui.boardView;
 
-import com.webcheckers.model.Board;
-import com.webcheckers.model.Board.SPACE_TYPE;
+import com.webcheckers.model.Board.Board;
+import com.webcheckers.model.Board.Board.SPACE_TYPE;
 import com.webcheckers.ui.boardView.Piece.COLOR;
 import com.webcheckers.ui.boardView.Piece.TYPE;
 import java.util.ArrayList;
@@ -10,9 +10,7 @@ import java.util.List;
 
 /**
  *  {@code Row}
- *  <p>
  *  Represents a single Row on the view of the board.
- *  </p>
  *
  *  @author <a href='mailto:mlh1964@rit.edu'>Meaghan Hoitt</a>
  *  @author <a href='mailto:sjk7867@rit.edu'>Simon Kirwkwood</a>
@@ -23,7 +21,6 @@ public class Row implements Iterable {
   //
   // Attributes
   //
-
   private final int index;
   private List<Space> spaces;
 

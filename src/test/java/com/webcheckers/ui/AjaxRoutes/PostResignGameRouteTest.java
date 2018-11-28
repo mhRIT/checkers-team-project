@@ -3,12 +3,10 @@ package com.webcheckers.ui.AjaxRoutes;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.withSettings;
 
 import com.webcheckers.model.GameState.GameContext;
-import com.webcheckers.model.Player;
-import com.webcheckers.ui.AjaxRoutes.PostResignGameRoute;
-import com.webcheckers.ui.RouteTest;
+import com.webcheckers.model.Player.Player;
+import com.webcheckers.ui.HtmlRoutes.HtmlRouteTest;
 import com.webcheckers.ui.TemplateEngineTester;
 import com.webcheckers.ui.boardView.Message;
 import com.webcheckers.ui.boardView.Message.MESSAGE_TYPE;
@@ -23,7 +21,7 @@ import spark.ModelAndView;
  * @author <a href='mailto:mlh1964@rit.edu'>Meaghan Hoitt</a>
  */
 @Tag("UI-tier")
-class PostResignGameRouteTest extends RouteTest {
+class PostResignGameRouteTest extends HtmlRouteTest {
 
     /**
      * Setup new mock objects for each test.
@@ -48,7 +46,7 @@ class PostResignGameRouteTest extends RouteTest {
 
         Player testOpponent = playerLobby.signin(TEST_OPP_NAME);
 
-        GameContext game = gameCenter.createGame(testPlayer, testOpponent);
+        GameContext game = gameCenter.createGame(testPlayer, testOpponent, initConfig);
 
         Message message = (Message) CuT.handle(request,response);
 

@@ -1,16 +1,16 @@
 package com.webcheckers.ui.HtmlRoutes;
 
-import static com.webcheckers.model.Board.COLOR.RED;
+import static com.webcheckers.model.Board.Board.COLOR.RED;
+import static com.webcheckers.ui.HtmlRoutes.GetHomeRoute.OPP_MESSAGE;
 import static com.webcheckers.ui.HtmlRoutes.GetHomeRoute.PLAYER;
-import static com.webcheckers.ui.HtmlRoutes.PostSelectOpponentRoute.MESSAGE;
 import static com.webcheckers.ui.HtmlRoutes.PostSelectOpponentRoute.OPP_PLAYER_NAME;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import com.webcheckers.model.Board.InitConfig;
 import com.webcheckers.model.GameState.GameContext;
-import com.webcheckers.model.Player;
+import com.webcheckers.model.Player.Player;
 import com.webcheckers.ui.HtmlRoutes.PostSelectOpponentRoute.VIEW_MODE;
-import com.webcheckers.ui.RouteTest;
 import com.webcheckers.ui.TemplateEngineTester;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -23,7 +23,7 @@ import spark.ModelAndView;
  * @author <a href='mailto:axf5592@rit.edu'>Andrew Festa</a>
  */
 @Tag("UI-tier")
-class PostSelectOpponentRouteTest extends RouteTest {
+class PostSelectOpponentRouteTest extends HtmlRouteTest {
 
   /**
    * Setup new mock objects for each test.
@@ -50,7 +50,8 @@ class PostSelectOpponentRouteTest extends RouteTest {
     Player testOppPlayer = playerLobby.signin(TEST_OPP_NAME);
     when(request.queryParams(OPP_PLAYER_NAME)).thenReturn(TEST_OPP_NAME);
 
-    GameContext game = gameCenter.createGame(testPlayer, testOppPlayer);
+    InitConfig initConfig = new InitConfig(TEST_OPP_NAME);
+    GameContext game = gameCenter.createGame(testPlayer, testOppPlayer, initConfig);
 
     CuT.handle(request,response);
 
@@ -81,7 +82,8 @@ class PostSelectOpponentRouteTest extends RouteTest {
     Player testOppPlayer = playerLobby.signin(TEST_OPP_NAME);
     when(request.queryParams(OPP_PLAYER_NAME)).thenReturn(TEST_OPP_NAME);
 
-    GameContext game = gameCenter.createGame(testPlayer, testOppPlayer);
+    InitConfig initConfig = new InitConfig(TEST_OPP_NAME);
+    GameContext game = gameCenter.createGame(testPlayer, testOppPlayer, initConfig);
 
     String message = String.format("The selected opponent, %s, is already in a game", TEST_OPP_NAME);
 
@@ -89,7 +91,7 @@ class PostSelectOpponentRouteTest extends RouteTest {
 
     testHelper.assertViewModelAttribute(GetHomeRoute.TITLE_ATTR, GetHomeRoute.TITLE);
     testHelper.assertViewModelAttribute(PLAYER, testPlayer);
-    testHelper.assertViewModelAttribute(MESSAGE, message);
+    testHelper.assertViewModelAttribute(OPP_MESSAGE, message);
     testHelper.assertViewModelExists();
     testHelper.assertViewModelIsaMap();
     testHelper.assertViewName(GetHomeRoute.VIEW_NAME);

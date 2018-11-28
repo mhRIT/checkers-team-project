@@ -1,6 +1,9 @@
 package com.webcheckers.model.GameState;
 
-import com.webcheckers.model.Player;
+import static com.webcheckers.ui.HtmlRoutes.HtmlRouteTest.TEST_OPP_NAME;
+
+import com.webcheckers.model.Board.InitConfig;
+import com.webcheckers.model.Player.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -37,7 +40,8 @@ abstract class GameStateTest {
   void setUp() {
     player1 = new Player(PLAYER1_NAME, playerNonce++);
     player2 = new Player(PLAYER2_NAME, playerNonce++);
-    gameContext = new GameContext(player1, player2, gameNonce++);
+    InitConfig initConfig = new InitConfig(TEST_OPP_NAME);
+    gameContext = new GameContext(player1, player2, initConfig, gameNonce++);
   }
 
   @Test

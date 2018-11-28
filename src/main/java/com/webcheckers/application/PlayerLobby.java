@@ -1,17 +1,16 @@
 package com.webcheckers.application;
 
-import com.webcheckers.model.Player;
+import com.webcheckers.model.Player.AiPlayer;
+import com.webcheckers.model.Player.MinMaxPlayer;
+import com.webcheckers.model.Player.Player;
+import com.webcheckers.model.Player.RandomMovementPlayer;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 
 /**
- *  {@code PlayerLobby}
- *  <p>
- *    Represents the lobby in which all players inhabit and from which they log in and out of.
- *  </p>
+ * {@code PlayerLobby}
+ *  Represents the lobby in which all players inhabit and from which they log in and out of.
  *
  *  @author <a href='mailto:mlh1964@rit.edu'>Meaghan Hoitt</a>
  *  @author <a href='mailto:sjk7867@rit.edu'>Simon Kirwkwood</a>
@@ -20,21 +19,29 @@ import java.util.Set;
  *
  */
 public class PlayerLobby {
-
   //
   // Attributes
   //
-  private HashMap<String, Player> playerList;
+  private List<Player> playerList;
+  private List<Player> aiList;
   private int playerNonce = 0;
 
   /**
    * Constructs a new PlayerLobby to store signed-in players.
-   *
-   * @param gameCenter  instance of GameCenter to associate with
-   *                    this PlayerLobby
    */
-  public PlayerLobby(GameCenter gameCenter) {
-    playerList = new HashMap<>();
+  public PlayerLobby() {
+    playerList = new ArrayList<>();
+    aiList = new ArrayList<>();
+
+    AiPlayer randomPlayer = new RandomMovementPlayer("Easy AI", getPlayerNonce());
+    AiPlayer medMinMaxPlayer = new MinMaxPlayer("Medium AI", getPlayerNonce(), 0);
+    AiPlayer hardMinMaxPlayer = new MinMaxPlayer("Hard AI", getPlayerNonce(), 3);
+    AiPlayer extMinMaxPlayer = new MinMaxPlayer("Extreme AI", getPlayerNonce(), 6);
+
+    aiList.add(randomPlayer);
+    aiList.add(medMinMaxPlayer);
+    aiList.add(hardMinMaxPlayer);
+    aiList.add(extMinMaxPlayer);
   }
 
   /**
@@ -56,7 +63,7 @@ public class PlayerLobby {
     name = name.trim();
     if (validateName(name)) {
       Player newPlayer = new Player(name, getPlayerNonce());
-      playerList.put(name, newPlayer);
+      playerList.add(newPlayer);
       return newPlayer;
     }
     return null;
@@ -71,8 +78,9 @@ public class PlayerLobby {
    */
   public boolean signout(String name) {
     boolean toReturn = false;
-    if(playerList.containsKey(name)){
-      playerList.remove(name);
+    Player playerToRemove = getPlayer(name);
+    if(playerList.contains(playerToRemove)){
+      playerList.remove(playerToRemove);
       toReturn = true;
     }
     return toReturn;
@@ -85,7 +93,8 @@ public class PlayerLobby {
    * @return  true  if player's username is valid, else false
    */
   public boolean isAvailable(String name) {
-    for (String eachName : playerList.keySet()) {
+    for (Player eachPlayer : playerList) {
+      String eachName = eachPlayer.getName();
       if (name.equals(eachName)) {
         return false;
       }
@@ -117,14 +126,30 @@ public class PlayerLobby {
   }
 
   /**
-   * TODO retrieve based on id, not on name
    * Retrieves a player given the username.
    *
    * @param   name  the username of the current player
    * @return        the player of the specified 'name'
    */
   public Player getPlayer(String name) {
-    return playerList.getOrDefault(name, null);
+    Player toReturn = null;
+
+    for(Player eachPlayer : playerList){
+      String eachName = eachPlayer.getName();
+      if(eachName.equals(name)){
+        toReturn = eachPlayer;
+      }
+    }
+
+    if(toReturn == null){
+      for(Player eachAi : aiList){
+        String eachName = eachAi.getName();
+        if(eachName.equals(name)){
+          toReturn = eachAi;
+        }
+      }
+    }
+    return toReturn;
   }
 
 
@@ -136,7 +161,7 @@ public class PlayerLobby {
    *          false   otherwise
    */
   public boolean containsPlayers(Player player) {
-    return playerList.containsValue(player);
+    return playerList.contains(player);
   }
 
   /**
@@ -148,7 +173,6 @@ public class PlayerLobby {
     return playerList.size();
   }
 
-
   /**
    * Generates a list of all the names of players who are signed-in.
    *
@@ -156,11 +180,32 @@ public class PlayerLobby {
    * @return          a list of all player's names who are signed-in, excluding the
    *                  specified 'exclude' name
    */
-  public String[] playerNames(String exclude) {
-    List<String> players = new ArrayList<String>(playerList.keySet());
-    players.remove(exclude);
-    Collections.sort(players);
+  public List<String> playerNames(String exclude) {
+    List<String> toReturn = new ArrayList<>();
+    for(Player eachPlayer : playerList){
+      String eachName = eachPlayer.getName();
+      if(!eachName.equals(exclude)){
+        toReturn.add(eachName);
+      }
+    }
+    Collections.sort(toReturn);
 
-    return players.toArray(new String[0]);
+    return toReturn;
+  }
+
+  /**
+   * Generates a list of all the names of players who are signed-in.
+   *
+   * @return          a list of all player's names who are signed-in, excluding the
+   *                  specified 'exclude' name
+   */
+  public List<String> aiNames() {
+    List<String> toReturn = new ArrayList<>();
+    for(Player eachAi : aiList){
+      String eachName = eachAi.getName();
+      toReturn.add(eachName);
+    }
+
+    return toReturn;
   }
 }

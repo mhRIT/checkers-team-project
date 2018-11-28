@@ -1,16 +1,15 @@
 package com.webcheckers.application;
 
+import com.webcheckers.model.Board.InitConfig;
 import com.webcheckers.model.GameState.GameContext;
-import com.webcheckers.model.Player;
+import com.webcheckers.model.Player.Player;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  *  {@code GameCenter}
- *  <p>
  *  Stores a collection of Games across all current sessions and provides various
  *  methods for interacting with the current Games.
- *  </p>
  *
  *  @author <a href='mailto:mlh1964@rit.edu'>Meaghan Hoitt</a>
  *  @author <a href='mailto:sjk7867@rit.edu'>Simon Kirwkwood</a>
@@ -48,8 +47,8 @@ public class GameCenter {
    * @param   player2 the player that will play as white
    * @return          the newly created GameState
    */
-  public GameContext createGame(Player player1, Player player2) {
-    GameContext game = new GameContext(player1, player2, getGameNonce());
+  public GameContext createGame(Player player1, Player player2, InitConfig initConfig) {
+    GameContext game = new GameContext(player1, player2, initConfig, getGameNonce());
     gameList.add(game);
     return game;
   }
@@ -90,8 +89,6 @@ public class GameCenter {
   }
 
   /**
-   * TODO use player ids to get games rather than names
-   *
    * Retrieves a list of games currently being played by the
    * specified player.
    *
@@ -111,6 +108,11 @@ public class GameCenter {
     return playerGameList;
   }
 
+  /**
+   *
+   * @param player
+   * @return
+   */
   public GameContext getGame(Player player){
     GameContext toReturn = null;
 

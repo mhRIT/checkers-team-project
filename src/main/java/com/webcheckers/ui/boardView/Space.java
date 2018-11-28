@@ -2,9 +2,7 @@ package com.webcheckers.ui.boardView;
 
 /**
  *  {@code Space}
- *  <p>
  *  Represents a single space in the view of the board.
- *  </p>
  *
  *  @author <a href='mailto:mlh1964@rit.edu'>Meaghan Hoitt</a>
  *  @author <a href='mailto:sjk7867@rit.edu'>Simon Kirwkwood</a>
@@ -15,10 +13,9 @@ public class Space {
   //
   // Attributes
   //
-
   private final int cellIdx;
-  private Piece piece = null;
-  private boolean validPos = false;
+  private Piece piece;
+  private boolean validPos;
 
   /**
    * Constructs a Space, which can either be empty or contain a piece.

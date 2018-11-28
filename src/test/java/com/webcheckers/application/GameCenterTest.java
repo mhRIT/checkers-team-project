@@ -1,11 +1,12 @@
 package com.webcheckers.application;
 
+import static com.webcheckers.ui.HtmlRoutes.HtmlRouteTest.TEST_OPP_NAME;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
+import com.webcheckers.model.Board.InitConfig;
 import com.webcheckers.model.GameState.GameContext;
-import com.webcheckers.model.Player;
+import com.webcheckers.model.Player.Player;
 
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,6 +26,7 @@ public class GameCenterTest {
   private Player player2;
   private Player player3;
   int playerNonce = 0;
+  InitConfig initConfig = new InitConfig("p2");
 
   private GameCenter CuT;
 
@@ -42,7 +44,7 @@ public class GameCenterTest {
   @Test
   public void testCreateGame() {
     final GameCenter CuT = new GameCenter();
-    final GameContext game = CuT.createGame(player1, player2);
+    final GameContext game = CuT.createGame(player1, player2, initConfig);
 
     assertNotNull(CuT);
     assertNotNull(game);
@@ -53,7 +55,7 @@ public class GameCenterTest {
    */
   @Test
   public void testGetGames(){
-    GameContext game = CuT.createGame(player1, player2);
+    GameContext game = CuT.createGame(player1, player2, initConfig);
     List<GameContext> games = CuT.getGames(player1);
 
     assertNotNull(games);
@@ -72,7 +74,7 @@ public class GameCenterTest {
    */
   @Test
   public void testGetNoGames(){
-    CuT.createGame(player2, player3);
+    GameContext game = CuT.createGame(player1, player2, initConfig);
     final List<GameContext> games = CuT.getGames(player1);
     assertNotNull(games);
     assertEquals(0, games.size());
@@ -83,7 +85,7 @@ public class GameCenterTest {
    */
   @Test
   public void testPlayerInGame(){
-    CuT.createGame(player1, player2);
+    GameContext game = CuT.createGame(player1, player2, initConfig);
     boolean isInGame = CuT.getGame(player1) != null;
     assertTrue(isInGame);
 
@@ -96,7 +98,7 @@ public class GameCenterTest {
    */
   @Test
   public void testIsPlayerNotInGame(){
-    GameContext game = CuT.createGame(player1, player2);
+    GameContext game = CuT.createGame(player1, player2, initConfig);
     boolean isInGame = CuT.getGame(player3) != null;
     assertNotNull(game);
     assertFalse(isInGame);
@@ -107,7 +109,7 @@ public class GameCenterTest {
    */
   @Test
   public void testResignAllSuccess(){
-    CuT.createGame(player1, player2);
+    GameContext game = CuT.createGame(player1, player2, initConfig);
     boolean success = CuT.resignAll(player1);
     assertTrue(success);
 
@@ -120,7 +122,7 @@ public class GameCenterTest {
    */
   @Test
   public void testResignAllFail(){
-    CuT.createGame(player1, player2);
+    GameContext game = CuT.createGame(player1, player2, initConfig);
     boolean success = CuT.resignAll(player3);
     assertFalse(success);
   }
@@ -130,7 +132,7 @@ public class GameCenterTest {
    */
   @Test
   public void testResignNone(){
-    GameContext game = CuT.createGame(player1, player2);
+    GameContext game = CuT.createGame(player1, player2, initConfig);
     boolean success = CuT.resign(game, player3);
     assertFalse(success);
   }

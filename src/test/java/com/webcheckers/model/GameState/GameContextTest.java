@@ -7,10 +7,11 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.webcheckers.model.Board;
-import com.webcheckers.model.Move;
-import com.webcheckers.model.Player;
-import com.webcheckers.model.Position;
+import com.webcheckers.model.Board.Board;
+import com.webcheckers.model.Board.InitConfig;
+import com.webcheckers.model.Board.Move;
+import com.webcheckers.model.Player.Player;
+import com.webcheckers.model.Board.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -29,13 +30,15 @@ public class GameContextTest {
   //
   private static final String PLAYER1_NAME = "player1";
   private static final String PLAYER2_NAME = "player2";
+  int RED_PLAYER_NONCE = 0;
+  int WHITE_PLAYER_NONCE = 1;
+  int INVALID_PLAYER_NONCE = 2;
 
   //
   // Attributes
   //
   private Player player1;
   private Player player2;
-  int playerNonce = 0;
   int gameNonce = 0;
 
   //
@@ -48,15 +51,15 @@ public class GameContextTest {
    */
   @BeforeEach
   public void setup(){
-    player1 = new Player(PLAYER1_NAME, playerNonce++);
-    player2 = new Player(PLAYER2_NAME, playerNonce++);
-    cut = new GameContext(player1, player2, gameNonce++);
+    player1 = new Player(PLAYER1_NAME, RED_PLAYER_NONCE);
+    player2 = new Player(PLAYER2_NAME, WHITE_PLAYER_NONCE);
+    cut = new GameContext(player1, player2, new InitConfig(PLAYER2_NAME), gameNonce++);
   }
 
   @Test
   public void testProceed(){
     Move illegalMove = new Move(new Position(0,1), new Position(0,2));
-    player1.addNextMove(cut, illegalMove);
+    player1.putNextMove(cut, illegalMove);
     GameState startState = cut.getState();
     boolean success = cut.proceed();
     GameState nextState = cut.getState();
@@ -101,7 +104,7 @@ public class GameContextTest {
 
     cut.switchTurn();
     switchedPlayer = cut.getActivePlayer();
-    assertEquals(player, switchedPlayer);
+    assertNotEquals(player, switchedPlayer);
   }
 
   @Test
@@ -163,7 +166,7 @@ public class GameContextTest {
 
   @Test
   public void testResignFail(){
-    Player notPlayer = new Player("notInGame", 0);
+    Player notPlayer = new Player("notInGame", INVALID_PLAYER_NONCE);
     boolean success = cut.resignPlayer(notPlayer);
     assertFalse(success);
   }
@@ -171,7 +174,8 @@ public class GameContextTest {
   @Test
   void testToString(){
     assertNotNull(cut);
-    assertEquals(String.format("Red player: %s | White player: %s",
+    assertEquals(String.format("%d | Red player: %s | White player: %s",
+                  cut.getId(),
                   PLAYER1_NAME,
                   PLAYER2_NAME),
         cut.toString());
@@ -179,9 +183,9 @@ public class GameContextTest {
 
   @Test
   void testEquals(){
-    GameContext game2 = new GameContext(player1, player2, 0);
+    GameContext game2 = new GameContext(player1, player2, new InitConfig(PLAYER2_NAME), 0);
     boolean posEqual = cut.equals(game2);
-    assertFalse(posEqual);
+    assertTrue(posEqual);
 
     posEqual = cut.equals(new Object());
     assertFalse(posEqual);
@@ -192,8 +196,8 @@ public class GameContextTest {
 
   @Test
   void testHash(){
-    GameContext game2 = new GameContext(player1, player2, playerNonce);
-    GameContext game3 = new GameContext(player1, new Player("p3", playerNonce), gameNonce);
+    GameContext game2 = new GameContext(player1, player2, new InitConfig(PLAYER2_NAME), gameNonce);
+    GameContext game3 = new GameContext(player1, new Player("p3", INVALID_PLAYER_NONCE), new InitConfig(PLAYER2_NAME), gameNonce);
 
     int hash0 = cut.hashCode();
     int hash2 = game2.hashCode();

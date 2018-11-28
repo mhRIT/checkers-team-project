@@ -4,14 +4,13 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.withSettings;
 
 import com.google.gson.Gson;
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
+import com.webcheckers.model.Board.InitConfig;
 import com.webcheckers.model.GameState.GameContext;
-import com.webcheckers.model.Player;
-import com.webcheckers.ui.AjaxRoutes.PostCheckTurnRoute;
+import com.webcheckers.model.Player.Player;
 import com.webcheckers.ui.boardView.Message;
 import com.webcheckers.ui.boardView.Message.MESSAGE_TYPE;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,17 +33,19 @@ public class PostCheckTurnRouteTest {
   private Request request;
   private Response response;
   private Session session;
+  private InitConfig initConfig;
 
   private PostCheckTurnRoute CuT;
 
   @BeforeEach
   public void setup(){
     gameCenter = new GameCenter();
-    playerLobby = new PlayerLobby(gameCenter);
+    playerLobby = new PlayerLobby();
     gson = new Gson();
     player1 = new Player("Test1", playerNonce++);
     player2 = new Player("Test2", playerNonce++);
-    game = gameCenter.createGame(player1, player2);
+    initConfig = new InitConfig(player2.getName());
+    game = gameCenter.createGame(player1, player2, initConfig);
 
     session = mock(Session.class);
     request = mock(Request.class);

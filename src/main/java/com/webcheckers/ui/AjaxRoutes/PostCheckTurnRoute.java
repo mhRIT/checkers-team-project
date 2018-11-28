@@ -6,7 +6,7 @@ import com.google.gson.Gson;
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
 import com.webcheckers.model.GameState.GameContext;
-import com.webcheckers.model.Player;
+import com.webcheckers.model.Player.Player;
 import com.webcheckers.ui.boardView.Message;
 import com.webcheckers.ui.boardView.Message.MESSAGE_TYPE;
 import java.util.logging.Logger;
@@ -23,26 +23,28 @@ import spark.Session;
  */
 public class PostCheckTurnRoute extends AjaxRoute {
 
-  private static final Logger LOG = Logger.getLogger(PostCheckTurnRoute.class.getName());
-
+  /**
+   * Create the Spark Route (UI controller) for the {@code POST /checkTurn} HTTP request.
+   * {@inheritDoc}
+   */
   public PostCheckTurnRoute(GameCenter gameCenter, PlayerLobby playerLobby, Gson gson) {
     super(gameCenter, playerLobby, gson);
   }
 
+  /**
+   * Check if the opponent has submitted their turn.
+   * {@inheritDoc}
+   */
   public Object handle(Request request, Response response){
     final Session session = request.session();
     String currPlayerName = session.attribute(PLAYER);
     Player currPlayer = playerLobby.getPlayer(currPlayerName);
     GameContext game = gameCenter.getGame(currPlayer);
 
-    //If the game has ended OR
-    //If it is the active player's turn
     if(game.isGameOver() || currPlayer.equals(game.getActivePlayer())){
-      LOG.finer("CheckTurn is true for player: " + currPlayer.getName());
       return new Message("true", MESSAGE_TYPE.info);
     }
     else{
-      LOG.finer("CheckTurn is false for player: " + currPlayer.getName());
       return new Message("false",MESSAGE_TYPE.error);
     }
   }

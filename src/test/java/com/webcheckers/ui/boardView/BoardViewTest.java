@@ -3,8 +3,9 @@ package com.webcheckers.ui.boardView;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
+import com.webcheckers.model.Board.InitConfig;
 import com.webcheckers.model.GameState.GameContext;
-import com.webcheckers.model.Player;
+import com.webcheckers.model.Player.Player;
 import java.util.Iterator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -39,7 +40,7 @@ class BoardViewTest {
   void setUp() {
     redPlayer = new Player(TEST_RED_NAME, playerNonce++);
     whitePlayer = new Player(TEST_WHITE_NAME, playerNonce++);
-    game = new GameContext(redPlayer, whitePlayer, gameNonce++);
+    game = new GameContext(redPlayer, whitePlayer, new InitConfig(TEST_WHITE_NAME), gameNonce++);
 
     redCut = new BoardView(game, redPlayer);
     whiteCut = new BoardView(game, whitePlayer);

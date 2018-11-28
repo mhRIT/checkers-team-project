@@ -4,31 +4,8 @@
     <meta http-equiv="refresh" content="10">
     <title>${title} | Web Checkers</title>
     <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/css/home.css">
 
-    <style>
-      .vertical-menu {
-        width: 250px;
-        height: 200px;
-        overflow-y: auto;
-      }
-
-      .vertical-menu button{
-        width: 240px;
-        padding:  10px 0;
-        border: 1px white;
-        font-size: 16px;
-        background-color: #F0FAFF;
-        color:  black;
-        display:  inline-block;
-        text-align: center;
-        text-decoration: none;
-      }
-
-      .vertical-menu button:hover {
-        background-color: #888888;
-        color: white;
-      }
-    </style>
 </head>
 <body>
   <div class="page">
@@ -43,38 +20,146 @@
       </#if>
     </div>
 
-
-
     <div class="body">
-      <#if message??>
-      <div>
-        <p style="color: red">${message}</p>
-      </div>
-      </#if>
-
-      <#if allPlayers??>
-        <#if allPlayers?size gt 0>
-          <p> Other players currently signed in:</p>
-          <br>
-        <div class="vertical-menu">
-          <form action="/selectOpponent" method="POST">
-            <#list allPlayers as eachPlayerName>
-                <button class="active" type="submit" name="opponent" value="${eachPlayerName}">${eachPlayerName}</button>
-            </#list>
-          </form>
+      <#if oppMessage??>
+        <div>
+          <p style="color: red">${oppMessage}</p>
         </div>
-        <#else>
-          <p style="color: red"> No other players are currently signed in</p>
-        </#if>
-      <#else>
-        <#if numPlayers??>
-          <p> Number of players: ${numPlayers}</p>
-        <#else>
-          <p style="color: red"> Unknown number of players</p>
-        </#if>
       </#if>
-    </div>
 
+      <#if gameMessage??>
+        <div>
+          <p style="color: red">${gameMessage}</p>
+        </div>
+      </#if>
+
+  <#------------------------------------------------------------------------------------------------->
+      <table id="game-board">
+        <tbody>
+          <tr data-row="0">
+            <td data-cell="0" class="Space">
+              <div class="Piece"
+                   id="piece-0-0"
+                   data-type="SINGLE"
+                   data-color="RED">
+              </div>
+            </td>
+            <td data-cell="1" class="Space">
+              <div class="Piece"
+                   id="piece-0-0"
+                   data-type="SINGLE"
+                   data-color="RED">
+              </div>
+            </td>
+            <td data-cell="2" class="Space">
+              <div class="Piece"
+                   id="piece-0-0"
+                   data-type="SINGLE"
+                   data-color="RED">
+              </div>
+            </td>
+            <td data-cell="3" class="Space">
+              <div class="Piece"
+                   id="piece-0-0"
+                   data-type="SINGLE"
+                   data-color="RED">
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+<#------------------------------------------------------------------------------------------------->
+      <#if aiPlayers??>
+        <button class="accordion" id="accNormal">Normal start</button>
+        <div class="panel">
+          <p>Start a normal game</p>
+        </div>
+
+        <button class="accordion" id="accSlider">Random placement</button>
+        <div class="panel">
+          <p>Set the number of starting pieces for each player:</p>
+          <div class="slidecontainer">
+            <input type="range" min="1" max="12" value="6" class="slider" id="redPieceSlider">
+            <p>Number of red pieces: </p>
+            <output id="redPieceOutput" ></output>
+            <br>
+            <br>
+            <input type="range" min="1" max="12" value="6" class="slider" id="whitePieceSlider">
+            <p>Number of white pieces: </p>
+            <output id="whitePieceOutput" ></output>
+          </div>
+        </div>
+
+        <button class="accordion" id="accPreset">Preset boards</button>
+        <div class="panel">
+          <label for="presetStartCheckbox">Start</label>
+          <input type="checkbox" id="presetStartCheckbox" />
+
+          <label for="presetMidCheckbox">Mid</label>
+          <input type="checkbox" id="presetMidCheckbox" />
+
+          <label for="presetEndCheckbox">End</label>
+          <input type="checkbox" id="presetEndCheckbox" />
+        </div>
+
+        <button class="accordion" id="accCustom">Custom board</button>
+        <div class="panel">
+          <p>Lorem ipsum...</p>
+        </div>
+      </#if>
+<#------------------------------------------------------------------------------------------------->
+
+      <form action="/selectOpponent" method="POST">
+        <div class="vertical-menu">
+
+          <#--Start AI display---->
+          <#--If this list exists, then the player is signed in-->
+          <#if aiPlayers??>
+            <p> AI opponents:</p>
+            <br>
+            <#list aiPlayers as eachPlayerName>
+                <#--<button class="active" type="submit" name="opponent" value="${eachPlayerName}">${eachPlayerName}</button>-->
+              <button class="active" type="button"
+                      name="opponent" value="${eachPlayerName}"
+                      onclick="handleFormSubmit(this.value)">
+                ${eachPlayerName}
+              </button>
+            </#list>
+            <br>
+            <br>
+          </#if>
+          <#--End AI display---->
+
+          <#--Start player display-->
+          <#if allPlayers??>
+            <#if allPlayers?size gt 0>
+              <p> Other players currently signed in:</p>
+              <br>
+              <#list allPlayers as eachPlayerName>
+                <button class="active" type="button"
+                        name="opponent" value="${eachPlayerName}"
+                        onclick="handleFormSubmit(this.value)">
+                  ${eachPlayerName}
+                </button>
+              </#list>
+            <#else>
+              <p style="color: red"> No other players are currently signed in</p>
+            </#if>
+          <#else>
+            <#if numPlayers??>
+              <p> Number of players: ${numPlayers}</p>
+            <#else>
+              <p style="color: red"> Unknown number of players</p>
+            </#if>
+          </#if>
+          <#--End player display-->
+
+        </div>
+      </form>
+    </div>
   </div>
+
+  <script data-main="/js/game/index" src="/js/home.js"></script>
+
 </body>
 </html>

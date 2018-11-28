@@ -4,8 +4,9 @@ import static com.webcheckers.ui.HtmlRoutes.GetHomeRoute.PLAYER;
 import static com.webcheckers.ui.HtmlRoutes.GetSigninRoute.TITLE_ATTR;
 import static spark.Spark.halt;
 
+import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
-import com.webcheckers.model.Player;
+import com.webcheckers.model.Player.Player;
 import com.webcheckers.ui.WebServer;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,11 +29,10 @@ import spark.TemplateEngine;
  *  @author <a href='mailto:mvm7902@rit.edu'>Matthew Milone</a>
  *  @author <a href='mailto:axf5592@rit.edu'>Andrew Festa</a>
  */
-public class PostSigninRoute implements Route {
+public class PostSigninRoute extends HtmlRoute {
   //
   // Constants
   //
-
   static final String USERNAME = "username";
   static final String TITLE = "Welcome";
   static final String VIEW_NAME = "home.ftl";
@@ -41,57 +41,33 @@ public class PostSigninRoute implements Route {
   static final String MESSAGE_TYPE_ATTR = "messageType";
   static final String ERROR_TYPE = "error";
   static final String ERROR_VIEW_NAME = "signin.ftl";
-  static final String INVALID_USERNAME = "Invalid username.Selected username cannot already be "+
+  static final String INVALID_USERNAME = "Invalid username. Selected username cannot already be "+
       "in use, be at least one character long, and consist of one alphanumeric characters";
   static final String ILL_CHARS_USERNAME =
       "Username must consist of only letters " +
       "or numbers and be at least one character long.";
   static final String TAKEN_USERNAME = "Username is already in use by another player";
 
-  //
-  // Attributes
-  //
-
-  private final PlayerLobby playerLobby;
-  private final TemplateEngine templateEngine;
-  private static final Logger LOG = Logger.getLogger(PostSigninRoute.class.getName());
-
   /**
    * Create the Spark Route (UI controller) for the {@code POST /signin} HTTP request.
-   *
-   * @param playerLobby the {@link PlayerLobby} for tracking all signed in players
-   * @param templateEngine the {@link TemplateEngine} used for rendering page HTML.
-   * @throws NullPointerException when the {@code gameCenter}, {@code playerLobby}, or {@code
-   * templateEngine} parameter is null
+   * {@inheritDoc}
    */
-  public PostSigninRoute(PlayerLobby playerLobby, final TemplateEngine templateEngine) {
-    LOG.setLevel(Level.ALL);
-    // validation
-    Objects.requireNonNull(playerLobby, "playerLobby must not be null");
-    Objects.requireNonNull(templateEngine, "templateEngine must not be null");
-    //
-    this.playerLobby = playerLobby;
-    this.templateEngine = templateEngine;
+  public PostSigninRoute(final GameCenter gameCenter, final PlayerLobby playerLobby, final TemplateEngine templateEngine) {
+    super(gameCenter, playerLobby, templateEngine);
   }
 
   /**
-   * {@inheritDoc}
    * Render the WebCheckers Home page or the Sign-in page, depending
    * on if the user successfully signs in.
-   *
-   * @param request the HTTP request
-   * @param response the HTTP response
-   * @return the rendered HTML for the game page
+   * {@inheritDoc}
    */
   @Override
   public Object handle(Request request, Response response){
     final Session session = request.session();
     String username = request.queryParams(USERNAME);
     username = username.trim();
-    LOG.finer("PostSigninRoute is invoked: " + username);
 
-    // start building View-model
-    final Map<String, Object> vm = new HashMap<String,Object>();
+    final Map<String, Object> vm = new HashMap<>();
     vm.put(TITLE_ATTR, TITLE);
     ModelAndView mv;
 
