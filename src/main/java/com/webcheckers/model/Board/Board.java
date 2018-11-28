@@ -214,17 +214,15 @@ public class Board implements Cloneable {
 
   /**
    * Initializes the state of the board and places red and white pieces
-   * in random positions, as is approaching the midpoint way
+   * in random positions, as is approaching the midpoint
    * of the game.
    *
    */
-  public void initMid(){
-//    pieceLocations =  0b0000_1111_0001_0000_0000_0001_1111_0000;
-//    pieceColors =     0b0000_1110_0001_0000_0000_0000_0001_0000;
-//    pieceTypes =      0b0000_0000_0000_0000_0000_0000_0000_0000;
-    pieceLocations = 0b0000_0101_1100_0100_0010_1001_0010_0000;
-    pieceColors = 0b0000_0000_0000_0000_0010_1001_0010_0000;
-    pieceTypes = 0b0000_0000_0000_0000_0000_0000_0000_0000;
+  void initMid() {
+    // TODO
+    pieceLocations =  0b0101_0011_1111_1111_1100_1111_1111_0010;
+    pieceColors =     0b0000_0000_0000_0011_1000_1110_1111_0010;
+    pieceTypes =      0b0000_0000_0000_0000_0000_0000_0000_0000;
   }
 
   /**
@@ -232,10 +230,10 @@ public class Board implements Cloneable {
    * in set positions, as is approaching the endpoint of the game.
    *
    */
-  public void initEnd() {
-    pieceLocations = 0b0000_0000_0100_0100_0000_0000_0000_0000;
-    pieceColors = 0b0000_0000_0000_0100_0000_0000_0000_0000;
-    pieceTypes = 0b0000_0000_0000_0000_0000_0000_0000_0000;
+  void initEnd() {
+    pieceLocations =  0b0110_0010_1000_0100_1000_0101_1000_0110;
+    pieceColors =     0b0110_0010_0000_0100_1000_0000_1000_0010;
+    pieceTypes =      0b0110_0010_0000_0000_0000_0000_0000_0100;
   }
 
   public void initRandom(int numRedPieces, int numWhitePieces){
