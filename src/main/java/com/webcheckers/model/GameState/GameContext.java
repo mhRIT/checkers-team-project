@@ -199,7 +199,7 @@ public class GameContext {
   }
 
   /**
-   * TODO
+   * Revert the board to its last state
    */
   public boolean revert() {
     if(!boardStack.empty() && !isGameOver()){

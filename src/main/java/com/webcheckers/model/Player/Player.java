@@ -70,18 +70,18 @@ public class Player implements PropertyChangeListener {
   }
 
   /**
-   * TODO
-   * @param game
-   * @param move
+   * Puts the next move into the hash map
+   * @param game the current GameContext
+   * @param move the move to be made
    */
   public void putNextMove(GameContext game, Move move){
     pendingMoveMap.put(game, move);
   }
 
   /**
-   * TODO
-   * @param game
-   * @return
+   * Gets the pending move
+   * @param game the current GameContext
+   * @return the pending move
    */
   public Move getNextMove(GameContext game) {
     return pendingMoveMap.getOrDefault(game, null);
