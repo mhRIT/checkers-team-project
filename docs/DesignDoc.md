@@ -157,10 +157,17 @@ A user is able to customize the starting conditions of the game. By default, the
 
 The third configuration option is to select from one of three preset boards, as depicted below.
   
+  
+Start
+
   ![start configuration](startConfig.png)
   
+Mid
+
   ![mid configuration](midConfig.png)
-  
+
+End
+
   ![end configuration](endConfig.png)
 
 
