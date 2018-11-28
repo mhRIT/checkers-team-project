@@ -218,8 +218,8 @@ public class Board implements Cloneable {
    *
    */
   void initMid() {
-    pieceLocations =  0b0101_0011_1111_1111_1100_1111_1111_0010;
-    pieceColors =     0b0000_0000_0000_0011_1000_1110_1111_0010;
+    pieceLocations =  0b0100_1111_1111_0011_1111_1111_1100_1010;
+    pieceColors =     0b0000_0000_1000_0010_0011_1111_1100_1010;
     pieceTypes =      0b0000_0000_0000_0000_0000_0000_0000_0000;
   }
 
@@ -229,9 +229,9 @@ public class Board implements Cloneable {
    *
    */
   void initEnd() {
-    pieceLocations =  0b0110_0010_1000_0100_1000_0101_1000_0110;
-    pieceColors =     0b0000_0000_1000_0000_0000_0101_0000_0100;
-    pieceTypes =      0b0110_0010_0000_0000_0000_0000_0000_0100;
+    pieceLocations =  0b0110_0001_1010_0001_0010_0001_0100_0110;
+    pieceColors =     0b0010_0000_1010_0000_0010_0001_0000_0000;
+    pieceTypes =      0b0010_0000_0000_0000_0000_0000_0100_0110;
   }
 
   public void initRandom(int numRedPieces, int numWhitePieces){
