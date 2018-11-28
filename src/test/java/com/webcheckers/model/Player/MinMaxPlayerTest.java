@@ -25,6 +25,8 @@ class MinMaxPlayerTest extends AiPlayerTest{
   @Test
   void testEvaluation(){
     double cost = ((MinMaxPlayer) cut).evaluateBoard(board, COLOR.WHITE);
+    System.out.println(board);
+    System.out.println(cost);
   }
 
   @Test

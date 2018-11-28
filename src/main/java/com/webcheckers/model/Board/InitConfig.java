@@ -56,7 +56,12 @@ public class InitConfig {
   public START_TYPE getStartType(){
     START_TYPE toReturn;
     try{
-      toReturn = START_TYPE.valueOf(type);
+      if(type != null){
+        toReturn = START_TYPE.valueOf(type);
+      } else {
+        toReturn = START_TYPE.NORMAL;
+      }
+
     } catch (IllegalArgumentException iae){
       try{
         toReturn = START_TYPE.valueOf(type.toUpperCase());

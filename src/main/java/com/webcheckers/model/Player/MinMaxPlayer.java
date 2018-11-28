@@ -24,14 +24,16 @@ public class MinMaxPlayer extends AiPlayer {
     super(name, idNum);
     heuristicList = new ArrayList<>();
 
-    heuristicList.add(new ForwardDefenseHeuristic());
-    heuristicList.add(new BackwardsDefenseHeuristic());
+//    heuristicList.add(new ForwardDefenseHeuristic());
+//    heuristicList.add(new BackwardsDefenseHeuristic());
     heuristicList.add(new PiecesOnSideHeuristic());
     heuristicList.add(new KingCountHeuristic());
     heuristicList.add(new OffenseHeuristic());
     heuristicList.add(new PieceCountHeuristic());
-    heuristicList.add(new PositionHeuristic());
-    heuristicList.add(new BasePiecesHeuristic());
+//    heuristicList.add(new PositionHeuristic());
+//    heuristicList.add(new BasePiecesHeuristic());
+    heuristicList.add(new SimpleMoveHeuristic());
+    heuristicList.add(new JumpMoveHeuristic());
 
     difficulty = difficultyLevel;
   }
@@ -89,6 +91,7 @@ public class MinMaxPlayer extends AiPlayer {
     double minCost = evaluateBoard(currentBoard, color);
 
     for (Move eachMove : testMoves) {
+      currentBoard = (Board) board.clone();
       currentBoard.makeMove(eachMove);
       double testCost = evaluateBoard(currentBoard, color);
       if(testCost < minCost){
@@ -105,7 +108,6 @@ public class MinMaxPlayer extends AiPlayer {
    * @param color
    * @param depth
    * @return
-   * @throws CloneNotSupportedException
    */
   Move maxCostMove(Board board, COLOR color, int depth) {
     if(depth > 0 && !isTerminal(board)){
@@ -123,6 +125,7 @@ public class MinMaxPlayer extends AiPlayer {
     double maxCost = evaluateBoard(currentBoard, color);
 
     for (Move eachMove : testMoves) {
+      currentBoard = (Board) board.clone();
       currentBoard.makeMove(eachMove);
       double testCost = evaluateBoard(currentBoard, color);
       if(testCost > maxCost){
