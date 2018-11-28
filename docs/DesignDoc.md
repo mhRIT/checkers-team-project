@@ -70,7 +70,12 @@ In order to implement the basic features described in the section above, the fol
   - [ ] Unable to Move
 
 ### Roadmap of Enhancements
-> _Provide a list of top-level features in the order you plan to consider them._
+- AI
+  - [X] Random AI
+  - [ ] Intelligent AI
+- Board Setup Customization
+  - [X] Preset Boards
+  - [ ] Custom Boards
 
 ***
 
