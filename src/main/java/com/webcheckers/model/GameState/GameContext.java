@@ -8,7 +8,7 @@ import com.webcheckers.model.Player.Player;
 import java.beans.PropertyChangeSupport;
 import java.util.Stack;
 
-public class GameContext {
+public class GameContext implements Runnable {
 
   private GameState gameState;
 
@@ -49,6 +49,13 @@ public class GameContext {
    */
   public boolean proceed(){
     return gameState.execute(this);
+  }
+
+  /**
+   * 
+   */
+  public void run(){
+    stateChangedSupport.firePropertyChange(gameState.getState().toString(), getNonActivePlayer(), getActivePlayer());
   }
 
   /**
@@ -193,7 +200,6 @@ public class GameContext {
     } else {
       activeColor = COLOR.RED;
     }
-    stateChangedSupport.firePropertyChange(gameState.getState().toString(), getNonActivePlayer(), getActivePlayer());
   }
 
   /**

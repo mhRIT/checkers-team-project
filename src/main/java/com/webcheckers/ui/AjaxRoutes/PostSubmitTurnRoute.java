@@ -43,6 +43,8 @@ public class PostSubmitTurnRoute extends AjaxRoute {
     GameContext game = gameCenter.getGame(currPlayer);
 
     if(game.isTurnOver() && game.proceed()){
+      Thread thread = new Thread(game);
+      thread.start();
       return new Message("Your move has been submitted", MESSAGE_TYPE.info);
     } else {
       if (game.isGameOver()){
