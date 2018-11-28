@@ -15,7 +15,6 @@ public class EndTurnState extends GameState {
     List<Move> jumpMoves = currentBoard.getAllJumpMoves(context.getNonActiveColor());
     List<Move> simpleMoves = currentBoard.getAllSimpleMoves(context.getNonActiveColor());
     Player nonActivePlayer = context.getNonActivePlayer();
-    context.switchTurn();
 
     if(numPieces == 0){
       GameState nextState = new GameOverState();
@@ -28,6 +27,7 @@ public class EndTurnState extends GameState {
     } else {
       context.setState(new WaitTurnState());
     }
+    context.switchTurn();
     return true;
   }
 

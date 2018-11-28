@@ -14,7 +14,6 @@ import org.junit.jupiter.api.Test;
  */
 @Tag("Model-tier")
 abstract class HeuristicTest {
-
   //
   // Attributes
   //
@@ -32,21 +31,15 @@ abstract class HeuristicTest {
   }
 
   @Test
-  void testName(){
-    assertEquals(cut.getClass().getName(), cut.getName());
-  }
-
-  @Test
-  void testWeight(){
-    assertEquals(1, cut.getWeight());
-  }
-
-  @Test
-  void testCalculate(){
+  void testSuite(){
+    testName();
+    testWeight();
     testCalculateRed();
     testCalculateWhite();
   }
 
+  abstract void testName();
+  abstract void testWeight();
   abstract void testCalculateRed();
   abstract void testCalculateWhite();
 }

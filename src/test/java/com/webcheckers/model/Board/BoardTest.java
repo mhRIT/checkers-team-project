@@ -47,10 +47,32 @@ class BoardTest {
   }
 
   /**
+   * Tests the string representation of the board.
+   */
+  @Test
+  void testToString(){
+    String correctStartView =
+        "-----------------\n" +
+        "| |w| |w| |w| |w|\n" +
+        "|w| |w| |w| |w| |\n" +
+        "| |w| |w| |w| |w|\n" +
+        "| | | | | | | | |\n" +
+        "| | | | | | | | |\n" +
+        "|r| |r| |r| |r| |\n" +
+        "| |r| |r| |r| |r|\n" +
+        "|r| |r| |r| |r| |\n" +
+        "-----------------";
+    cut.initStart();
+    String cutString = cut.toString();
+    System.out.println(cutString);
+    assertEquals(correctStartView, cutString);
+  }
+
+  /**
    * TODO
    */
   @Test
-  void TestInitStart() {
+  void testInitStart() {
     cut.initStart();
 
     int modVal = 0;

@@ -194,6 +194,10 @@ public class Board implements Cloneable {
         }
         break;
       case CUSTOM:
+        break;
+      default:
+        initStart();
+        break;
     }
   }
 
@@ -207,9 +211,9 @@ public class Board implements Cloneable {
     pieceLocations =  0b1111_1111_1111_0000_0000_1111_1111_1111;
     pieceColors =     0b0000_0000_0000_0000_0000_1111_1111_1111;
     pieceTypes =      0b0000_0000_0000_0000_0000_0000_0000_0000;
-//    pieceLocations =  0b0000_0100_0000_0110_0010_0100_0000_0000;
-//    pieceColors =     0b0000_0000_0000_0000_0010_0100_0000_0000;
-//    pieceTypes =      0b0000_0000_0000_0000_0000_0000_0000_0000;
+//    pieceLocations =  0b1011_0100_0100_0100_0000_1001_0000_0111;
+//    pieceColors =     0b0011_0000_0100_0100_0000_1001_0000_0111;
+//    pieceTypes =      0b0011_0000_0000_0000_0000_0000_0000_0000;
   }
 
   /**
@@ -871,10 +875,51 @@ public class Board implements Cloneable {
   }
 
   /**
+   * {@inheritDoc}
+   */
+  @Override
+  public String toString(){
+    StringBuilder toReturn = new StringBuilder();
+    for(int i = 0; i < BOARD_SIZE*2 + 1; i++){
+      toReturn.append("-");
+    }
+    toReturn.append("\n");
+
+    for(int eachRow = BOARD_SIZE - 1; eachRow >= 0; eachRow--){
+      toReturn.append("|");
+      for(int eachCol = 0; eachCol < BOARD_SIZE; eachCol++){
+        SPACE_TYPE eachPiece = getPieceAtLocation(eachCol, eachRow);
+        switch (eachPiece){
+          case EMPTY:
+            toReturn.append(" |");
+            break;
+          case SINGLE_RED:
+            toReturn.append("r|");
+            break;
+          case SINGLE_WHITE:
+            toReturn.append("w|");
+            break;
+          case KING_RED:
+            toReturn.append("R|");
+            break;
+          case KING_WHITE:
+            toReturn.append("W|");
+            break;
+        }
+      }
+      toReturn.append("\n");
+    }
+    for(int i = 0; i < BOARD_SIZE*2 + 1; i++){
+      toReturn.append("-");
+    }
+
+    return toReturn.toString();
+  }
+
+  /**
    * TODO
    *
    * @return
-   * @throws CloneNotSupportedException
    */
   @Override
   public Object clone() {
