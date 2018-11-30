@@ -26,10 +26,10 @@ WebCheckers is a web based application that allows multiple users to play agains
 
 | Term | Definition |
 |------|-------------------------|
-| Piece | A regular piece that is only capable of normal move operations |
-| King | A piece with elevated rank and move capabilities |
+| Piece | A single checker, only capable of normal, forward movement |
+| King | A stack of two checkers, capable of forward and backward movement |
 | Artificial Intelligence (AI) | A compuer-based agent that is capable of making rational decisions |
-| Heuristic | A calculation aimed towards estimating some end-goal. In this context, it is used interchangeable to describe the features used to evaluate a board state for a particular player. |
+| Heuristic | A calculation aimed towards estimating an end-goal. In this context, it refers to the features used to evaluate a board state for a particular player. |
 
 ## Requirements
 
