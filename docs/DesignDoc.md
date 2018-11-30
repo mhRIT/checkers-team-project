@@ -240,6 +240,7 @@ Starting a game against another player brings both players to the game page. On 
 > you describe the design of the three tiers._
 
 ![Application and Model tier Class Diagram](appl_mdl.png)
+![Html Routes Class Diagram](HtmlRoutesClassDiagram.png)
 
 ### Application Tier
 > _Provide a summary of the Application tier of your architecture. This
