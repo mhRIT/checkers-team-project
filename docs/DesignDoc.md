@@ -11,7 +11,7 @@ geometry: margin=1in
   * Meaghan Hoitt
   * Andrew Festa
   * Simon Kirkwood
-  * Matthew M.
+  * Matthew Milone
 
 ## Executive Summary
 
