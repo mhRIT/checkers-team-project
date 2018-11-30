@@ -11,7 +11,7 @@ geometry: margin=1in
   * Meaghan Hoitt
   * Andrew Festa
   * Simon Kirkwood
-  * Matthew M.
+  * Matthew Milone
 
 ## Executive Summary
 
@@ -22,14 +22,16 @@ WebCheckers is a web based application that allows multiple users to play agains
 > _Provide a very brief statement about the project and the most
 > important user group and user goals._
 
+The project allows users to play free, full, game-rule-legal games of checkers against selected opponents, including AI players. The webapp is intended for and easily usable by a general audience, although specialty features such as adjustable board configuration and extremely difficuolt AI attract players with more niche interests and skills.
+
 ### Glossary and Acronyms
 
 | Term | Definition |
 |------|-------------------------|
-| Piece | A regular piece that is only capable of normal move operations |
-| King | A piece with elevated rank and move capabilities |
+| Piece | A single checker, only capable of normal, forward movement |
+| King | A stack of two checkers, capable of forward and backward movement |
 | Artificial Intelligence (AI) | A compuer-based agent that is capable of making rational decisions |
-| Heuristic | A calculation aimed towards estimating some end-goal. In this context, it is used interchangeable to describe the features used to evaluate a board state for a particular player. |
+| Heuristic | A calculation aimed towards estimating an end-goal. In this context, it refers to the features used to evaluate a board state for a particular player. |
 
 ## Requirements
 
@@ -238,6 +240,7 @@ Starting a game against another player brings both players to the game page. On 
 > you describe the design of the three tiers._
 
 ![Application and Model tier Class Diagram](appl_mdl.png)
+![Html Routes Class Diagram](HtmlRoutesClassDiagram.png)
 
 ### Application Tier
 > _Provide a summary of the Application tier of your architecture. This
