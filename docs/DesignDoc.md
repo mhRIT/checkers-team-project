@@ -26,10 +26,10 @@ WebCheckers is a web based application that allows multiple users to play agains
 
 | Term | Definition |
 |------|-------------------------|
-| Piece | A single checker, only capable of normal, forward movement |
-| King | A stack of two checkers, capable of forward and backward movement |
+| Piece | A regular piece that is only capable of normal move operations |
+| King | A piece with elevated rank and move capabilities |
 | Artificial Intelligence (AI) | A compuer-based agent that is capable of making rational decisions |
-| Heuristic | A calculation aimed towards estimating an end-goal. In this context, it refers to the features used to evaluate a board state for a particular player. |
+| Heuristic | A calculation aimed towards estimating some end-goal. In this context, it is used interchangeable to describe the features used to evaluate a board state for a particular player. |
 
 ## Requirements
 
@@ -236,6 +236,10 @@ Starting a game against another player brings both players to the game page. On 
 > consider placing the narrative description of that feature in a
 > separate section for describing significant features. Place this after
 > you describe the design of the three tiers._
+
+The UI tier is mainly made up of Routes, the Board View classes, and the Web Server class itself. Routes are further split up into two categories- HTML Routes, which generally redirect the user to a new webpage based on data they input, and Ajax Routes, which are used in-game in order to bridge the gap between the displayed Javascript and the internal logic of the game. 
+For the HTML routes, an abstract class was used in order to simplify any future additions and to group the routes based on their key similarities. This class, aptly named HtmlRoute, uses a constructor that can apply to every route that extends it, and establishes a Logger that gets the name of the extending class in order to send informative messages to the webserver's terminal. It also has a method that checks that the player name given to it is in use.
+All other classes in the package extend this class. These include routes for rendering the home page and sign-in page, a route for entering and submitting a desired username, a route for selecting a desired opponent, a route for rendering the game page, and a route for signing out. A build config route was also written to communicate the custom board layout chosen by the user.
 
 ![Application and Model tier Class Diagram](appl_mdl.png)
 
